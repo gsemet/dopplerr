@@ -9,11 +9,13 @@ import optparse
 import os
 import sys
 import time
-import logging
+
+import devpy
 
 from flask import Flask
 
 
+log = devpy.dev_mode()
 app = Flask(__name__)
 
 start = int(round(time.time()))
@@ -30,9 +32,8 @@ def proxy_request():
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(levelname)-7s - %(message)s')
-    logging.debug("initialized")
+    log = devpy.autolog()
+    log.info("Initializing")
     parser = optparse.OptionParser(usage="python simpleapp.py -p ")
     parser.add_option('-p', '--port', action='store', dest='port', help='The port to listen on')
     parser.add_option('-b', '--base', action='store', dest='base', help='Base directory',
@@ -45,7 +46,7 @@ def main():
     if args.port is None:
         print("Missing required argument: -p/--port")
         sys.exit(1)
-    logging.debug("Running on port %s", args.port)
+    log.info("Running on port %s", args.port)
     app.run(host='0.0.0.0', port=int(args.port), debug=False)
 
 if __name__ == '__main__':
