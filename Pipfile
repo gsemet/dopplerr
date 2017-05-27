@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pytest = "*"
+flake8 = "*"
+pep8 = "*"
+pylint = "*"
+yapf = "*"
+
+[packages]
+Flask = ">=0.9"
+subliminal = "*"
