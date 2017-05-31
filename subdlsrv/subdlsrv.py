@@ -14,6 +14,8 @@ import devpy
 from flask import Flask
 
 app = Flask(__name__)
+args = None
+
 
 @app.route("/")
 def proxy_request():
@@ -43,6 +45,7 @@ def main():
         sys.exit(1)
     log.info("Running on port %s", args.port)
     app.run(host='0.0.0.0', port=int(args.port), debug=False)
+
 
 if __name__ == '__main__':
     main()

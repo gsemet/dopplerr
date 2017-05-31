@@ -11,11 +11,12 @@ python:
 
 install:
   - pip install -U pip pipenv
-  - pipipenv install --dev
+  - pipenv install --dev
+  - pipenv run python setup.py develop
 
 script:
-  - python setup.py flake8
-  - pipenv run pytest test
+  - pipenv run python setup.py flake8
+  - pipenv run pytest subdlsrv
 
 after_success:
   coveralls
@@ -30,4 +31,4 @@ deploy:
     secure: PLEASE_REPLACE_ME
   on:
     tags: true
-    repo: Stibbons/sonarr-sub-downloader-docker
+    repo: Stibbons/subdlsrv
