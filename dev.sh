@@ -6,6 +6,7 @@ if [[ $1 == "install" ]]; then
     unzip -f sonarr-sub-downloader.zip
     pipenv install --dev --three
     pipenv lock -r
+    python setup.py develop
 fi
 
 pipenv run subdlsrv -p 8000

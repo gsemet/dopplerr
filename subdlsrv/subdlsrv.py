@@ -37,7 +37,7 @@ def main():
     parser.add_argument('-a', '--appdir', action='store', dest='appdir',
                         help='App directory', default="")
     global args
-    (args, _) = parser.parse_args()
+    args = parser.parse_args()
     if args.port is None:
         print("Missing required argument: -p/--port")
         sys.exit(1)
