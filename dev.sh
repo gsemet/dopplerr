@@ -8,5 +8,4 @@ if [[ $1 == "install" ]]; then
     pipenv lock -r
 fi
 
-
-pipenv run python proxy.py -p 8000
+pipenv run subdlsrv -p 8000

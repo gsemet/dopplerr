@@ -7,7 +7,8 @@ RUN     mkdir -p /app
 ADD     . /app
 WORKDIR /app
 
-RUN     cd /app && pipenv install
+RUN     cd /app \
+     && pipenv install .
 
 RUN     cd /app \
      && curl -L https://github.com/ebergama/sonarr-sub-downloader/archive/v0.4.zip \

@@ -5,22 +5,15 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import optparse
+import argparse
 import os
 import sys
-import time
 
 import devpy
 
 from flask import Flask
 
-
-log = devpy.dev_mode()
 app = Flask(__name__)
-
-start = int(round(time.time()))
-args = None
-
 
 @app.route("/")
 def proxy_request():
@@ -32,15 +25,17 @@ def proxy_request():
 
 
 def main():
-    log = devpy.autolog()
-    log.info("Initializing")
-    parser = optparse.OptionParser(usage="python simpleapp.py -p ")
-    parser.add_option('-p', '--port', action='store', dest='port', help='The port to listen on')
-    parser.add_option('-b', '--base', action='store', dest='base', help='Base directory',
-    default="/")
-    parser.add_option('-t', '--type', action='store', dest='type', help='Sonarr or Radarr ?')
-    parser.add_option('-a', '--appdir', action='store', dest='appdir', help='App directory',
-                      default="")
+    log = devpy.dev_mode()
+    log.info("Initializing Subtitle Downloader Service")
+    parser = argparse.ArgumentParser(usage="python simpleapp.py -p ")
+    parser.add_argument('-p', '--port', action='store', dest='port',
+                        help='The port to listen on')
+    parser.add_argument('-b', '--base', action='store', dest='base',
+                        help='Base directory', default="/")
+    parser.add_argument('-t', '--type', action='store', dest='type',
+                        help='Sonarr or Radarr ?')
+    parser.add_argument('-a', '--appdir', action='store', dest='appdir',
+                        help='App directory', default="")
     global args
     (args, _) = parser.parse_args()
     if args.port is None:

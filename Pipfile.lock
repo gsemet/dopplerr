@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "21e7b1c5d3370a12ef2cc0c5097f0b73d31af65a17c3303a5ba2eea5b046ec38"
+            "sha256": "55d649cd21ebdbf764c041b5c8510ecda19701bc979ad56b48ab621c3a692e71"
         },
         "requires": {},
         "sources": [
@@ -27,21 +27,6 @@
         "Werkzeug": {
             "version": "==0.12.2"
         },
-        "appdirs": {
-            "version": "==1.4.3"
-        },
-        "babelfish": {
-            "version": "==0.5.5"
-        },
-        "beautifulsoup4": {
-            "version": "==4.6.0"
-        },
-        "certifi": {
-            "version": "==2017.4.17"
-        },
-        "chardet": {
-            "version": "==3.0.3"
-        },
         "click": {
             "version": "==6.7"
         },
@@ -57,64 +42,37 @@
         "devpy": {
             "version": "==0.1.7"
         },
-        "dogpile.cache": {
-            "version": "==0.6.3"
-        },
-        "enzyme": {
-            "version": "==0.4.1"
-        },
-        "guessit": {
-            "version": "==2.1.2"
-        },
-        "idna": {
-            "version": "==2.5"
-        },
         "itsdangerous": {
             "version": "==0.24"
         },
         "pbr": {
             "version": "==3.0.1"
-        },
-        "pysrt": {
-            "version": "==1.1.1"
-        },
-        "python-dateutil": {
-            "version": "==2.6.0"
-        },
-        "pytz": {
-            "version": "==2017.2"
-        },
-        "rarfile": {
-            "version": "==3.0"
-        },
-        "rebulk": {
-            "version": "==0.8.2"
-        },
-        "requests": {
-            "version": "==2.16.0"
-        },
-        "six": {
-            "version": "==1.10.0"
-        },
-        "stevedore": {
-            "version": "==1.21.0"
-        },
-        "subliminal": {
-            "version": "==2.0.5"
-        },
-        "urllib3": {
-            "version": "==1.21.1"
         }
     },
     "develop": {
+        "PyYAML": {
+            "version": "==3.12"
+        },
         "appdirs": {
             "version": "==1.4.3"
+        },
+        "asn1crypto": {
+            "version": "==0.22.0"
         },
         "astroid": {
             "version": "==1.5.2"
         },
+        "cffi": {
+            "version": "==1.10.0"
+        },
+        "cryptography": {
+            "version": "==1.9"
+        },
         "flake8": {
             "version": "==3.3.0"
+        },
+        "idna": {
+            "version": "==2.5"
         },
         "isort": {
             "version": "==4.2.5"
@@ -128,14 +86,17 @@
         "packaging": {
             "version": "==16.8"
         },
-        "pep8": {
-            "version": "==1.7.0"
+        "pluggy": {
+            "version": "==0.4.0"
         },
         "py": {
             "version": "==1.4.33"
         },
         "pycodestyle": {
             "version": "==2.3.1"
+        },
+        "pycparser": {
+            "version": "==2.17"
         },
         "pyflakes": {
             "version": "==1.5.0"
@@ -147,13 +108,19 @@
             "version": "==2.2.0"
         },
         "pytest": {
-            "version": "==3.1.0"
+            "version": "==3.1.1"
         },
         "setuptools": {
             "version": "==35.0.2"
         },
         "six": {
             "version": "==1.10.0"
+        },
+        "tox": {
+            "version": "==2.7.0"
+        },
+        "virtualenv": {
+            "version": "==15.1.0"
         },
         "wrapt": {
             "version": "==1.10.10"

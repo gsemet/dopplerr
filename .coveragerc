@@ -1,0 +1,6 @@
+[run]
+branch = True
+source = sonarr-sub-downloader-docker
+
+[report]
+ignore_errors = True

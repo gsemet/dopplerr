@@ -3,13 +3,17 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pytest = "*"
 flake8 = "*"
-pep8 = "*"
-pylint = "*"
-yapf = "*"
+pycodestyle = ">=2.0.0"
+pyflakes = ">=1.2.3"
+pylint = ">=1.6.4"
+yapf = ">=0.12"
+cryptography = ">=1.4"
+PyYAML = ">=3.11"
+pytest = ">=2.9.2"
+tox = "*"
 
 [packages]
-Flask = ">=0.9"
-subliminal = "*"
+pbr = ">=1.6"
 devpy = "*"
+Flask = "*"
