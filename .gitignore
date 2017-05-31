@@ -6,3 +6,7 @@ dist/
 *.pyc
 __pycache__
 .cache
+AUTHORS
+ChangeLog
+/ChangeLog
+/AUTHORS

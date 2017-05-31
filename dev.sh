@@ -9,7 +9,7 @@ if [[ $1 == "install" ]]; then
     pipenv install --dev --three
     pipenv lock -r
     echo "Installing subdlsrv"
-    pipenv run python setup.py develop
+    pipenv run python setup.py develop sdist
 fi
 
 pipenv run subdlsrv -p 8000

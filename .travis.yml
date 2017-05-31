@@ -13,13 +13,14 @@ install:
   - pip install -U pip pipenv
   - pipenv install --dev
   - pipenv run python setup.py develop
+  - pipenv run python setup.py sdist
 
 script:
   - pipenv run python setup.py flake8
   - pipenv run pytest subdlsrv
 
 after_success:
-  coveralls
+  - coveralls
 
 # After you create the Github repo and add it to Travis, run the
 # travis_pypi_setup.py script to finish PyPI deployment setup
