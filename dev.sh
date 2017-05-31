@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd $(dirname $0)
+
 if [[ $1 == "install" ]]; then
     echo "Downloading sonarr sub downloader"
     curl -L https://github.com/ebergama/sonarr-sub-downloader/archive/v0.4.zip \
