@@ -1,6 +1,7 @@
 FROM    jfloff/alpine-python:3.4-slim
+MAINTAINER gaetan@xeberon.net
 
-RUN     apk add --update curl
+RUN     apk add --update curl git
 
 RUN     mkdir -p /app
 COPY    . /app

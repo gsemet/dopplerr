@@ -39,6 +39,13 @@ media in `/series`, `/tv`, `/animes`. They will communicate these path to subdls
 defined, subdlsrv will assume the path communicated by Sonarr or Radarr also exists locally. So
 mouth your series folder to `/series`, TV show folder to `/tv`, and animes to `/animes` and so  on.
 
+To use locally, execute:
+
+    sudo ./bootstrap.sh
+    ./install.sh prod
+
+This will install subdlsrv in a local virtual environment will all its dependencies without messing
+with your system's Python environment.
 
 Contributing
 ------------
@@ -53,7 +60,7 @@ Setup your environment with
 
 Test with:
 
-    ./test.sh
+    ./test-local.sh
 
 or run it live with
 

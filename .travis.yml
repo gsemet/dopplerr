@@ -13,7 +13,8 @@ install:
   - ./install.sh
 
 script:
-  - ./test.sh
+  - ./test-local.sh
+  # - ./test-docker.sh
 
 after_success:
   - coveralls
