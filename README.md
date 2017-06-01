@@ -1,9 +1,11 @@
 # Subtitle Downloader Service
 
 [![Build Status](https://travis-ci.org/Stibbons/subdlsrv.svg?branch=master)](https://travis-ci.org/Stibbons/subdlsrv)
+[![Docker Automated buil](https://img.shields.io/docker/build/stibbons31/subdlsrv.svg)](https://hub.docker.com/r/stibbons31/subdlsrv/builds/)
 [![Pyup](https://pyup.io/repos/github/Stibbons/subdlsrv/shield.svg)](https://pyup.io/repos/github/Stibbons/subdlsrv/)
 [![Coveralls](https://coveralls.io/repos/github/Stibbons/subdlsrv/badge.svg)](https://coveralls.io/github/Stibbons/subdlsrv)
 [![Pypi package](https://badge.fury.io/py/subdlsrv.svg)](https://pypi.python.org/pypi/subdlsrv/)
+[![PyPI](https://img.shields.io/pypi/stibbons/subdlsrv.svg)](https://pypi.python.org/pypi/subdlsrv/)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 Subtitle Download Web Service for Sonarr or Radarr
