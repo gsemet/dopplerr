@@ -9,14 +9,11 @@ python:
   - 3.4
 
 install:
-  - pip install -U pip pipenv
-  - pipenv install --dev
-  - pipenv run python setup.py develop
-  - pipenv run python setup.py sdist
+  - ./bootstrap.sh
+  - ./install.sh
 
 script:
-  - pipenv run python setup.py flake8
-  - pipenv run pytest subdlsrv
+  - ./test.sh
 
 after_success:
   - coveralls

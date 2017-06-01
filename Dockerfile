@@ -1,20 +1,14 @@
 FROM    jfloff/alpine-python:3.4-slim
 
 RUN     apk add --update curl
-RUN     pip install pipenv
 
 RUN     mkdir -p /app
 ADD     . /app
 WORKDIR /app
 
+RUN     ./bootstrap.sh
 RUN     cd /app \
-     && curl -L https://github.com/ebergama/sonarr-sub-downloader/archive/v0.4.zip \
-     -o sonarr-sub-downloader.zip \
-     && unzip -o sonarr-sub-downloader.zip
-
-RUN     cd /app \
-     && pipenv install \
-     && pipenv run python setup.py install
+     && ./install.sh prod
 
 EXPOSE  8000
 CMD     ["pipenv", "run", "python", "/app/proxy.py", "-p 8000", "-a /app"]
