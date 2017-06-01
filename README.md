@@ -26,13 +26,14 @@ Use my docker image:
 
 ```
 docker create \
-	--name subdlsrv \
-	-p 8000:8000 \
-	-e PUID=<UID> -e PGID=<GID> \
+    --name subdlsrv \
+    -p 8000:8000 \
+    -e PUID=<UID> \
+    -e PGID=<GID> \
     -v <path/to/animes>:/animes \
-	-v <path/to/movies>:/movies \
+    -v <path/to/movies>:/movies \
     -v <path/to/tvseries>:/tv \
-	stibbons31/subdlsrv
+    stibbons31/subdlsrv
 ```
 
 Mount your media directory in `/media`. This directory exists in the docker image, so if you have
@@ -66,10 +67,10 @@ the data volume directory on the host is owned by the same user you specify and 
 TM.
 
 In this instance PUID=1001 and PGID=1001. To find yours use id user as below:
-
-  $ id <dockeruser>
-    uid=1001(dockeruser) gid=1001(dockergroup) groups=1001(dockergroup)
-
+```
+$ id <dockeruser>
+uid=1001(dockeruser) gid=1001(dockergroup) groups=1001(dockergroup)
+```
 
 ### Local installation:
 
@@ -119,7 +120,6 @@ or run it live with
 ```
 
 Activate the environment (to start your editor from, for example):
-
 ```
 $ pipenv shell
 ```
@@ -129,20 +129,17 @@ $ pipenv shell
 (This part should be automatically done by Travis)
 
 Build Wheel package:
-
 ```
 pipenv run python setup.py bdist_wheel
 ```
 
 Register and publish your package to Pypi:
-
 ```
 pipenv run python setup.py sdist register upload
 ```
 
 Create a release: create a tag with a semver syntax. Optionally you can tag code locally and push
 to GitHub.
-
 ```
 git tag 1.2.3
 ```
