@@ -93,6 +93,8 @@ distribution's maintainer.
 Configure a webhook:
 
 - **On Download/On Upgrade**
+- URL: http://<ip>:8086/notify
+- Method: POST
 
 ## Contributing
 

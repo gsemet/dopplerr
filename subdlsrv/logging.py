@@ -16,7 +16,6 @@ try:
 except Exception:
     colorlog = None
 
-
 _namecache = {}
 
 
@@ -27,10 +26,7 @@ def temp_dir(name, root=None):
     return directory
 
 
-def setupLogger(name=None,
-                no_color=False,
-                level=logging.INFO,
-                file_output=False):
+def setupLogger(name=None, no_color=False, level=logging.INFO, file_output=False):
 
     root_logger = logging.getLogger()
     root_logger.setLevel(level)
@@ -46,8 +42,7 @@ def setupLogger(name=None,
             return _namecache[name]
         log_file = Path(temp_dir(name if name else "tmp")) / "auto.log"
         file_formatter = logging.Formatter(
-            '%(asctime)s :: %(levelname)s :: %(pathname)s:%(lineno)s :: %(message)s'
-        )
+            '%(asctime)s :: %(levelname)s :: %(pathname)s:%(lineno)s :: %(message)s')
         file_handler = RotatingFileHandler(str(log_file), 'a', 1000000, 1)
         file_handler.setFormatter(file_formatter)
         root_logger.addHandler(file_handler)
@@ -68,8 +63,7 @@ def setupLogger(name=None,
                     'CRITICAL': 'red,bg_white',
                     'DEBUG': 'cyan',
                 }
-            }
-        )
+            })
         stream_handler.setFormatter(colored_formatter)
     else:
         stream_handler = logging.StreamHandler()
