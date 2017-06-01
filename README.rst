@@ -7,9 +7,6 @@ Subtitle Downloader Service
 .. image:: https://pyup.io/repos/github/Stibbons/subdlsrv/shield.svg
      :target: https://pyup.io/repos/github/Stibbons/subdlsrv/
      :alt: Updates
-.. .. image:: https://readthedocs.org/projects/subdlsrv/badge/?version=latest
-..    :target: http://subdlsrv.readthedocs.io/en/latest/?badge=latest
-..    :alt: Documentation Status
 .. image:: https://coveralls.io/repos/github/Stibbons/subdlsrv/badge.svg
    :target: https://coveralls.io/github/Stibbons/subdlsrv
 .. image:: https://badge.fury.io/py/subdlsrv.svg
@@ -19,114 +16,78 @@ Subtitle Downloader Service
    :target: ./LICENSE
    :alt: MIT licensed
 
-Subtitle Download Web Service for Sonarr
+Subtitle Download Web Service for Sonarr or Radarr
 
 * Free software: MIT
-* Documentation: https://subdlsrv.readthedocs.org/en/latest/
 * Source: https://github.com/Stibbons/subdlsrv
 
-Features
---------
-
-* TODO
 
 Usage
 -----
 
-* TODO
+The best usage is through the docker image. Use:
 
+    docker pull stibbons31/subdlsrv
 
-Note: See `pipenv documentation <https://github.com/kennethreitz/pipenv>`_ for Pipfile
-specification.
+Mount your media directory in `/media`. This directory exists in the docker image, so if you have
+several media directory (`/series`, `/tv`, `/animes`), mount them all in `/media` and set the
+following environment variable: `SUBDLSRC_BASE=/media`.
+
+It is a good practive to run Sonarr and Radarr in their own container, so they also "see" their
+media in `/series`, `/tv`, `/animes`. They will communicate these path to subdlsrv. Base directory
+(`SUBDLSRC_BASE`) can be used to put all these folder in same directory. If `SUBDLSRC_BASE` is not
+defined, subdlsrv will assume the path communicated by Sonarr or Radarr also exists locally. So
+mouth your series folder to `/series`, TV show folder to `/tv`, and animes to `/animes` and so  on.
+
 
 Contributing
 ------------
 
-Create your environment with
+Bootstrap your system with
 
-    .. code-block:: bash
+    sudo ./bootstrap.sh
 
-        $ pipenv --three
+Setup your environment with
 
-PS: you can use `pipenv --two` for Python 2.
+    ./install.sh
 
+Test with:
 
-Setup for development and unit tests:
+    ./test.sh
 
-    .. code-block:: bash
+or run it live with
 
-        $ pipenv install --dev
+    ./dev.sh
 
-Note
-
-    Setup for production can be done with:
-
-    .. code-block:: bash
-
-        $ pipenv install
-
-    But if your application uses this library through a `requirements.txt` (Pip) or through a
-    `Pipfile` (Pipenv), you should not have to do this "setup for production" command.
-
-Activate the environment:
+Activate the environment (to start your editor from, for example):
 
     .. code-block:: bash
 
         $ pipenv shell
 
-Execute a command directly inside the environment:
+Publishing
+----------
 
-    .. code-block:: bash
-
-        $ pipenv run ...
-
-Execute unit tests:
-
-    .. code-block:: bash
-
-        $ pipenv run pytest test
-
-Build source package:
-
-    Use it for most package without low level system dependencies.
-
-    .. code-block:: bash
-
-        pipenv run python setup.py sdist
-
-Build binary package:
-
-    Needed for package with a C or other low level source code.
-
-    .. code-block:: bash
-
-        pipenv run python setup.py bdist
+(This part should be automatically done by Travis)
 
 Build Wheel package:
 
-    Always provide a wheel package.
+.. code-block:: bash
 
-    .. code-block:: bash
+    pipenv run python setup.py bdist_wheel
 
-        pipenv run python setup.py bdist_wheel
-
-(Only for package owner)
 
 Register and publish your package to Pypi:
 
-    Do it locally only once, to create your package on `pypi.python.org`.
+.. code-block:: bash
 
-    .. code-block:: bash
+    pipenv run python setup.py sdist register upload
 
-        pipenv run python setup.py sdist register upload
+Create a release: create a tag with a semver syntax. Optionally you can tag code locally and push
+to GitHub.
 
-Create a release:
+.. code-block:: bash
 
-    Go on GitHub and create a tag with a semver syntax. Optionally you can tag code locally and push
-    to GitHub.
+    git tag 1.2.3
 
-    .. code-block:: bash
-
-        git tag 1.2.3
-
-    On successful travis build on the Tag branch, your Pypi package will be updated automatically.
+On successful travis build on the Tag branch, your Pypi package will be automatically updated.
