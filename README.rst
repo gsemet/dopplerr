@@ -20,6 +20,7 @@ Subtitle Download Web Service for Sonarr or Radarr
 
 * Free software: MIT
 * Source: https://github.com/Stibbons/subdlsrv
+* Python 3. Python 2 is tested by Travis but local installation is not provided.
 
 
 Usage
