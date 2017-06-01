@@ -10,6 +10,7 @@ import os
 import sys
 
 from flask import Flask
+from flask import jsonify
 
 from subdlsrv.logging import setupLogger
 
@@ -24,8 +25,14 @@ def proxy_request():
     if args.appdir:
         os.chdir(args.appdir)
 
-    return "Hello world from Distelli & Docker!"
+    message = "Hello World"
+    return jsonify({"message": message})
 
+@app.route("/health")
+def health():
+    healthy = True
+    health = {"healthy": healthy}
+    return jsonify(health)
 
 def main():
     parser = argparse.ArgumentParser(usage="python simpleapp.py -p ")
