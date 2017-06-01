@@ -11,8 +11,10 @@ import sys
 
 from flask import Flask
 from flask import jsonify
+from flask import request
 
 from subdlsrv.logging import setupLogger
+
 
 log = logging.getLogger(__name__)
 app = Flask(__name__)
@@ -20,19 +22,28 @@ args = None
 
 
 @app.route("/")
-def proxy_request():
+def root():
+    return "OK"
+
+@app.route("/notify", methods=['POST'])
+def notify():
     global args
     if args.appdir:
         os.chdir(args.appdir)
 
+    content = request.json
+    logging.debug("Notification:")
+    logging.debug(content)
     message = "Hello World"
     return jsonify({"message": message})
+
 
 @app.route("/health")
 def health():
     healthy = True
     health = {"healthy": healthy}
     return jsonify(health)
+
 
 def main():
     parser = argparse.ArgumentParser(usage="python simpleapp.py -p ")

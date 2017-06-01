@@ -88,6 +88,12 @@ with your system's Python environment.
 Do NOT install a Python application in your system. Use Virtualenv. Or let it do by your
 distribution's maintainer.
 
+### Radarr/Sonarr Configuration
+
+Configure a webhook:
+
+- **On Download/On Upgrade**
+
 ## Contributing
 
 Bootstrap your system with
