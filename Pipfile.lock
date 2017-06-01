@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "343ff809f703942f060c44d247654f1b38ac8a8603a432c4cf1b37e41d5ce533"
+            "sha256": "6a73c8fe9d51f4fbd12006ffbaae47e05076ef3522d3ab5009901a551b09825c"
         },
         "requires": {},
         "sources": [
@@ -33,6 +33,9 @@
         },
         "pbr": {
             "version": "==3.0.1"
+        },
+        "setuptools": {
+            "version": "==36.0.1"
         },
         "werkzeug": {
             "version": "==0.12.2"
