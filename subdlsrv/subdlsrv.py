@@ -32,7 +32,6 @@ def main():
     parser.add_argument('-p', '--port', action='store', dest='port', help='The port to listen on')
     parser.add_argument('-b', '--base', action='store', dest='base', help='Base directory',
                         default=os.environ.get("SUBDLSRC_BASE", "/"))
-    parser.add_argument('-t', '--type', action='store', dest='type', help='Sonarr or Radarr ?')
     parser.add_argument('-a', '--appdir', action='store', dest='appdir', help='App directory',
                         default="")
     global args

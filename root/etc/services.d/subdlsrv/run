@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv bash
+
+umask 022
+
+cd /app
+
+exec \
+    s6-setuidgid abc subdlsrv \
+        --no-color \
+        --port 8086 \
+        --appdir /app \
+        --basedir /

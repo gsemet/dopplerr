@@ -24,7 +24,14 @@ The best usage is through the docker image.
 Use my docker image:
 
 ```
-docker pull stibbons31/subdlsrv
+docker create \
+	--name subdlsrv \
+	-p 8000:8000 \
+	-e PUID=<UID> -e PGID=<GID> \
+    -v <path/to/animes>:/animes \
+	-v <path/to/movies>:/movies \
+    -v <path/to/tvseries>:/tv \
+	stibbons31/subdlsrv
 ```
 
 Mount your media directory in `/media`. This directory exists in the docker image, so if you have
@@ -36,6 +43,32 @@ media in `/series`, `/tv`, `/animes`. They will communicate these path to subdls
 (`SUBDLSRC_BASE`) can be used to put all these folder in same directory. If `SUBDLSRC_BASE` is not
 defined, subdlsrv will assume the path communicated by Sonarr or Radarr also exists locally. So
 mouth your series folder to `/series`, TV show folder to `/tv`, and animes to `/animes` and so  on.
+
+#### Parameters
+
+The parameters are split into two halves, separated by a colon, the left hand side representing the host and the right the container side. For example with a port -p external:internal - what this shows is the port mapping from internal to external of the container. So -p 8080:80 would expose port 80 from inside the container to be accessible from the host's IP on port 8080 http://192.168.x.x:8080 would show you what's running INSIDE the container on port 80.
+
+
+- `-p 8000` - the port webinterface
+- `-v /anime` - location of Anime library on disk
+- `-v /movies` - location of Movies library on disk
+- `-v /tv` - location of TV library on disk
+- `-e PGID for for GroupID` - see below for explanation
+- `-e PUID for for UserID` - see below for explanation
+- `-e SUBDLSRC_BASEDIR` - set media base directory (optional)
+
+#### User / Group Identifiers
+
+Sometimes when using data volumes (-v flags) permissions issues can arise between the host OS and
+the container. We avoid this issue by allowing you to specify the user PUID and group PGID. Ensure
+the data volume directory on the host is owned by the same user you specify and it will "just work"
+TM.
+
+In this instance PUID=1001 and PGID=1001. To find yours use id user as below:
+
+  $ id <dockeruser>
+    uid=1001(dockeruser) gid=1001(dockergroup) groups=1001(dockergroup)
+
 
 ### Local installation:
 

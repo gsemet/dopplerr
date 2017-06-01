@@ -1,17 +1,25 @@
-FROM    jfloff/alpine-python:3.4-slim
+FROM lsiobase/alpine.python:3.6
 MAINTAINER gaetan@xeberon.net
+
+# set python to use utf-8 rather than ascii
+ENV PYTHONIOENCODING="UTF-8"
 
 RUN     apk add --update curl git
 
+# copy containers's startup files
+COPY    root/ /
+RUN     mkdir -p /media
+
+# Injecting files into containers
 RUN     mkdir -p /app
 COPY    . /app
 WORKDIR /app
 
+# Building python application
 RUN     ./bootstrap.sh
 RUN     cd /app \
-     && ./install.sh prod
+     && ./install.sh docker
 
-RUN     mkdir -p /media
-
-EXPOSE  8000
-CMD     ["pipenv", "run", "python", "/app/proxy.py", "-p 8000", "-a /app"]
+# Docker configuration
+EXPOSE  8086
+VOLUME /animes /movies /tv
