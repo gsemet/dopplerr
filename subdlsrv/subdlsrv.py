@@ -36,9 +36,12 @@ def main():
                         default="")
     parser.add_argument('-n', '--no-color', action='store_true', dest='no_color',
                         help='Disable color in logs', default=False)
+    parser.add_argument('-v', '--verbose', action='store_true', dest='verbose',
+                        help='Verbose output', default=False)
     global args
     args = parser.parse_args()
-    setupLogger(level=logging.DEBUG, no_color=args.no_color)
+    setupLogger(level=logging.DEBUG if args.verbose else logging.INFO,
+                no_color=args.no_color)
     log.info("Initializing Subtitle Downloader Service")
 
     if args.port is None:
