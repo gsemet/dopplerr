@@ -15,6 +15,6 @@ tox = "*"
 
 [packages]
 pbr = ">=1.6"
-devpy = "*"
 Flask = "*"
 "-e ." = "*"
+colorlog = "*"

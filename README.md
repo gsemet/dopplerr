@@ -8,7 +8,8 @@
 [![PyPI](https://img.shields.io/pypi/stibbons/subdlsrv.svg)](https://pypi.python.org/pypi/subdlsrv/)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-Subtitle Download Web Service for Sonarr or Radarr
+Subtitle Download Web Service for Sonarr or Radarr. It can automatically search for subtitles when
+the file has been successfully downloaded.
 
 * Free software: MIT
 * Source: https://github.com/Stibbons/subdlsrv
@@ -36,12 +37,12 @@ docker create \
 
 Mount your media directory in `/media`. This directory exists in the docker image, so if you have
 several media directory (`/series`, `/tv`, `/animes`), mount them all in `/media` and set the
-following environment variable: `SUBDLSRC_BASE=/media`.
+following environment variable: `SUBDLSRC_BASEDIR=/media`.
 
 It is a good practive to run Sonarr and Radarr in their own container, so they also "see" their
 media in `/series`, `/tv`, `/animes`. They will communicate these path to subdlsrv. Base directory
-(`SUBDLSRC_BASE`) can be used to put all these folder in same directory. If `SUBDLSRC_BASE` is not
-defined, subdlsrv will assume the path communicated by Sonarr or Radarr also exists locally. So
+(`SUBDLSRC_BASEDIR`) can be used to put all these folder in same directory. If `SUBDLSRC_BASEDIR` is
+not defined, subdlsrv will assume the path communicated by Sonarr or Radarr also exists locally. So
 mouth your series folder to `/series`, TV show folder to `/tv`, and animes to `/animes` and so  on.
 
 #### Parameters

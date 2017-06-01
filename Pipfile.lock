@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "cb95c5a62a2f3c47a6c6c170f125032fdc0fadaa010581c87e7f1569b476efd5"
+            "sha256": "343ff809f703942f060c44d247654f1b38ac8a8603a432c4cf1b37e41d5ce533"
         },
         "requires": {},
         "sources": [
@@ -16,17 +16,8 @@
         "click": {
             "version": "==6.7"
         },
-        "colorama": {
-            "version": "==0.3.9"
-        },
-        "colored-traceback": {
-            "version": "==0.3.0"
-        },
         "colorlog": {
             "version": "==2.10.0"
-        },
-        "devpy": {
-            "version": "==0.1.7"
         },
         "flask": {
             "version": "==0.12.2"
@@ -42,9 +33,6 @@
         },
         "pbr": {
             "version": "==3.0.1"
-        },
-        "pygments": {
-            "version": "==2.2.0"
         },
         "werkzeug": {
             "version": "==0.12.2"
@@ -70,7 +58,7 @@
             "version": "==2.5"
         },
         "isort": {
-            "version": "==4.2.8"
+            "version": "==4.2.9"
         },
         "lazy-object-proxy": {
             "version": "==1.3.1"

@@ -4,7 +4,7 @@ set -e
 
 cd $(dirname $0)
 
-PORT=8000
+PORT=8086
 
-echo "Running on port $PORT"
-pipenv run subdlsrv -p $PORT
+echo "Starting subdlrv on port $PORT:"
+pipenv run subdlsrv --port $PORT
