@@ -4,9 +4,12 @@ Subtitle Downloader Service
 
 .. image:: https://travis-ci.org/Stibbons/subdlsrv.svg?branch=master
     :target: https://travis-ci.org/Stibbons/subdlsrv
-.. image:: https://readthedocs.org/projects/subdlsrv/badge/?version=latest
-   :target: http://subdlsrv.readthedocs.io/en/latest/?badge=latest
-   :alt: Documentation Status
+.. image:: https://pyup.io/repos/github/Stibbons/subdlsrv/shield.svg
+     :target: https://pyup.io/repos/github/Stibbons/subdlsrv/
+     :alt: Updates
+.. .. image:: https://readthedocs.org/projects/subdlsrv/badge/?version=latest
+..    :target: http://subdlsrv.readthedocs.io/en/latest/?badge=latest
+..    :alt: Documentation Status
 .. image:: https://coveralls.io/repos/github/Stibbons/subdlsrv/badge.svg
    :target: https://coveralls.io/github/Stibbons/subdlsrv
 .. image:: https://badge.fury.io/py/subdlsrv.svg
