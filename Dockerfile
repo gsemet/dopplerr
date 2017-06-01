@@ -9,12 +9,11 @@ WORKDIR /app
 
 RUN     cd /app \
      && curl -L https://github.com/ebergama/sonarr-sub-downloader/archive/v0.4.zip \
-     -o sonarr-sub-downloader.zip \
+             -o sonarr-sub-downloader.zip \
      && unzip -o sonarr-sub-downloader.zip
 
 RUN     cd /app \
-     && pipenv install \
-     && pipenv run python setup.py install
+     && pipenv install --three
 
 EXPOSE  8000
 CMD     ["pipenv", "run", "python", "/app/proxy.py", "-p 8000", "-a /app"]

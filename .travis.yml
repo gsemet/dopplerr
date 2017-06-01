@@ -9,9 +9,8 @@ python:
   - 3.4
 
 install:
-  - pip install -U pip pipenv
-  - pipenv install --dev
-  - pipenv run python setup.py develop
+  - pip install -U pip 'pipenv>=4.1.3' six
+  - pipenv install --three --dev
   - pipenv run python setup.py sdist
 
 script:
