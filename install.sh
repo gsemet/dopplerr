@@ -21,5 +21,4 @@ else
     pipenv install $VERSION_ARGS --dev
 fi
 echo "Installing subdlsrv"
-pipenv run pip install .
 pipenv run python setup.py sdist

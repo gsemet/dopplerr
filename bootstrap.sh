@@ -11,7 +11,6 @@ else
     echo "Please ensure 'git' is installed on your system"
 fi
 
-
 # Freeze the version of pip and pipenv for setup reproductibility
-pip install -U pip==9.0.1 pipenv==4.1.2 'setuptools<36' || echo "you may need to sudo me !"
+pip install -U 'pip==9.0.1' 'pipenv==4.1.3' 'setuptools<36' || echo "you may need to sudo me !"
 echo "Done"
