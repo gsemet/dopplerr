@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "14116c87e9c8a81e9f283acd4698f495ea6eb768b226e9f9aaf0f0e63573780d"
+            "sha256": "a6c64dd99df21ec7d46d6bae3714301755148cbe33890c666a4c351db4ece805"
         },
         "requires": {},
         "sources": [
@@ -15,6 +15,12 @@
         "-e .": "*",
         "appdirs": {
             "version": "==1.4.3"
+        },
+        "attrs": {
+            "version": "==17.2.0"
+        },
+        "automat": {
+            "version": "==0.6.0"
         },
         "babelfish": {
             "version": "==0.5.5"
@@ -34,6 +40,9 @@
         "colorlog": {
             "version": "==2.10.0"
         },
+        "constantly": {
+            "version": "==15.1.0"
+        },
         "dogpile.cache": {
             "version": "==0.6.3"
         },
@@ -49,11 +58,17 @@
         "idna": {
             "version": "==2.5"
         },
+        "incremental": {
+            "version": "==17.5.0"
+        },
         "itsdangerous": {
             "version": "==0.24"
         },
         "jinja2": {
             "version": "==2.9.6"
+        },
+        "klein": {
+            "version": "==17.2.0"
         },
         "markupsafe": {
             "version": "==1.0"
@@ -91,11 +106,17 @@
         "subliminal": {
             "version": "==2.0.5"
         },
+        "twisted": {
+            "version": "==17.1.0"
+        },
         "urllib3": {
             "version": "==1.21.1"
         },
         "werkzeug": {
             "version": "==0.12.2"
+        },
+        "zope.interface": {
+            "version": "==4.4.1"
         }
     },
     "develop": {

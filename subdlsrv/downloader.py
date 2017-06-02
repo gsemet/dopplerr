@@ -10,6 +10,7 @@ import os
 
 
 class Downloader(object):
+
     def __init__(self, args):
         self.args = args
 
@@ -45,20 +46,31 @@ class Downloader(object):
             episode_title = episode.get("Title", "")
             logging.debug("Searching episode '%s' with base filename '%s'",
                           episode_title, basename)
+            if not os.path.exists(root_dir):
+                return self.failed(res, "Path does not exists: {}".format(root_dir))
             found = self.searchFile(root_dir, basename)
             logging.debug("All found files: %r", found)
+        if found:
+            self.update_status(res, "finished", "no file found")
+        else:
+            self.update_status(res, "finished", "files found")
+            res["files"] = found
         return res
 
     def failed(self, res, message):
         logging.error(message)
         res["status"] = "failed"
-        res["error_msg"] = message.lower()
+        res["message"] = message.lower()
         return res
 
-    def update_status(self, res, status):
+    def update_status(self, res, status, message=None):
         res["status"] = status
+        if message is not None:
+            res["message"] = message
+        elif "message" in res:
+            del res["message"]
 
-    def searchFile(self, root_dir, base_name):
+    def searchFile(self, res, root_dir, base_name):
         # This won't work under python 2
         found = []
         for filename in glob.iglob(os.path.join(root_dir,
@@ -68,10 +80,10 @@ class Downloader(object):
             found.append(filename)
         return found
 
-    def process_fullscan(self, request):
+    def process_fullscan(self, _request):
         logging.debug("Processing full scan of missing subtitle files...")
         res = {
             'status': 'unprocessed',
-            'error_msg': 'not implemented yet!',
+            'message': 'not implemented yet!',
         }
         return res
