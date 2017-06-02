@@ -4,6 +4,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import glob
 import logging
 import os
 
@@ -29,14 +30,23 @@ class Downloader(object):
         res["request_type"] = "sonarr"
         res["request_event"] = "on download"
         root_dir = request.get("Series", {}).get("Path")
+        serie_title = request.get("Series", {}).get("Title")
         if not root_dir:
             return self.failed(res, "Empty Series Path")
         if self.args.basedir:
             logging.debug("Reconstructing full media path with basedir '%s'",
                           self.args.basedir)
             root_dir = os.path.join(self.args.basedir, root_dir)
-        logging.info("Searching media in '%s'", root_dir)
+        basename = request.get("Series", {}).get("Path")
+        logging.info("Searching episodes for serie '%s' in '%s'", serie_title, root_dir)
         self.update_status(res, "searching")
+        for episode in request.get("Episodes", []):
+            basename = episode.get("SceneName", "")
+            episode_title = episode.get("Title", "")
+            logging.debug("Searching episode '%s' with base filename '%s'",
+                          episode_title, basename)
+            found = self.searchFile(root_dir, basename)
+            logging.debug("All found files: %r", found)
         return res
 
     def failed(self, res, message):
@@ -47,3 +57,13 @@ class Downloader(object):
 
     def update_status(self, res, status):
         res["status"] = status
+
+    def searchFile(self, root_dir, base_name):
+        # This won't work under python 2
+        found = []
+        for filename in glob.iglob(os.path.join(root_dir,
+                                                "**",
+                                                "*" + base_name + "*"), recursive=True):
+            logging.debug("Found: %s", filename)
+            found.append(filename)
+        return found
