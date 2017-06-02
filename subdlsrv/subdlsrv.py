@@ -34,8 +34,8 @@ def notify():
 
     content = request.json
     logging.debug("Request: %r", content)
-    message = Downloader(args).process_notify_request(content)
-    return jsonify({"message": message})
+    res = Downloader(args).process_notify_request(content)
+    return jsonify(res)
 
 
 @app.route("/health")
@@ -43,6 +43,14 @@ def health():
     healthy = True
     res_health = {"healthy": healthy}
     return jsonify(res_health)
+
+
+@app.route("/fullscan")
+def fullscan():
+    content = request.json
+    logging.debug("Request: %r", content)
+    res = Downloader(args).process_fullscan(content)
+    return jsonify(res)
 
 
 def main():

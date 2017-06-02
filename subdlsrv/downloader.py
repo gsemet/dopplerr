@@ -67,3 +67,11 @@ class Downloader(object):
             logging.debug("Found: %s", filename)
             found.append(filename)
         return found
+
+    def process_fullscan(self, request):
+        logging.debug("Processing full scan of missing subtitle files...")
+        res = {
+            'status': 'unprocessed',
+            'error_msg': 'not implemented yet!',
+        }
+        return res
