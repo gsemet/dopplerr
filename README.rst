@@ -152,11 +152,12 @@ This method is used when building the docker image:
 Radarr/Sonarr Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Configure a webhook:
+Go in Settings to configure a "Connect" webhook:
 
--  **On Download/On Upgrade**
--  URL: http://:8086/notify
--  Method: POST
+- `Settings` > `Connect` > add `Webhook` notification
+- Select only **On Download** and **On Upgrade**
+- URL: `http://<ip address>:8086/notify`
+- Method: `POST`
 
 Two READMEs ?
 -------------
