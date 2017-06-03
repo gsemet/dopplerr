@@ -87,4 +87,19 @@ class TestSubDlSrv(object):
         #         'SceneName': None,
         #     }]
         # }
+        ## Radarr
+        # radarr_test = {
+        #     'EventType': 'Test',
+        #     'Movie': {
+        #         'Id': 1,
+        #         'Title': 'Test Title',
+        #         'FilePath': 'C:\\testpath'
+        #     },
+        #     'RemoteMovie': {
+        #         'TmdbId': 0,
+        #         'ImdbId': 'tt012345',
+        #         'Title': 'My Awesome Movie!',
+        #         'Year': 0
+        #     }
+        # }
         pass
