@@ -15,6 +15,7 @@ install:
 
 script:
   # - ./check-style.sh bare
+  - ./build.sh bare
   - ./test-local.sh bare
   # - ./test-docker.sh
 
