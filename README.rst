@@ -19,8 +19,9 @@ Subtitle Downloader Service
 .. |MIT licensed| image:: https://img.shields.io/badge/license-MIT-blue.svg
    :target: ./LICENSE
 
-Subtitle Download Web Service for Sonarr or Radarr. It can automatically
-search for subtitles when the file has been successfully downloaded.
+Subtitle Download Web Service for Sonarr or Radarr. It uses
+`Subliminal<https://github.com/Diaoul/subliminal>` to search automatically for missing subtitles on
+download notification.
 
 -  Free software: MIT
 -  Source: https://github.com/Stibbons/subdlsrv
