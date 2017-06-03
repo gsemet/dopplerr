@@ -6,10 +6,29 @@ ENV         PYTHONIOENCODING="UTF-8"
 ARG         DEBIAN_FRONTEND="noninteractive"
 ENV         XDG_CONFIG_HOME="/config/xdg"
 
+# install build packages
+RUN         apk add --no-cache --virtual=build-dependencies \
+                    autoconf \
+                    automake \
+                    freetype-dev \
+                    g++ \
+                    gcc \
+                    jpeg-dev \
+                    lcms2-dev \
+                    libffi-dev \
+                    libpng-dev \
+                    libwebp-dev \
+                    linux-headers \
+                    make \
+                    openjpeg-dev \
+                    openssl-dev \
+                    python3-dev \
+                    tiff-dev \
+                    zlib-dev
+
 RUN         apk add --no-cache --update \
                     curl \
-                    git \
-                    py3-twisted
+                    git
 
 # copy containers's startup files
 COPY        root/ /
@@ -24,6 +43,14 @@ WORKDIR     /app
 RUN         ./bootstrap.sh
 RUN         cd /app \
         &&  ./install.sh system
+
+# clean up
+RUN         apk del --purge \
+                build-dependencies \
+        &&  rm -rf \
+                /root/.cache \
+                /tmp/*
+
 
 # Docker configuration
 EXPOSE      8086
