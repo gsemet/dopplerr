@@ -11,7 +11,8 @@ import os
 import sys
 
 from klein import Klein
-from twisted.internet.defer import returnValue, inlineCallbacks
+from twisted.internet.defer import inlineCallbacks
+from twisted.internet.defer import returnValue
 
 from subdlsrv.downloader import Downloader
 from subdlsrv.logging import setupLogger

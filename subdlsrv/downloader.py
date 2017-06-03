@@ -10,14 +10,14 @@ import os
 import threading
 
 from babelfish import Language
-from subdlsrv.txutils import deferredAsThread
-
 from subliminal import Video
 from subliminal import download_best_subtitles
 from subliminal import region
 from subliminal import save_subtitles
 # from subliminal import scan_videos
 from subliminal.subtitle import get_subtitle_path
+
+from subdlsrv.txutils import deferredAsThread
 
 
 class Downloader(object):
