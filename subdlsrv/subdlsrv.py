@@ -37,8 +37,8 @@ def jsonify(request, d):
 
 
 @app.route("/")
-def root():
-    return "Status not implemented Yet."
+def root(_request):
+    return "Status page not implemented Yet."
 
 
 @app.route("/notify", methods=['POST'])
