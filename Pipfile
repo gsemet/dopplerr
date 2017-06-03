@@ -13,6 +13,7 @@ PyYAML = ">=3.11"
 pytest = ">=2.9.2"
 tox = "*"
 isort = "*"
+autopep8 = "*"
 
 [packages]
 pbr = ">=1.6"
