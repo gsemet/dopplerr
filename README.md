@@ -161,7 +161,7 @@ pipenv run python setup.py bdist_wheel
 
 Register and publish your package to Pypi:
 ```
-pipenv run python setup.py sdist register upload
+pipenv run python setup.py sdist bdist bdist_wheel upload -r pypi
 ```
 
 Create a release: create a tag with a semver syntax. Optionally you can tag code locally and push

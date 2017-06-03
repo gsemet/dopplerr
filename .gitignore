@@ -11,3 +11,4 @@ ChangeLog
 /cachefile.dbm.rw.lock
 /cachefile.dbm.dogpile.lock
 /cachefile.dbm
+/build
