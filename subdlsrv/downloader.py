@@ -8,10 +8,9 @@ import glob
 import logging
 import os
 
-from datetime import timedelta
-
 from babelfish import Language
-from subliminal import download_best_subtitles, region, save_subtitles, scan_videos, Video
+from subliminal import download_best_subtitles, region, save_subtitles, Video
+# from subliminal import scan_videos
 from subliminal.subtitle import get_subtitle_path
 
 
@@ -66,7 +65,7 @@ class Downloader(object):
             logging.debug("Searching episode '%s' with base filename '%s'", episode_title, basename)
             if not os.path.exists(root_dir):
                 return self.failed(res, "Path does not exists: {}".format(root_dir))
-            found = self.search_file(res, root_dir, basename)
+            found = self.search_file(root_dir, basename)
             logging.debug("All found files: %r", found)
         if not found:
             self.update_status(res, "finished", "no file found")
@@ -87,7 +86,7 @@ class Downloader(object):
         elif "message" in res:
             del res["message"]
 
-    def search_file(self, res, root_dir, base_name):
+    def search_file(self, root_dir, base_name):
         # This won't work under python 2
         found = []
         for filename in glob.iglob(
@@ -119,8 +118,7 @@ class Downloader(object):
                 break
         if absolute:
             return "/" + root_dir
-        else:
-            return root_dir
+        return root_dir
 
     def download_missing_subtitles(self, res, files):
         logging.info("Searching and downloading missing subtitles")

@@ -11,6 +11,7 @@ import tempfile
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
+
 try:
     import colorlog
 except Exception:
