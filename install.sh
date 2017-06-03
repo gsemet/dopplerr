@@ -12,6 +12,8 @@ if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then
 fi
 if [[ $1 == "system" ]]; then
     pipenv install $VERSION_ARGS --system
+if [[ $1 == "system-dev" ]]; then
+    pipenv install $VERSION_ARGS --system --dev
 elif [[ $1 == "prod" ]]; then
     pipenv install $VERSION_ARGS
 else
