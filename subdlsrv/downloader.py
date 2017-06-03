@@ -7,8 +7,11 @@ from __future__ import unicode_literals
 import glob
 import logging
 import os
+import threading
 
 from babelfish import Language
+from subdlsrv.txutils import deferredAsThread
+
 from subliminal import Video
 from subliminal import download_best_subtitles
 from subliminal import region
@@ -20,12 +23,15 @@ from subliminal.subtitle import get_subtitle_path
 class Downloader(object):
     def __init__(self, args):
         self.args = args
+        # Avoid having 2 download at the same time, at least of the integrity of the cache file
+        self.subliminal_download_lock = threading.Lock()
 
     @staticmethod
     def initialize_subliminal():
         logging.info("Initializing Subliminal cache...")
         region.configure('dogpile.cache.dbm', arguments={'filename': 'cachefile.dbm'})
 
+    @deferredAsThread
     def process_notify_request(self, request):
         logging.debug("Processing request: %r", request)
         res = {'status': "unprocessed"}
@@ -98,6 +104,7 @@ class Downloader(object):
             found.append(filename)
         return found
 
+    @deferredAsThread
     def process_fullscan(self, _request):
         logging.debug("Processing full scan of missing subtitle files...")
         res = {
@@ -139,7 +146,9 @@ class Downloader(object):
             self.update_status(res, "finished", "no video file found")
             return res
         self.update_status(res, "fetching", "finding best subtitles")
+        self.subliminal_download_lock.acquire()
         subtitles = download_best_subtitles(videos, {Language('eng'), Language('fra')})
+        self.subliminal_download_lock.release()
         subtitles_info = []
         for v in videos:
             logging.info("Found subtitles for %s:", v)

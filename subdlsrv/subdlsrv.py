@@ -11,6 +11,7 @@ import os
 import sys
 
 from klein import Klein
+from twisted.internet.defer import returnValue, inlineCallbacks
 
 from subdlsrv.downloader import Downloader
 from subdlsrv.logging import setupLogger
@@ -40,14 +41,15 @@ def root():
 
 
 @app.route("/notify", methods=['POST'])
+@inlineCallbacks
 def notify(request):
     global args
     if args.appdir:
         os.chdir(args.appdir)
     content = dejsonify(request)
-    logging.debug("Request: %r", content)
-    res = Downloader(args).process_notify_request(content)
-    return jsonify(request, res)
+    logging.debug("Notify request: %r", content)
+    res = yield Downloader(args).process_notify_request(content)
+    returnValue(jsonify(request, res))
 
 
 @app.route("/health")
@@ -58,11 +60,12 @@ def health(request):
 
 
 @app.route("/fullscan")
+@inlineCallbacks
 def fullscan(request):
     content = dejsonify(request)
-    logging.debug("Request: %r", content)
-    res = Downloader(args).process_fullscan(content)
-    return jsonify(request, res)
+    logging.debug("Fullscan request: %r", content)
+    res = yield Downloader(args).process_fullscan(content)
+    returnValue(jsonify(request, res))
 
 
 def inject_env_variables(argv):
