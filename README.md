@@ -41,10 +41,13 @@ several media directory (`/series`, `/tv`, `/animes`), mount them all in `/media
 following environment variable: `SUBDLSRC_BASEDIR=/media`.
 
 It is a good practive to run Sonarr and Radarr in their own container, so they also "see" their
-media in `/series`, `/tv`, `/animes`. They will communicate these path to subdlsrv. Base directory
-(`SUBDLSRC_BASEDIR`) can be used to put all these folder in same directory. If `SUBDLSRC_BASEDIR` is
-not defined, subdlsrv will assume the path communicated by Sonarr or Radarr also exists locally. So
-mouth your series folder to `/series`, TV show folder to `/tv`, and animes to `/animes` and so  on.
+media in path such as `/series`, `/tv`, `/animes`. Mount these volume with the same name in the
+subdlsrv container. They will all communicate with the same path.
+
+Base directory (`SUBDLSRC_BASEDIR environment variable`) can be used to put all these folder in same
+directory. If `SUBDLSRC_BASEDIR` is not defined, subdlsrv will assume the path communicated by
+Sonarr or Radarr also exists locally. So mouth your series folder to `/series`, TV show folder to
+`/tv`, and animes to `/animes` and so  on.
 
 #### Parameters
 
