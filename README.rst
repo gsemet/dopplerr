@@ -14,7 +14,7 @@ Subtitle Downloader Service
    :target: https://coveralls.io/github/Stibbons/subdlsrv
 .. |Pypi package| image:: https://badge.fury.io/py/subdlsrv.svg
    :target: https://pypi.python.org/pypi/subdlsrv/
-.. |PyPI| image:: https://img.shields.io/pypi/stibbons/subdlsrv.svg
+.. |PyPI| image:: https://img.shields.io/pypi/pyversions/subdlsrv.svg
    :target: https://pypi.python.org/pypi/subdlsrv/
 .. |MIT licensed| image:: https://img.shields.io/badge/license-MIT-blue.svg
    :target: ./LICENSE
