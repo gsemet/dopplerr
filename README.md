@@ -144,12 +144,12 @@ Configure a webhook:
 Two READMEs ?
 -------------
 
-I you look at the source code, you would have seen that there are TWO
+If you look at the source code, you would have seen that there are TWO
 readme files: README.md and README.rst. This has been done on purpose
 because:
 
--   Docker Hub does not render restructuredText content
--   Pypi does not render Markdown content
+-   Docker Hub does not render README written in restructuredText
+-   Pypi does not render README written in Markdown
 
 So I have put both. Simple.
 
