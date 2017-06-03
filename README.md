@@ -5,12 +5,12 @@ Subtitle Downloader Service
 
 [![Build Status](https://travis-ci.org/Stibbons/subdlsrv.svg?branch=master)](https://travis-ci.org/Stibbons/subdlsrv) [![Docker Automated buil](https://img.shields.io/docker/build/stibbons31/subdlsrv.svg)](https://hub.docker.com/r/stibbons31/subdlsrv/builds/) [![Pyup](https://pyup.io/repos/github/Stibbons/subdlsrv/shield.svg)](https://pyup.io/repos/github/Stibbons/subdlsrv/) [![Coveralls](https://coveralls.io/repos/github/Stibbons/subdlsrv/badge.svg)](https://coveralls.io/github/Stibbons/subdlsrv) [![Pypi package](https://badge.fury.io/py/subdlsrv.svg)](https://pypi.python.org/pypi/subdlsrv/) [![PyPI](https://img.shields.io/pypi/pyversions/subdlsrv.svg)](https://pypi.python.org/pypi/subdlsrv/) [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-Subtitle Download Web Service for Sonarr or Radarr. It uses Subliminal&lt;https://github.com/Diaoul/subliminal&gt; to search automatically for missing subtitles on download notification.
+Subtitle Download Web Service for Sonarr or Radarr. It uses [Subliminal](https://github.com/Diaoul/subliminal) to search automatically for missing subtitles on download notification.
 
 -   Free software: MIT
 -   Source: <https://github.com/Stibbons/subdlsrv>
 -   Python 3. Python 2 is tested by Travis but local installation is not provided.
--   Docker image base on Alpine Linux and S6-Overlay is provided (based on Linuxserver's images)
+-   Docker image based on Alpine Linux and S6-Overlay is provided (based on Linuxserver's images)
 
 Usage
 -----

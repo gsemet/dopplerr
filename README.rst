@@ -20,7 +20,7 @@ Subtitle Downloader Service
    :target: ./LICENSE
 
 Subtitle Download Web Service for Sonarr or Radarr. It uses
-`Subliminal<https://github.com/Diaoul/subliminal>` to search automatically for missing subtitles on
+`Subliminal <https://github.com/Diaoul/subliminal>`_ to search automatically for missing subtitles on
 download notification.
 
 - Free software: MIT
