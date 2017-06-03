@@ -21,3 +21,5 @@ else
 fi
 echo "Installing subdlsrv"
 ./build.sh
+echo "Done"
+exit 0

@@ -11,6 +11,7 @@ if [[ $1 == "bare" ]]; then
 fi
 
 ${PIPENV_EXEC}python setup.py sdist bdist bdist_wheel
+set +e
 which pandoc 2> /dev/null > /dev/null
 if [[ $? == 0 ]]; then
     echo "Updating README.md from README.rst"
@@ -27,3 +28,5 @@ EOF
     cat README.md.in >> README.md
     rm -f README.md.in
 fi
+
+exit 0
