@@ -141,10 +141,10 @@ dependencies without messing with your system's Python environment.
 Installing in your system
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Do NOT install a Python application in your system. Use Virtualenv. Or
-let it do by your distribution's maintainer.
+Do NOT install a Python application in your system. Always use a Virtualenv. Or
+let it be handled by your distribution's maintainer.
 
-This method is used when building the docker image:
+This method is used when building the docker image (and the travis build):
 
 ::
 
