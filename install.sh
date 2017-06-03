@@ -10,7 +10,7 @@ if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then
     echo "Travis force build on Python 2.7"
     VERSION_ARGS="--two"
 fi
-if [[ $1 == "docker" ]]; then
+if [[ $1 == "system" ]]; then
     pipenv install $VERSION_ARGS --system
 elif [[ $1 == "prod" ]]; then
     pipenv install $VERSION_ARGS

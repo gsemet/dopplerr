@@ -23,7 +23,7 @@ WORKDIR     /app
 # Building python application
 RUN         ./bootstrap.sh
 RUN         cd /app \
-        &&  ./install.sh docker
+        &&  ./install.sh system
 
 # Docker configuration
 EXPOSE      8086

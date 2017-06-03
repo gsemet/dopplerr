@@ -92,6 +92,13 @@ with your system's Python environment.
 Do NOT install a Python application in your system. Use Virtualenv. Or let it do by your
 distribution's maintainer.
 
+This method is used when building the docker image:
+
+```
+sudo ./bootstrap.sh
+sudo ./install.sh system
+```
+
 ### Radarr/Sonarr Configuration
 
 Configure a webhook:
