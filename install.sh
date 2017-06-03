@@ -19,7 +19,6 @@ elif [[ $1 == "prod" ]]; then
 else
     pipenv install $VERSION_ARGS --dev
 fi
-echo "Installing subdlsrv"
-./build.sh
+# subdlsrv is automatically installed from the "-e ." in Pipfile
 echo "Done"
 exit 0
