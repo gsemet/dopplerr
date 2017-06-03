@@ -53,6 +53,12 @@ def notify(request):
     returnValue(jsonify(request, res))
 
 
+@app.route("/notify", methods=['GET'])
+def notify_not_allowed(request):
+    request.setResponseCode(405)
+    return "Method GET not allowed. Use POST with a JSON body with the right format"
+
+
 @app.route("/health")
 def health(request):
     healthy = True
