@@ -10,6 +10,7 @@ Subtitle Download Web Service for Sonarr or Radarr. It uses Subliminal&lt;https:
 -   Free software: MIT
 -   Source: <https://github.com/Stibbons/subdlsrv>
 -   Python 3. Python 2 is tested by Travis but local installation is not provided.
+-   Docker image base on Alpine Linux and S6-Overlay is provided (based on Linuxserver's images)
 
 Usage
 -----

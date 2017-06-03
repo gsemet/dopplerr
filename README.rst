@@ -23,10 +23,11 @@ Subtitle Download Web Service for Sonarr or Radarr. It uses
 `Subliminal<https://github.com/Diaoul/subliminal>` to search automatically for missing subtitles on
 download notification.
 
--  Free software: MIT
--  Source: https://github.com/Stibbons/subdlsrv
--  Python 3. Python 2 is tested by Travis but local installation is not
-   provided.
+- Free software: MIT
+- Source: https://github.com/Stibbons/subdlsrv
+- Python 3. Python 2 is tested by Travis but local installation is not
+  provided.
+- Docker image based on Alpine Linux and S6-Overlay is provided (based on Linuxserver's images)
 
 Usage
 -----
