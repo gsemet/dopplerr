@@ -84,6 +84,9 @@ def inject_env_variables(argv):
     basedir = os.environ.get("SUBDLSRC_BASEDIR")
     if basedir:
         argv.extend(["--basedir", basedir])
+    verbose = os.environ.get("SUBDLSRC_VERBOSE")
+    if verbose:
+        argv.extend(["--verbose"])
 
 
 def main():
@@ -129,7 +132,7 @@ def main():
         required=True)
     global args
     args = parser.parse_args(args=argv)
-    setupLogger(level=logging.DEBUG if args.verbose else logging.INFO, no_color=args.no_color)
+    setupLogger(level=logging.DEBUG if args.verbose else logging.WARNING, no_color=args.no_color)
     log.info("Initializing Subtitle Downloader Service")
 
     if args.port is None:

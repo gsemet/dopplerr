@@ -62,6 +62,7 @@ The parameters are split into two halves, separated by a colon, the left hand si
 - `-e PUID for for UserID` - see below for explanation
 - `-e SUBDLSRC_LANGUAGES` - set wanted subtitles languages (mandatory)
 - `-e SUBDLSRC_BASEDIR` - set media base directory (optional)
+- `-e SUBDLSRC_VERBOSE` - set verbosity. 1=verbose, 0=silent (optional)
 
 #### User / Group Identifiers
 
