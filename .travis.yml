@@ -14,6 +14,7 @@ install:
   - ./install.sh
 
 script:
+  - ./check-style.sh
   - ./test-local.sh
   # - ./test-docker.sh
 
