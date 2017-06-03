@@ -4,7 +4,13 @@ set -e
 
 cd $(dirname $0)
 
-pipenv run python setup.py sdist
-pipenv run python setup.py flake8
+PIPENV_EXEC="pipenv run "
+
+if [[ $1 == "bare" ]]; then
+    PIPENV_EXEC=""
+fi
+
+${PIPENV_EXEC}python setup.py sdist
+${PIPENV_EXEC}python setup.py flake8
 echo "Running pylint"
-pipenv run pylint --rcfile=setup.cfg subdlsrv
+${PIPENV_EXEC}pylint --rcfile=setup.cfg subdlsrv

@@ -14,8 +14,8 @@ install:
   - ./install.sh system-dev
 
 script:
-  - ./check-style.sh
-  - ./test-local.sh
+  - ./check-style.sh bare
+  - ./test-local.sh bare
   # - ./test-docker.sh
 
 after_success:
