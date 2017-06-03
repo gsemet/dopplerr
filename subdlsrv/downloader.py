@@ -8,21 +8,30 @@ import glob
 import logging
 import os
 
+from datetime import timedelta
+
+from babelfish import Language
+from subliminal import download_best_subtitles, region, save_subtitles, scan_videos, Video
+from subliminal.subtitle import get_subtitle_path
+
 
 class Downloader(object):
-
     def __init__(self, args):
         self.args = args
 
+    @staticmethod
+    def initialize_subliminal():
+        logging.info("Initializing Subliminal cache...")
+        region.configure('dogpile.cache.dbm', arguments={'filename': 'cachefile.dbm'})
+
     def process_notify_request(self, request):
         logging.debug("Processing request: %r", request)
-        res = {
-            'status': "unprocessed"
-        }
+        res = {'status': "unprocessed"}
         if "Series" in request:
             if request.get("EventType") == "Download":
                 return self.process_sonarr_on_download_request(request, res)
-            return self.failed(res, "Unsupported Sonarr request type: %r", request.get("EventType"))
+            return self.failed(
+                res, "Unsupported Sonarr request type: {!r}".format(request.get("EventType")))
         return self.failed(res, "Unable to find request type. Does not appear to be Sonarr's")
 
     def process_sonarr_on_download_request(self, request, res):
@@ -34,27 +43,35 @@ class Downloader(object):
         serie_title = request.get("Series", {}).get("Title")
         if not root_dir:
             return self.failed(res, "Empty Series Path")
+        root_dir = self.appy_path_mapping(root_dir)
+        logging.debug("Root folder: %s", root_dir)
         if self.args.basedir:
-            logging.debug("Reconstructing full media path with basedir '%s'",
-                          self.args.basedir)
-            root_dir = os.path.join(self.args.basedir, root_dir)
+            logging.debug("Reconstructing full media path with basedir '%s'", self.args.basedir)
+
+            def concat_path(a, b):
+                if not a.endswith('/'):
+                    a += '/'
+                if b.startswith('/'):
+                    b = b[1:]
+                a += b
+                return a
+
+            root_dir = concat_path(self.args.basedir, root_dir)
         basename = request.get("Series", {}).get("Path")
         logging.info("Searching episodes for serie '%s' in '%s'", serie_title, root_dir)
         self.update_status(res, "searching")
         for episode in request.get("Episodes", []):
             basename = episode.get("SceneName", "")
             episode_title = episode.get("Title", "")
-            logging.debug("Searching episode '%s' with base filename '%s'",
-                          episode_title, basename)
+            logging.debug("Searching episode '%s' with base filename '%s'", episode_title, basename)
             if not os.path.exists(root_dir):
                 return self.failed(res, "Path does not exists: {}".format(root_dir))
-            found = self.searchFile(root_dir, basename)
+            found = self.search_file(res, root_dir, basename)
             logging.debug("All found files: %r", found)
-        if found:
+        if not found:
             self.update_status(res, "finished", "no file found")
         else:
-            self.update_status(res, "finished", "files found")
-            res["files"] = found
+            return self.download_missing_subtitles(res, found)
         return res
 
     def failed(self, res, message):
@@ -70,12 +87,11 @@ class Downloader(object):
         elif "message" in res:
             del res["message"]
 
-    def searchFile(self, res, root_dir, base_name):
+    def search_file(self, res, root_dir, base_name):
         # This won't work under python 2
         found = []
-        for filename in glob.iglob(os.path.join(root_dir,
-                                                "**",
-                                                "*" + base_name + "*"), recursive=True):
+        for filename in glob.iglob(
+                os.path.join(root_dir, "**", "*" + base_name + "*"), recursive=True):
             logging.debug("Found: %s", filename)
             found.append(filename)
         return found
@@ -86,4 +102,54 @@ class Downloader(object):
             'status': 'unprocessed',
             'message': 'not implemented yet!',
         }
+        return res
+
+    def appy_path_mapping(self, root_dir):
+        if not self.args.path_mapping:
+            return root_dir
+        if root_dir.startswith("/"):
+            absolute = True
+            root_dir = root_dir[1:]
+        for mapping in self.args.path_mapping:
+            logging.debug("Mapping: %s", mapping)
+            k, _, v = mapping.partition("=")
+            logging.debug("Applying mapping %s => %s", k, v)
+            if root_dir.startswith(k):
+                root_dir = v + root_dir[len(k):]
+                break
+        if absolute:
+            return "/" + root_dir
+        else:
+            return root_dir
+
+    def download_missing_subtitles(self, res, files):
+        logging.info("Searching and downloading missing subtitles")
+        self.update_status(res, "downloading", "downloading missing subtitles")
+        videos = []
+        for f in files:
+            _, ext = os.path.splitext(f)
+            if ext in [".jpeg", ".jpg", ".nfo", ".srt", ".sub", ".nbz"]:
+                logging.debug("Ignoring %s because of extension: %s", f, ext)
+                continue
+            videos.append(Video.fromname(f))
+        logging.info("Video files: %r", videos)
+        if not videos:
+            logging.debug("No subtitle to download")
+            self.update_status(res, "finished", "no video file found")
+            return res
+        self.update_status(res, "fetching", "finding best subtitles")
+        subtitles = download_best_subtitles(videos, {Language('eng'), Language('fra')})
+        subtitles_info = []
+        for v in videos:
+            logging.info("Found subtitles for %s:", v)
+            for s in subtitles[v]:
+                logging.info("  %s from %s", s.language, s.provider_name)
+                subtitles_info.append({
+                    "language": str(s.language),
+                    "provider": s.provider_name,
+                    "filename": get_subtitle_path(v.name, language=s.language)
+                })
+            save_subtitles(v, subtitles[v])
+        self.update_status(res, "finished", "download successful")
+        res["subtitles"] = subtitles_info
         return res

@@ -15,7 +15,6 @@ Tests for `subdlsrv` module.
 
 
 class TestSubDlSrv(object):
-
     @classmethod
     def setup_class(cls):
         pass

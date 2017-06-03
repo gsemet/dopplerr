@@ -10,3 +10,6 @@ AUTHORS
 ChangeLog
 /ChangeLog
 /AUTHORS
+/cachefile.dbm.rw.lock
+/cachefile.dbm.dogpile.lock
+/cachefile.dbm

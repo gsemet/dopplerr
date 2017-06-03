@@ -17,6 +17,7 @@ except Exception:
     colorlog = None
 
 _namecache = {}
+_inited = False
 
 
 def temp_dir(name, root=None):
@@ -27,7 +28,6 @@ def temp_dir(name, root=None):
 
 
 def setupLogger(name=None, no_color=False, level=logging.INFO, file_output=False):
-
     root_logger = logging.getLogger()
     root_logger.setLevel(level)
 
