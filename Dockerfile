@@ -6,7 +6,8 @@ ENV         PYTHONIOENCODING="UTF-8"
 ARG         DEBIAN_FRONTEND="noninteractive"
 ENV         XDG_CONFIG_HOME="/config/xdg"
 
-# install build packages
+# Install build packages (needed to compile Twisted on python 3 until alpine provides native Py3
+# Twisted)
 RUN         apk add --no-cache --virtual=build-dependencies \
                     autoconf \
                     automake \

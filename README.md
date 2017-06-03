@@ -60,6 +60,7 @@ The parameters are split into two halves, separated by a colon, the left hand si
 - `-v /tv` - location of TV library on disk
 - `-e PGID for for GroupID` - see below for explanation
 - `-e PUID for for UserID` - see below for explanation
+- `-e SUBDLSRC_LANGUAGES` - set wanted subtitles languages (mandatory)
 - `-e SUBDLSRC_BASEDIR` - set media base directory (optional)
 
 #### User / Group Identifiers
@@ -74,6 +75,20 @@ In this instance PUID=1001 and PGID=1001. To find yours use id user as below:
 $ id <dockeruser>
 uid=1001(dockeruser) gid=1001(dockergroup) groups=1001(dockergroup)
 ```
+
+#### Wanted subtitle languages
+
+Use a comma-separated list of 3-letter language descriptors you want Subliminal to try to download
+them.
+
+Example:
+```
+SUBDLSRC_LANGUAGES=fra,eng
+```
+
+Descriptors are ISO-639-3 names of the language. See the [official Babelfish
+table](https://github.com/Diaoul/babelfish/blob/f403000dd63092cfaaae80be9f309fd85c7f20c9/babelfish/data/iso-639-3.tab)
+to find your prefered languages.
 
 ### Local installation:
 
