@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """Update encrypted deploy password in Travis config file
 """
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -20,7 +19,7 @@ from cryptography.hazmat.primitives.serialization import load_pem_public_key
 
 try:
     from urllib import urlopen
-except:
+except Exception:
     from urllib.request import urlopen
 
 

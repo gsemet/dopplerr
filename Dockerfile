@@ -4,7 +4,7 @@ MAINTAINER gaetan@xeberon.net
 # set python to use utf-8 rather than ascii
 ENV PYTHONIOENCODING="UTF-8"
 
-RUN     apk add --update curl git
+RUN     apk add --update curl git py-twisted
 
 # copy containers's startup files
 COPY    root/ /
