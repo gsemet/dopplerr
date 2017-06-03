@@ -1,5 +1,3 @@
-*.zip
-/sonarr-sub-downloader-0.4
 *.egg-info/
 dist/
 .eggs/
