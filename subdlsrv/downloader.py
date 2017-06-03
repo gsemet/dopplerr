@@ -9,7 +9,10 @@ import logging
 import os
 
 from babelfish import Language
-from subliminal import download_best_subtitles, region, save_subtitles, Video
+from subliminal import Video
+from subliminal import download_best_subtitles
+from subliminal import region
+from subliminal import save_subtitles
 # from subliminal import scan_videos
 from subliminal.subtitle import get_subtitle_path
 
