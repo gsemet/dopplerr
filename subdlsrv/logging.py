@@ -15,7 +15,6 @@ try:
 except Exception:
     colorlog = None
 
-_namecache = {}
 _inited = False
 
 
@@ -26,23 +25,14 @@ def temp_dir(name, root=None):
     return directory
 
 
-def setupLogger(name=None, no_color=False, level=logging.INFO, file_output=False):
+def setupLogger(no_color=False, level=logging.INFO, logfile=None):
     root_logger = logging.getLogger()
     root_logger.setLevel(level)
 
-    if file_output:
-        if not name:
-            try:
-                name = Path(sys.argv[0]).absolute().with_suffix('').name
-            except IndexError:
-                name = None
-
-        if name is not None and name in _namecache:
-            return _namecache[name]
-        log_file = Path(temp_dir(name if name else "tmp")) / "auto.log"
+    if logfile:
         file_formatter = logging.Formatter(
-            '%(asctime)s :: %(levelname)s :: %(pathname)s:%(lineno)s :: %(message)s')
-        file_handler = RotatingFileHandler(str(log_file), 'a', 1000000, 1)
+            '%(asctime)s :: %(levelname)-8s :: %(pathname)s:%(lineno)s :: %(message)s')
+        file_handler = RotatingFileHandler(str(logfile), 'a', 5 * 1024 * 1024, 1)
         file_handler.setFormatter(file_formatter)
         root_logger.addHandler(file_handler)
 

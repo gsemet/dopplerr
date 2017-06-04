@@ -12,3 +12,4 @@ ChangeLog
 /cachefile.dbm.dogpile.lock
 /cachefile.dbm
 /build
+/debug.log
