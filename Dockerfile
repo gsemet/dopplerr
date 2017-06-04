@@ -1,31 +1,9 @@
-FROM        stibbons31/alpine-s6-python3:latest
+FROM        stibbons31/alpine-s6-python3-twisted:py3.6-tx17.1
 MAINTAINER  gaetan@xeberon.net
 
 # set environment variables
 ENV         PYTHONIOENCODING="UTF-8"
 ARG         DEBIAN_FRONTEND="noninteractive"
-ENV         XDG_CONFIG_HOME="/config/xdg"
-
-# Install build packages (needed to compile Twisted on python 3 until alpine provides native Py3
-# Twisted)
-RUN         apk add --no-cache --virtual=build-dependencies \
-                    autoconf \
-                    automake \
-                    freetype-dev \
-                    g++ \
-                    gcc \
-                    jpeg-dev \
-                    lcms2-dev \
-                    libffi-dev \
-                    libpng-dev \
-                    libwebp-dev \
-                    linux-headers \
-                    make \
-                    openjpeg-dev \
-                    openssl-dev \
-                    python3-dev \
-                    tiff-dev \
-                    zlib-dev
 
 RUN         apk add --no-cache --update \
                     curl \
@@ -46,9 +24,7 @@ RUN         cd /app \
         &&  ./install.sh system
 
 # clean up
-RUN         apk del --purge \
-                build-dependencies \
-        &&  rm -rf \
+RUN         rm -rf \
                 /root/.cache \
                 /tmp/*
 
