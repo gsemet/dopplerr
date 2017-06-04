@@ -9,7 +9,10 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+
 # import pytest
+#
+from subdlsrv.downloader import Downloader
 
 # from subdlsrv import subdlsrv
 
@@ -103,3 +106,7 @@ class TestSubDlSrv(object):
         #     }
         # }
         pass
+
+    def test_glob_filename_with_bracket(self):
+        downloader = Downloader(None)
+        downloader.search_file("/any/root/dir", "base_name with [bracket]")

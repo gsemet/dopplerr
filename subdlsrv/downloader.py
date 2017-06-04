@@ -98,8 +98,10 @@ class Downloader(object):
     def search_file(self, root_dir, base_name):
         # This won't work under python 2
         found = []
-        for filename in glob.iglob(
-                os.path.join(root_dir, "**", "*" + base_name + "*"), recursive=True):
+        protected_path = os.path.join(root_dir, "**", "*" + base_name + "*").replace("[",
+                                                                                     "[[]").replace(
+                                                                                         "]", "[]]")
+        for filename in glob.iglob(protected_path, recursive=True):
             logging.debug("Found: %s", filename)
             found.append(filename)
         return found
