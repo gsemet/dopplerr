@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "750923687e8637068d29a07f15bde45bc3d46f70fc183c65653fafb49d88a881"
+            "sha256": "fc6cb739246e0e3480e3a377c5e0ee95ae8f2f26931fa11177fe8fe753256ce8"
         },
         "requires": {},
         "sources": [
@@ -75,6 +75,9 @@
         },
         "markupsafe": {
             "version": "==1.0"
+        },
+        "pathlib2": {
+            "version": "==2.2.1"
         },
         "pbr": {
             "version": "==3.0.1"

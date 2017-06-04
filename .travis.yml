@@ -12,7 +12,8 @@ python:
 install:
   - sudo ./bootstrap.sh
   - ./install.sh system-dev
-  - pip install pytest-cov
+  - sudo apt-get install -y libffi-dev libssl-dev
+  - pip install pytest-cov requests[security]  # for pycov and removing InsecurePlatformWarning
 
 script:
   - ./check-style.sh bare

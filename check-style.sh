@@ -13,4 +13,4 @@ fi
 ${PIPENV_EXEC}python setup.py sdist
 ${PIPENV_EXEC}python setup.py flake8
 echo "Running pylint"
-${PIPENV_EXEC}pylint --rcfile=setup.cfg subdlsrv
+${PIPENV_EXEC}pylint --rcfile=setup.cfg  --output-format=colorized subdlsrv

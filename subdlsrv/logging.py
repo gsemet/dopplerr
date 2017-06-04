@@ -7,14 +7,12 @@ from __future__ import unicode_literals
 import logging
 import tempfile
 from logging.handlers import RotatingFileHandler
-from pathlib import Path
+from pathlib2 import Path
 
 try:
     import colorlog
 except Exception:
     colorlog = None
-
-_inited = False
 
 
 def temp_dir(name, root=None):
