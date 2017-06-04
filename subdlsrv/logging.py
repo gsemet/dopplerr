@@ -5,7 +5,6 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import logging
-import sys
 import tempfile
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
