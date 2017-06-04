@@ -9,7 +9,6 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-
 # import pytest
 #
 from subdlsrv.downloader import Downloader
@@ -90,7 +89,7 @@ class TestSubDlSrv(object):
         #         'SceneName': None,
         #     }]
         # }
-        ## Radarr
+        # Radarr
         # radarr_test = {
         #     'EventType': 'Test',
         #     'Movie': {

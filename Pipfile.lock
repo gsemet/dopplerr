@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b57605a802d37492040348d64feab2efa5608be9faaa381579cfe9f240cb0ed5"
+            "sha256": "750923687e8637068d29a07f15bde45bc3d46f70fc183c65653fafb49d88a881"
         },
         "requires": {},
         "sources": [
@@ -51,6 +51,9 @@
         },
         "flask": {
             "version": "==0.12.2"
+        },
+        "glob2": {
+            "version": "==0.5"
         },
         "guessit": {
             "version": "==2.1.4"

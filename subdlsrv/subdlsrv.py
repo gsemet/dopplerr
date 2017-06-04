@@ -137,12 +137,14 @@ def main():
         "--logfile",
         action="store",
         dest="logfile",
-        help="Output log to file",)
+        help="Output log to file", )
 
     global args
     args = parser.parse_args(args=argv)
-    setupLogger(level=logging.DEBUG if args.verbose else logging.WARNING, no_color=args.no_color,
-                logfile=args.logfile)
+    setupLogger(
+        level=logging.DEBUG if args.verbose else logging.WARNING,
+        no_color=args.no_color,
+        logfile=args.logfile)
     log.info("Initializing Subtitle Downloader Service")
 
     if args.port is None:

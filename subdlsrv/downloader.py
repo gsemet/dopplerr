@@ -18,6 +18,7 @@ from subliminal import save_subtitles
 from subliminal.subtitle import get_subtitle_path
 
 from subdlsrv.txutils import deferredAsThread
+from subdlsrv.utils import recursive_iglob
 
 
 class Downloader(object):
@@ -96,12 +97,11 @@ class Downloader(object):
             del res["message"]
 
     def search_file(self, root_dir, base_name):
-        # This won't work under python 2
+        # This won't work with python < 3.5
         found = []
-        protected_path = os.path.join(root_dir, "**", "*" + base_name + "*").replace("[",
-                                                                                     "[[]").replace(
-                                                                                         "]", "[]]")
-        for filename in glob.iglob(protected_path, recursive=True):
+        protected_path = os.path.join(root_dir, "**", "*" + base_name + "*")
+        protected_path = protected_path.replace("[", "[[]").replace("]", "[]]")
+        for filename in recursive_iglob(protected_path):
             logging.debug("Found: %s", filename)
             found.append(filename)
         return found
