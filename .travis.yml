@@ -13,7 +13,8 @@ install:
   - sudo ./bootstrap.sh
   - ./install.sh system-dev
   - sudo apt-get install -y libffi-dev libssl-dev
-  - pip install pytest-cov requests[security]  # for pycov and removing InsecurePlatformWarning
+  # for coveralls and removing InsecurePlatformWarning
+  - pip install coveralls pytest-cov requests[security]
 
 script:
   - ./check-style.sh bare
