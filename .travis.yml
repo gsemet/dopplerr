@@ -15,7 +15,7 @@ install:
   - pip install pytest-cov
 
 script:
-  # - ./check-style.sh bare
+  - ./check-style.sh bare
   - ./build.sh bare
   - ./test-local.sh bare
   - py.test -v --cov subdlsrv --cov-report term-missing
