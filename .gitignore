@@ -13,3 +13,4 @@ ChangeLog
 /cachefile.dbm
 /build
 /debug.log
+/.coverage

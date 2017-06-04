@@ -1,6 +1,6 @@
 [run]
 branch = True
-source = sonarr-sub-downloader-docker
+source = subdlsrv
 
 [report]
 ignore_errors = True
