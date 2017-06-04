@@ -127,7 +127,7 @@
             "version": "==0.22.0"
         },
         "astroid": {
-            "version": "==1.5.2"
+            "version": "==1.5.3"
         },
         "autopep8": {
             "version": "==1.3.2"
