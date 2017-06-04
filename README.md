@@ -41,15 +41,15 @@ Base directory (`SUBDLSRC_BASEDIR environment variable`) can be used to put all 
 
 The parameters are split into two halves, separated by a colon, the left hand side representing the host and the right the container side. For example with a port -p external:internal - what this shows is the port mapping from internal to external of the container. So -p 8080:80 would expose port 80 from inside the container to be accessible from the host's IP on port 8080 <http://192.168.x.x:8080> would show you what's running INSIDE the container on port 80.
 
--   `-p 8000` - the port webinterface
--   `-v /anime` - location of Anime library on disk
--   `-v /movies` - location of Movies library on disk
--   `-v /tv` - location of TV library on disk
--   `-e PGID for for GroupID` - see below for explanation
--   `-e PUID for for UserID` - see below for explanation
--   `-e SUBDLSRC_LANGUAGES` - set wanted subtitles languages (mandatory)
--   `-e SUBDLSRC_BASEDIR` - set media base directory (optional)
--   `-e SUBDLSRC_VERBOSE` - set verbosity. 1=verbose, 0=silent (optional)
+-   `-p 8086:8086` - the port webinterface
+-   `-v /path/to/anime:/anime` - location of Anime library on disk
+-   `-v /path/to/movies:/movies` - location of Movies library on disk
+-   `-v /path/to/tv:/tv` - location of TV library on disk
+-   `-e PGID=1000` - for for GroupID. See below for explanation
+-   `-e PUID=100` - for for UserID. See below for explanation
+-   `-e SUBDLSRC_LANGUAGES=fra,eng` - set wanted subtitles languages (mandatory)
+-   `-e SUBDLSRC_BASEDIR=/app` - set media base directory (optional)
+-   `-e SUBDLSRC_VERBOSE=1` - set verbosity. 1=verbose, 0=silent (optional)
 
 #### User / Group Identifiers
 
@@ -81,9 +81,9 @@ This will install subdlsrv in a local virtual environment will all its dependenc
 
 ### Installing in your system
 
-Do NOT install a Python application in your system. Use Virtualenv. Or let it do by your distribution's maintainer.
+Do NOT install a Python application in your system. Always use a Virtualenv. Or let it be handled by your distribution's maintainer.
 
-This method is used when building the docker image:
+This method is used when building the docker image (and the travis build):
 
     sudo ./bootstrap.sh
     sudo ./install.sh system

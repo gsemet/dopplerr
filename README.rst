@@ -19,9 +19,9 @@ Subtitle Downloader Service
 .. |MIT licensed| image:: https://img.shields.io/badge/license-MIT-blue.svg
    :target: ./LICENSE
 
-Subtitle Download Web Service for Sonarr or Radarr. It uses
-`Subliminal <https://github.com/Diaoul/subliminal>`_ to search automatically for missing subtitles on
-download notification.
+Subtitle Download Web Service for Sonarr or Radarr. It uses `Subliminal
+<https://github.com/Diaoul/subliminal>`_ to search automatically for missing subtitles on download
+notification.
 
 - Free software: MIT
 - Source: https://github.com/Stibbons/subdlsrv
@@ -51,53 +51,46 @@ Use my docker image:
         -v <path/to/tvseries>:/tv \
         stibbons31/subdlsrv
 
-Mount your media directory in ``/media``. This directory exists in the
-docker image, so if you have several media directory (``/series``,
-``/tv``, ``/animes``), mount them all in ``/media`` and set the
-following environment variable: ``SUBDLSRC_BASEDIR=/media``.
+Mount your media directory in ``/media``. This directory exists in the docker image, so if you have
+several media directory (``/series``, ``/tv``, ``/animes``), mount them all in ``/media`` and set
+the following environment variable: ``SUBDLSRC_BASEDIR=/media``.
 
-It is a good practive to run Sonarr and Radarr in their own container,
-so they also "see" their media in path such as ``/series``, ``/tv``,
-``/animes``. Mount these volume with the same name in the subdlsrv
-container. They will all communicate with the same path.
+It is a good practive to run Sonarr and Radarr in their own container, so they also "see" their
+media in path such as ``/series``, ``/tv``, ``/animes``. Mount these volume with the same name in
+the subdlsrv container. They will all communicate with the same path.
 
-Base directory (``SUBDLSRC_BASEDIR environment variable``) can be used
-to put all these folder in same directory. If ``SUBDLSRC_BASEDIR`` is
-not defined, subdlsrv will assume the path communicated by Sonarr or
-Radarr also exists locally. So mouth your series folder to ``/series``,
-TV show folder to ``/tv``, and animes to ``/animes`` and so on.
+Base directory (``SUBDLSRC_BASEDIR environment variable``) can be used to put all these folder in
+same directory. If ``SUBDLSRC_BASEDIR`` is not defined, subdlsrv will assume the path communicated
+by Sonarr or Radarr also exists locally. So mouth your series folder to ``/series``, TV show folder
+to ``/tv``, and animes to ``/animes`` and so on.
 
 Parameters
 ^^^^^^^^^^
 
-The parameters are split into two halves, separated by a colon, the left
-hand side representing the host and the right the container side. For
-example with a port -p external:internal - what this shows is the port
-mapping from internal to external of the container. So -p 8080:80 would
-expose port 80 from inside the container to be accessible from the
-host's IP on port 8080 http://192.168.x.x:8080 would show you what's
-running INSIDE the container on port 80.
+The parameters are split into two halves, separated by a colon, the left hand side representing the
+host and the right the container side. For example with a port -p external:internal - what this
+shows is the port mapping from internal to external of the container. So -p 8080:80 would expose
+port 80 from inside the container to be accessible from the host's IP on port 8080
+http://192.168.x.x:8080 would show you what's running INSIDE the container on port 80.
 
--  ``-p 8000`` - the port webinterface
--  ``-v /anime`` - location of Anime library on disk
--  ``-v /movies`` - location of Movies library on disk
--  ``-v /tv`` - location of TV library on disk
--  ``-e PGID for for GroupID`` - see below for explanation
--  ``-e PUID for for UserID`` - see below for explanation
--  ``-e SUBDLSRC_LANGUAGES`` - set wanted subtitles languages
+-  ``-p 8086:8086`` - the port webinterface
+-  ``-v /path/to/anime:/anime`` - location of Anime library on disk
+-  ``-v /path/to/movies:/movies`` - location of Movies library on disk
+-  ``-v /path/to/tv:/tv`` - location of TV library on disk
+-  ``-e PGID=1000`` - for for GroupID. See below for explanation
+-  ``-e PUID=100`` - for for UserID. See below for explanation
+-  ``-e SUBDLSRC_LANGUAGES=fra,eng`` - set wanted subtitles languages
    (mandatory)
--  ``-e SUBDLSRC_BASEDIR`` - set media base directory (optional)
--  ``-e SUBDLSRC_VERBOSE`` - set verbosity. 1=verbose, 0=silent
-   (optional)
+-  ``-e SUBDLSRC_BASEDIR=/app`` - set media base directory (optional)
+-  ``-e SUBDLSRC_VERBOSE=1`` - set verbosity. 1=verbose, 0=silent (optional)
 
 User / Group Identifiers
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Sometimes when using data volumes (-v flags) permissions issues can
-arise between the host OS and the container. We avoid this issue by
-allowing you to specify the user PUID and group PGID. Ensure the data
-volume directory on the host is owned by the same user you specify and
-it will "just work" TM.
+Sometimes when using data volumes (-v flags) permissions issues can arise between the host OS and
+the container. We avoid this issue by allowing you to specify the user PUID and group PGID. Ensure
+the data volume directory on the host is owned by the same user you specify and it will "just work"
+TM.
 
 In this instance PUID=1001 and PGID=1001. To find yours use id user as
 below:
@@ -119,30 +112,28 @@ Example:
 
     SUBDLSRC_LANGUAGES=fra,eng
 
-Descriptors are ISO-639-3 names of the language. See the `official
-Babelfish
-table <https://github.com/Diaoul/babelfish/blob/f403000dd63092cfaaae80be9f309fd85c7f20c9/babelfish/data/iso-639-3.tab>`__
+Descriptors are ISO-639-3 names of the language. See the `official Babelfish table
+<https://github.com/Diaoul/babelfish/blob/f403000dd63092cfaaae80be9f309fd85c7f20c9/babelfish/data/iso-639-3.tab>`__
 to find your prefered languages.
 
 Local installation:
 ~~~~~~~~~~~~~~~~~~~
 
-Create a dedicated virtual environment and install it properly with the
-following commands:
+Create a dedicated virtual environment and install it properly with the following commands:
 
 ::
 
     sudo ./bootstrap.sh
     ./install.sh prod
 
-This will install subdlsrv in a local virtual environment will all its
-dependencies without messing with your system's Python environment.
+This will install subdlsrv in a local virtual environment will all its dependencies without messing
+with your system's Python environment.
 
 Installing in your system
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Do NOT install a Python application in your system. Always use a Virtualenv. Or
-let it be handled by your distribution's maintainer.
+Do NOT install a Python application in your system. Always use a Virtualenv. Or let it be handled by
+your distribution's maintainer.
 
 This method is used when building the docker image (and the travis build):
 
@@ -225,12 +216,11 @@ Register and publish your package to Pypi:
 
     pipenv run python setup.py sdist bdist bdist_wheel upload -r pypi
 
-Create a release: create a tag with a semver syntax. Optionally you can
-tag code locally and push to GitHub.
+Create a release: create a tag with a semver syntax. Optionally you can tag code locally and push to
+GitHub.
 
 ::
 
     git tag 1.2.3
 
-On successful travis build on the Tag branch, your Pypi package will be
-automatically updated.
+On successful travis build on the Tag branch, your Pypi package will be automatically updated.
