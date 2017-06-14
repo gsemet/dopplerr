@@ -3,12 +3,12 @@
 Subtitle Downloader Service
 ===========================
 
-[![Build Status](https://travis-ci.org/Stibbons/subdlsrv.svg?branch=master)](https://travis-ci.org/Stibbons/subdlsrv) [![Docker Automated buil](https://img.shields.io/docker/build/stibbons31/subdlsrv.svg)](https://hub.docker.com/r/stibbons31/subdlsrv/builds/) [![Pyup](https://pyup.io/repos/github/Stibbons/subdlsrv/shield.svg)](https://pyup.io/repos/github/Stibbons/subdlsrv/) [![Coveralls](https://coveralls.io/repos/github/Stibbons/subdlsrv/badge.svg)](https://coveralls.io/github/Stibbons/subdlsrv) [![Pypi package](https://badge.fury.io/py/subdlsrv.svg)](https://pypi.python.org/pypi/subdlsrv/) [![PyPI](https://img.shields.io/pypi/pyversions/subdlsrv.svg)](https://pypi.python.org/pypi/subdlsrv/) [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Build Status](https://travis-ci.org/Stibbons/doppplerr.svg?branch=master)](https://travis-ci.org/Stibbons/doppplerr) [![Docker Automated buil](https://img.shields.io/docker/build/stibbons31/doppplerr.svg)](https://hub.docker.com/r/stibbons31/doppplerr/builds/) [![Pyup](https://pyup.io/repos/github/Stibbons/doppplerr/shield.svg)](https://pyup.io/repos/github/Stibbons/doppplerr/) [![Coveralls](https://coveralls.io/repos/github/Stibbons/doppplerr/badge.svg)](https://coveralls.io/github/Stibbons/doppplerr) [![Pypi package](https://badge.fury.io/py/doppplerr.svg)](https://pypi.python.org/pypi/doppplerr/) [![PyPI](https://img.shields.io/pypi/pyversions/doppplerr.svg)](https://pypi.python.org/pypi/doppplerr/) [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 Subtitle Download Web Service for Sonarr or Radarr. It uses [Subliminal](https://github.com/Diaoul/subliminal) to search automatically for missing subtitles on download notification.
 
 -   Free software: MIT
--   Source: <https://github.com/Stibbons/subdlsrv>
+-   Source: <https://github.com/Stibbons/doppplerr>
 -   Python 3. Python 2 is tested by Travis but local installation is not provided.
 -   Docker image based on Alpine Linux and S6-Overlay is provided (based on Linuxserver's images)
 
@@ -22,20 +22,20 @@ The best usage is through the docker image.
 Use my docker image:
 
     docker create \
-        --name subdlsrv \
+        --name doppplerr \
         -p 8000:8000 \
         -e PUID=<UID> \
         -e PGID=<GID> \
         -v <path/to/animes>:/animes \
         -v <path/to/movies>:/movies \
         -v <path/to/tvseries>:/tv \
-        stibbons31/subdlsrv
+        stibbons31/doppplerr
 
 Mount your media directory in `/media`. This directory exists in the docker image, so if you have several media directory (`/series`, `/tv`, `/animes`), mount them all in `/media` and set the following environment variable: `SUBDLSRC_BASEDIR=/media`.
 
-It is a good practive to run Sonarr and Radarr in their own container, so they also "see" their media in path such as `/series`, `/tv`, `/animes`. Mount these volume with the same name in the subdlsrv container. They will all communicate with the same path.
+It is a good practive to run Sonarr and Radarr in their own container, so they also "see" their media in path such as `/series`, `/tv`, `/animes`. Mount these volume with the same name in the doppplerr container. They will all communicate with the same path.
 
-Base directory (`SUBDLSRC_BASEDIR environment variable`) can be used to put all these folder in same directory. If `SUBDLSRC_BASEDIR` is not defined, subdlsrv will assume the path communicated by Sonarr or Radarr also exists locally. So mouth your series folder to `/series`, TV show folder to `/tv`, and animes to `/animes` and so on.
+Base directory (`SUBDLSRC_BASEDIR environment variable`) can be used to put all these folder in same directory. If `SUBDLSRC_BASEDIR` is not defined, doppplerr will assume the path communicated by Sonarr or Radarr also exists locally. So mouth your series folder to `/series`, TV show folder to `/tv`, and animes to `/animes` and so on.
 
 #### Parameters
 
@@ -77,7 +77,7 @@ Create a dedicated virtual environment and install it properly with the followin
     sudo ./bootstrap.sh
     ./install.sh prod
 
-This will install subdlsrv in a local virtual environment will all its dependencies without messing with your system's Python environment.
+This will install doppplerr in a local virtual environment will all its dependencies without messing with your system's Python environment.
 
 ### Installing in your system
 

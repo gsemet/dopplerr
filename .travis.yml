@@ -20,7 +20,7 @@ script:
   - ./check-style.sh bare
   - ./build.sh bare
   - ./test-local.sh bare
-  - py.test -v --cov subdlsrv --cov-report term-missing
+  - py.test -v --cov doppplerr --cov-report term-missing
   # - ./test-docker.sh
 
 after_success:
@@ -48,4 +48,4 @@ deploy:
       VUZQN3VnbnB0R05SZGJMZ3ZPVENEcGQrN2RqU2MzSDArT1oxVEhRWU1YWXArckNVZ3hjVVRSZDg9
   on:
     tags: true
-    repo: Stibbons/subdlsrv
+    repo: Stibbons/doppplerr

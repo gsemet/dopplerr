@@ -19,6 +19,6 @@ elif [[ $1 == "prod" ]]; then
 else
     pipenv install $VERSION_ARGS --dev
 fi
-# subdlsrv is automatically installed from the "-e ." in Pipfile
+# doppplerr is automatically installed from the "-e ." in Pipfile
 echo "Done"
 exit 0

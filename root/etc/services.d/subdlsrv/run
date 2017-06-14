@@ -5,7 +5,7 @@ umask 022
 cd /app
 
 exec \
-    s6-setuidgid abc subdlsrv \
+    s6-setuidgid abc doppplerr \
         --no-color \
         --verbose \
         --basedir / \

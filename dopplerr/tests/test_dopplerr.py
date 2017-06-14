@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-test_subdlsrv
--------------
-Tests for `subdlsrv` module.
+test_doppplerr
+--------------
+Tests for `doppplerr` module.
 """
 from __future__ import absolute_import
 from __future__ import division
@@ -11,12 +11,12 @@ from __future__ import unicode_literals
 
 # import pytest
 #
-from subdlsrv.downloader import Downloader
+from doppplerr.downloader import Downloader
 
-# from subdlsrv import subdlsrv
+# from doppplerr import doppplerr
 
 
-class TestSubDlSrv(object):
+class Testdoppplerr(object):
     @classmethod
     def setup_class(cls):
         pass

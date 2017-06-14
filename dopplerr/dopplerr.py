@@ -14,8 +14,8 @@ from klein import Klein
 from twisted.internet.defer import inlineCallbacks
 from twisted.internet.defer import returnValue
 
-from subdlsrv.downloader import Downloader
-from subdlsrv.logging import setupLogger
+from doppplerr.downloader import Downloader
+from doppplerr.logging import setupLogger
 
 log = logging.getLogger(__name__)
 app = Klein()
