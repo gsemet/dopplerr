@@ -8,16 +8,15 @@ import logging
 import os
 import threading
 
+# from subliminal import scan_videos
 from babelfish import Language
-from subliminal import Video
 from subliminal import download_best_subtitles
 from subliminal import region
 from subliminal import save_subtitles
-# from subliminal import scan_videos
+from subliminal import Video
 from subliminal.subtitle import get_subtitle_path
-
-from dopplerr.txutils import deferredAsThread
-from dopplerr.utils import recursive_iglob
+from txwebbackendbase.txutils import deferredAsThread
+from txwebbackendbase.utils import recursive_iglob
 
 
 class Downloader(object):
