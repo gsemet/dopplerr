@@ -7,7 +7,8 @@ ARG         DEBIAN_FRONTEND="noninteractive"
 
 RUN         apk add --no-cache --update \
                     curl \
-                    git
+                    git \
+                    gcc
 
 # copy containers's startup files
 COPY        root/ /
