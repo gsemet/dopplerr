@@ -14,7 +14,6 @@ from twisted.internet.defer import returnValue
 
 from dopplerr.downloader import Downloader
 
-
 log = logging.getLogger(__name__)
 app = Klein()
 args = None

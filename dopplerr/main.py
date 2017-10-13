@@ -12,7 +12,6 @@ import sys
 from dopplerr.downloader import Downloader
 from dopplerr.logging import setupLogger
 
-
 log = logging.getLogger(__name__)
 
 
