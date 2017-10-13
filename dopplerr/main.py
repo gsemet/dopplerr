@@ -9,8 +9,10 @@ import logging
 import os
 import sys
 
+from txwebbackendbase.logging import setupLogger
+
 from dopplerr.downloader import Downloader
-from dopplerr.logging import setupLogger
+from dopplerr.routes import app
 
 log = logging.getLogger(__name__)
 
@@ -79,7 +81,6 @@ def main():
         dest="logfile",
         help="Output log to file", )
 
-    global args
     args = parser.parse_args(args=argv)
     setupLogger(
         level=logging.DEBUG if args.verbose else logging.WARNING,
