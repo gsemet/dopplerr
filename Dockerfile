@@ -1,4 +1,4 @@
-FROM        stibbons31/alpine-s6-python3-twisted:py3.6-tx17.1
+FROM        stibbons31/alpine-s6-python3-twisted:py3.6-tx17.9
 MAINTAINER  gaetan@xeberon.net
 
 # set environment variables
