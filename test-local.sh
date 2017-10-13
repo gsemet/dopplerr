@@ -11,4 +11,4 @@ if [[ $1 == "bare" ]]; then
     PIPENV_EXEC=""
 fi
 
-${PIPENV_EXEC}pytest doppplerr
+${PIPENV_EXEC}pytest dopplerr

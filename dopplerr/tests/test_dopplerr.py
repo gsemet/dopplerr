@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-test_doppplerr
+test_dopplerr
 --------------
-Tests for `doppplerr` module.
+Tests for `dopplerr` module.
 """
 from __future__ import absolute_import
 from __future__ import division
@@ -11,12 +11,12 @@ from __future__ import unicode_literals
 
 # import pytest
 #
-from doppplerr.downloader import Downloader
+from dopplerr.downloader import Downloader
 
-# from doppplerr import doppplerr
+# from dopplerr import dopplerr
 
 
-class Testdoppplerr(object):
+class Testdopplerr(object):
     @classmethod
     def setup_class(cls):
         pass

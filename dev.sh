@@ -16,4 +16,4 @@ PORT=8086
 
 echo "Starting subdlrv on port $PORT:"
 export SUBDLSRC_LANGUAGES="fra,eng"
-pipenv run doppplerr --port $PORT --verbose --logfile "debug.log" $basedir_arg
+pipenv run dopplerr --port $PORT --verbose --logfile "debug.log" $basedir_arg

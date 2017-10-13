@@ -16,8 +16,8 @@ from subliminal import save_subtitles
 # from subliminal import scan_videos
 from subliminal.subtitle import get_subtitle_path
 
-from doppplerr.txutils import deferredAsThread
-from doppplerr.utils import recursive_iglob
+from dopplerr.txutils import deferredAsThread
+from dopplerr.utils import recursive_iglob
 
 
 class Downloader(object):

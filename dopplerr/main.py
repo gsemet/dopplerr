@@ -9,8 +9,8 @@ import logging
 import os
 import sys
 
-from doppplerr.downloader import Downloader
-from doppplerr.logging import setupLogger
+from dopplerr.downloader import Downloader
+from dopplerr.logging import setupLogger
 
 
 log = logging.getLogger(__name__)

@@ -12,7 +12,7 @@ from klein import Klein
 from twisted.internet.defer import inlineCallbacks
 from twisted.internet.defer import returnValue
 
-from doppplerr.downloader import Downloader
+from dopplerr.downloader import Downloader
 
 
 log = logging.getLogger(__name__)
