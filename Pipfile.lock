@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "fc6cb739246e0e3480e3a377c5e0ee95ae8f2f26931fa11177fe8fe753256ce8"
+            "sha256": "23786850598964aa1666ec91c6913367b316594f661e131dd8fef047d3dec5d2"
         },
         "requires": {},
         "sources": [
@@ -29,22 +29,22 @@
             "version": "==4.6.0"
         },
         "certifi": {
-            "version": "==2017.4.17"
+            "version": "==2017.7.27.1"
         },
         "chardet": {
-            "version": "==3.0.3"
+            "version": "==3.0.4"
         },
         "click": {
             "version": "==6.7"
         },
         "colorlog": {
-            "version": "==2.10.0"
+            "version": "==3.1.0"
         },
         "constantly": {
             "version": "==15.1.0"
         },
         "dogpile.cache": {
-            "version": "==0.6.3"
+            "version": "==0.6.4"
         },
         "enzyme": {
             "version": "==0.4.1"
@@ -53,13 +53,16 @@
             "version": "==0.12.2"
         },
         "glob2": {
-            "version": "==0.5"
+            "version": "==0.6"
         },
         "guessit": {
             "version": "==2.1.4"
         },
+        "hyperlink": {
+            "version": "==17.3.1"
+        },
         "idna": {
-            "version": "==2.5"
+            "version": "==2.6"
         },
         "incremental": {
             "version": "==17.5.0"
@@ -77,16 +80,16 @@
             "version": "==1.0"
         },
         "pathlib2": {
-            "version": "==2.2.1"
+            "version": "==2.3.0"
         },
         "pbr": {
-            "version": "==3.0.1"
+            "version": "==3.1.1"
         },
         "pysrt": {
             "version": "==1.1.1"
         },
         "python-dateutil": {
-            "version": "==2.6.0"
+            "version": "==2.6.1"
         },
         "pytz": {
             "version": "==2017.2"
@@ -98,57 +101,60 @@
             "version": "==0.9.0"
         },
         "requests": {
-            "version": "==2.17.3"
+            "version": "==2.18.4"
         },
         "setuptools": {
-            "version": "==36.0.1"
+            "version": "==36.6.0"
         },
         "six": {
-            "version": "==1.10.0"
+            "version": "==1.11.0"
         },
         "stevedore": {
-            "version": "==1.22.0"
+            "version": "==1.27.1"
         },
         "subliminal": {
             "version": "==2.0.5"
         },
         "twisted": {
-            "version": "==17.1.0"
+            "version": "==17.9.0"
+        },
+        "txwebbackendbase": {
+            "version": "==0.0.2"
         },
         "urllib3": {
-            "version": "==1.21.1"
+            "version": "==1.22"
         },
         "werkzeug": {
             "version": "==0.12.2"
         },
         "zope.interface": {
-            "version": "==4.4.1"
+            "version": "==4.4.3"
         }
     },
     "develop": {
         "asn1crypto": {
-            "version": "==0.22.0"
+            "version": "==0.23.0"
         },
         "astroid": {
             "version": "==1.5.3"
         },
         "autopep8": {
-            "version": "==1.3.2"
+            "version": "==1.3.3"
         },
         "cffi": {
-            "version": "==1.10.0"
+            "version": "==1.11.2"
         },
         "cryptography": {
-            "version": "==1.9"
+            "version": "==2.1.1"
         },
         "flake8": {
-            "version": "==3.3.0"
+            "version": "==3.4.1"
         },
         "idna": {
-            "version": "==2.5"
+            "version": "==2.6"
         },
         "isort": {
-            "version": "==4.2.13"
+            "version": "==4.2.15"
         },
         "lazy-object-proxy": {
             "version": "==1.3.1"
@@ -157,46 +163,46 @@
             "version": "==0.6.1"
         },
         "pluggy": {
-            "version": "==0.4.0"
+            "version": "==0.5.2"
         },
         "py": {
-            "version": "==1.4.33"
+            "version": "==1.4.34"
         },
         "pycodestyle": {
             "version": "==2.3.1"
         },
         "pycparser": {
-            "version": "==2.17"
+            "version": "==2.18"
         },
         "pyflakes": {
-            "version": "==1.5.0"
+            "version": "==1.6.0"
         },
         "pylint": {
-            "version": "==1.7.1"
+            "version": "==1.7.4"
         },
         "pytest": {
-            "version": "==3.1.1"
+            "version": "==3.2.3"
         },
         "pyyaml": {
             "version": "==3.12"
         },
         "setuptools": {
-            "version": "==36.0.1"
+            "version": "==36.6.0"
         },
         "six": {
-            "version": "==1.10.0"
+            "version": "==1.11.0"
         },
         "tox": {
-            "version": "==2.7.0"
+            "version": "==2.9.1"
         },
         "virtualenv": {
             "version": "==15.1.0"
         },
         "wrapt": {
-            "version": "==1.10.10"
+            "version": "==1.10.11"
         },
         "yapf": {
-            "version": "==0.16.2"
+            "version": "==0.18.0"
         }
     }
 }
