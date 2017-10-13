@@ -16,7 +16,7 @@ elif [[ $1 == "system-dev" ]]; then
     pipenv install $VERSION_ARGS --system --dev
 elif [[ $1 == "prod" ]]; then
     pipenv install $VERSION_ARGS
-else
+else # dev
     pipenv install $VERSION_ARGS --dev
 fi
 # dopplerr is automatically installed from the "-e ." in Pipfile
