@@ -21,8 +21,10 @@ Flask = "*"
 "-e ." = "*"
 colorlog = "*"
 setuptools = "!=36.0.0"
-subliminal = "*"
 klein = "*"
 glob2 = "*"
 pathlib2 = "*"
-"txwebbackendbase" = "*"
+txwebbackendbase = "*"
+
+[packages.subliminal]
+git = "https://github.com/stibbons/subliminal"
