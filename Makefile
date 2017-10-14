@@ -64,6 +64,8 @@ update:
 	@echo "Updating dependencies..."
 	@pipenv update
 
+push: style readme
+	git push
 
 wheel: wheels
 pypi: pypi-publish
