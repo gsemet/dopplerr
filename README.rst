@@ -161,7 +161,8 @@ If you look at the source code, you would have seen that there are TWO readme fi
 - Docker Hub does not render README written in restructuredText
 - Pypi does not render README written in Markdown
 
-So, I have put both. Simple.
+So, I have put both. Simple. GitHub will render the MarkDown readme preferably, so upon upload, do
+not forget to run `make readme`.
 
 `README.md` is automatically generated from `README.rst` by `make build` if `pandoc` is installed on
 your system.
