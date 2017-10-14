@@ -10,7 +10,9 @@ RUN         apk add --no-cache --update \
                     git \
                     gcc \
                     python3-dev \
-                    make
+                    make \
+                    linux-headers \
+                    musl-dev
 
 # copy containers's startup files
 COPY        root/ /
@@ -30,13 +32,14 @@ RUN         cd /app \
 RUN         apk del python3-dev \
                     make \
                     gcc \
-                    curl
+                    curl \
+                    linux-headers \
+                    musl-dev
 
 # clean up
-RUN         rm -rf \
+RUN         rm  -rf \
                 /root/.cache \
                 /tmp/*
-
 
 # Docker configuration
 EXPOSE      8086
