@@ -8,7 +8,7 @@ ARG         DEBIAN_FRONTEND="noninteractive"
 RUN         apk add --no-cache --update \
                     curl \
                     git \
-                    gcc
+                    gcc \
                     python3-dev \
                     make
 
