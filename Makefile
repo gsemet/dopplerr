@@ -1,3 +1,4 @@
+.PHONY: build
 
 DOCKER_BUILD?=docker build
 TEST_PORT:=8086
@@ -25,10 +26,12 @@ checks:
 	pipenv run python setup.py flake8
 	pipenv run pylint --rcfile=setup.cfg --output-format=colorized dopplerr
 
-build:
+build: readme
 	@echo "Building..."
-	@pipenv run setup.py sdist bdist bdist_wheel
-	@./refresh_readme.sh
+	@pipenv run python setup.py sdist bdist bdist_wheel
+
+readme:
+	@bash refresh_readme.sh
 
 run-local:
 	@echo "Running..."

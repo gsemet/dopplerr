@@ -1,5 +1,6 @@
 #!/bin/bash
-#!/
+
+echo "Finding pandoc"
 set +e
 which pandoc 2> /dev/null > /dev/null
 if [[ $? == 0 ]]; then
