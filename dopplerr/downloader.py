@@ -37,8 +37,8 @@ class Downloader(object):
         if "Series" in request:
             if request.get("EventType") == "Download":
                 return self.process_sonarr_on_download_request(request, res)
-            return self.failed(
-                res, "Unsupported Sonarr request type: {!r}".format(request.get("EventType")))
+            return self.failed(res, "Unsupported Sonarr request type: {!r}".format(
+                request.get("EventType")))
         return self.failed(res, "Unable to find request type. Does not appear to be Sonarr's")
 
     def process_sonarr_on_download_request(self, request, res):

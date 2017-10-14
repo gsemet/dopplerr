@@ -4,7 +4,7 @@ DOCKER_BUILD?=docker build
 TEST_PORT:=8086
 SUBDLSRC_LANGUAGES?="fra,eng"
 
-all: dev style checks build test-local
+all: dev style checks build dists test-local
 dev:
 	@echo "Setting up development environment"
 	@pipenv install --dev
@@ -52,6 +52,9 @@ test-docker:
 test-coverage:
 	pipenv run py.test -v --cov dopplerr --cov-report term-missing
 
+dists:
+	@pipenv run python setup.py sdist bdist bdist_wheel
+
 wheels:
 	@echo "Creating distribution wheel"
 	@pipenv run python setup.py bdist_wheel
@@ -78,3 +81,4 @@ run: run-local
 check: checks
 docker: test-docker
 styles: style
+dist: dists

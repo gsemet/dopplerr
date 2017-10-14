@@ -31,7 +31,8 @@ def listOfLanguages(langList):
             logging.fatal("Invalid language: %r")
     if failed:
         logging.fatal("List of allowed languages: %s", printList(ALLOWED_LANGUAGES))
-        raise argparse.ArgumentError("Invalid language")
+        raise argparse.ArgumentTypeError("Invalid language")
+
 
 def inject_env_variables(argv):
     languages = os.environ.get("SUBDLSRC_LANGUAGES")
@@ -95,7 +96,8 @@ def main():
         "--logfile",
         action="store",
         dest="logfile",
-        help="Output log to file", )
+        help="Output log to file",
+    )
 
     args = parser.parse_args(args=argv)
     setupLogger(

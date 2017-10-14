@@ -4,9 +4,11 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import json
 import logging
 import os
+
+from txwebbackendbase.requests import dejsonify
+from txwebbackendbase.requests import jsonify
 
 from klein import Klein
 from twisted.internet.defer import inlineCallbacks
@@ -19,20 +21,6 @@ app = Klein()
 args = None
 
 
-def dejsonify(request):
-    json_content = request.content.read()
-    if json_content:
-        content = json.loads(json_content)
-    else:
-        content = {}
-    return content
-
-
-def jsonify(request, d):
-    request.responseHeaders.addRawHeader("content-type", "application/json")
-    return json.dumps(d, indent=4, sort_keys=True, separators=(',', ': '))
-
-
 @app.route("/")
 def root(_request):
     return "Status page not implemented Yet."
@@ -41,7 +29,6 @@ def root(_request):
 @app.route("/notify", methods=['POST'])
 @inlineCallbacks
 def notify(request):
-    global args
     if args.appdir:
         os.chdir(args.appdir)
     content = dejsonify(request)
