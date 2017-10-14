@@ -9,6 +9,8 @@ RUN         apk add --no-cache --update \
                     curl \
                     git \
                     gcc
+                    python3-dev \
+                    make
 
 # copy containers's startup files
 COPY        root/ /
@@ -22,16 +24,13 @@ WORKDIR     /app
 # Building python application
 RUN         ./bootstrap-system.sh
 
-RUN         apk add --no-cache --update \
-                    python3-dev \
-                    make
-
 RUN         cd /app \
         &&  make install-system
 
 RUN         apk del python3-dev \
                     make \
-        &&  apk cache clean
+                    gcc \
+                    curl
 
 # clean up
 RUN         rm -rf \
