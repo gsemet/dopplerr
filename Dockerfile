@@ -40,4 +40,4 @@ RUN         rm -rf \
 
 # Docker configuration
 EXPOSE      8086
-VOLUME      /animes /movies /tv
+VOLUME      /config /animes /movies /tv

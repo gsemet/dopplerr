@@ -15,14 +15,28 @@ from dopplerr.downloader import Downloader
 from dopplerr.routes import app
 
 log = logging.getLogger(__name__)
+ALLOWED_LANGUAGES = ["fra", "eng", "ger"]
 
+
+def printList(aList):
+    return ",".join(aList)
+
+
+def listOfLanguages(langList):
+    langs = [s.lower() for s in langList.split(',')]
+    failed = False
+    for l in langs:
+        if l not in ALLOWED_LANGUAGES:
+            failed = True
+            logging.fatal("Invalid language: %r")
+    if failed:
+        logging.fatal("List of allowed languages: %s", printList(ALLOWED_LANGUAGES))
+        raise argparse.ArgumentError("Invalid language")
 
 def inject_env_variables(argv):
     languages = os.environ.get("SUBDLSRC_LANGUAGES")
     if languages:
-        argv.append("--languages")
-        for l in languages.split(","):
-            argv.append(l)
+        argv.append(["--languages", languages])
     basedir = os.environ.get("SUBDLSRC_BASEDIR")
     if basedir:
         argv.extend(["--basedir", basedir])
@@ -41,6 +55,8 @@ def main():
     parser.add_argument('-p', '--port', action='store', dest='port', help='The port to listen on')
     parser.add_argument(
         '-b', '--basedir', action='store', dest='basedir', help='Base directory', default="")
+    parser.add_argument(
+        '-c', '--configdir', action='store', dest='configdir', help='Config directory')
     parser.add_argument(
         '-a', '--appdir', action='store', dest='appdir', help='App directory', default="")
     parser.add_argument(
@@ -73,7 +89,7 @@ def main():
         dest="languages",
         nargs="+",
         help="Wanted languages",
-        choices=["fra", "eng", "ger"],
+        type=listOfLanguages,
         required=True)
     parser.add_argument(
         "--logfile",
@@ -94,6 +110,7 @@ def main():
     log.debug("Starting listening on port %s", args.port)
     log.debug("Application directory: %s", args.appdir)
     log.debug("Media base directory: %s", args.basedir)
+    log.debug("Config directory: %s", args.configdir)
     log.debug("Wanted languages: %s", args.languages)
     if args.path_mapping:
         log.debug("Path Mapping: %r", args.path_mapping)
