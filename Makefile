@@ -64,7 +64,9 @@ update:
 	@echo "Updating dependencies..."
 	@pipenv update
 
-push: style readme
+githook:style readme
+
+push: githook
 	git push
 
 wheel: wheels
