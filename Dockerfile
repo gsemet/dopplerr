@@ -21,6 +21,12 @@ WORKDIR     /app
 
 # Building python application
 RUN         ./bootstrap.sh
+
+RUN         apk add --no-cache --update \
+                    python3-dev
+
+
+
 RUN         cd /app \
         &&  ./install.sh system
 
