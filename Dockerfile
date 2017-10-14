@@ -20,15 +20,18 @@ COPY        . /app
 WORKDIR     /app
 
 # Building python application
-RUN         ./bootstrap.sh
+RUN         ./bootstrap-system.sh
 
 RUN         apk add --no-cache --update \
-                    python3-dev
-
-
+                    python3-dev \
+                    make
 
 RUN         cd /app \
-        &&  ./install.sh system
+        &&  make install-system
+
+RUN         apk del python3-dev \
+                    make \
+        &&  apk cache clean
 
 # clean up
 RUN         rm -rf \

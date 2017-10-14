@@ -1,17 +1,5 @@
 #!/bin/bash
-
-set -e
-
-cd $(dirname $0)
-
-echo "Test local build"
-
-PIPENV_EXEC="pipenv run "
-if [[ $1 == "bare" ]]; then
-    PIPENV_EXEC=""
-fi
-
-${PIPENV_EXEC}python setup.py sdist bdist bdist_wheel
+#!/
 set +e
 which pandoc 2> /dev/null > /dev/null
 if [[ $? == 0 ]]; then
@@ -24,5 +12,3 @@ EOF
     cat README.md.in >> README.md
     rm -f README.md.in
 fi
-
-exit 0

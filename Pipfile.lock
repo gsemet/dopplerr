@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "53dee8aa176b37c5c064339397d365138c50eca641ad4ae66755cd2b95fcb83e"
+            "sha256": "95280e3979f8ed08e07ac555f43c04196925d1e0f10488e7c126429d045fdf8b"
         },
         "requires": {},
         "sources": [
@@ -124,7 +124,7 @@
             "version": "==2.18"
         },
         "pyflakes": {
-            "version": "==1.6.0"
+            "version": "==1.5.0"
         },
         "pylint": {
             "version": "==1.7.4"

@@ -4,11 +4,11 @@ echo "Bootstrap system tools"
 echo "sudo it accodingly to your system"
 
 if [ -f /etc/debian_version ]; then
-    apt-get install git
+    apt-get install git make
 elif [ -f /etc/redhat-release ]; then
-    yum install git
+    yum install git make
 else
-    echo "Please ensure 'git' is installed on your system"
+    echo "Please ensure 'git' and 'make' are installed on your system"
 fi
 
 # Freeze the version of pip and pipenv for setup reproductibility

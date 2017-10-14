@@ -17,3 +17,7 @@ tab_width = 4
 
 [*.yml]
 tab_width = 2
+
+[Makefile]
+indent_style = tab
+indent_size = 4

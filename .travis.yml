@@ -10,17 +10,17 @@ python:
   # - 2.7
 
 install:
-  - sudo ./bootstrap.sh
+  - sudo ./bootstrap-system.sh
   - sudo apt-get install -y libffi-dev libssl-dev
-  - ./install.sh dev
+  - make dev
   # for coveralls and removing InsecurePlatformWarning
   - pipenv run pip install coveralls pytest-cov requests[security]
 
 script:
-  - ./check-style.sh
-  - ./build.sh
-  - ./test-local.sh
-  - pipenv run py.test -v --cov dopplerr --cov-report term-missing
+  - make checks
+  - make build
+  - make test-local
+  - make test-coverage
   # - ./test-docker.sh
 
 after_success:

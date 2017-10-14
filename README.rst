@@ -123,8 +123,8 @@ Create a dedicated virtual environment and install it properly with the followin
 
 ::
 
-    sudo ./bootstrap.sh
-    ./install.sh prod
+    sudo ./bootstrap-system.sh
+    make install-local
 
 This will install dopplerr in a local virtual environment will all its dependencies without messing
 with your system's Python environment.
@@ -139,8 +139,8 @@ This method is used when building the docker image (and the travis build):
 
 ::
 
-    sudo ./bootstrap.sh
-    sudo ./install.sh system
+    sudo ./bootstrap-system.sh
+    sudo make install-system
 
 Radarr/Sonarr Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -148,7 +148,7 @@ Radarr/Sonarr Configuration
 Go in Settings to configure a "Connect" webhook:
 
 - `Settings` > `Connect` > add `Webhook` notification
-- Select only **On Download** and **On Upgrade**
+- Select **On Download** and **On Upgrade**
 - URL: `http://<ip address>:8086/notify`
 - Method: `POST`
 
@@ -163,7 +163,7 @@ If you look at the source code, you would have seen that there are TWO readme fi
 
 So, I have put both. Simple.
 
-`README.md` is automatically generated from `README.rst` by `build.sh` if `pandoc` is installed on
+`README.md` is automatically generated from `README.rst` by `make build` if `pandoc` is installed on
 your system.
 
 Contributing
@@ -173,31 +173,31 @@ Bootstrap your system with
 
 ::
 
-    sudo ./bootstrap.sh
+    sudo ./bootstrap-system.sh
 
 Setup your environment with
 
 ::
 
-    ./install.sh
+    make dev
 
 Test with:
 
 ::
 
-    ./test-local.sh
+    make test-local
 
 or run it live with
 
 ::
 
-    ./dev.sh
+    make run-local
 
 Activate the environment (to start your editor from, for example):
 
 ::
 
-    $ pipenv shell
+    $ make shell
 
 Publishing
 ----------
@@ -208,13 +208,13 @@ Build Wheel package:
 
 ::
 
-    pipenv run python setup.py bdist_wheel
+    make wheels
 
 Register and publish your package to Pypi:
 
 ::
 
-    pipenv run python setup.py sdist bdist bdist_wheel upload -r pypi
+    make pypi-publish
 
 Create a release: create a tag with a semver syntax. Optionally you can tag code locally and push to
 GitHub.
@@ -222,5 +222,6 @@ GitHub.
 ::
 
     git tag 1.2.3
+    git push --tags
 
 On successful travis build on the Tag branch, your Pypi package will be automatically updated.
