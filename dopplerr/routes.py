@@ -53,12 +53,11 @@ class Routes(object):
 
     @app.route("/health")
     def health(self, request):
-        healthy = DopplerrStatus().healthy
         res_health = {
             "healthy": DopplerrStatus().healthy,
             "languages": DopplerrStatus().languages,
             "mapping": DopplerrStatus().path_mapping,
-            }
+        }
         return jsonify(request, res_health)
 
     @app.route("/fullscan")

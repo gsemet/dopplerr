@@ -21,10 +21,16 @@ style:
 	@pipenv run autopep8 --in-place --recursive setup.py dopplerr
 	@pipenv run yapf --recursive -i dopplerr
 
-checks:
-	pipenv run python setup.py sdist
+checks: sdist flake8 pylint
+
+flake8:
 	pipenv run python setup.py flake8
-	pipenv run pylint --rcfile=setup.cfg --output-format=colorized dopplerr
+
+sdist:
+	pipenv run python setup.py sdist
+
+pylint:
+	pipenv run pylint --rcfile=.pylintrc --output-format=colorized dopplerr
 
 build: readme
 	@echo "Building..."

@@ -61,14 +61,6 @@ class DopplerrStatus(object):
         self.__configdir = configdir
 
     @property
-    def basedir(self):
-        return self.__basedir
-
-    @basedir.setter
-    def basedir(self, basedir):
-        self.__basedir = basedir
-
-    @property
     def port(self):
         return self.__port
 

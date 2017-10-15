@@ -54,7 +54,8 @@ class Downloader(object):
         root_dir = self.appy_path_mapping(root_dir)
         logging.debug("Root folder: %s", root_dir)
         if DopplerrStatus().basedir:
-            logging.debug("Reconstructing full media path with basedir '%s'", DopplerrStatus().basedir)
+            logging.debug("Reconstructing full media path with basedir '%s'",
+                          DopplerrStatus().basedir)
 
             def concat_path(a, b):
                 if not a.endswith('/'):
