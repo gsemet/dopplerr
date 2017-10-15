@@ -18,10 +18,11 @@ from subliminal.subtitle import get_subtitle_path
 from txwebbackendbase.txutils import deferredAsThread
 from txwebbackendbase.utils import recursive_iglob
 
+from dopplerr.status import DopplerrStatus
+
 
 class Downloader(object):
-    def __init__(self, args):
-        self.args = args
+    def __init__(self):
         # Avoid having 2 download at the same time, at least of the integrity of the cache file
         self.subliminal_download_lock = threading.Lock()
 
@@ -52,8 +53,8 @@ class Downloader(object):
             return self.failed(res, "Empty Series Path")
         root_dir = self.appy_path_mapping(root_dir)
         logging.debug("Root folder: %s", root_dir)
-        if self.args.basedir:
-            logging.debug("Reconstructing full media path with basedir '%s'", self.args.basedir)
+        if DopplerrStatus().basedir:
+            logging.debug("Reconstructing full media path with basedir '%s'", DopplerrStatus().basedir)
 
             def concat_path(a, b):
                 if not a.endswith('/'):
@@ -63,7 +64,7 @@ class Downloader(object):
                 a += b
                 return a
 
-            root_dir = concat_path(self.args.basedir, root_dir)
+            root_dir = concat_path(DopplerrStatus().basedir, root_dir)
         basename = request.get("Series", {}).get("Path")
         logging.info("Searching episodes for serie '%s' in '%s'", serie_title, root_dir)
         self.update_status(res, "searching")
@@ -114,12 +115,12 @@ class Downloader(object):
         return res
 
     def appy_path_mapping(self, root_dir):
-        if not self.args.path_mapping:
+        if not DopplerrStatus().path_mapping:
             return root_dir
         if root_dir.startswith("/"):
             absolute = True
             root_dir = root_dir[1:]
-        for mapping in self.args.path_mapping:
+        for mapping in DopplerrStatus().path_mapping:
             logging.debug("Mapping: %s", mapping)
             k, _, v = mapping.partition("=")
             logging.debug("Applying mapping %s => %s", k, v)
@@ -134,12 +135,12 @@ class Downloader(object):
         logging.info("Searching and downloading missing subtitles")
         self.update_status(res, "downloading", "downloading missing subtitles")
         videos = []
-        for f in files:
-            _, ext = os.path.splitext(f)
+        for fil in files:
+            _, ext = os.path.splitext(fil)
             if ext in [".jpeg", ".jpg", ".nfo", ".srt", ".sub", ".nbz"]:
-                logging.debug("Ignoring %s because of extension: %s", f, ext)
+                logging.debug("Ignoring %s because of extension: %s", fil, ext)
                 continue
-            videos.append(Video.fromname(f))
+            videos.append(Video.fromname(fil))
         logging.info("Video files: %r", videos)
         if not videos:
             logging.debug("No subtitle to download")
@@ -147,19 +148,20 @@ class Downloader(object):
             return res
         self.update_status(res, "fetching", "finding best subtitles")
         self.subliminal_download_lock.acquire()
-        subtitles = download_best_subtitles(videos, {Language('eng'), Language('fra')})
+        subtitles = download_best_subtitles(videos,
+                                            {Language(l) for l in DopplerrStatus.languages})
         self.subliminal_download_lock.release()
         subtitles_info = []
-        for v in videos:
-            logging.info("Found subtitles for %s:", v)
-            for s in subtitles[v]:
-                logging.info("  %s from %s", s.language, s.provider_name)
+        for vid in videos:
+            logging.info("Found subtitles for %s:", vid)
+            for sub in subtitles[vid]:
+                logging.info("  %s from %s", sub.language, sub.provider_name)
                 subtitles_info.append({
-                    "language": str(s.language),
-                    "provider": s.provider_name,
-                    "filename": get_subtitle_path(v.name, language=s.language)
+                    "language": str(sub.language),
+                    "provider": sub.provider_name,
+                    "filename": get_subtitle_path(vid.name, language=sub.language)
                 })
-            save_subtitles(v, subtitles[v])
+            save_subtitles(vid, subtitles[vid])
         self.update_status(res, "finished", "download successful")
         res["subtitles"] = subtitles_info
         return res

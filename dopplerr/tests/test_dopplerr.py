@@ -104,8 +104,22 @@ class Testdopplerr(object):
         #         'Year': 0
         #     }
         # }
+        # {
+        #     u'EventType': u'Grab',
+        #     u'RemoteMovie': {
+        #       u'ImdbId': u'tt5140878',
+        #       u'Year': 2017,
+        #       u'TmdbId': 396422,
+        #       u'Title': u'Annabelle 2 : La Cr\xe9ation du Mal'
+        #     },
+        #     u'Movie': {
+        #         u'FilePath': None,
+        #         u'Id': 985,
+        #         u'Title': u'Annabelle 2 : La Cr\xe9ation du Mal'
+        #     }
+        # }
         pass
 
     def test_glob_filename_with_bracket(self):
-        downloader = Downloader(None)
+        downloader = Downloader()
         downloader.search_file("/any/root/dir", "base_name with [bracket]")

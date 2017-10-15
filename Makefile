@@ -4,7 +4,7 @@ DOCKER_BUILD?=docker build
 TEST_PORT:=8086
 SUBDLSRC_LANGUAGES?="fra,eng"
 
-all: dev style checks build dists test-local
+all: dev style checks build dists test-unit
 dev:
 	@echo "Setting up development environment"
 	@pipenv install --dev
@@ -34,14 +34,14 @@ readme:
 	@bash refresh_readme.sh
 
 run-local:
-	@echo "Running..."
+	@echo "Starting Dopplerr on http://localhost:$(TEST_PORT) ..."
 	@pipenv run dopplerr --port $(TEST_PORT) --verbose --logfile "debug.log" --mapping tv=Series --languages $(SUBDLSRC_LANGUAGES)
 
 shell:
 	@echo "Shell"
 	@pipenv shell
 
-test-local:
+test-unit:
 	@pipenv run pytest dopplerr
 
 test-docker:
@@ -82,3 +82,4 @@ check: checks
 docker: test-docker
 styles: style
 dist: dists
+test: test-unit

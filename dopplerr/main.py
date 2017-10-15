@@ -11,18 +11,19 @@ import sys
 
 from txwebbackendbase.logging import setupLogger
 
+from dopplerr.status import DopplerrStatus
 from dopplerr.downloader import Downloader
-from dopplerr.routes import app
+from dopplerr.routes import Routes
 
 log = logging.getLogger(__name__)
 ALLOWED_LANGUAGES = ["fra", "eng", "ger"]
 
 
-def printList(aList):
+def print_list(aList):
     return ",".join(aList)
 
 
-def listOfLanguages(langList):
+def list_of_languages(langList):
     langs = [s.lower() for s in langList.split(',')]
     failed = False
     for l in langs:
@@ -30,8 +31,9 @@ def listOfLanguages(langList):
             failed = True
             logging.fatal("Invalid language: %r")
     if failed:
-        logging.fatal("List of allowed languages: %s", printList(ALLOWED_LANGUAGES))
+        logging.fatal("List of allowed languages: %s", print_list(ALLOWED_LANGUAGES))
         raise argparse.ArgumentTypeError("Invalid language")
+    return langs
 
 
 def inject_env_variables(argv):
@@ -88,9 +90,8 @@ def main():
         "--languages",
         action="store",
         dest="languages",
-        nargs="+",
-        help="Wanted languages",
-        type=listOfLanguages,
+        help="Wanted languages (comma separated list)",
+        type=list_of_languages,
         required=True)
     parser.add_argument(
         "--logfile",
@@ -114,10 +115,18 @@ def main():
     log.debug("Media base directory: %s", args.basedir)
     log.debug("Config directory: %s", args.configdir)
     log.debug("Wanted languages: %s", args.languages)
+    if not args.languages or any(not x for x in args.languages):
+        raise Exception("Bad languages: {!r}".format(args.languages))
     if args.path_mapping:
         log.debug("Path Mapping: %r", args.path_mapping)
     Downloader.initialize_subliminal()
-    app.run(host='0.0.0.0', port=int(args.port))
+    DopplerrStatus().healthy = True
+    DopplerrStatus().appdir = args.appdir
+    DopplerrStatus().port = args.port
+    DopplerrStatus().path_mapping = args.path_mapping
+    DopplerrStatus().configdir = args.configdir
+    DopplerrStatus().languages = args.languages
+    Routes().listen()
 
 
 if __name__ == '__main__':
