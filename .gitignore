@@ -8,10 +8,6 @@ AUTHORS
 ChangeLog
 /ChangeLog
 /AUTHORS
-/cachefile.dbm.rw.lock
-/cachefile.dbm.dogpile.lock
-/cachefile.dbm
 /build
 /debug.log
 /.coverage
-/README.rst

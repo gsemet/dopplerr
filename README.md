@@ -104,7 +104,8 @@ There is a little trick to know about READMEs and external services:
 -   Pypi does not render README written in Markdown
 
 So, a restructuredText version is created from the MarkDown version on upload to Pypi.
-Simple. Manually test it with `make readme`.
+Simple. So, when updating the `.md`, do not forget to regenerate the `.rst` using
+`make readme`.
 
 Contributing
 ------------
@@ -115,11 +116,11 @@ Bootstrap your system with
 
 System dependencies:
 
-- git
-- make
-- pandoc
-- pip
-- pipenv
+- `git`
+- `make`
+- `pandoc`
+- `pip`
+- `pipenv`
 
 Setup your environment with
 
