@@ -18,7 +18,6 @@ install-system:
 	@pipenv install --system
 
 style: isort autopep8 yapf
-	@echo "Formatting python files..."
 
 isort:
 	@pipenv run isort -y
@@ -40,6 +39,7 @@ pylint:
 build: readme dists
 
 readme:
+    # Only for Pypi, which does not render MarkDown Readme
 	@pipenv run pandoc --from=markdown --to=rst --output=README.rst --wrap=none README.md
 
 run-local:
@@ -84,7 +84,7 @@ update:
 githook:style readme
 
 push: githook
-	@git push origin
+	@git push origin --tags
 
 # aliases to gracefully handle typos on poor dev's terminal
 check: checks
