@@ -1,9 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "80c956d5ba6bd2cbd9af9736a00ec00e0516c710b4cf14b773926088428abcd1"
+            "sha256": "60517de5494ab012cb650e5f223e31566ecca53e0de614558f88e8cc39f98b94"
         },
-        "requires": {},
+        "requires": {
+            "python_version": "3.6"
+        },
         "sources": [
             {
                 "url": "https://pypi.python.org/simple",
@@ -74,7 +76,7 @@
             "version": "==17.9.0"
         },
         "txwebbackendbase": {
-            "version": "==0.0.3"
+            "version": "==0.1.3"
         },
         "werkzeug": {
             "version": "==0.12.2"

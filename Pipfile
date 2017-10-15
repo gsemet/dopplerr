@@ -28,7 +28,7 @@ setuptools = "!=36.0.0"
 klein = "*"
 glob2 = "*"
 pathlib2 = "*"
-txwebbackendbase = "==0.0.3"
+txwebbackendbase = "==0.1.3"
 
 [packages.subliminal]
 git = "https://github.com/stibbons/subliminal"
