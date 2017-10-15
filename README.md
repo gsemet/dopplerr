@@ -113,6 +113,14 @@ Bootstrap your system with
 
     sudo ./bootstrap-system.sh
 
+System dependencies:
+
+- git
+- make
+- pandoc
+- pip
+- pipenv
+
 Setup your environment with
 
     make dev

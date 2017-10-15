@@ -7,10 +7,9 @@ python: 3.6
 
 install:
   - sudo ./bootstrap-system.sh
-  - sudo apt-get install -y libffi-dev libssl-dev
+  - sudo apt-get install -y libffi-dev libssl-dev pandoc
   # for coveralls and removing InsecurePlatformWarning
-  - pip install -U pip pandoc
-  - pipenv run pip install coveralls pytest-cov requests[security] pandoc
+  - pipenv run pip install coveralls pytest-cov requests[security]
   - make dev
 
 script:
