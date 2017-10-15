@@ -40,7 +40,7 @@ build: readme dists
 
 readme:
     # Only for Pypi, which does not render MarkDown Readme
-	@pandoc --from=markdown --to=rst --output=README.rst --wrap=none README.md
+	@pandoc --from=markdown --to=rst --output=README.rst README.md
 
 run-local:
 	@echo "Starting Dopplerr on http://localhost:$(TEST_PORT) ..."
