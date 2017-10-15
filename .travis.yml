@@ -19,7 +19,7 @@ install:
 script:
   - make checks
   - make build
-  - make test-local
+  - make test-unit
   - make test-coverage
   # - ./test-docker.sh
 
