@@ -203,10 +203,11 @@ Activate the environment (to start your editor from, for example):
 
     $ make shell
 
-Publishing
-----------
+Publishing to Pypi
+------------------
 
-(This part should be automatically done by Travis)
+(This part should be automatically done by Travis on successful tag
+build)
 
 Build Wheel package:
 
