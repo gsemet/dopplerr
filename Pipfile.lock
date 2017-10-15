@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "60517de5494ab012cb650e5f223e31566ecca53e0de614558f88e8cc39f98b94"
+            "sha256": "e2db502de43e9c6120154b6e8e406c08a0e2f2f6ce8dd74d8ca4bb9f605208e4"
         },
         "requires": {
             "python_version": "3.6"
@@ -14,7 +14,6 @@
         ]
     },
     "default": {
-        "-e .": "*",
         "attrs": {
             "version": "==17.2.0"
         },
@@ -86,6 +85,7 @@
         }
     },
     "develop": {
+        "-e .": "*",
         "asn1crypto": {
             "version": "==0.23.0"
         },
