@@ -15,7 +15,7 @@ from subliminal import download_best_subtitles
 from subliminal import region
 from subliminal import save_subtitles
 from subliminal.subtitle import get_subtitle_path
-from txwebbackendbase.txutils import deferredAsThread
+from txwebbackendbase.threading import deferredAsThread
 from txwebbackendbase.utils import recursive_iglob
 
 from dopplerr.status import DopplerrStatus
