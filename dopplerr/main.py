@@ -11,9 +11,9 @@ import sys
 
 from txwebbackendbase.logging import setupLogger
 
-from dopplerr.status import DopplerrStatus
 from dopplerr.downloader import Downloader
 from dopplerr.routes import Routes
+from dopplerr.status import DopplerrStatus
 
 log = logging.getLogger(__name__)
 ALLOWED_LANGUAGES = ["fra", "eng", "ger"]

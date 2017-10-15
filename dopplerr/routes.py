@@ -9,16 +9,14 @@ import os
 
 from txwebbackendbase.requests import dejsonify
 from txwebbackendbase.requests import jsonify
+from txwebbackendbase.singleton import singleton
 
 from klein import Klein
 from twisted.internet.defer import inlineCallbacks
 from twisted.internet.defer import returnValue
 
-from txwebbackendbase.singleton import singleton
-
 from dopplerr.downloader import Downloader
 from dopplerr.status import DopplerrStatus
-
 
 log = logging.getLogger(__name__)
 

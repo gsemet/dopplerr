@@ -149,8 +149,7 @@ class Downloader(object):
             return res
         self.update_status(res, "fetching", "finding best subtitles")
         self.subliminal_download_lock.acquire()
-        subtitles = download_best_subtitles(videos,
-                                            {Language(l) for l in DopplerrStatus.languages})
+        subtitles = download_best_subtitles(videos, {Language(l) for l in DopplerrStatus.languages})
         self.subliminal_download_lock.release()
         subtitles_info = []
         for vid in videos:

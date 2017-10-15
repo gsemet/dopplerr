@@ -26,9 +26,6 @@ checks: sdist flake8 pylint
 flake8:
 	pipenv run python setup.py flake8
 
-sdist:
-	pipenv run python setup.py sdist
-
 pylint:
 	pipenv run pylint --rcfile=.pylintrc --output-format=colorized dopplerr
 
@@ -58,16 +55,21 @@ test-docker:
 test-coverage:
 	pipenv run py.test -v --cov dopplerr --cov-report term-missing
 
-dists:
-	@pipenv run python setup.py sdist bdist bdist_wheel
+dists: sdist bdist wheels
+
+sdist:
+	pipenv run python setup.py sdist
+
+bdist:
+	pipenv run python setup.py bdist
 
 wheels:
 	@echo "Creating distribution wheel"
 	@pipenv run python setup.py bdist_wheel
 
-pypi-publish: wheels
+pypi-publish: sdist bdist wheels
 	@echo "Publishing to Pypy"
-	@pipenv run python setup.py sdist bdist upload -r pypi
+	@pipenv run python setup.py upload -r pypi
 
 update:
 	@echo "Updating dependencies..."
@@ -78,14 +80,15 @@ githook:style readme
 push: githook
 	git push
 
-wheel: wheels
-pypi: pypi-publish
-develop: dev
-devel: dev
-install: install-system
-run: run-local
+# aliases to gracefully handle typos on poor dev's terminal
 check: checks
-docker: test-docker
-styles: style
+devel: dev
+develop: dev
 dist: dists
+docker: test-docker
+install: install-system
+pypi: pypi-publish
+run: run-local
+styles: style
 test: test-unit
+wheel: wheels

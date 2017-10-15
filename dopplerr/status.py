@@ -9,7 +9,6 @@ from txwebbackendbase.singleton import singleton
 
 @singleton
 class DopplerrStatus(object):
-
     def __init__(self):
         self.__healthy = False
         self.__basedir = None

@@ -120,9 +120,9 @@ Setup your environment with
 
     make dev
 
-Test with:
+Unit Tests with:
 
-    make test-local
+    make test-unit
 
 or run it live with
 
