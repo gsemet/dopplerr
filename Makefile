@@ -81,6 +81,9 @@ update:
 	@echo "Updating dependencies..."
 	@pipenv update
 
+freeze:
+	@pipenv run pip freeze
+
 githook:style readme
 
 push: githook
