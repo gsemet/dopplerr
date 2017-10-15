@@ -40,7 +40,7 @@ pylint:
 build: readme dists
 
 readme:
-	@bash refresh_readme.sh
+	@pipenv run pandoc --from=markdown --to=rst --output=README.rst --wrap=none README.md
 
 run-local:
 	@echo "Starting Dopplerr on http://localhost:$(TEST_PORT) ..."
