@@ -80,6 +80,7 @@ pypi-publish: build
 update:
 	@echo "Updating dependencies..."
 	@pipenv update
+	@echo "Consider updating 'bootstrap-system.sh' manually"
 
 freeze:
 	@pipenv run pip freeze
@@ -100,4 +101,5 @@ pypi: pypi-publish
 run: run-local
 styles: style
 test: test-unit
+upgrade: update
 wheel: wheels
