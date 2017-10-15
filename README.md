@@ -88,24 +88,23 @@ This method is used when building the docker image (and the travis build):
 
 ### Radarr/Sonarr Configuration
 
-Go in Settings to configure a "Connect" webhook:
+Go in Settings to configure a "Connect" WebHook:
 
--   Settings &gt; Connect &gt; add Webhook notification
+-   Settings &gt; Connect &gt; add WebHook notification
 -   Select **On Download** and **On Upgrade**
--   URL: http://&lt;ip address&gt;:8086/notify
+-   URL: ```http://<ip address>:8086/notify```
 -   Method: POST
 
 Two READMEs ?
 -------------
 
-There is a little trick to know about READMEs and external services:
+There is a little trick to know about READMEs:
 
--   Docker Hub does not render README written in restructuredText
--   Pypi does not render README written in Markdown
+-   Docker Hub does not render README written in restructuredText correctly
+-   Pypi does not render README written in Markdown correctly
 
-So, a restructuredText version is created from the MarkDown version on upload to Pypi.
-Simple. So, when updating the `.md`, do not forget to regenerate the `.rst` using
-`make readme`.
+So, a restructuredText version of the README is created from `README.md` on upload to Pypi.
+Simple. So, when updating `README.md`, do not forget to regenerate `README.rst` using `make readme`.
 
 Contributing
 ------------

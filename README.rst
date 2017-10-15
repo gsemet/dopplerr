@@ -141,24 +141,26 @@ build):
 Radarr/Sonarr Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Go in Settings to configure a "Connect" webhook:
+Go in Settings to configure a "Connect" WebHook:
 
--  Settings > Connect > add Webhook notification
+-  Settings > Connect > add WebHook notification
 -  Select **On Download** and **On Upgrade**
--  URL: http://<ip address>:8086/notify
+-  URL: ``http://<ip address>:8086/notify``
 -  Method: POST
 
 Two READMEs ?
 -------------
 
-There is a little trick to know about READMEs and external services:
+There is a little trick to know about READMEs:
 
 -  Docker Hub does not render README written in restructuredText
--  Pypi does not render README written in Markdown
+   correctly
+-  Pypi does not render README written in Markdown correctly
 
-So, a restructuredText version is created from the MarkDown version on
-upload to Pypi. Simple. So, when updating the ``.md``, do not forget to
-regenerate the ``.rst`` using ``make readme``.
+So, a restructuredText version of the README is created from
+``README.md`` on upload to Pypi. Simple. So, when updating
+``README.md``, do not forget to regenerate ``README.rst`` using
+``make readme``.
 
 Contributing
 ------------
