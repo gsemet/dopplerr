@@ -7,6 +7,11 @@ SUBDLSRC_LANGUAGES?="fra,eng"
 
 all: dev style checks build dists test-unit
 
+bootstrap:
+	@echo "Please sudo the following command in your environment:"
+	@echo "  sudo -E ./bootstrap-system.sh"
+	@echo "  sudo -E ./setup-pip.sh"
+
 dev:
 	@echo "Setting up development environment"
 	@pipenv install --dev
