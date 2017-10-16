@@ -30,7 +30,7 @@ COPY        . /app
 WORKDIR     /app
 
 # Building python application
-RUN         ./bootstrap-system.sh
+RUN         ./setup-pip.sh
 
 RUN         cd /app \
         &&  make install-system
