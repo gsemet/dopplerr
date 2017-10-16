@@ -29,63 +29,63 @@ class Testdopplerr(object):
         # sonarr_on_download = {
         #     'EventType': 'Download',
         #     'Series': {
-        #         'Id': 28,
-        #         'Title': 'The 100',
-        #         'Path': '/tv/The 100',
-        #         'TvdbId': 268592
+        #         'Id': 12,
+        #         'Title': 'A Series Title',
+        #         'Path': '/tv/A Series Title',
+        #         'TvdbId': 123456
         #     },
         #     'Episodes': [{
-        #         'Id': 2067,
-        #         'EpisodeNumber': 5,
-        #         'SeasonNumber': 4,
-        #         'Title': 'The Tinder Box',
+        #         'Id': 1234,
+        #         'EpisodeNumber': 2,
+        #         'SeasonNumber': 1,
+        #         'Title': 'The Episode Title',
         #         'AirDate': '2017-03-01',
         #         'AirDateUtc': '2017-03-02T02:00:00Z',
         #         'Quality': 'WEBDL-1080p',
         #         'QualityVersion': 1,
-        #         'ReleaseGroup': 'CasStudio',
-        #         'SceneName': 'The.100.S04E09.1080p.WEB-DL.DD5.1.H264-RARBG-Scrambled'
+        #         'ReleaseGroup': 'ReleaseGroupName',
+        #         'SceneName': 'The.Series.Title.S01E09.1080p.WEB-DL.DD5.1.H264-AGROUP-Scrambled'
         #     }]
         # }
         # '''JSON
         # {
         #     "EventType": "Download",
         #     "Series": {"Id": 28,
-        #     "Title": "The 100",
-        #     "Path": "/tv/The 100",
-        #     "TvdbId": 268592},
-        #     "Episodes": [{"Id": 2071,
+        #     "Title": "A Series Title",
+        #     "Path": "/tv/A Series Title",
+        #     "TvdbId": 123456},
+        #     "Episodes": [{"Id": 1234,
         #     "EpisodeNumber": 9,
-        #     "SeasonNumber": 4,
+        #     "SeasonNumber": 1,
         #     "Title": "DNR",
         #     "AirDate": "2017-04-26",
         #     "AirDateUtc": "2017-04-27T01:00:00Z",
         #     "Quality": "WEBDL-1080p",
         #     "QualityVersion": 1,
-        #     "ReleaseGroup": "RARBG",
-        #     "SceneName": "The.100.S04E09.1080p.WEB-DL.DD5.1.H264-RARBG-Scrambled"}]
+        #     "ReleaseGroup": "ReleaseGroupName",
+        #     "SceneName": "The.Episode.Title.S01E09.1080p.WEB-DL.DD5.1.H264-AGROUP-Scrambled"}]
         # }
         # '''
-        # sonarr_filename_on_disk = ("/tv/The 100/Season 4/"
-        #                            "The.100.S04E09.1080p.WEB-DL.DD5.1.H264-RARBG-Scrambled.mkv")
+        # sonarr_filename_on_disk = ("/tv/A Series Title/Season 1/"
+        #                            "The.Episode.Name.S01E09.1080p.WEB-DL.DD5.1.H264-AGROUP-Scrambled.mkv")
         # sonarr_on_grab = {
         #     'EventType': 'Grab',
         #     'Series': {
-        #         'Id': 28,
-        #         'Title': 'The 100',
-        #         'Path': '/tv/The 100',
-        #         'TvdbId': 268592
+        #         'Id': 12,
+        #         'Title': 'A Series Title',
+        #         'Path': '/tv/A Series Title',
+        #         'TvdbId': 123456
         #     },
         #     'Episodes': [{
-        #         'Id': 2071,
+        #         'Id': 1234,
         #         'EpisodeNumber': 9,
-        #         'SeasonNumber': 4,
+        #         'SeasonNumber': 1,
         #         'Title': 'DNR',
         #         'AirDate': '2017-04-26',
         #         'AirDateUtc': '2017-04-27T01:00:00Z',
         #         'Quality': 'WEBDL-1080p',
         #         'QualityVersion': 1,
-        #         'ReleaseGroup': 'RARBG',
+        #         'ReleaseGroup': 'AGROUP',
         #         'SceneName': None,
         #     }]
         # }
@@ -107,15 +107,15 @@ class Testdopplerr(object):
         # {
         #     u'EventType': u'Grab',
         #     u'RemoteMovie': {
-        #       u'ImdbId': u'tt5140878',
-        #       u'Year': 2017,
-        #       u'TmdbId': 396422,
-        #       u'Title': u'Annabelle 2 : La Cr\xe9ation du Mal'
+        #       u'ImdbId': u'tt123456',
+        #       u'Year': 2000,
+        #       u'TmdbId': 1234,
+        #       u'Title': u'Movie Name'
         #     },
         #     u'Movie': {
         #         u'FilePath': None,
-        #         u'Id': 985,
-        #         u'Title': u'Annabelle 2 : La Cr\xe9ation du Mal'
+        #         u'Id': 123,
+        #         u'Title': u'Movie Name'
         #     }
         # }
         pass
