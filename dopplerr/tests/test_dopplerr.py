@@ -67,7 +67,8 @@ class Testdopplerr(object):
         # }
         # '''
         # sonarr_filename_on_disk = ("/tv/A Series Title/Season 1/"
-        #                            "The.Episode.Name.S01E09.1080p.WEB-DL.DD5.1.H264-AGROUP-Scrambled.mkv")
+        #                            "The.Episode.Name.S01E09.1080p."
+        #                            "WEB-DL.DD5.1.H264-AGROUP-Scrambled.mkv")
         # sonarr_on_grab = {
         #     'EventType': 'Grab',
         #     'Series': {
