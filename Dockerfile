@@ -23,9 +23,9 @@ RUN         mkdir -p /app
 
 # Keep dependencies on its own Docker FS Layer
 # To avoid dependencies reinstall at each code change
-COPY        Pipfile* /app
+COPY        Pipfile* /app/
 RUN         pipenv install
-COPY        . /app
+COPY        . /app/
 
 WORKDIR     /app
 
