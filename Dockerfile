@@ -20,7 +20,13 @@ RUN         mkdir -p /media
 
 # Injecting files into containers
 RUN         mkdir -p /app
+
+# Keep dependencies on its own Docker FS Layer
+# To avoid dependencies reinstall at each code change
+COPY        Pipfile* /app
+RUN         pipenv install
 COPY        . /app
+
 WORKDIR     /app
 
 # Building python application
@@ -29,15 +35,15 @@ RUN         ./bootstrap-system.sh
 RUN         cd /app \
         &&  make install-system
 
-RUN         apk del python3-dev \
-                    make \
-                    gcc \
-                    curl \
-                    linux-headers \
-                    musl-dev
 
 # clean up
-RUN         rm  -rf \
+RUN         apk del python3-dev \
+                make \
+                gcc \
+                curl \
+                linux-headers \
+                musl-dev \
+        &&  rm  -rf \
                 /root/.cache \
                 /tmp/*
 

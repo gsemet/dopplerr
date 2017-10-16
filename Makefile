@@ -96,6 +96,7 @@ devel: dev
 develop: dev
 dist: dists
 docker: test-docker
+image: docker
 install: install-system
 pypi: pypi-publish
 run: run-local
