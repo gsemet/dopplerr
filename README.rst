@@ -1,8 +1,8 @@
 Subtitle Downloader Service
 ===========================
 
-|Build Status| |Docker Automated buil| |Pyup| |Coveralls| |Pypi package|
-|PyPI| |MIT licensed|
+|Build Status| |Docker Automated buil| |Coveralls| |Pypi package| |PyPI|
+|MIT licensed|
 
 Subtitle Download Web Service for Sonarr or Radarr. It uses
 `Subliminal <https://github.com/Diaoul/subliminal>`__ to search
@@ -236,8 +236,6 @@ automatically updated.
    :target: https://travis-ci.org/Stibbons/dopplerr
 .. |Docker Automated buil| image:: https://img.shields.io/docker/build/stibbons31/dopplerr.svg
    :target: https://hub.docker.com/r/stibbons31/dopplerr/builds/
-.. |Pyup| image:: https://pyup.io/repos/github/Stibbons/dopplerr/shield.svg
-   :target: https://pyup.io/repos/github/Stibbons/dopplerr/
 .. |Coveralls| image:: https://coveralls.io/repos/github/Stibbons/dopplerr/badge.svg
    :target: https://coveralls.io/github/Stibbons/dopplerr
 .. |Pypi package| image:: https://badge.fury.io/py/dopplerr.svg
