@@ -20,22 +20,18 @@ RUN         mkdir -p /media
 
 # Injecting files into containers
 RUN         mkdir -p /app
-
-# # Keep dependencies on its own Docker FS Layer
-# # To avoid dependencies reinstall at each code change
-COPY        Pipfile* /app/
-RUN         pip install pipenv \
-        &&  pipenv install
-COPY        . /app/
-
 WORKDIR     /app
 
-# Building python application
+# Keep dependencies on its own Docker FS Layer
+# To avoid dependencies reinstall at each code change
+COPY        Pipfile* /app/
+RUN         ./setup-pip.sh \
+        &&  pipenv install
 
+# Building python application in other docker layer
+COPY        . /app/
 RUN         cd /app \
-        &&  make install-system \
-        &&  ./setup-pip.sh
-
+        &&  make install-system
 
 # clean up
 RUN         apk del python3-dev \
