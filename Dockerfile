@@ -31,10 +31,10 @@ COPY        . /app/
 WORKDIR     /app
 
 # Building python application
-RUN         ./setup-pip.sh
 
 RUN         cd /app \
-        &&  make install-system
+        &&  make install-system \
+        &&  ./setup-pip.sh
 
 
 # clean up
