@@ -33,6 +33,7 @@ WORKDIR     /app
 # Building python application
 
 RUN         cd /app \
+        &&  pip install pipenv \
         &&  make install-system \
         &&  ./setup-pip.sh
 
