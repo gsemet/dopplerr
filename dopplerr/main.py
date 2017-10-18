@@ -91,8 +91,7 @@ def main():
         action="store",
         dest="languages",
         help="Wanted languages (comma separated list)",
-        type=list_of_languages,
-        required=True)
+        type=list_of_languages)
     parser.add_argument(
         "--logfile",
         action="store",

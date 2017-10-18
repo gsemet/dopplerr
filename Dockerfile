@@ -14,10 +14,6 @@ RUN         apk add --no-cache --update \
                     linux-headers \
                     musl-dev
 
-# copy containers's startup files
-COPY        root/ /
-RUN         mkdir -p /media
-
 # Injecting files into containers
 RUN         mkdir -p /app
 WORKDIR     /app
@@ -25,14 +21,21 @@ WORKDIR     /app
 # Keep dependencies on its own Docker FS Layer
 # To avoid dependencies reinstall at each code change
 COPY        Pipfile* setup-pip.sh /app/
-RUN         ./setup-pip.sh \
-        &&  pipenv install
+RUN         ./setup-pip.sh
+RUN         pipenv install --system
 
 # Building python application in other docker layer
+
+# copy containers's startup files
+COPY        root/ /
+RUN         mkdir -p /media
+
+# installing main Python module to system
 COPY        . /app/
 RUN         cd /app \
-        &&  make install-system
+        &&  pip install .
 
+USER        root
 # clean up
 RUN         apk del python3-dev \
                 make \

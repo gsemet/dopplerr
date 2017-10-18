@@ -5,7 +5,7 @@ umask 022
 cd /app
 
 exec \
-    s6-setuidgid abc pipenv run dopplerr \
+    s6-setuidgid abc dopplerr \
         --no-color \
         --verbose \
         --basedir / \
