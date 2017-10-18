@@ -21,8 +21,8 @@ WORKDIR     /app
 # Keep dependencies on its own Docker FS Layer
 # To avoid dependencies reinstall at each code change
 COPY        Pipfile* setup-pip.sh /app/
-RUN         ./setup-pip.sh
-RUN         pipenv install --system
+RUN         ./setup-pip.sh \
+        &&  pipenv install --system
 
 # Building python application in other docker layer
 
