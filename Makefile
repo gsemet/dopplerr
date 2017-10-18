@@ -50,6 +50,8 @@ readme:
 run-local:
 	@echo "Starting Dopplerr on http://localhost:$(TEST_PORT) ..."
 	@pipenv run $(MODULE) --port $(TEST_PORT) --verbose --logfile "debug.log" --mapping tv=Series --languages $(SUBDLSRC_LANGUAGES)
+run-docker:
+	@docker run -t dopplerr:latest
 
 shell:
 	@echo "Shell"
