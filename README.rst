@@ -2,7 +2,7 @@ Dopplerr Subtitle Downloader
 ============================
 
 |Build Status| |Docker Automated buil| |Pypi package| |PyPI| |Coveralls|
-|codecov| |MIT licensed|
+|codecov| |Maintainability| |MIT licensed|
 
 Subtitle Download Web Service for Sonarr or Radarr. It uses
 `Subliminal <https://github.com/Diaoul/subliminal>`__ to search
@@ -243,5 +243,7 @@ automatically updated.
    :target: https://coveralls.io/github/Stibbons/dopplerr
 .. |codecov| image:: https://codecov.io/gh/Stibbons/dopplerr/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/Stibbons/dopplerr
+.. |Maintainability| image:: https://api.codeclimate.com/v1/badges/62d3040e8e7f37e637bf/maintainability
+   :target: https://codeclimate.com/github/Stibbons/dopplerr/maintainability
 .. |MIT licensed| image:: https://img.shields.io/badge/license-MIT-blue.svg
    :target: ./LICENSE
