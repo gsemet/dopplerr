@@ -1,8 +1,8 @@
 Subtitle Downloader Service
 ===========================
 
-|Build Status| |Docker Automated buil| |Coveralls| |Pypi package| |PyPI|
-|MIT licensed|
+|Build Status| |Docker Automated buil| |Pypi package| |PyPI| |Coveralls|
+|codecov| |MIT licensed|
 
 Subtitle Download Web Service for Sonarr or Radarr. It uses
 `Subliminal <https://github.com/Diaoul/subliminal>`__ to search
@@ -236,11 +236,13 @@ automatically updated.
    :target: https://travis-ci.org/Stibbons/dopplerr
 .. |Docker Automated buil| image:: https://img.shields.io/docker/build/stibbons31/dopplerr.svg
    :target: https://hub.docker.com/r/stibbons31/dopplerr/builds/
-.. |Coveralls| image:: https://coveralls.io/repos/github/Stibbons/dopplerr/badge.svg
-   :target: https://coveralls.io/github/Stibbons/dopplerr
 .. |Pypi package| image:: https://badge.fury.io/py/dopplerr.svg
    :target: https://pypi.python.org/pypi/dopplerr/
 .. |PyPI| image:: https://img.shields.io/pypi/pyversions/dopplerr.svg
    :target: https://pypi.python.org/pypi/dopplerr/
+.. |Coveralls| image:: https://coveralls.io/repos/github/Stibbons/dopplerr/badge.svg
+   :target: https://coveralls.io/github/Stibbons/dopplerr
+.. |codecov| image:: https://codecov.io/gh/Stibbons/dopplerr/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/Stibbons/dopplerr
 .. |MIT licensed| image:: https://img.shields.io/badge/license-MIT-blue.svg
    :target: ./LICENSE

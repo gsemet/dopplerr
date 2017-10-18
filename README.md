@@ -3,8 +3,9 @@ Subtitle Downloader Service
 
 [![Build Status](https://travis-ci.org/Stibbons/dopplerr.svg?branch=master)](https://travis-ci.org/Stibbons/dopplerr)
 [![Docker Automated buil](https://img.shields.io/docker/build/stibbons31/dopplerr.svg)](https://hub.docker.com/r/stibbons31/dopplerr/builds/)
-[![Coveralls](https://coveralls.io/repos/github/Stibbons/dopplerr/badge.svg)](https://coveralls.io/github/Stibbons/dopplerr)
 [![Pypi package](https://badge.fury.io/py/dopplerr.svg)](https://pypi.python.org/pypi/dopplerr/) [![PyPI](https://img.shields.io/pypi/pyversions/dopplerr.svg)](https://pypi.python.org/pypi/dopplerr/)
+[![Coveralls](https://coveralls.io/repos/github/Stibbons/dopplerr/badge.svg)](https://coveralls.io/github/Stibbons/dopplerr)
+[![codecov](https://codecov.io/gh/Stibbons/dopplerr/branch/master/graph/badge.svg)](https://codecov.io/gh/Stibbons/dopplerr)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 Subtitle Download Web Service for Sonarr or Radarr. It uses [Subliminal](https://github.com/Diaoul/subliminal) to search automatically for missing subtitles on download notification.
