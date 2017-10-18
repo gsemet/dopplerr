@@ -66,7 +66,7 @@ test-docker:
 	@$(DOCKER_BUILD) -t $(MODULE) .
 
 test-coverage:
-	pipenv run py.test -v --cov $(MODULE) --cov-report term-missing
+	pipenv run py.test -v --cov ./ --cov-report term-missing
 
 dists: sdist bdist wheels
 

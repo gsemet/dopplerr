@@ -10,7 +10,7 @@ install:
   - sudo ./setup-pip.sh
   - sudo apt-get install -y libffi-dev libssl-dev pandoc
   # for coveralls and removing InsecurePlatformWarning
-  - pipenv run pip install coveralls pytest-cov requests[security]
+  - pipenv run pip install codecov coveralls pytest-cov requests[security]
   - make dev
 
 script:
@@ -22,6 +22,7 @@ script:
 
 after_success:
   - coveralls
+  - codecov
 
 # After you create the Github repo and add it to Travis, run the
 # travis_pypi_setup.py script to finish PyPI deployment setup
