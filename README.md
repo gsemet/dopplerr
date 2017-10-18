@@ -1,5 +1,5 @@
-Subtitle Downloader Service
-===========================
+Dopplerr Subtitle Downloader
+============================
 
 [![Build Status](https://travis-ci.org/Stibbons/dopplerr.svg?branch=master)](https://travis-ci.org/Stibbons/dopplerr)
 [![Docker Automated buil](https://img.shields.io/docker/build/stibbons31/dopplerr.svg)](https://hub.docker.com/r/stibbons31/dopplerr/builds/)

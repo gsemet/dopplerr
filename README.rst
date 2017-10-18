@@ -1,5 +1,5 @@
-Subtitle Downloader Service
-===========================
+Dopplerr Subtitle Downloader
+============================
 
 |Build Status| |Docker Automated buil| |Pypi package| |PyPI| |Coveralls|
 |codecov| |MIT licensed|
