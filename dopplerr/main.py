@@ -37,16 +37,16 @@ def list_of_languages(langList):
 
 
 def inject_env_variables(argv):
-    languages = os.environ.get("SUBDLSRC_LANGUAGES")
+    languages = os.environ.get("DOPPLERR_LANGUAGES")
     if languages:
         argv.append(["--languages", languages])
-    basedir = os.environ.get("SUBDLSRC_BASEDIR")
+    basedir = os.environ.get("DOPPLERR_BASEDIR")
     if basedir:
         argv.extend(["--basedir", basedir])
-    verbose = os.environ.get("SUBDLSRC_VERBOSE")
+    verbose = os.environ.get("DOPPLERR_VERBOSE")
     if str(verbose).strip() == "1":
         argv.extend(["--verbose"])
-    logfile = os.environ.get("SUBDLSRC_LOGFILE")
+    logfile = os.environ.get("DOPPLERR_LOGFILE")
     if logfile:
         argv.extend(["--logfile", logfile])
 

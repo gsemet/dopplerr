@@ -3,7 +3,7 @@
 MODULE:=dopplerr
 DOCKER_BUILD?=docker build
 TEST_PORT:=8086
-SUBDLSRC_LANGUAGES?="fra,eng"
+DOPPLERR_LANGUAGES?="fra,eng"
 
 all: dev style checks build dists test-unit
 
@@ -49,7 +49,7 @@ readme:
 
 run-local:
 	@echo "Starting Dopplerr on http://localhost:$(TEST_PORT) ..."
-	@pipenv run $(MODULE) --port $(TEST_PORT) --verbose --logfile "debug.log" --mapping tv=Series --languages $(SUBDLSRC_LANGUAGES)
+	@pipenv run $(MODULE) --port $(TEST_PORT) --verbose --logfile "debug.log" --mapping tv=Series --languages $(DOPPLERR_LANGUAGES)
 run-docker:
 	@docker run -t dopplerr:latest
 
