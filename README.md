@@ -35,11 +35,11 @@ Use my docker image:
         -v <path/to/tvseries>:/tv \
         stibbons31/dopplerr
 
-Mount your media directory in `/media`. This directory exists in the docker image, so if you have several media directory (`/series`, `/tv`, `/animes`), mount them all in `/media` and set the following environment variable: `SUBDLSRC_BASEDIR=/media`.
+Mount your media directory in `/media`. This directory exists in the docker image, so if you have several media directory (`/series`, `/tv`, `/animes`), mount them all in `/media` and set the following environment variable: `DOPPLERR_BASEDIR=/media`.
 
 It is a good practive to run Sonarr and Radarr in their own container, so they also "see" their media in path such as `/series`, `/tv`, `/animes`. Mount these volume with the same name in the dopplerr container. They will all communicate with the same path.
 
-Base directory (`SUBDLSRC_BASEDIR` environment variable) can be used to put all these folder in same directory. If `SUBDLSRC_BASEDIR` is not defined, dopplerr will assume the path communicated by Sonarr or Radarr also exists locally. So mouth your series folder to `/series`, TV show folder to `/tv`, and animes to `/animes` and so on.
+Base directory (`DOPPLERR_BASEDIR` environment variable) can be used to put all these folder in same directory. If `DOPPLERR_BASEDIR` is not defined, dopplerr will assume the path communicated by Sonarr or Radarr also exists locally. So mouth your series folder to `/series`, TV show folder to `/tv`, and animes to `/animes` and so on.
 
 #### Parameters
 
@@ -51,9 +51,9 @@ The parameters are split into two halves, separated by a colon, the left hand si
 -   `-v /path/to/tv:/tv` - location of TV library on disk
 -   `-e PGID=1000` - for for GroupID. See below for explanation
 -   `-e PUID=100` - for for UserID. See below for explanation
--   `-e SUBDLSRC_LANGUAGES=fra,eng` - set wanted subtitles languages (mandatory)
--   `-e SUBDLSRC_BASEDIR=/app` - set media base directory (optional)
--   `-e SUBDLSRC_VERBOSE=1` - set verbosity. 1=verbose, 0=silent (optional)
+-   `-e DOPPLERR_LANGUAGES=fra,eng` - set wanted subtitles languages (mandatory)
+-   `-e DOPPLERR_BASEDIR=/app` - set media base directory (optional)
+-   `-e DOPPLERR_VERBOSE=1` - set verbosity. 1=verbose, 0=silent (optional)
 
 #### User / Group Identifiers
 
@@ -70,7 +70,7 @@ Use a comma-separated list of 3-letter language descriptors you want Subliminal 
 
 Example:
 
-    SUBDLSRC_LANGUAGES=fra,eng
+    DOPPLERR_LANGUAGES=fra,eng
 
 Descriptors are ISO-639-3 names of the language. See the [official Babelfish table](https://github.com/Diaoul/babelfish/blob/f403000dd63092cfaaae80be9f309fd85c7f20c9/babelfish/data/iso-639-3.tab) to find your prefered languages.
 
