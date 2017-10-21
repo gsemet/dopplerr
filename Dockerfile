@@ -25,16 +25,7 @@ COPY        Pipfile* setup-pip.sh /app/
 RUN         ./setup-pip.sh \
         &&  pipenv install --system
 
-# Building python application in other docker layer
-
-# copy containers's startup files
-COPY        root/ /
-RUN         mkdir -p /media
-
-# installing main Python module to system
-COPY        . /app/
-RUN         cd /app \
-        &&  pip install .
+# Adding rest of the application in next docker layers
 
 # build frontend
 RUN         apk add --no-cache --update \
@@ -45,12 +36,21 @@ RUN         cd /app/frontend \
         &&  make dev \
         &&  make build \
         &&  mkdir -p /frontend \
-        &&  cp -vf dist/ /frontend/ \
+        &&  cp -vrf dist/ /frontend/ \
         &&  rm -rfv /app/frontend
 
 RUN         npm cache clear \
         &&  apk del nodejs \
-                    nodejs-npm
+        nodejs-npm
+
+# installing main Python module to system
+COPY        . /app/
+RUN         cd /app \
+&&  pip install .
+
+# copy containers's startup files
+COPY        root/ /
+RUN         mkdir -p /media
 
 USER        root
 # clean up
