@@ -5,7 +5,6 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import logging
-import os
 
 from txwebbackendbase.requests import dejsonify
 from txwebbackendbase.requests import jsonify
@@ -37,12 +36,10 @@ class Routes(object):
     @app.route("/notify", methods=['POST'])
     @inlineCallbacks
     def notify(self, request):
-        if DopplerrStatus().appdir:
-            os.chdir(DopplerrStatus().appdir)
         content = dejsonify(request)
         logging.debug("Notify request: %r", content)
         res = yield Downloader().process_notify_request(content)
-        returnValue(jsonify(request, res))
+        returnValue(jsonify(request, res.toDict()))
 
     @app.route("/notify", methods=['GET'])
     def notify_not_allowed(self, request):
