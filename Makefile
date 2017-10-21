@@ -52,14 +52,28 @@ readme:
 
 run-local:
 	@echo "Starting Dopplerr on http://localhost:$(DOPPLERR_PORT) ..."
-	pipenv run $(MODULE) --port $(DOPPLERR_PORT) --verbose --logfile "debug.log" --mapping $(DOPPLERR_MAPPING) --languages $(DOPPLERR_LANGUAGES) --basedir $(DOPPLERR_BASEDIR)
+	pipenv run $(MODULE) \
+	           --port $(DOPPLERR_PORT) \
+			   --verbose \
+			   --logfile "debug.log" \
+			   --mapping $(DOPPLERR_MAPPING) \
+			   --languages $(DOPPLERR_LANGUAGES) \
+			   --basedir $(DOPPLERR_BASEDIR)
 
 run-local-env:
 	@echo "Starting Dopplerr on http://localhost:$(DOPPLERR_PORT) using environment variable parameters..."
-	DOPPLERR_PORT=$(DOPPLERR_PORT) DOPPLERR_MAPPING=$(DOPPLERR_MAPPING) DOPPLERR_LANGUAGES=$(DOPPLERR_LANGUAGES) DOPPLERR_BASEDIR=$(DOPPLERR_BASEDIR) pipenv run $(MODULE) --verbose --logfile "debug.log"
+	DOPPLERR_PORT=$(DOPPLERR_PORT) \
+		DOPPLERR_MAPPING=$(DOPPLERR_MAPPING) \
+		DOPPLERR_LANGUAGES=$(DOPPLERR_LANGUAGES) \
+		DOPPLERR_BASEDIR=$(DOPPLERR_BASEDIR) \
+		pipenv run $(MODULE) --verbose --logfile "debug.log"
 
 run-docker:
-	docker run -p $(DOPPLERR_PORT):$(DOPPLERR_PORT) -e "DOPPLERR_LANGUAGES=$(DOPPLERR_LANGUAGES)" -e "DOPPLERR_MAPPING=$(DOPPLERR_MAPPING)" -e "DOPPLERR_LOGFILE=debug.log" -t dopplerr:latest
+	docker run -p $(DOPPLERR_PORT):$(DOPPLERR_PORT) \
+	           -e "DOPPLERR_LANGUAGES=$(DOPPLERR_LANGUAGES)" \
+			   -e "DOPPLERR_MAPPING=$(DOPPLERR_MAPPING)" \
+			   -e "DOPPLERR_LOGFILE=debug.log" \
+			   -t dopplerr:latest
 
 shell:
 	@echo "Shell"
