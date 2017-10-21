@@ -2,13 +2,14 @@ __pycache__
 .cache
 .eggs/
 *.egg-info/
+*.log
 *.pyc
 /.coverage
 /AUTHORS
 /build
 /ChangeLog
-/debug.log
 AUTHORS
 cachefile.dbm
 ChangeLog
 dist/
+sqlite.db

@@ -8,9 +8,11 @@ import argparse
 import logging
 import os
 import sys
+from pathlib import Path
 
 from txwebbackendbase.logging import setupLogger
 
+from dopplerr.db import DopplerrDb
 from dopplerr.downloader import Downloader
 from dopplerr.routes import Routes
 from dopplerr.status import DopplerrStatus
@@ -138,6 +140,10 @@ def main():
     DopplerrStatus().path_mapping = args.path_mapping
     DopplerrStatus().configdir = args.configdir
     DopplerrStatus().languages = args.languages
+    DopplerrStatus().sqlite_db_path = Path(args.configdir) / "sqlite.db"
+    log.debug("SQLite DB: %s", DopplerrStatus().sqlite_db_path.as_posix())
+    DopplerrDb().createTables(DopplerrStatus().sqlite_db_path)
+
     Routes().listen()
 
 
