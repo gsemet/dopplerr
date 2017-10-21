@@ -102,10 +102,7 @@ def parse_subliminal_args(args):
     return provider_configs
 
 
-def main():
-    argv = sys.argv[1:]
-    inject_env_variables(argv)
-    parser = argparse.ArgumentParser()
+def define_parameters(parser):
     parser.add_argument('-p', '--port', action='store', dest='port', help='The port to listen on')
     parser.add_argument(
         '-b', '--basedir', action='store', dest='basedir', help='Base directory', default="")
@@ -182,6 +179,11 @@ def main():
         help="subscenter credential (--subscenter USERNAME PASSWORD)",
     )
 
+def main():
+    argv = sys.argv[1:]
+    inject_env_variables(argv)
+    parser = argparse.ArgumentParser()
+    define_parameters(parser)
     args = parser.parse_args(args=argv)
     setupLogger(
         level=logging.DEBUG if args.verbose else logging.WARNING,
