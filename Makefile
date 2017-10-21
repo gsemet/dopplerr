@@ -73,7 +73,7 @@ run-local-env:
 		DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD) \
 		pipenv run $(MODULE) --verbose --logfile "debug.log"
 
-run-docker:
+run-docker: kill-docker
 	docker run -p $(PORT):$(PORT) \
 	           -e "DOPPLERR_LANGUAGES=$(LANGUAGES)" \
 			   -e "DOPPLERR_MAPPING='$(MAPPING)'" \
@@ -93,7 +93,7 @@ shell:
 test-unit:
 	pipenv run pytest $(MODULE)
 
-test-docker:
+docker-build:
 	@echo "Testing docker build"
 	@echo "You can change the default 'docker build' command line with the DOCKER_BUILD environment variable"
 	$(DOCKER_BUILD) -t $(MODULE) .
@@ -143,8 +143,10 @@ check: checks
 devel: dev
 develop: dev
 dist: dists
+docker-kill: kill-docker
 docker-run: run-docker
-docker: test-docker
+docker: docker-build
+build-docker: docker-build
 image: docker
 install: install-system
 pypi: pypi-publish
