@@ -1,0 +1,23 @@
+{
+    "EventType": "Grab",
+    "Series": {
+        "Id": 12,
+        "Title": "A Series Title",
+        "Path": "/tv/A Series Title",
+        "TvdbId": 123456
+    },
+    "Episodes": [
+        {
+            "Id": 1234,
+            "EpisodeNumber": 9,
+            "SeasonNumber": 1,
+            "Title": "DNR",
+            "AirDate": "2017-04-26",
+            "AirDateUtc": "2017-04-27T01:00:00Z",
+            "Quality": "WEBDL-1080p",
+            "QualityVersion": 1,
+            "ReleaseGroup": "AGROUP",
+            "SceneName": null
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "EventType": "Grab",
+    "RemoteMovie": {
+        "ImdbId": "tt123456",
+        "Year": 2000,
+        "TmdbId": 1234,
+        "Title": "Movie Name"
+    },
+    "Movie": {
+        "FilePath": null,
+        "Id": 123,
+        "Title": "Movie Name"
+    }
+}
