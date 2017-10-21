@@ -72,14 +72,14 @@ class SonarrFilter(FilterBase):
         basename = root_dir
         log.info("Searching episodes for serie '%s' in '%s'", serie_title, root_dir)
         res.update_status("searching candidates")
-        for episode in request.get("episodes", []):
+        for episode in low_request.get("episodes", []):
             low_episode = self.lowerize_dick_keys(episode)
             basename = low_episode.get("scenename", "")
             episode_title = low_episode.get("title", "")
             log.debug("Searching episode '%s' with base filename '%s'", episode_title, basename)
             if not os.path.exists(root_dir):
                 return res.failed("Path does not exists: {}".format(root_dir))
-            res.setdefaults("candidates", []).append({
+            res.setdefault("candidates", []).append({
                 "root_dir": root_dir,
                 "basename": basename,
             })

@@ -53,7 +53,8 @@ class Downloader(object):
         if not found:
             res.update_status("finished", "candidates found but no video file found")
         else:
-            return self.download_missing_subtitles(res, found)
+            self.download_missing_subtitles(res, found)
+        return res
 
     def search_file(self, root_dir, base_name):
         # This won't work with python < 3.5
