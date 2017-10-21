@@ -39,7 +39,7 @@ def list_of_languages(langList):
 def inject_env_variables(argv):
     languages = os.environ.get("DOPPLERR_LANGUAGES")
     if languages:
-        argv.append(["--languages", languages])
+        argv.extend(["--languages", languages])
     basedir = os.environ.get("DOPPLERR_BASEDIR")
     if basedir:
         argv.extend(["--basedir", basedir])
@@ -49,6 +49,9 @@ def inject_env_variables(argv):
     logfile = os.environ.get("DOPPLERR_LOGFILE")
     if logfile:
         argv.extend(["--logfile", logfile])
+    port = os.environ.get("DOPPLERR_PORT")
+    if port:
+        argv.extend(["--port", port])
 
 
 def main():
@@ -99,6 +102,7 @@ def main():
         help="Output log to file",
     )
 
+    print(argv)
     args = parser.parse_args(args=argv)
     setupLogger(
         level=logging.DEBUG if args.verbose else logging.WARNING,
@@ -107,8 +111,17 @@ def main():
     log.info("Initializing Subtitle Downloader Service")
 
     if args.port is None:
-        print("Missing required argument: -p/--port")
+        log.fatal("Missing required argument: -p/--port")
         sys.exit(1)
+    if not args.appdir:
+        log.info("No appdir defined, using current folder")
+        args.appdir = os.getcwd()
+    if not args.basedir:
+        log.info("No basedir defined, using current folder")
+        args.basedir = os.getcwd()
+    if not args.configdir:
+        log.info("No configdir defined, using current folder")
+        args.configdir = os.getcwd()
     log.debug("Starting listening on port %s", args.port)
     log.debug("Application directory: %s", args.appdir)
     log.debug("Media base directory: %s", args.basedir)
