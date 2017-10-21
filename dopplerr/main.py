@@ -13,7 +13,7 @@ from pathlib import Path
 from txwebbackendbase.logging import setupLogger
 
 from dopplerr.db import DopplerrDb
-from dopplerr.downloader import Downloader
+from dopplerr.downloader import DopplerrDownloader
 from dopplerr.routes import Routes
 from dopplerr.status import DopplerrStatus
 
@@ -190,7 +190,7 @@ def main():
         level=logging.DEBUG if args.verbose else logging.WARNING,
         no_color=args.no_color,
         logfile=args.logfile)
-    log.info("Initializing Subtitle Downloader Service")
+    log.info("Initializing Subtitle DopplerrDownloader Service")
 
     if args.port is None:
         log.fatal("Missing required argument: -p/--port")
@@ -228,16 +228,21 @@ def main():
         log.debug("Path Mapping: %r", DopplerrStatus().path_mapping)
     else:
         log.debug("No path mapping defined")
-    Downloader().initialize_subliminal()
+    DopplerrDownloader().initialize_subliminal()
     DopplerrStatus().sqlite_db_path = Path(args.configdir) / "sqlite.db"
     log.debug("SQLite DB: %s", DopplerrStatus().sqlite_db_path.as_posix())
-    DopplerrDb().createTables(DopplerrStatus().sqlite_db_path)
+    DopplerrDb().init(DopplerrStatus().sqlite_db_path)
+    DopplerrDb().createTables()
 
     # change current work dir for subliminal work files
     os.chdir(DopplerrStatus().configdir)
 
+    DopplerrDb().insertEvent("start", "dopplerr started")
+
     # main event loop (Twisted reactor behind)
     Routes().listen()
+
+    DopplerrDb().insertEvent("stop", "dopplerr stopped")
 
 
 if __name__ == '__main__':

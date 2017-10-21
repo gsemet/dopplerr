@@ -10,9 +10,9 @@ log = logging.getLogger(__name__)
 
 
 class Response(object):
-    def __init__(self, default):
-        if not default:
-            self.res = default
+    def __init__(self, default_val=None):
+        if default_val is not None:
+            self.res = default_val
         else:
             self.res = {}
 

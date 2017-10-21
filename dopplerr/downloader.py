@@ -16,18 +16,15 @@ from subliminal import region
 from subliminal import save_subtitles
 from subliminal.subtitle import get_subtitle_path
 from txwebbackendbase.singleton import singleton
-from txwebbackendbase.threading import deferredAsThread
 from txwebbackendbase.utils import recursive_iglob
 
-from dopplerr.request_filter import NotificationFilters
-from dopplerr.response import Response
 from dopplerr.status import DopplerrStatus
 
 log = logging.getLogger(__name__)
 
 
 @singleton
-class Downloader(object):
+class DopplerrDownloader(object):
     def __init__(self):
         # Avoid having 2 download at the same time, at least of the integrity of the cache file
         self.subliminal_download_lock = threading.Lock()
@@ -36,25 +33,6 @@ class Downloader(object):
     def initialize_subliminal():
         log.info("Initializing Subliminal cache...")
         region.configure('dogpile.cache.dbm', arguments={'filename': 'cachefile.dbm'})
-
-    @deferredAsThread
-    def process_notify_request(self, request):
-        log.debug("Processing request: %r", request)
-        res = Response({'status': "unprocessed"})
-        NotificationFilters().filter(request, res)
-        candidates = res.get("candidates")
-        if not candidates:
-            log.debug("No candidate found")
-            res.update_status("failed", "no candidates found")
-            return res
-        for candidate in candidates:
-            found = self.search_file(candidate['root_dir'], candidate['basename'])
-            log.debug("All found files: %r", found)
-        if not found:
-            res.update_status("failed", "candidates found but no video file found")
-        else:
-            self.download_missing_subtitles(res, found)
-        return res
 
     def search_file(self, root_dir, base_name):
         # This won't work with python < 3.5
@@ -67,7 +45,6 @@ class Downloader(object):
             found.append(filename)
         return found
 
-    @deferredAsThread
     def process_fullscan(self, _request):
         log.debug("Processing full scan of missing subtitle files...")
         res = {
