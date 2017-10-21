@@ -34,8 +34,8 @@ class Response(object):
     def get(self, key):
         return self.res.get(key, None)
 
-    def setdefaults(self, key, default):
-        return self.res.setdefaults(key, default)
+    def setdefault(self, key, default):
+        return self.res.setdefault(key, default)
 
     def toDict(self):
         return self.res
