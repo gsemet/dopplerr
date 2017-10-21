@@ -36,13 +36,21 @@ COPY        . /app/
 RUN         cd /app \
         &&  pip install .
 
-# building frontend
+# build frontend
+RUN         apk add --no-cache --update \
+                nodejs nodejs-npm \
+        &&  npm install -g npm
+
 RUN         cd /app/frontend \
         &&  make dev \
         &&  make build \
         &&  mkdir -p /frontend \
         &&  cp -vf dist/ /frontend/ \
         &&  rm -rfv /app/frontend
+
+RUN         npm cache clear \
+        &&  apk del nodejs \
+                    nodejs-npm
 
 USER        root
 # clean up
