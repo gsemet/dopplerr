@@ -49,8 +49,8 @@ container. They will all communicate with the same path.
 
 Base directory (``DOPPLERR_BASEDIR`` environment variable) can be used
 to put all these folder in same directory. If ``DOPPLERR_BASEDIR`` is
-not defined, dopplerr will assume the path communicated by Sonarr or
-Radarr also exists locally. So mouth your series folder to ``/series``,
+not defined, Dopplerr will assume the path communicated by Sonarr or
+Radarr also exists locally. So mount your series folder to ``/series``,
 TV show folder to ``/tv``, and animes to ``/animes`` and so on.
 
 Parameters
