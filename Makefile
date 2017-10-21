@@ -9,7 +9,8 @@ MAPPING?=tv=Series
 OPENSUBTITLES_USERNAME?=username
 OPENSUBTITLES_PASSWORD?=password
 
-all: dev style checks build dists test-unit
+all: dev style checks build dists docker test-unit
+all-local: dev style checks dists test-unit
 all-docker: dev style checks docker test-unit
 
 bootstrap:
