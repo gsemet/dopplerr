@@ -3,8 +3,8 @@
 MODULE:=dopplerr
 DOCKER_BUILD?=docker build
 DOPPLERR_PORT:=8086
-DOPPLERR_LANGUAGES?="fra,eng"
-DOPPLERR_MAPPING?="tv=Series"
+DOPPLERR_LANGUAGES?=fra,eng
+DOPPLERR_MAPPING?=tv=Series
 
 all: dev style checks build dists test-unit
 
@@ -46,7 +46,7 @@ build: readme dists
 
 readme:
     # Only for Pypi, which does not render MarkDown Readme
-	@pandoc --from=markdown --to=rst --output=README.rst README.md
+	pandoc --from=markdown --to=rst --output=README.rst README.md
 
 run-local:
 	@echo "Starting Dopplerr on http://localhost:$(DOPPLERR_PORT) ..."
@@ -57,7 +57,7 @@ run-local-env:
 	DOPPLERR_PORT=$(DOPPLERR_PORT) DOPPLERR_MAPPING=$(DOPPLERR_MAPPING) DOPPLERR_LANGUAGES=$(DOPPLERR_LANGUAGES) pipenv run $(MODULE) --verbose --logfile "debug.log"
 
 run-docker:
-	@docker run -e "DOPPLERR_LANGUAGES=$(DOPPLERR_LANGUAGES)" -t dopplerr:latest
+	docker run -e "DOPPLERR_LANGUAGES=$(DOPPLERR_LANGUAGES)" -e "DOPPLERR_MAPPING=$(DOPPLERR_MAPPING)" -t dopplerr:latest
 
 shell:
 	@echo "Shell"
@@ -69,7 +69,7 @@ test-unit:
 test-docker:
 	@echo "Testing docker build"
 	@echo "You can change the default 'docker build' command line with the DOCKER_BUILD environment variable"
-	@$(DOCKER_BUILD) -t $(MODULE) .
+	$(DOCKER_BUILD) -t $(MODULE) .
 
 test-coverage:
 	pipenv run py.test -v --cov ./ --cov-report term-missing
