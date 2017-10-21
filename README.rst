@@ -12,7 +12,7 @@ automatically for missing subtitles on download notification.
 -  Source: https://github.com/Stibbons/dopplerr
 -  Python 3.
 -  Docker image based on Alpine Linux and S6-Overlay (based on
-   Linuxserver's images)
+   `Linuxserver <https://www.linuxserver.io/>`__'s images)
 
 Usage
 -----
@@ -37,21 +37,19 @@ Use my docker image:
         -e DOPPLERR_LANGUAGES="fra,eng" \
         stibbons31/dopplerr
 
-Mount your media directory in ``/media``. This directory exists in the
-docker image, so if you have several media directory (``/series``,
-``/tv``, ``/animes``), mount them all in ``/media`` and set the
-following environment variable: ``DOPPLERR_BASEDIR=/media``.
+Mount your media directories in ``/``. Typically, ``/animes`` and
+``/tv`` are from Sonarr, and ``/movies`` from Radarr. A ``/media``
+directory also exists in the docker image, so you can mount them all in
+``/media`` and set the following environment variable:
+``DOPPLERR_BASEDIR=/media``.
 
-It is a good practive to run Sonarr and Radarr in their own container,
+It is a good practice to run Sonarr and Radarr in their own container,
 so they also "see" their media in path such as ``/series``, ``/tv``,
-``/animes``. Mount these volume with the same name in the dopplerr
-container. They will all communicate with the same path.
-
-Base directory (``DOPPLERR_BASEDIR`` environment variable) can be used
-to put all these folder in same directory. If ``DOPPLERR_BASEDIR`` is
-not defined, Dopplerr will assume the path communicated by Sonarr or
-Radarr also exists locally. So mount your series folder to ``/series``,
-TV show folder to ``/tv``, and animes to ``/animes`` and so on.
+``/animes``. Mount these volume with the same name in the ``dopplerr``
+container. ``DOPPLERR_MAPPING`` allows developers to run dopplerr
+directly from their PC and allow a different naming conventions (for
+instance, ``/path/to/Movies`` is where) the movies are stored, but in
+all container it is mounted as ``/movies``.
 
 Parameters
 ^^^^^^^^^^
@@ -67,12 +65,13 @@ Example of starting command line arguments: - ``-p 8086:8086`` - the
 port webinterface - ``-v /path/to/anime:/anime`` - location of Anime
 library on disk - ``-v /path/to/movies:/movies`` - location of Movies
 library on disk - ``-v /path/to/tv:/tv`` - location of TV library on
-disk - ``-e PGID=1000`` - for for GroupID. See below for explanation -
-``-e PUID=100`` - for for UserID. See below for explanation -
+disk - ``-e PGID=1000`` - for GroupID. See below for explanation -
+``-e PUID=100`` - for UserID. See below for explanation -
 ``-e DOPPLERR_LANGUAGES=fra,eng`` - set wanted subtitles languages
-(mandatory) - ``-e DOPPLERR_BASEDIR=/app`` - set media base directory
-(optional) - ``-e DOPPLERR_VERBOSE=1`` - set verbosity. 1=verbose,
-0=silent (optional)
+(mandatory) - ``-e DOPPLERR_BASEDIR=/media`` - set media base directory
+(optional) (needs something like ``-v /path/to/anime:/media/anime`` and
+so on) - ``-e DOPPLERR_VERBOSE=1`` - set verbosity. 1=verbose, 0=silent
+(optional)
 
 User / Group Identifiers
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -81,7 +80,7 @@ Sometimes when using data volumes (-v flags) permissions issues can
 arise between the host OS and the container. We avoid this issue by
 allowing you to specify the user PUID and group PGID. Ensure the data
 volume directory on the host is owned by the same user you specify and
-it will "just work" TM.
+it will "just work" (TM).
 
 In this instance PUID=1001 and PGID=1001. To find yours use id user as
 below:
