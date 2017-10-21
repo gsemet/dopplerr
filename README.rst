@@ -22,11 +22,11 @@ The best usage is through the docker image.
 Limitations
 ~~~~~~~~~~~
 
--  only Sonarr for the moment
+-  only Sonarr notification
 -  video filename should not have been renamed
 -  season folder might exist, or not
--  all series should be on the same root directorie
--  exact serie title folder (no year, no extra)
+-  all series should be on the same root directory
+-  exact series title folder (no year, no extra)
 
 Use with Docker
 ~~~~~~~~~~~~~~~
