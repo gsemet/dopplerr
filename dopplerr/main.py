@@ -133,7 +133,7 @@ def main():
         raise Exception("Bad languages: {!r}".format(args.languages))
     if args.path_mapping:
         log.debug("Path Mapping: %r", args.path_mapping)
-    Downloader.initialize_subliminal()
+    Downloader().initialize_subliminal()
     DopplerrStatus().healthy = True
     DopplerrStatus().appdir = args.appdir
     DopplerrStatus().port = args.port
@@ -144,6 +144,9 @@ def main():
     log.debug("SQLite DB: %s", DopplerrStatus().sqlite_db_path.as_posix())
     DopplerrDb().createTables(DopplerrStatus().sqlite_db_path)
 
+    os.chdir(DopplerrStatus().appdir)
+
+    # main event loop (Twisted reactor behind)
     Routes().listen()
 
 
