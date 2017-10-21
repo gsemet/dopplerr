@@ -111,6 +111,8 @@ def define_parameters(parser):
     parser.add_argument(
         '-a', '--appdir', action='store', dest='appdir', help='App directory', default="")
     parser.add_argument(
+        '--frontend', action='store', dest='frontenddir', help='Frontend directory', required=True)
+    parser.add_argument(
         '-n',
         '--no-color',
         action='store_true',
@@ -193,6 +195,9 @@ def setup_status(args):
     if not args.configdir:
         log.info("No configdir defined, using current folder")
         args.configdir = os.getcwd()
+    if not args.frontenddir:
+        log.fatal("No frontend dir defined")
+        raise Exception("No frontend dir defined")
     DopplerrStatus().healthy = True
     DopplerrStatus().appdir = args.appdir
     DopplerrStatus().port = args.port
@@ -200,6 +205,7 @@ def setup_status(args):
     DopplerrStatus().configdir = args.configdir
     DopplerrStatus().basedir = args.basedir
     DopplerrStatus().languages = args.languages
+    DopplerrStatus().frontenddir = str(Path(args.frontenddir).absolute())
     DopplerrStatus().subliminal_provider_configs = parse_subliminal_args(args)
 
     log.debug("Starting listening on port %s", DopplerrStatus().port)
@@ -209,6 +215,7 @@ def setup_status(args):
     log.debug("Media base directory: %s", DopplerrStatus().basedir)
     assert DopplerrStatus().basedir, "basedir not defined"
     log.debug("Config directory: %s", DopplerrStatus().configdir)
+    log.debug("Frontend directory: %s", DopplerrStatus().frontenddir)
     assert DopplerrStatus().configdir, "configdir not defined"
     log.debug("Wanted languages: %s", DopplerrStatus().languages)
     if not DopplerrStatus().languages or any(not x for x in DopplerrStatus().languages):

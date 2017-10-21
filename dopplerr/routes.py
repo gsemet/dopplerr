@@ -5,6 +5,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import logging
+from pathlib import Path
 
 from txwebbackendbase.requests import dejsonify
 from txwebbackendbase.requests import jsonify
@@ -13,6 +14,7 @@ from txwebbackendbase.threading import deferredAsThread
 
 from klein import Klein
 from twisted.internet.defer import inlineCallbacks
+from twisted.web.static import File
 
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
@@ -27,21 +29,47 @@ log = logging.getLogger(__name__)
 class Routes(object):
     app = Klein()
     args = None
+    __frontend_static = None
+    __frontend_root = None
 
     def listen(self):
         self.app.run(host='0.0.0.0', port=int(DopplerrStatus().port))
 
-    @app.route("/")
-    def root(self, _request):
-        return ("Status page not implemented Yet. <br>"
-                "Use /health for health information <br><br>")
+    @property
+    def frontend_static(self):
+        if self.__frontend_static is None:
+            self.__frontend_static = str(Path(DopplerrStatus().frontenddir) / "static")
+        return self.__frontend_static
 
-    @app.route("/events/recents")
+    @property
+    def frontend_root(self):
+        if self.__frontend_root is None:
+            self.__frontend_root = str(Path(DopplerrStatus().frontenddir) / "index.html")
+        return self.__frontend_root
+
+    # Double-index method kung-foo
+    #   https://github.com/twisted/klein/issues/41
+    #pylint: disable=function-redefined
+    @app.route("/")
+    def index(self, _request):
+        return File(self.frontend_root)
+
+    @app.route("/index.html")
+    def index(self, _request):
+        return File(self.frontend_root)
+
+    #pylint: enable=function-redefined
+
+    @app.route("/static/", branch=True)
+    def static(self, _request):
+        return File(self.frontend_static)
+
+    @app.route("/api/v1/events/recents")
     def events(self, request):
         res = {"events": DopplerrDb().getLastEvents(10)}
         return jsonify(request, res)
 
-    @app.route("/notify/sonarr", methods=['POST'])
+    @app.route("/api/v1/notify/sonarr", methods=['POST'])
     @inlineCallbacks
     def notify_sonarr(self, request):
         content = dejsonify(request)
@@ -82,12 +110,12 @@ class Routes(object):
 
         return res
 
-    @app.route("/notify", methods=['GET'])
+    @app.route("/api/v1/notify", methods=['GET'])
     def notify_not_allowed(self, request):
         request.setResponseCode(405)
         return "Method GET not allowed. Use POST with a JSON body with the right format"
 
-    @app.route("/health")
+    @app.route("/api/v1/health")
     def health(self, request):
         res_health = {
             "healthy": DopplerrStatus().healthy,
@@ -96,7 +124,7 @@ class Routes(object):
         }
         return jsonify(request, res_health)
 
-    @app.route("/fullscan")
+    @app.route("/api/v1/fullscan")
     @inlineCallbacks
     def fullscan(self, request):
         content = dejsonify(request)

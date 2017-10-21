@@ -157,11 +157,11 @@ Go in Settings to configure a "Connect" WebHook:
 
 -  Settings > Connect > add WebHook notification
 -  Select **On Download** and **On Upgrade**
--  URL: ``http://<ip address>:8086/notify/sonarr``
+-  URL: ``http://<ip address>:8086/api/v1/notify/sonarr``
 
    or
 
-   URL: ``http://<ip address>:8086/notify/radarr``
+   URL: ``http://<ip address>:8086/api/v1/notify/radarr``
 -  Method: POST
 
 Two READMEs ?
