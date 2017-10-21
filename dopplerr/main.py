@@ -124,22 +124,28 @@ def main():
     if not args.configdir:
         log.info("No configdir defined, using current folder")
         args.configdir = os.getcwd()
-    log.debug("Starting listening on port %s", args.port)
-    log.debug("Application directory: %s", args.appdir)
-    log.debug("Media base directory: %s", args.basedir)
-    log.debug("Config directory: %s", args.configdir)
-    log.debug("Wanted languages: %s", args.languages)
-    if not args.languages or any(not x for x in args.languages):
-        raise Exception("Bad languages: {!r}".format(args.languages))
-    if args.path_mapping:
-        log.debug("Path Mapping: %r", args.path_mapping)
-    Downloader().initialize_subliminal()
     DopplerrStatus().healthy = True
     DopplerrStatus().appdir = args.appdir
     DopplerrStatus().port = args.port
     DopplerrStatus().path_mapping = args.path_mapping
     DopplerrStatus().configdir = args.configdir
+    DopplerrStatus().basedir = args.basedir
     DopplerrStatus().languages = args.languages
+
+    log.debug("Starting listening on port %s", DopplerrStatus().port)
+    assert DopplerrStatus().port, "port should be defined"
+    log.debug("Application directory: %s", DopplerrStatus().appdir)
+    assert DopplerrStatus().appdir, "appdir not defined"
+    log.debug("Media base directory: %s", DopplerrStatus().basedir)
+    assert DopplerrStatus().basedir, "basedir not defined"
+    log.debug("Config directory: %s", DopplerrStatus().configdir)
+    assert DopplerrStatus().configdir, "configdir not defined"
+    log.debug("Wanted languages: %s", DopplerrStatus().languages)
+    if not DopplerrStatus().languages or any(not x for x in DopplerrStatus().languages):
+        raise Exception("Bad languages: {!r}".format(DopplerrStatus().languages))
+    if DopplerrStatus().path_mapping:
+        log.debug("Path Mapping: %r", DopplerrStatus().path_mapping)
+    Downloader().initialize_subliminal()
     DopplerrStatus().sqlite_db_path = Path(args.configdir) / "sqlite.db"
     log.debug("SQLite DB: %s", DopplerrStatus().sqlite_db_path.as_posix())
     DopplerrDb().createTables(DopplerrStatus().sqlite_db_path)
