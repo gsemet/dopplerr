@@ -49,7 +49,7 @@ class Routes(object):
 
     # Double-index method kung-foo
     #   https://github.com/twisted/klein/issues/41
-    #pylint: disable=function-redefined
+    # pylint: disable=function-redefined
     @app.route("/")
     def index(self, _request):
         return File(self.frontend_root)
@@ -58,7 +58,7 @@ class Routes(object):
     def index(self, _request):
         return File(self.frontend_root)
 
-    #pylint: enable=function-redefined
+    # pylint: enable=function-redefined
 
     @app.route("/static/", branch=True)
     def static(self, _request):
