@@ -28,12 +28,13 @@ Use my docker image:
 
     docker create \
         --name dopplerr \
-        -p 8000:8000 \
+        -p 8086:8086 \
         -e PUID=<UID> \
         -e PGID=<GID> \
         -v <path/to/animes>:/animes \
         -v <path/to/movies>:/movies \
         -v <path/to/tvseries>:/tv \
+        -e DOPPLERR_LANGUAGES="fra,eng" \
         stibbons31/dopplerr
 
 Mount your media directory in ``/media``. This directory exists in the
