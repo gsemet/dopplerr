@@ -180,18 +180,7 @@ def define_parameters(parser):
     )
 
 
-def main():
-    argv = sys.argv[1:]
-    inject_env_variables(argv)
-    parser = argparse.ArgumentParser()
-    define_parameters(parser)
-    args = parser.parse_args(args=argv)
-    setupLogger(
-        level=logging.DEBUG if args.verbose else logging.WARNING,
-        no_color=args.no_color,
-        logfile=args.logfile)
-    log.info("Initializing Subtitle DopplerrDownloader Service")
-
+def setup_status(args):
     if args.port is None:
         log.fatal("Missing required argument: -p/--port")
         sys.exit(1)
@@ -228,6 +217,24 @@ def main():
         log.debug("Path Mapping: %r", DopplerrStatus().path_mapping)
     else:
         log.debug("No path mapping defined")
+
+
+def main():
+    argv = sys.argv[1:]
+    inject_env_variables(argv)
+
+    parser = argparse.ArgumentParser()
+    define_parameters(parser)
+    args = parser.parse_args(args=argv)
+
+    setupLogger(
+        level=logging.DEBUG if args.verbose else logging.WARNING,
+        no_color=args.no_color,
+        logfile=args.logfile)
+    log.info("Initializing Subtitle DopplerrDownloader Service")
+
+    setup_status(args)
+
     DopplerrDownloader().initialize_subliminal()
     DopplerrStatus().sqlite_db_path = Path(args.configdir) / "sqlite.db"
     log.debug("SQLite DB: %s", DopplerrStatus().sqlite_db_path.as_posix())

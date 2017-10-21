@@ -11,7 +11,7 @@ from __future__ import unicode_literals
 
 # import pytest
 #
-from dopplerr.downloader import Downloader
+from dopplerr.downloader import DopplerrDownloader
 
 # from dopplerr import dopplerr
 
@@ -29,5 +29,5 @@ class Testdopplerr(object):
         pass
 
     def test_glob_filename_with_bracket(self):
-        downloader = Downloader()
+        downloader = DopplerrDownloader()
         downloader.search_file("/any/root/dir", "base_name with [bracket]")
