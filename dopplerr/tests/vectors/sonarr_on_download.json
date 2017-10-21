@@ -1,0 +1,23 @@
+{
+    "EventType": "Download",
+    "Series": {
+        "Id": 12,
+        "Title": "A Series Title",
+        "Path": "/tv/A Series Title",
+        "TvdbId": 123456
+    },
+    "Episodes": [
+        {
+            "Id": 1234,
+            "EpisodeNumber": 2,
+            "SeasonNumber": 1,
+            "Title": "The Episode Title",
+            "AirDate": "2017-03-01",
+            "AirDateUtc": "2017-03-02T02:00:00Z",
+            "Quality": "WEBDL-1080p",
+            "QualityVersion": 1,
+            "ReleaseGroup": "ReleaseGroupName",
+            "SceneName": "The.Series.Title.S01E09.1080p.WEB-DL.DD5.1.H264-AGROUP-Scrambled"
+        }
+    ]
+}
