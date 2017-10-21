@@ -7,6 +7,7 @@ DOPPLERR_LANGUAGES?=fra,eng
 DOPPLERR_MAPPING?=tv=Series
 
 all: dev style checks build dists test-unit
+all-docker: dev style checks docker test-unit
 
 bootstrap:
 	@echo "Please sudo the following command in your environment:"
