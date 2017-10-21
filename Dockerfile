@@ -12,7 +12,8 @@ RUN         apk add --no-cache --update \
                     python3-dev \
                     make \
                     linux-headers \
-                    musl-dev
+                    musl-dev \
+                    nodejs
 
 # Injecting files into containers
 RUN         mkdir -p /app
@@ -35,6 +36,14 @@ COPY        . /app/
 RUN         cd /app \
         &&  pip install .
 
+# building frontend
+RUN         cd /app/frontend \
+        &&  make dev \
+        &&  make build \
+        &&  mkdir -p /frontend \
+        &&  cp -vf dist/ /frontend/ \
+        &&  rm -rfv /app/frontend
+
 USER        root
 # clean up
 RUN         apk del python3-dev \
@@ -43,6 +52,7 @@ RUN         apk del python3-dev \
                 curl \
                 linux-headers \
                 musl-dev \
+                nodejs  \
         &&  rm  -rf \
                 /root/.cache \
                 /tmp/*
