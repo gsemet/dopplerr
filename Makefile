@@ -78,9 +78,13 @@ run-docker:
 	           -e "DOPPLERR_LANGUAGES=$(LANGUAGES)" \
 			   -e "DOPPLERR_MAPPING='$(MAPPING)'" \
 			   -e "DOPPLERR_LOGFILE=debug.log" \
+			   -e "DOPPLERR_BASEDIR=$(BASEDIR)" \
 	   		   -e "DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME)" \
 	   		   -e "DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD)" \
 			   -t dopplerr:latest
+
+kill-docker:
+	docker kill $$(docker ps --format '{{.Names}}\t{{.Image}}\t' | grep dopplerr | cut -f1)
 
 shell:
 	@echo "Shell"
