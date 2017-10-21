@@ -51,9 +51,55 @@ def inject_env_variables(argv):
     logfile = os.environ.get("DOPPLERR_LOGFILE")
     if logfile:
         argv.extend(["--logfile", logfile])
+    mapping = os.environ.get("DOPPLERR_MAPPING")
+    if mapping:
+        argv.extend(["--mapping", mapping])
     port = os.environ.get("DOPPLERR_PORT")
     if port:
         argv.extend(["--port", port])
+    addic7ed = os.environ.get("DOPPLERR_ADDIC7ED_USERNAME")
+    if addic7ed:
+        argv.extend(["--addic7ed", addic7ed, os.environ.get("DOPPLERR_ADDIC7ED_PASSWORD")])
+    legendastv = os.environ.get("DOPPLERR_LEGENDASTV_USERNAME")
+    if legendastv:
+        argv.extend(["--legendastv", legendastv, os.environ.get("DOPPLERR_LEGENDASTV_PASSWORD")])
+    opensubtitles = os.environ.get("DOPPLERR_OPENSUBTITLES_USERNAME")
+    if opensubtitles:
+        argv.extend(
+            ["--opensubtitles", opensubtitles,
+             os.environ.get("DOPPLERR_OPENSUBTITLES_PASSWORD")])
+    subscenter = os.environ.get("DOPPLERR_SUBSCENTER_USERNAME")
+    if subscenter:
+        argv.extend(["--subscenter", subscenter, os.environ.get("DOPPLERR_SUBSCENTER_PASSWORD")])
+
+
+def parse_subliminal_args(args):
+    provider_configs = {}
+    if args.creds_addic7ed:
+        provider_configs['addic7ed'] = {
+            'username': args.creds_addic7ed[0],
+            'password': args.creds_addic7ed[1],
+        }
+        log.debug("Using addic7ed username: %s", provider_configs['addic7ed']['username'])
+    if args.creds_legendastv:
+        provider_configs['legendastv'] = {
+            'username': args.creds_legendastv[0],
+            'password': args.creds_legendastv[1],
+        }
+        log.debug("Using legendastv username: %s", provider_configs['legendastv']['username'])
+    if args.creds_opensubtitles:
+        provider_configs['opensubtitles'] = {
+            'username': args.creds_opensubtitles[0],
+            'password': args.creds_opensubtitles[1],
+        }
+        log.debug("Using opensubtitles username: %s", provider_configs['opensubtitles']['username'])
+    if args.creds_subscenter:
+        provider_configs['subscenter'] = {
+            'username': args.creds_subscenter[0],
+            'password': args.creds_subscenter[1],
+        }
+        log.debug("Using subscenter username: %s", provider_configs['subscenter']['username'])
+    return provider_configs
 
 
 def main():
@@ -103,8 +149,39 @@ def main():
         dest="logfile",
         help="Output log to file",
     )
+    parser.add_argument(
+        "--addic7ed",
+        action="store",
+        dest="creds_addic7ed",
+        nargs=2,
+        required=False,
+        help="addic7ed credential (--addic7ed USERNAME PASSWORD)",
+    )
+    parser.add_argument(
+        "--legendastv",
+        action="store",
+        dest="creds_legendastv",
+        nargs=2,
+        required=False,
+        help="legendastv credential (--legendastv USERNAME PASSWORD)",
+    )
+    parser.add_argument(
+        "--opensubtitles",
+        action="store",
+        dest="creds_opensubtitles",
+        nargs=2,
+        required=False,
+        help="opensubtitles credential (--opensubtitles USERNAME PASSWORD)",
+    )
+    parser.add_argument(
+        "--subscenter",
+        action="store",
+        dest="creds_subscenter",
+        nargs=2,
+        required=False,
+        help="subscenter credential (--subscenter USERNAME PASSWORD)",
+    )
 
-    print(argv)
     args = parser.parse_args(args=argv)
     setupLogger(
         level=logging.DEBUG if args.verbose else logging.WARNING,
@@ -131,6 +208,7 @@ def main():
     DopplerrStatus().configdir = args.configdir
     DopplerrStatus().basedir = args.basedir
     DopplerrStatus().languages = args.languages
+    DopplerrStatus().subliminal_provider_configs = parse_subliminal_args(args)
 
     log.debug("Starting listening on port %s", DopplerrStatus().port)
     assert DopplerrStatus().port, "port should be defined"
@@ -145,12 +223,15 @@ def main():
         raise Exception("Bad languages: {!r}".format(DopplerrStatus().languages))
     if DopplerrStatus().path_mapping:
         log.debug("Path Mapping: %r", DopplerrStatus().path_mapping)
+    else:
+        log.debug("No path mapping defined")
     Downloader().initialize_subliminal()
     DopplerrStatus().sqlite_db_path = Path(args.configdir) / "sqlite.db"
     log.debug("SQLite DB: %s", DopplerrStatus().sqlite_db_path.as_posix())
     DopplerrDb().createTables(DopplerrStatus().sqlite_db_path)
 
-    os.chdir(DopplerrStatus().appdir)
+    # change current work dir for subliminal work files
+    os.chdir(DopplerrStatus().configdir)
 
     # main event loop (Twisted reactor behind)
     Routes().listen()

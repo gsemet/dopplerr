@@ -3,6 +3,8 @@ __pycache__
 .eggs/
 *.egg-info/
 *.log
+*.lock
+*.log.*
 *.pyc
 /.coverage
 /AUTHORS

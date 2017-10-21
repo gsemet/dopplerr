@@ -2,10 +2,12 @@
 
 MODULE:=dopplerr
 DOCKER_BUILD?=docker build
-DOPPLERR_PORT:=8086
-DOPPLERR_LANGUAGES?=fra,eng
-DOPPLERR_BASEDIR?=/
-DOPPLERR_MAPPING?=tv=Series
+PORT:=8086
+LANGUAGES?=fra,eng
+BASEDIR?=/
+MAPPING?=tv=Series
+OPENSUBTITLES_USERNAME?=username
+OPENSUBTITLES_PASSWORD?=password
 
 all: dev style checks build dists test-unit
 all-docker: dev style checks docker test-unit
@@ -51,28 +53,33 @@ readme:
 	pandoc --from=markdown --to=rst --output=README.rst README.md
 
 run-local:
-	@echo "Starting Dopplerr on http://localhost:$(DOPPLERR_PORT) ..."
+	@echo "Starting Dopplerr on http://localhost:$(PORT) ..."
 	pipenv run $(MODULE) \
-	           --port $(DOPPLERR_PORT) \
+	           --port $(PORT) \
 			   --verbose \
 			   --logfile "debug.log" \
-			   --mapping $(DOPPLERR_MAPPING) \
-			   --languages $(DOPPLERR_LANGUAGES) \
-			   --basedir $(DOPPLERR_BASEDIR)
+			   --mapping $(MAPPING) \
+			   --languages $(LANGUAGES) \
+			   --basedir $(BASEDIR) \
+			   --opensubtitles $(OPENSUBTITLES_USERNAME) $(OPENSUBTITLES_PASSWORD)
 
 run-local-env:
-	@echo "Starting Dopplerr on http://localhost:$(DOPPLERR_PORT) using environment variable parameters..."
-	DOPPLERR_PORT=$(DOPPLERR_PORT) \
-		DOPPLERR_MAPPING=$(DOPPLERR_MAPPING) \
-		DOPPLERR_LANGUAGES=$(DOPPLERR_LANGUAGES) \
-		DOPPLERR_BASEDIR=$(DOPPLERR_BASEDIR) \
+	@echo "Starting Dopplerr on http://localhost:$(PORT) using environment variable parameters..."
+	DOPPLERR_PORT=$(PORT) \
+		DOPPLERR_MAPPING="$(MAPPING)" \
+		DOPPLERR_LANGUAGES=$(LANGUAGES) \
+		DOPPLERR_BASEDIR=$(BASEDIR) \
+		DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME) \
+		DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD) \
 		pipenv run $(MODULE) --verbose --logfile "debug.log"
 
 run-docker:
-	docker run -p $(DOPPLERR_PORT):$(DOPPLERR_PORT) \
-	           -e "DOPPLERR_LANGUAGES=$(DOPPLERR_LANGUAGES)" \
-			   -e "DOPPLERR_MAPPING=$(DOPPLERR_MAPPING)" \
+	docker run -p $(PORT):$(PORT) \
+	           -e "DOPPLERR_LANGUAGES=$(LANGUAGES)" \
+			   -e "DOPPLERR_MAPPING='$(MAPPING)'" \
 			   -e "DOPPLERR_LOGFILE=debug.log" \
+	   		   -e "DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME)" \
+	   		   -e "DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD)" \
 			   -t dopplerr:latest
 
 shell:
