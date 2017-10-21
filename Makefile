@@ -10,6 +10,7 @@ OPENSUBTITLES_USERNAME?=username
 OPENSUBTITLES_PASSWORD?=password
 
 all: dev style checks build dists docker test-unit
+all-frontend: frontend-dev frontend-build
 all-local: dev style checks dists test-unit
 all-docker: dev style checks docker test-unit
 
@@ -21,6 +22,15 @@ bootstrap:
 dev:
 	@echo "Setting up development environment"
 	pipenv install --dev --three
+
+frontend-dev:
+	cd frontend ; make dev
+
+frontend-build:
+	cd frontend ; make build
+
+frontend-run:
+	cd frontend ; make run
 
 install-local:
 	pipenv install
@@ -62,7 +72,8 @@ run-local:
 			   --mapping $(MAPPING) \
 			   --languages $(LANGUAGES) \
 			   --basedir $(BASEDIR) \
-			   --opensubtitles $(OPENSUBTITLES_USERNAME) $(OPENSUBTITLES_PASSWORD)
+			   --opensubtitles $(OPENSUBTITLES_USERNAME) $(OPENSUBTITLES_PASSWORD) \
+			   --frontend frontend/dist
 
 run-local-env:
 	@echo "Starting Dopplerr on http://localhost:$(PORT) using environment variable parameters..."
@@ -72,17 +83,23 @@ run-local-env:
 		DOPPLERR_BASEDIR=$(BASEDIR) \
 		DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME) \
 		DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD) \
-		pipenv run $(MODULE) --verbose --logfile "debug.log"
+		pipenv run $(MODULE) \
+			--verbose \
+			--logfile "debug.log" \
+			--frontend frontend/dist
 
 run-docker: kill-docker
 	docker run -p $(PORT):$(PORT) \
-	           -e "DOPPLERR_LANGUAGES=$(LANGUAGES)" \
+			   -e "DOPPLERR_LANGUAGES=$(LANGUAGES)" \
 			   -e "DOPPLERR_MAPPING='$(MAPPING)'" \
 			   -e "DOPPLERR_LOGFILE=debug.log" \
 			   -e "DOPPLERR_BASEDIR=$(BASEDIR)" \
-	   		   -e "DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME)" \
-	   		   -e "DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD)" \
+			   -e "DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME)" \
+			   -e "DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD)" \
 			   -t dopplerr:latest
+
+run_frontend:
+	cd frontend ; make run
 
 kill-docker:
 	docker kill $$(docker ps --format '{{.Names}}\t{{.Image}}\t' | grep dopplerr | cut -f1)
@@ -156,3 +173,6 @@ styles: style
 test: test-unit
 upgrade: update
 wheel: wheels
+frontend-dev: dev-frontend
+frontend-build: build-frontend
+frontend-run: run-frontend
