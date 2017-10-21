@@ -11,4 +11,5 @@ exec \
         --basedir / \
         --port 8086 \
         --appdir /app \
-        --configdir /config
+        --configdir /config \
+        --frontend /frontend

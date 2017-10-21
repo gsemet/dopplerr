@@ -15,6 +15,7 @@ class DopplerrStatus(object):
         self.__path_mapping = None
         self.__appdir = None
         self.__configdir = None
+        self.__frontenddir = None
         self.__basedir = None
         self.__port = 0
         self.__languages = []
@@ -60,6 +61,14 @@ class DopplerrStatus(object):
     @configdir.setter
     def configdir(self, configdir):
         self.__configdir = configdir
+
+    @property
+    def frontenddir(self):
+        return self.__frontenddir
+
+    @frontenddir.setter
+    def frontenddir(self, frontenddir):
+        self.__frontenddir = frontenddir
 
     @property
     def port(self):
