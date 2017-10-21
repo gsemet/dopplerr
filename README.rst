@@ -57,8 +57,8 @@ so they also "see" their media in path such as ``/series``, ``/tv``,
 ``/animes``. Mount these volume with the same name in the ``dopplerr``
 container. ``DOPPLERR_MAPPING`` allows developers to run dopplerr
 directly from their PC and allow a different naming conventions (for
-instance, ``/path/to/Movies`` is where) the movies are stored, but in
-all container it is mounted as ``/movies``.
+instance, ``/path/to/Movies`` is where the movies are stored, but in all
+containers see it mounted as ``/movies``).
 
 Parameters
 ^^^^^^^^^^
@@ -66,21 +66,27 @@ Parameters
 The parameters are split into two halves, separated by a colon, the left
 hand side representing the host and the right the container side. For
 example with a port -p external:internal - what this shows is the port
-mapping from internal to external of the container. So ``-p 8080:80``
+mapping from internal to external of the container. So, ``-p 8080:80``
 would expose port 80 from inside the container to be accessible from the
 host's IP on port 8080 (Ex: ``http://192.168.x.x:8080``).
 
-Example of starting command line arguments: - ``-p 8086:8086`` - the
-port webinterface - ``-v /path/to/anime:/anime`` - location of Anime
-library on disk - ``-v /path/to/movies:/movies`` - location of Movies
-library on disk - ``-v /path/to/tv:/tv`` - location of TV library on
-disk - ``-e PGID=1000`` - for GroupID. See below for explanation -
-``-e PUID=100`` - for UserID. See below for explanation -
-``-e DOPPLERR_LANGUAGES=fra,eng`` - set wanted subtitles languages
-(mandatory) - ``-e DOPPLERR_BASEDIR=/media`` - set media base directory
-(optional) (needs something like ``-v /path/to/anime:/media/anime`` and
-so on) - ``-e DOPPLERR_VERBOSE=1`` - set verbosity. 1=verbose, 0=silent
-(optional)
+Example of starting command line arguments:
+
+-  ``-p 8086:8086`` - the port webinterface
+-  ``-v /path/to/anime:/anime`` - location of Anime library on disk
+-  ``-v /path/to/movies:/movies`` - location of Movies library on disk
+-  ``-v /path/to/tv:/tv`` - location of TV library on disk
+-  ``-e PGID=1000`` - for GroupID. See below for explanation
+-  ``-e PUID=100`` - for UserID. See below for explanation
+-  ``-e DOPPLERR_LANGUAGES=fra,eng`` - set wanted subtitles languages
+   (mandatory)
+-  ``-e DOPPLERR_VERBOSE=1`` - set verbosity. 1=verbose, 0=silent
+   (optional)
+
+Developers might also use:
+
+-  ``-e DOPPLERR_BASEDIR=/media`` - set media base directory (optional)
+   (needs something like ``-v /path/to/anime:/media/anime`` and so on)
 
 User / Group Identifiers
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -124,8 +130,8 @@ following commands:
 
 ::
 
-    sudo ./bootstrap-system.sh
-    make install-local
+    $ sudo ./bootstrap-system.sh
+    $ make install-local
 
 This will install dopplerr in a local virtual environment will all its
 dependencies without messing with your system's Python environment.
@@ -141,8 +147,8 @@ build):
 
 ::
 
-    sudo ./bootstrap-system.sh
-    sudo make install-system
+    $ sudo ./bootstrap-system.sh
+    $ sudo make install-system
 
 Radarr/Sonarr Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -175,7 +181,7 @@ Bootstrap your system with
 
 ::
 
-    sudo ./bootstrap-system.sh
+    $ sudo ./bootstrap-system.sh
 
 System dependencies:
 
@@ -189,19 +195,19 @@ Setup your environment with
 
 ::
 
-    make dev
+    $ make dev
 
 Unit Tests with:
 
 ::
 
-    make test-unit
+    $ make test-unit
 
 or run it live with
 
 ::
 
-    make run-local
+    $ make run-local
 
 Activate the environment (to start your editor from, for example):
 
@@ -219,21 +225,21 @@ Build Wheel package:
 
 ::
 
-    make wheels
+    $ make wheels
 
 Register and publish your package to Pypi:
 
 ::
 
-    make pypi-publish
+    $ make pypi-publish
 
-Create a release: create a tag with a semver syntax. Optionally you can
+Create a release: create a tag with a Semver syntax. Optionally you can
 tag code locally and push to GitHub.
 
 ::
 
-    git tag 1.2.3
-    git push --tags
+    $ git tag 1.2.3
+    $ git push --tags
 
 On successful travis build on the Tag branch, your Pypi package will be
 automatically updated.
