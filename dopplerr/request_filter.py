@@ -12,7 +12,7 @@ from dopplerr.status import DopplerrStatus
 log = logging.getLogger(__name__)
 
 
-class FilterBase(object):
+class _FilterBase(object):
     def appy_path_mapping(self, folder):
         if not DopplerrStatus().path_mapping:
             return folder
@@ -35,7 +35,7 @@ class FilterBase(object):
         return {k.lower(): v for k, v in thedict.items()}
 
 
-class SonarrFilter(FilterBase):
+class SonarrFilter(_FilterBase):
     def filter(self, request, res):
         # probably Sonarr
         low_request = self.lowerize_dick_keys(request)
@@ -52,7 +52,7 @@ class SonarrFilter(FilterBase):
         low_request = self.lowerize_dick_keys(request)
         low_series = self.lowerize_dick_keys(low_request.get("series", {}))
         root_dir = low_series.get("path")
-        serie_title = low_series.get("title")
+        series_title = low_series.get("title")
         if not root_dir:
             return res.failed("Empty Series Path")
         root_dir = self.appy_path_mapping(root_dir)
@@ -69,24 +69,24 @@ class SonarrFilter(FilterBase):
 
         root_dir = concat_path(DopplerrStatus().basedir, root_dir)
         basename = root_dir
-        log.info("Searching episodes for serie '%s' in '%s'", serie_title, root_dir)
+        log.info("Searching episodes for serie '%s' in '%s'", series_title, root_dir)
         res.update_status("listing candidates")
         for episode in low_request.get("episodes", []):
             low_episode = self.lowerize_dick_keys(episode)
             basename = low_episode.get("scenename", "")
             episode_title = low_episode.get("title", "")
             log.debug("Candidate: episode '%s' with base filename '%s'", episode_title, basename)
-            if not os.path.exists(root_dir):
-                return res.failed("Path does not exists: {}".format(root_dir))
             res.setdefault("candidates", []).append({
+                "series_title": series_title,
+                "episode_title": episode_title,
                 "root_dir": root_dir,
-                "basename": basename,
+                "scenename": basename,
             })
         res.update_status("candidates listed")
         return res
 
 
-class NotificationFilters(FilterBase):
+class AutoDetectFilter(_FilterBase):
     def filter(self, request, res):
         low_request = self.lowerize_dick_keys(request)
         if "series" in low_request:

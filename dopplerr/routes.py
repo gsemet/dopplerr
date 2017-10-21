@@ -12,10 +12,13 @@ from txwebbackendbase.singleton import singleton
 
 from klein import Klein
 from twisted.internet.defer import inlineCallbacks
-from twisted.internet.defer import returnValue
+from txwebbackendbase.threading import deferredAsThread
 
-from dopplerr.downloader import Downloader
+from dopplerr.downloader import DopplerrDownloader
 from dopplerr.status import DopplerrStatus
+from dopplerr.request_filter import SonarrFilter
+from dopplerr.response import Response
+from dopplerr.db import DopplerrDb
 
 log = logging.getLogger(__name__)
 
@@ -33,13 +36,51 @@ class Routes(object):
         return ("Status page not implemented Yet. <br>"
                 "Use /health for health information <br><br>")
 
-    @app.route("/notify", methods=['POST'])
+    @app.route("/events/recents")
+    def events(self, request):
+        res = {"events": DopplerrDb().getLastEvents(10)}
+        return jsonify(request, res)
+
+    @app.route("/notify/sonarr", methods=['POST'])
     @inlineCallbacks
-    def notify(self, request):
+    def notify_sonarr(self, request):
         content = dejsonify(request)
-        logging.debug("Notify request: %r", content)
-        res = yield Downloader().process_notify_request(content)
-        returnValue(jsonify(request, res.toDict()))
+        res = yield self._process_notify_sonarr(content)
+        return jsonify(request, res.toDict())
+
+    @deferredAsThread
+    def _process_notify_sonarr(self, content):
+        logging.debug("Notify sonarr request: %r", content)
+        log.debug("Processing request: %r", content)
+        res = Response()
+        res.update_status("unprocessed")
+        SonarrFilter().filter(content, res)
+        candidates = res.get("candidates")
+        if not candidates:
+            DopplerrDb().insertEvent("notification", "no candidate")
+            log.debug("No candidate found")
+            res.update_status("failed", "no candidates found")
+            return res
+        for candidate in candidates:
+            DopplerrDb().insertEvent("downloaded",
+                                     "episode '{}' from series '{}' downloaded".format(
+                                         candidate.get("scenename"), candidate.get("series_title")))
+            found = DopplerrDownloader().search_file(candidate['root_dir'], candidate['scenename'])
+            log.debug("All found files: %r", found)
+            if not found:
+                res.update_status("failed", "candidates found but no video file found")
+            else:
+                DopplerrDownloader().download_missing_subtitles(res, found)
+            DopplerrDb().insertEvent("subtitles", "subtitles fetched: {}".format(
+                ", ".join([
+                    "{} (lang: {}, source: {})".format(
+                        s.get("filename"),
+                        s.get("language"),
+                        s.get("provider"),
+                    ) for s in res.get('subtitles')
+                ])))
+
+        return res
 
     @app.route("/notify", methods=['GET'])
     def notify_not_allowed(self, request):
@@ -60,5 +101,5 @@ class Routes(object):
     def fullscan(self, request):
         content = dejsonify(request)
         logging.debug("Fullscan request: %r", content)
-        res = yield Downloader().process_fullscan(content)
-        returnValue(jsonify(request, res))
+        res = yield DopplerrDownloader().process_fullscan(content)
+        return jsonify(request, res)
