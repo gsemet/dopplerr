@@ -45,13 +45,13 @@ class Downloader(object):
         candidates = res.get("candidates")
         if not candidates:
             log.debug("No candidate found")
-            res.update_status("finished", "no candidates found")
+            res.update_status("failed", "no candidates found")
             return res
         for candidate in candidates:
             found = self.search_file(candidate['root_dir'], candidate['basename'])
             log.debug("All found files: %r", found)
         if not found:
-            res.update_status("finished", "candidates found but no video file found")
+            res.update_status("failed", "candidates found but no video file found")
         else:
             self.download_missing_subtitles(res, found)
         return res
@@ -61,6 +61,7 @@ class Downloader(object):
         found = []
         protected_path = os.path.join(root_dir, "**", "*" + base_name + "*")
         protected_path = protected_path.replace("[", "[[]").replace("]", "[]]")
+        log.debug("Searching %r", protected_path)
         for filename in recursive_iglob(protected_path):
             log.debug("Found: %s", filename)
             found.append(filename)
@@ -88,11 +89,22 @@ class Downloader(object):
         log.info("Video files: %r", videos)
         if not videos:
             log.debug("No subtitle to download")
-            res.update_status("finished", "no video file found")
+            res.update_status("failed", "no video file found")
             return res
         res.update_status("fetching", "finding best subtitles")
         self.subliminal_download_lock.acquire()
-        subtitles = download_best_subtitles(videos, {Language(l) for l in DopplerrStatus.languages})
+        log.info("fetching subtitles...")
+        try:
+            provider_configs = DopplerrStatus().subliminal_provider_configs
+            subtitles = download_best_subtitles(
+                videos, {Language(l)
+                         for l in DopplerrStatus().languages},
+                provider_configs=provider_configs)
+        except Exception as e:
+            log.exception("subliminal raised an exception")
+            res.update_status("failed", "subliminal exception")
+            res.set("exception", repr(e))
+            return res
         self.subliminal_download_lock.release()
         subtitles_info = []
         for vid in videos:
@@ -105,6 +117,6 @@ class Downloader(object):
                     "filename": get_subtitle_path(vid.name, language=sub.language)
                 })
             save_subtitles(vid, subtitles[vid])
-        res.update_status("finished", "download successful")
-        res["subtitles"] = subtitles_info
+        res.update_status("succeeded", "download successful")
+        res.set("subtitles", subtitles_info)
         return res

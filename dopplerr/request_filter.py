@@ -57,33 +57,32 @@ class SonarrFilter(FilterBase):
             return res.failed("Empty Series Path")
         root_dir = self.appy_path_mapping(root_dir)
         log.debug("Root folder: %s", root_dir)
-        if DopplerrStatus().basedir:
-            log.debug("Reconstructing full media path with basedir '%s'", DopplerrStatus().basedir)
+        log.debug("Reconstructing full media path with basedir '%s'", DopplerrStatus().basedir)
 
-            def concat_path(a, b):
-                if not a.endswith('/'):
-                    a += '/'
-                if b.startswith('/'):
-                    b = b[1:]
-                a += b
-                return a
+        def concat_path(a, b):
+            if not a.endswith('/'):
+                a += '/'
+            if b.startswith('/'):
+                b = b[1:]
+            a += b
+            return a
 
-            root_dir = concat_path(DopplerrStatus().basedir, root_dir)
+        root_dir = concat_path(DopplerrStatus().basedir, root_dir)
         basename = root_dir
         log.info("Searching episodes for serie '%s' in '%s'", serie_title, root_dir)
-        res.update_status("searching candidates")
+        res.update_status("listing candidates")
         for episode in low_request.get("episodes", []):
             low_episode = self.lowerize_dick_keys(episode)
             basename = low_episode.get("scenename", "")
             episode_title = low_episode.get("title", "")
-            log.debug("Searching episode '%s' with base filename '%s'", episode_title, basename)
+            log.debug("Candidate: episode '%s' with base filename '%s'", episode_title, basename)
             if not os.path.exists(root_dir):
                 return res.failed("Path does not exists: {}".format(root_dir))
             res.setdefault("candidates", []).append({
                 "root_dir": root_dir,
                 "basename": basename,
             })
-        res.update_status("candidates search finished")
+        res.update_status("candidates listed")
         return res
 
 

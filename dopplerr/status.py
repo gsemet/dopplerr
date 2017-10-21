@@ -19,6 +19,7 @@ class DopplerrStatus(object):
         self.__port = 0
         self.__languages = []
         self.__sqlite_db_path = None
+        self.__subliminal_provider_configs = None
 
     @property
     def healthy(self):
@@ -83,3 +84,11 @@ class DopplerrStatus(object):
     @sqlite_db_path.setter
     def sqlite_db_path(self, sqlite_db_path):
         self.__sqlite_db_path = sqlite_db_path
+
+    @property
+    def subliminal_provider_configs(self):
+        return self.__subliminal_provider_configs
+
+    @subliminal_provider_configs.setter
+    def subliminal_provider_configs(self, provider_configs):
+        self.__subliminal_provider_configs = provider_configs
