@@ -74,6 +74,8 @@ class Downloader(object):
             'status': 'unprocessed',
             'message': 'not implemented yet!',
         }
+        # TODO: inspiration
+        #   https://gist.github.com/alexsavio/9299716
         return res
 
     def download_missing_subtitles(self, res, files):

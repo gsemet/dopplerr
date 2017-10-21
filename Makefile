@@ -118,7 +118,6 @@ update:
 	pipenv update
 	@echo "Consider updating 'bootstrap-system.sh' manually"
 
-
 lock:
 	pipenv lock
 	pipenv install --dev
