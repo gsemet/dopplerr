@@ -12,10 +12,11 @@ from pathlib import Path
 # from peewee import ForeignKeyField
 from peewee import BooleanField
 from peewee import CharField
-from peewee import DateTimeField, Using
+from peewee import DateTimeField
 from peewee import Model
 from peewee import SqliteDatabase
 from peewee import TextField
+from peewee import Using
 from txwebbackendbase.singleton import singleton
 
 

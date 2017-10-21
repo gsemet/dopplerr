@@ -9,16 +9,16 @@ import logging
 from txwebbackendbase.requests import dejsonify
 from txwebbackendbase.requests import jsonify
 from txwebbackendbase.singleton import singleton
+from txwebbackendbase.threading import deferredAsThread
 
 from klein import Klein
 from twisted.internet.defer import inlineCallbacks
-from txwebbackendbase.threading import deferredAsThread
 
+from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
-from dopplerr.status import DopplerrStatus
 from dopplerr.request_filter import SonarrFilter
 from dopplerr.response import Response
-from dopplerr.db import DopplerrDb
+from dopplerr.status import DopplerrStatus
 
 log = logging.getLogger(__name__)
 
