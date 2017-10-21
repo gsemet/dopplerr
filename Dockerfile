@@ -26,6 +26,7 @@ RUN         ./setup-pip.sh \
         &&  pipenv install --system
 
 # Adding rest of the application in next docker layers
+COPY        . /app/
 
 # build frontend
 RUN         apk add --no-cache --update \
@@ -44,7 +45,6 @@ RUN         npm cache clear \
         nodejs-npm
 
 # installing main Python module to system
-COPY        . /app/
 RUN         cd /app \
 &&  pip install .
 
