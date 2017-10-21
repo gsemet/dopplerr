@@ -18,6 +18,7 @@ class DopplerrStatus(object):
         self.__basedir = None
         self.__port = 0
         self.__languages = []
+        self.__sqlite_db_path = None
 
     @property
     def healthy(self):
@@ -74,3 +75,11 @@ class DopplerrStatus(object):
     @languages.setter
     def languages(self, languages):
         self.__languages = languages
+
+    @property
+    def sqlite_db_path(self):
+        return self.__sqlite_db_path
+
+    @sqlite_db_path.setter
+    def sqlite_db_path(self, sqlite_db_path):
+        self.__sqlite_db_path = sqlite_db_path
