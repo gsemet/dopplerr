@@ -16,6 +16,7 @@ from klein import Klein
 from twisted.internet.defer import inlineCallbacks
 from twisted.web.static import File
 
+import dopplerr
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
 from dopplerr.request_filter import SonarrFilter
@@ -121,8 +122,13 @@ class Routes(object):
             "healthy": DopplerrStatus().healthy,
             "languages": DopplerrStatus().languages,
             "mapping": DopplerrStatus().path_mapping,
+            "version": dopplerr.version,
         }
         return jsonify(request, res_health)
+
+    @app.route("/api/v1/version")
+    def version(self, _request):
+        return dopplerr.version
 
     @app.route("/api/v1/fullscan")
     @inlineCallbacks

@@ -19,30 +19,30 @@
     </q-toolbar>
 
     <!-- Navigation -->
-    <q-tabs slot="navigation">
-      <q-route-tab slot="title" icon="view_quilt" to="/test-layout/about" replace hide="icon" label="Overview" />
-      <q-route-tab slot="title" icon="view_day" to="/test-layout/toolbar" replace hide="icon" label="Medias" />
-    </q-tabs>
+    <!-- <q-tabs slot="navigation">
+      <q-route-tab slot="title" icon="view_quilt" to="/status" replace hide="icon" label="Status" />
+      <q-route-tab slot="title" icon="view_day" to="/events" replace hide="icon" label="Events" />
+    </q-tabs> -->
 
     <!-- Left Side Panel -->
     <div slot="left">
       <q-list no-border link inset-separator>
-        <q-list-header>Essential Links</q-list-header>
-        <q-side-link item to="/docs">
+        <q-list-header>Dopplerr</q-list-header>
+        <q-side-link item to="/movies">
           <q-item-side icon="school" />
-          <q-item-main label="Docs" sublabel="quasar-framework.org" />
+          <q-item-main label="Movies" sublabel="Sonarr Films and Saga" />
         </q-side-link>
-        <q-side-link item to="/forum">
+        <q-side-link item to="/series">
           <q-item-side icon="record_voice_over" />
-          <q-item-main label="Forum" sublabel="forum.quasar-framework.org" />
+          <q-item-main label="TV Series" sublabel="Radarr Series and Animes" />
         </q-side-link>
-        <q-side-link item to="/chat">
+        <q-side-link item to="/events">
           <q-item-side icon="chat" />
-          <q-item-main label="Gitter Channel" sublabel="Quasar Lobby" />
+          <q-item-main label="Events" sublabel="" />
         </q-side-link>
-        <q-side-link item to="/twitter">
+        <q-side-link item to="/status">
           <q-item-side icon="rss feed" />
-          <q-item-main label="Twitter" sublabel="@quasarframework" />
+          <q-item-main label="Status" sublabel="" />
         </q-side-link>
       </q-list>
     </div>
