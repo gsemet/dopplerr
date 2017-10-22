@@ -19,10 +19,8 @@ install:
   - make backend-dev
 
 script:
-  - make release
   - make backend-checks
-  - make backend-build
-  - make frontend-build
+  - make release
   - make test-unit
   - make test-coverage
   # - ./test-docker.sh
