@@ -45,7 +45,7 @@ RUN         cd /app/frontend \
         &&  make version \
         &&  make build \
         &&  mkdir -p /frontend \
-        &&  cp -rf dist/ /frontend/ \
+        &&  cp -rf dist/* /frontend/ \
         &&  rm -rf /app/frontend
 
 RUN         npm cache clear --force \
