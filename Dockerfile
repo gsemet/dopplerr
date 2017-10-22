@@ -31,11 +31,18 @@ COPY        Pipfile* setup-pip.sh /app/
 RUN         ./setup-pip.sh \
         &&  pipenv install --system
 
+# installing main Python module so that PBR finds the version
+# used in later 'make version' targets
+COPY        . /app/
+RUN         cd /app \
+        &&  pip install .
+
 # Adding rest of the application in next docker layers
 COPY        frontend /app/frontend/
 
 RUN         cd /app/frontend \
         &&  make dev \
+        &&  make version \
         &&  make build \
         &&  mkdir -p /frontend \
         &&  cp -rf dist/ /frontend/ \
@@ -45,11 +52,6 @@ RUN         npm cache clear --force \
         &&  apk del \
                     nodejs \
                     nodejs-npm
-
-# installing main Python module to system
-COPY        . /app/
-RUN         cd /app \
-        &&  pip install .
 
 # copy containers's startup files
 COPY        root/ /
