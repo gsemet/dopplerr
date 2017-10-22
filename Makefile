@@ -107,7 +107,7 @@ run_frontend:
 	cd frontend ; make run
 
 kill-docker:
-	docker kill $$(docker ps --format '{{.Names}}\t{{.Image}}\t' | grep dopplerr | cut -f1)
+	docker kill $$(docker ps --format '{{.Names}}\t{{.Image}}\t' | grep dopplerr | cut -f1) || true
 
 shell:
 	@echo "Shell"

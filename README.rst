@@ -250,6 +250,10 @@ tag code locally and push to GitHub.
 On successful travis build on the Tag branch, your Pypi package will be
 automatically updated.
 
+Note:
+
+    According to PBR, alpha versions are noted "x.y.z.a1"
+
 .. |Build Status| image:: https://travis-ci.org/Stibbons/dopplerr.svg?branch=master
    :target: https://travis-ci.org/Stibbons/dopplerr
 .. |Docker Automated buil| image:: https://img.shields.io/docker/build/stibbons31/dopplerr.svg

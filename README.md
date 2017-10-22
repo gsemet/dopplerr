@@ -188,3 +188,7 @@ Create a release: create a tag with a Semver syntax. Optionally you can tag code
     $ git push --tags
 
 On successful travis build on the Tag branch, your Pypi package will be automatically updated.
+
+Note:
+
+> According to PBR, alpha versions are noted "x.y.z.a1"
