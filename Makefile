@@ -9,12 +9,14 @@ MAPPING?=tv=Series
 OPENSUBTITLES_USERNAME?=username
 OPENSUBTITLES_PASSWORD?=password
 
-all: dev version style checks frontend-build build dists docker test-unit
-all-frontend: frontend-dev frontend-build
+all: frontend-all backend-all
+backend-all: dev version style checks frontend-build build dists docker-build test-unit
+frontend-all: frontend-dev frontend-build
 all-local: dev style checks dists test-unit
-all-docker: dev style checks docker test-unit
+all-docker: dev style checks docker-build test-unit
 
-release: build
+all-dev: frontend-dev backend-dev
+release: version readme frontend-build backend-build
 
 bootstrap:
 	@echo "Please sudo the following command in your environment:"
@@ -77,8 +79,7 @@ run-local:
 			   --mapping $(MAPPING) \
 			   --languages $(LANGUAGES) \
 			   --basedir $(BASEDIR) \
-			   --opensubtitles $(OPENSUBTITLES_USERNAME) $(OPENSUBTITLES_PASSWORD) \
-			   --frontend frontend/dist
+			   --opensubtitles $(OPENSUBTITLES_USERNAME) $(OPENSUBTITLES_PASSWORD)
 
 run-local-env:
 	@echo "Starting Dopplerr on http://localhost:$(PORT) using environment variable parameters..."
@@ -90,8 +91,7 @@ run-local-env:
 		DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD) \
 		pipenv run $(MODULE) \
 			--verbose \
-			--logfile "debug.log" \
-			--frontend frontend/dist
+			--logfile "debug.log"
 
 run-docker: kill-docker
 	docker run -p $(PORT):$(PORT) \
@@ -155,14 +155,23 @@ freeze:
 clean:
 	pipenv --rm ; true
 	find . -name "*.pyc" -exec rm -f {} \;
+	rm -rf cachefile.dbm*
+	rm -f *.log
+	rm -rf .eggs *.egg-info
 
-githook:style readme
+frontend-clean:
+	cd frontend ; make clean
+
+githook:style readme version
 
 push: githook
-	@git push origin --tags
+	git push origin --tags
 
 # aliases to gracefully handle typos on poor dev's terminal
 check: checks
+backend-checks: checks
+backend-build: build
+backend-clean: clean
 devel: dev
 develop: dev
 dist: dists
@@ -178,6 +187,9 @@ styles: style
 test: test-unit
 upgrade: update
 wheel: wheels
-frontend-dev: dev-frontend
+dev-frontend: frontend-dev
 build-frontend: frontend-build
 frontend-run: run-frontend
+build-backend: build
+dev-backend: dev
+backend-dev: dev

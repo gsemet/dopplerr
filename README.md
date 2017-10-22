@@ -174,7 +174,7 @@ Publishing to Pypi
 
 Build Wheel package:
 
-    $ make wheels
+    $ make release wheels
 
 Register and publish your package to Pypi:
 
@@ -182,6 +182,7 @@ Register and publish your package to Pypi:
 
 Create a release: create a tag with a Semver syntax. Optionally you can tag code locally and push to GitHub.
 
+    $ # ensure everything is committed
     $ git tag 1.2.3
     $ make release
     $ git push --tags
