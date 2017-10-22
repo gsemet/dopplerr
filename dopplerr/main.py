@@ -8,11 +8,9 @@ import argparse
 import logging
 import os
 import sys
-
 from pathlib import Path
 
 import pkg_resources
-
 from txwebbackendbase.logging import setupLogger
 
 from dopplerr.db import DopplerrDb
@@ -114,6 +112,7 @@ def find_frontend_data():
     if dev_env_frontend_dist.exists():
         return str(dev_env_frontend_dist)
 
+
 def define_parameters(parser):
     parser.add_argument('-p', '--port', action='store', dest='port', help='The port to listen on')
     parser.add_argument(
@@ -123,8 +122,7 @@ def define_parameters(parser):
     parser.add_argument(
         '-a', '--appdir', action='store', dest='appdir', help='App directory', default="")
     parser.add_argument(
-        '--frontend', action='store', dest='frontenddir', help='Frontend directory',
-        default=None)
+        '--frontend', action='store', dest='frontenddir', help='Frontend directory', default=None)
     parser.add_argument(
         '-n',
         '--no-color',
