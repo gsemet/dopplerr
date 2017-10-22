@@ -7,13 +7,19 @@ ARG         DEBIAN_FRONTEND="noninteractive"
 
 RUN         apk add --no-cache --update \
                     curl \
-                    git \
                     gcc \
-                    python3-dev \
-                    make \
+                    git \
                     linux-headers \
+                    make \
                     musl-dev \
-                    nodejs
+                    nodejs \
+                    python3-dev
+
+# Install frontend high level dependencies
+RUN         apk add --no-cache --update \
+                    nodejs \
+                    nodejs-npm \
+        &&  npm install -g npm@5
 
 # Injecting files into containers
 RUN         mkdir -p /app
@@ -26,13 +32,7 @@ RUN         ./setup-pip.sh \
         &&  pipenv install --system
 
 # Adding rest of the application in next docker layers
-COPY        . /app/
-
-# build frontend
-RUN         apk add --no-cache --update \
-                    nodejs \
-                    nodejs-npm \
-        &&  npm install -g npm@5
+COPY        frontend /app/frontend/
 
 RUN         cd /app/frontend \
         &&  make dev \
@@ -47,6 +47,7 @@ RUN         npm cache clear --force \
                     nodejs-npm
 
 # installing main Python module to system
+COPY        . /app/
 RUN         cd /app \
         &&  pip install .
 
