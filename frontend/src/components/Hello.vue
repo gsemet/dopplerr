@@ -4,7 +4,7 @@
     view="lHh Lpr fff"
     :left-class="{'bg-grey-2': true}"
   >
-    <q-toolbar slot="header" class="glossy">
+    <q-toolbar slot="header">
       <q-btn
         flat
         @click="$refs.layout.toggleLeft()"
@@ -13,49 +13,51 @@
       </q-btn>
 
       <q-toolbar-title>
-        Quasar App
-        <div slot="subtitle">Running on Quasar v{{$q.version}}</div>
+        Dopplerr
+        <div slot="subtitle">version {{$q.version}}</div>
       </q-toolbar-title>
     </q-toolbar>
 
-    <div slot="left">
-      <!--
-        Use <q-side-link> component
-        instead of <q-item> for
-        internal vue-router navigation
-      -->
+    <!-- Navigation -->
+    <q-tabs slot="navigation">
+      <q-route-tab slot="title" icon="view_quilt" to="/test-layout/about" replace hide="icon" label="Overview" />
+      <q-route-tab slot="title" icon="view_day" to="/test-layout/toolbar" replace hide="icon" label="Medias" />
+    </q-tabs>
 
-      <q-list no-border link inset-delimiter>
+    <!-- Left Side Panel -->
+    <div slot="left">
+      <q-list no-border link inset-separator>
         <q-list-header>Essential Links</q-list-header>
-        <q-item @click="launch('http://quasar-framework.org')">
+        <q-side-link item to="/docs">
           <q-item-side icon="school" />
           <q-item-main label="Docs" sublabel="quasar-framework.org" />
-        </q-item>
-        <q-item @click="launch('http://forum.quasar-framework.org')">
+        </q-side-link>
+        <q-side-link item to="/forum">
           <q-item-side icon="record_voice_over" />
           <q-item-main label="Forum" sublabel="forum.quasar-framework.org" />
-        </q-item>
-        <q-item @click="launch('https://gitter.im/quasarframework/Lobby')">
+        </q-side-link>
+        <q-side-link item to="/chat">
           <q-item-side icon="chat" />
           <q-item-main label="Gitter Channel" sublabel="Quasar Lobby" />
-        </q-item>
-        <q-item @click="launch('https://twitter.com/quasarframework')">
+        </q-side-link>
+        <q-side-link item to="/twitter">
           <q-item-side icon="rss feed" />
           <q-item-main label="Twitter" sublabel="@quasarframework" />
-        </q-item>
+        </q-side-link>
       </q-list>
     </div>
-
-    <!--
-      Replace following <div> with
-      <router-view /> component
-      if using subRoutes
-    -->
-    <div class="layout-padding logo-container non-selectable no-pointer-events">
-      <div class="logo" :style="position">
-        <img src="~assets/quasar-logo-full.svg">
-      </div>
+    <!-- Right Side Panel -->
+    <div slot="right">
+      Right Side of Layout
     </div>
+    <!-- sub-routes get injected here: -->
+    <router-view />
+    <!-- Footer -->
+    <q-toolbar slot="footer">
+      <q-toolbar-title>
+        Layout Footer
+      </q-toolbar-title>
+    </q-toolbar>
   </q-layout>
 </template>
 
@@ -73,7 +75,10 @@ import {
   QListHeader,
   QItem,
   QItemSide,
-  QItemMain
+  QItemMain,
+  QSideLink,
+  QTabs,
+  QRouteTab
 } from 'quasar'
 
 const
@@ -106,7 +111,10 @@ export default {
     QListHeader,
     QItem,
     QItemSide,
-    QItemMain
+    QItemMain,
+    QSideLink,
+    QTabs,
+    QRouteTab
   },
   data () {
     return {

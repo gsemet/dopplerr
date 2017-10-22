@@ -9,3 +9,6 @@ run:
 
 build:
 	quasar build
+
+version:
+	npm version $(pbr info dopplerr | cut -f2)
