@@ -7,9 +7,11 @@ from __future__ import unicode_literals
 import argparse
 import logging
 import os
-import pkg_resources
 import sys
+
 from pathlib import Path
+
+import pkg_resources
 
 from txwebbackendbase.logging import setupLogger
 
