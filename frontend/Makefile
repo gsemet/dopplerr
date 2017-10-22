@@ -12,3 +12,5 @@ build:
 
 version:
 	npm version $(pbr info dopplerr | cut -f2)
+
+release: version

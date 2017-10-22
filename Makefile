@@ -14,6 +14,8 @@ all-frontend: frontend-dev frontend-build
 all-local: dev style checks dists test-unit
 all-docker: dev style checks docker test-unit
 
+release: build
+
 bootstrap:
 	@echo "Please sudo the following command in your environment:"
 	@echo "  sudo -E ./bootstrap-system.sh"
@@ -33,7 +35,7 @@ frontend-run:
 	cd frontend ; make run
 
 version:
-	cd frontend ; make run
+	cd frontend ; make release
 
 install-local:
 	pipenv install
