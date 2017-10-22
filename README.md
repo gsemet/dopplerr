@@ -183,6 +183,7 @@ Register and publish your package to Pypi:
 Create a release: create a tag with a Semver syntax. Optionally you can tag code locally and push to GitHub.
 
     $ git tag 1.2.3
+    $ make release
     $ git push --tags
 
 On successful travis build on the Tag branch, your Pypi package will be automatically updated.
