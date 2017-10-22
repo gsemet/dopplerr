@@ -1,10 +1,11 @@
 .PHONY: build
 
 dev:
+	npm install -g quasar-cli
 	npm install
 
 run:
-	npm run dev
+	quasar dev
 
 build:
-	npm run build
+	quasar build
