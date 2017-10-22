@@ -1,6 +1,6 @@
-# Quasar App
+# Dopplerr
 
-> A Quasar project
+> Dopplerr Subtitle Downloader
 
 ## Build Setup
 
