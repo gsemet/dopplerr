@@ -229,7 +229,7 @@ Build Wheel package:
 
 ::
 
-    $ make wheels
+    $ make release wheels
 
 Register and publish your package to Pypi:
 
@@ -242,9 +242,9 @@ tag code locally and push to GitHub.
 
 ::
 
-    $ make release
     $ # ensure everything is committed
     $ git tag 1.2.3
+    $ make release
     $ git push --tags
 
 On successful travis build on the Tag branch, your Pypi package will be
