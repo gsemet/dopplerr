@@ -242,8 +242,9 @@ tag code locally and push to GitHub.
 
 ::
 
-    $ git tag 1.2.3
     $ make release
+    $ # ensure everything is committed
+    $ git tag 1.2.3
     $ git push --tags
 
 On successful travis build on the Tag branch, your Pypi package will be

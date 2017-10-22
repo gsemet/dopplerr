@@ -5,6 +5,7 @@ echo "sudo it accodingly to your system"
 # git              : For PBR
 # make             : Developer's toolbox
 # pandoc           : for README .md =>.rst
+# npm              : for building frontend
 # libpython3.6-dev : for 'Python.h' (if Twisted wheel rebuild is needed)
 
 if [ -f /etc/debian_version ]; then
@@ -12,7 +13,8 @@ if [ -f /etc/debian_version ]; then
                git \
                make \
                pandoc \
-               libpython3.6-dev
+               libpython3.6-dev \
+               nodejs
 elif [ -f /etc/redhat-release ]; then
     yum install git make pandoc
 elif [[ -f /etc/os-release && $(grep "alpine" /etc/os-release) != "" ]]; then

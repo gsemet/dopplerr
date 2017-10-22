@@ -7,6 +7,7 @@ from __future__ import unicode_literals
 import argparse
 import logging
 import os
+import pkg_resources
 import sys
 from pathlib import Path
 
@@ -102,6 +103,15 @@ def parse_subliminal_args(args):
     return provider_configs
 
 
+def find_frontend_data():
+    installed_data_frontend = pkg_resources.resource_filename(__name__, 'frontend')
+    if Path(installed_data_frontend).exists():
+        return installed_data_frontend
+    setup_py = pkg_resources.resource_filename(__name__, "main.py")
+    dev_env_frontend_dist = Path(setup_py).parent.parent / "frontend" / "dist"
+    if dev_env_frontend_dist.exists():
+        return str(dev_env_frontend_dist)
+
 def define_parameters(parser):
     parser.add_argument('-p', '--port', action='store', dest='port', help='The port to listen on')
     parser.add_argument(
@@ -111,7 +121,8 @@ def define_parameters(parser):
     parser.add_argument(
         '-a', '--appdir', action='store', dest='appdir', help='App directory', default="")
     parser.add_argument(
-        '--frontend', action='store', dest='frontenddir', help='Frontend directory', required=True)
+        '--frontend', action='store', dest='frontenddir', help='Frontend directory',
+        default=None)
     parser.add_argument(
         '-n',
         '--no-color',
@@ -195,6 +206,8 @@ def setup_status(args):
     if not args.configdir:
         log.info("No configdir defined, using current folder")
         args.configdir = os.getcwd()
+    if not args.frontenddir:
+        args.frontenddir = find_frontend_data()
     if not args.frontenddir:
         log.fatal("No frontend dir defined")
         raise Exception("No frontend dir defined")
