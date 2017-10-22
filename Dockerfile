@@ -38,8 +38,8 @@ RUN         cd /app/frontend \
         &&  make dev \
         &&  make build \
         &&  mkdir -p /frontend \
-        &&  cp -vrf dist/ /frontend/ \
-        &&  rm -rfv /app/frontend
+        &&  cp -rf dist/ /frontend/ \
+        &&  rm -rf /app/frontend
 
 RUN         npm cache clear --force \
         &&  apk del \
