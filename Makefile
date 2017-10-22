@@ -9,7 +9,7 @@ MAPPING?=tv=Series
 OPENSUBTITLES_USERNAME?=username
 OPENSUBTITLES_PASSWORD?=password
 
-all: dev version style checks build dists docker test-unit
+all: dev version style checks frontend-build build dists docker test-unit
 all-frontend: frontend-dev frontend-build
 all-local: dev style checks dists test-unit
 all-docker: dev style checks docker test-unit
@@ -179,5 +179,5 @@ test: test-unit
 upgrade: update
 wheel: wheels
 frontend-dev: dev-frontend
-frontend-build: build-frontend
+build-frontend: frontend-build
 frontend-run: run-frontend
