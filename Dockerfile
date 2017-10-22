@@ -30,8 +30,9 @@ COPY        . /app/
 
 # build frontend
 RUN         apk add --no-cache --update \
-                nodejs nodejs-npm \
-        &&  npm install -g npm
+                    nodejs \
+                    nodejs-npm \
+        &&  npm install -g npm@5
 
 RUN         cd /app/frontend \
         &&  make dev \
@@ -40,13 +41,14 @@ RUN         cd /app/frontend \
         &&  cp -vrf dist/ /frontend/ \
         &&  rm -rfv /app/frontend
 
-RUN         npm cache clear \
-        &&  apk del nodejs \
-        nodejs-npm
+RUN         npm cache clear --force \
+        &&  apk del \
+                    nodejs \
+                    nodejs-npm
 
 # installing main Python module to system
 RUN         cd /app \
-&&  pip install .
+        &&  pip install .
 
 # copy containers's startup files
 COPY        root/ /
@@ -54,17 +56,21 @@ RUN         mkdir -p /media
 
 USER        root
 # clean up
-RUN         apk del python3-dev \
-                make \
-                gcc \
-                curl \
-                linux-headers \
-                musl-dev \
-                nodejs  \
+RUN         apk del \
+                    python3-dev \
+                    make \
+                    gcc \
+                    curl \
+                    linux-headers \
+                    musl-dev \
+                    nodejs  \
         &&  rm  -rf \
                 /root/.cache \
                 /tmp/*
 
 # Docker configuration
 EXPOSE      8086
-VOLUME      /config /animes /movies /tv
+VOLUME      /config \
+            /animes \
+            /movies \
+            /tv
