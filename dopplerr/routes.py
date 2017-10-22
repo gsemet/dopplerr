@@ -44,17 +44,17 @@ class Routes(object):
     @property
     def frontend_root(self):
         if self.__frontend_root is None:
-            self.__frontend_root = str(Path(DopplerrStatus().frontenddir) / "index.html")
+            self.__frontend_root = str(Path(DopplerrStatus().frontenddir))
         return self.__frontend_root
 
     # Double-index method kung-foo
     #   https://github.com/twisted/klein/issues/41
     # pylint: disable=function-redefined
-    @app.route("/")
+    @app.route("/", branch=True)
     def index(self, _request):
         return File(self.frontend_root)
 
-    @app.route("/index.html")
+    @app.route("/", branch=True)
     def index(self, _request):
         return File(self.frontend_root)
 
