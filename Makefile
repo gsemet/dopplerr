@@ -9,7 +9,7 @@ MAPPING?=tv=Series
 OPENSUBTITLES_USERNAME?=username
 OPENSUBTITLES_PASSWORD?=password
 
-all: dev style checks build dists docker test-unit
+all: dev version style checks build dists docker test-unit
 all-frontend: frontend-dev frontend-build
 all-local: dev style checks dists test-unit
 all-docker: dev style checks docker test-unit
@@ -30,6 +30,9 @@ frontend-build:
 	cd frontend ; make build
 
 frontend-run:
+	cd frontend ; make run
+
+version:
 	cd frontend ; make run
 
 install-local:
@@ -57,7 +60,7 @@ flake8:
 pylint:
 	pipenv run pylint --rcfile=.pylintrc --output-format=colorized $(MODULE)
 
-build: readme dists
+build: readme version dists
 
 readme:
     # Only for Pypi, which does not render MarkDown Readme

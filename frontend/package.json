@@ -1,9 +1,9 @@
 {
   "name": "quasar-app",
-  "productName": "Quasar App",
-  "version": "0.0.1",
+  "productName": "Dopplerr",
+  "version": "0.2.17",
   "private": true,
-  "description": "A Quasar App",
+  "description": "Dopplerr",
   "author": "Your Name <your@email.com>",
   "scripts": {
     "clean": "node build/script.clean.js",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.25.0",
+    "npm-auto-version": "^1.0.0",
     "quasar-extras": "0.x",
     "quasar-framework": "^0.14.4",
     "vue": "^2.5.0",
