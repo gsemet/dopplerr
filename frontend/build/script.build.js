@@ -17,7 +17,7 @@ console.log(' Do NOT use VueRouter\'s "history" mode if')
 console.log(' building for Cordova or Electron.\n')
 
 require('./script.clean.js')
-console.log((' Building Quasar App with "' + env.platform.theme + '" theme...\n').bold)
+console.log((' Building Dopplerr with "' + env.platform.theme + '" theme...\n').bold)
 
 shell.mkdir('-p', targetPath)
 shell.cp('-R', 'src/statics', targetPath)

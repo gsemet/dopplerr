@@ -12,16 +12,15 @@
       </q-toolbar-title>
     </q-toolbar>
 
-    <!-- Navigation Tabs
+    <!-- Navigation Tabs -->
     <q-tabs slot="navigation">
       <q-route-tab slot="title" icon="view_quilt" to="/layout/about" replace hide="icon" label="About" />
       <q-route-tab slot="title" icon="view_day" to="/layout/toolbar" replace hide="icon" label="Toolbar" />
       <q-route-tab slot="title" icon="view_day" to="/layout/tabs" replace label="Tabs" />
       <q-route-tab slot="title" icon="input" to="/layout/drawer" replace label="Drawer" />
     </q-tabs>
-    -->
 
-    <!-- Left Side Panel
+    <!-- Left Side Panel -->
     <div slot="left">
       <q-list no-border link inset-delimiter>
         <q-list-header>Essential Links</q-list-header>
@@ -43,7 +42,6 @@
         </q-item>
       </q-list>
     </div>
-    -->
 
     <!-- Right Side Panel
     <div slot="right">
@@ -53,11 +51,10 @@
 
     <router-view />
 
-    <!-- Footer
+    <!-- Footer -->
     <q-toolbar slot="footer">
       ...
     </q-toolbar>
-    -->
   </q-layout>
 </template>
 
