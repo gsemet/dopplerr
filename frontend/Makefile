@@ -1,7 +1,7 @@
 .PHONY: build
 
 dev:
-	npm install -g npm@latest quasar-cli
+	npm install -g quasar-cli
 	npm install
 
 run:
