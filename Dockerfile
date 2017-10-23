@@ -29,7 +29,7 @@ WORKDIR     /app
 # To avoid dependencies reinstall at each code change
 COPY        Pipfile* setup-pip.sh /app/
 RUN         ./setup-pip.sh \
-        &&  pipenv install --system
+        &&  pipenv install --system --skip-lock
 
 # installing main Python module so that PBR finds the version
 # used in later 'make version' targets
