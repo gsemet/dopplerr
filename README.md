@@ -1,5 +1,4 @@
-Dopplerr Subtitle Downloader
-============================
+# Dopplerr Subtitle Downloader
 
 [![Build Status](https://travis-ci.org/Stibbons/dopplerr.svg?branch=master)](https://travis-ci.org/Stibbons/dopplerr)
 [![Docker Automated buil](https://img.shields.io/docker/build/stibbons31/dopplerr.svg)](https://hub.docker.com/r/stibbons31/dopplerr/builds/)
@@ -17,12 +16,7 @@ Subtitle Download Web Service for Sonarr or Radarr. It uses [Subliminal](https:/
 -   Docker image based on Alpine Linux and S6-Overlay (based on
     [Linuxserver](https://www.linuxserver.io/)'s images)
 
-Usage
------
-
-The best usage is through the docker image.
-
-### Limitations
+# Limitations
 
 - only Sonarr notification
 - video filename should not have been renamed
@@ -30,7 +24,11 @@ The best usage is through the docker image.
 - all series should be on the same root directory
 - exact series title folder (no year, no extra)
 
-### Use with Docker
+# Usage
+
+The best usage is through the docker image.
+
+## Installation with Docker
 
 Use my docker image:
 
@@ -55,7 +53,7 @@ media in path such as `/series`, `/tv`, `/animes`. Mount these volume with the s
 PC and allow a different naming conventions (for instance, `/path/to/Movies` is where the
 movies are stored, but in all containers see it mounted as `/movies`).
 
-#### Parameters
+### Parameters
 
 The parameters are split into two halves, separated by a colon, the left hand side representing the host and the right the container side. For example with a port -p external:internal - what this shows is the port mapping from internal to external of the container. So, `-p 8080:80` would expose port 80 from inside the container to be accessible from the host's IP on port 8080 (Ex: `http://192.168.x.x:8080`).
 
@@ -75,7 +73,7 @@ Developers might also use:
 -   `-e DOPPLERR_BASEDIR=/media` - set media base directory (optional)
     (needs something like `-v /path/to/anime:/media/anime` and so on)
 
-#### User / Group Identifiers
+### User / Group Identifiers
 
 Sometimes when using data volumes (-v flags) permissions issues can arise between the host OS and the container. We avoid this issue by allowing you to specify the user PUID and group PGID. Ensure the data volume directory on the host is owned by the same user you specify and it will "just work" (TM).
 
@@ -84,7 +82,7 @@ In this instance PUID=1001 and PGID=1001. To find yours use id user as below:
     $ id <dockeruser>
     uid=1001(dockeruser) gid=1001(dockergroup) groups=1001(dockergroup)
 
-#### Wanted subtitle languages
+### Wanted subtitle languages
 
 Use a comma-separated list of 3-letter language descriptors you want Subliminal to try to download them.
 
@@ -94,25 +92,15 @@ Example:
 
 Descriptors are ISO-639-3 names of the language. See the [official Babelfish table](https://github.com/Diaoul/babelfish/blob/f403000dd63092cfaaae80be9f309fd85c7f20c9/babelfish/data/iso-639-3.tab) to find your prefered languages.
 
-### Local installation:
+## Pipy Installation
 
 Create a dedicated virtual environment and install it properly with the following commands:
 
-    $ sudo ./bootstrap-system.sh
-    $ make install-local
+    $ pip install dopplerr
 
-This will install dopplerr in a local virtual environment will all its dependencies without messing with your system's Python environment.
+Note: Do NOT install a Python application directly in your system. Always use a Virtualenv. Or let it be handled by your distribution's maintainer (use `apt` / `yum` / ...)
 
-### Installing in your system
-
-Do NOT install a Python application in your system. Always use a Virtualenv. Or let it be handled by your distribution's maintainer.
-
-This method is used when building the docker image (and the travis build):
-
-    $ sudo ./bootstrap-system.sh
-    $ sudo make install-system
-
-### Radarr/Sonarr Configuration
+# Radarr/Sonarr Configuration
 
 Go in Settings to configure a "Connect" WebHook:
 
@@ -125,8 +113,7 @@ Go in Settings to configure a "Connect" WebHook:
     URL: ```http://<ip address>:8086/api/v1/notify/radarr```
 -   Method: POST
 
-Two READMEs ?
--------------
+# Two READMEs ?
 
 There is a little trick to know about READMEs:
 
@@ -136,10 +123,13 @@ There is a little trick to know about READMEs:
 So, a restructuredText version of the README is created from `README.md` on upload to Pypi.
 Simple. So, when updating `README.md`, do not forget to regenerate `README.rst` using `make readme`.
 
-Contributing
-------------
+# Contributing
 
-Bootstrap your system with
+Check out the source code
+
+    git clone 
+    
+Install requirement system-level dependencies with (or adapt accordingly):
 
     $ sudo ./bootstrap-system.sh
 
@@ -151,7 +141,9 @@ System dependencies:
 - `pip`
 - `pipenv`
 
-Setup your environment with
+This project uses `pipenv` to jump seamlessly into a virtualenv.
+
+Setup your development environment with:
 
     $ make dev
 
@@ -167,28 +159,27 @@ Activate the environment (to start your editor from, for example):
 
     $ make shell
 
-Publishing to Pypi
-------------------
+# Publishing new version
 
-(This part should be automatically done by Travis on successful tag build)
+Please note that much part is automatized, for example the publication to Pypi is done automatically by Travis on successful tag build)
 
-Build Wheel package:
+Test building Wheel package with:
 
     $ make release wheels
 
-Register and publish your package to Pypi:
-
-    $ make pypi-publish
-
-Create a release: create a tag with a Semver syntax. Optionally you can tag code locally and push to GitHub.
+Create a release: create a tag with a Semver syntax.
 
     $ # ensure everything is committed
     $ git tag 1.2.3
     $ make release
     $ git push --tags
 
-On successful travis build on the Tag branch, your Pypi package will be automatically updated.
+Optionally you can tag code locally and push to GitHub. `make release` is also executed during the Travis build, so if there is any files changed during the build (ex: `README.rst`), it will be automatically done and so the Pypi package will be coherent. Do not retag if the README has been updated on GitHub, it has been properly done in the Wheel/Source Packages on Pypi. So, no stress.
+
+On successful travis build on the Tag, your Pypi package will be automatically updated.
+
+Same, on Tag, a Docker tag is also automatically created.
 
 Note:
 
-> According to PBR, alpha versions are noted "x.y.z.a1"
+> According to PBR, alpha versions are to be noted `x.y.z.a1`
