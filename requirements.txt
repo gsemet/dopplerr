@@ -17,5 +17,5 @@ pbr
 peewee
 setuptools!=36.0.0
 subliminal
-txrwlock>=1.0.0
-txwebbackendbase==0.1.3
+txrwlock>=1.1.2
+txwebbackendbase>=0.1.7
