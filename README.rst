@@ -14,13 +14,8 @@ automatically for missing subtitles on download notification.
 -  Docker image based on Alpine Linux and S6-Overlay (based on
    `Linuxserver <https://www.linuxserver.io/>`__'s images)
 
-Usage
------
-
-The best usage is through the docker image.
-
 Limitations
-~~~~~~~~~~~
+===========
 
 -  only Sonarr notification
 -  video filename should not have been renamed
@@ -28,8 +23,13 @@ Limitations
 -  all series should be on the same root directory
 -  exact series title folder (no year, no extra)
 
-Use with Docker
-~~~~~~~~~~~~~~~
+Usage
+=====
+
+The best usage is through the docker image.
+
+Installation with Docker
+------------------------
 
 Use my docker image:
 
@@ -61,7 +61,7 @@ instance, ``/path/to/Movies`` is where the movies are stored, but in all
 containers see it mounted as ``/movies``).
 
 Parameters
-^^^^^^^^^^
+~~~~~~~~~~
 
 The parameters are split into two halves, separated by a colon, the left
 hand side representing the host and the right the container side. For
@@ -89,7 +89,7 @@ Developers might also use:
    (needs something like ``-v /path/to/anime:/media/anime`` and so on)
 
 User / Group Identifiers
-^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes when using data volumes (-v flags) permissions issues can
 arise between the host OS and the container. We avoid this issue by
@@ -106,7 +106,7 @@ below:
     uid=1001(dockeruser) gid=1001(dockergroup) groups=1001(dockergroup)
 
 Wanted subtitle languages
-^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use a comma-separated list of 3-letter language descriptors you want
 Subliminal to try to download them.
@@ -122,36 +122,22 @@ Babelfish
 table <https://github.com/Diaoul/babelfish/blob/f403000dd63092cfaaae80be9f309fd85c7f20c9/babelfish/data/iso-639-3.tab>`__
 to find your prefered languages.
 
-Local installation:
-~~~~~~~~~~~~~~~~~~~
+Pipy Installation
+-----------------
 
 Create a dedicated virtual environment and install it properly with the
 following commands:
 
 ::
 
-    $ sudo ./bootstrap-system.sh
-    $ make install-local
+    $ pip install dopplerr
 
-This will install dopplerr in a local virtual environment will all its
-dependencies without messing with your system's Python environment.
-
-Installing in your system
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Do NOT install a Python application in your system. Always use a
-Virtualenv. Or let it be handled by your distribution's maintainer.
-
-This method is used when building the docker image (and the travis
-build):
-
-::
-
-    $ sudo ./bootstrap-system.sh
-    $ sudo make install-system
+Note: Do NOT install a Python application directly in your system.
+Always use a Virtualenv. Or let it be handled by your distribution's
+maintainer (use ``apt`` / ``yum`` / ...)
 
 Radarr/Sonarr Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+===========================
 
 Go in Settings to configure a "Connect" WebHook:
 
@@ -165,7 +151,7 @@ Go in Settings to configure a "Connect" WebHook:
 -  Method: POST
 
 Two READMEs ?
--------------
+=============
 
 There is a little trick to know about READMEs:
 
@@ -179,9 +165,16 @@ So, a restructuredText version of the README is created from
 ``make readme``.
 
 Contributing
-------------
+============
 
-Bootstrap your system with
+Check out the source code
+
+::
+
+    git clone 
+
+Install requirement system-level dependencies with (or adapt
+accordingly):
 
 ::
 
@@ -195,7 +188,9 @@ System dependencies:
 -  ``pip``
 -  ``pipenv``
 
-Setup your environment with
+This project uses ``pipenv`` to jump seamlessly into a virtualenv.
+
+Setup your development environment with:
 
 ::
 
@@ -219,26 +214,19 @@ Activate the environment (to start your editor from, for example):
 
     $ make shell
 
-Publishing to Pypi
-------------------
+Publishing new version
+======================
 
-(This part should be automatically done by Travis on successful tag
-build)
+Please note that much part is automatized, for example the publication
+to Pypi is done automatically by Travis on successful tag build)
 
-Build Wheel package:
+Test building Wheel package with:
 
 ::
 
     $ make release wheels
 
-Register and publish your package to Pypi:
-
-::
-
-    $ make pypi-publish
-
-Create a release: create a tag with a Semver syntax. Optionally you can
-tag code locally and push to GitHub.
+Create a release: create a tag with a Semver syntax.
 
 ::
 
@@ -247,12 +235,21 @@ tag code locally and push to GitHub.
     $ make release
     $ git push --tags
 
-On successful travis build on the Tag branch, your Pypi package will be
+Optionally you can tag code locally and push to GitHub. ``make release``
+is also executed during the Travis build, so if there is any files
+changed during the build (ex: ``README.rst``), it will be automatically
+done and so the Pypi package will be coherent. Do not retag if the
+README has been updated on GitHub, it has been properly done in the
+Wheel/Source Packages on Pypi. So, no stress.
+
+On successful travis build on the Tag, your Pypi package will be
 automatically updated.
+
+Same, on Tag, a Docker tag is also automatically created.
 
 Note:
 
-    According to PBR, alpha versions are noted "x.y.z.a1"
+    According to PBR, alpha versions are to be noted ``x.y.z.a1``
 
 .. |Build Status| image:: https://travis-ci.org/Stibbons/dopplerr.svg?branch=master
    :target: https://travis-ci.org/Stibbons/dopplerr
