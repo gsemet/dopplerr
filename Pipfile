@@ -25,10 +25,10 @@ pipenv-to-requirements = ">=0.1.9"
 [packages]
 
 klein = "*"
-txwebbackendbase = "==0.1.3"
+txwebbackendbase = ">=0.1.7"
 flask = "*"
 subliminal = { git = "https://github.com/stibbons/subliminal" }
-txrwlock = ">=1.0.0"
+txrwlock = ">=1.1.2"
 "glob2" = "*"
 peewee = "*"
 pbr = "*"
