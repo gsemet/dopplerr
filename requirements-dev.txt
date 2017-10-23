@@ -14,7 +14,7 @@ cryptography
 flake8
 isort
 pandoc
-pipenv-to-requirements>=0.1.6
+pipenv-to-requirements>=0.1.9
 pycodestyle
 pyflakes<1.6.0,>=1.5.0'
 pylint
