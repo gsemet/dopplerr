@@ -43,7 +43,7 @@ install-local:
 	pipenv install
 
 install-system:
-	pipenv install --system
+	pipenv install --system --skip-lock
 
 style: isort autopep8 yapf
 
