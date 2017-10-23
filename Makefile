@@ -16,7 +16,7 @@ all-local: dev style checks dists test-unit
 all-docker: dev style checks docker-build test-unit
 
 all-dev: frontend-dev backend-dev
-release: version readme frontend-build backend-build
+release: requirements version readme frontend-build backend-build
 
 bootstrap:
 	@echo "Please sudo the following command in your environment:"
@@ -64,7 +64,10 @@ flake8:
 pylint:
 	pipenv run pylint --rcfile=.pylintrc --output-format=colorized $(MODULE)
 
-build: readme version dists
+requirements:
+	pipenv run pipenv_to_requirements
+
+build: readme requirements version dists
 
 readme:
     # Only for Pypi, which does not render MarkDown Readme
