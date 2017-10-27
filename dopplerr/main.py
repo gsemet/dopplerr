@@ -11,6 +11,7 @@ import sys
 from pathlib import Path
 
 import pkg_resources
+from babelfish import Language
 from txwebbackendbase.logging import setupLogger
 
 from dopplerr.db import DopplerrDb
@@ -19,7 +20,6 @@ from dopplerr.routes import Routes
 from dopplerr.status import DopplerrStatus
 
 log = logging.getLogger(__name__)
-ALLOWED_LANGUAGES = ["fra", "eng", "ger"]
 
 
 def print_list(aList):
@@ -30,12 +30,13 @@ def list_of_languages(langList):
     langs = [s.lower() for s in langList.split(',')]
     failed = False
     for l in langs:
-        if l not in ALLOWED_LANGUAGES:
+        try:
+            Language(l)
+        except ValueError:
             failed = True
-            logging.fatal("Invalid language: %r")
+            logging.critical("Invalid language: %r", l)
     if failed:
-        logging.fatal("List of allowed languages: %s", print_list(ALLOWED_LANGUAGES))
-        raise argparse.ArgumentTypeError("Invalid language")
+        sys.exit(2)
     return langs
 
 
@@ -152,6 +153,7 @@ def define_parameters(parser):
         action="store",
         dest="languages",
         help="Wanted languages (comma separated list)",
+        default=[],
         type=list_of_languages)
     parser.add_argument(
         "--logfile",
@@ -231,7 +233,9 @@ def setup_status(args):
     log.debug("Frontend directory: %s", DopplerrStatus().frontenddir)
     assert DopplerrStatus().configdir, "configdir not defined"
     log.debug("Wanted languages: %s", DopplerrStatus().languages)
-    if not DopplerrStatus().languages or any(not x for x in DopplerrStatus().languages):
+    if not DopplerrStatus().languages:
+        raise Exception("No --lanuages defined")
+    if any(not x for x in DopplerrStatus().languages):
         raise Exception("Bad languages: {!r}".format(DopplerrStatus().languages))
     if DopplerrStatus().path_mapping:
         log.debug("Path Mapping: %r", DopplerrStatus().path_mapping)

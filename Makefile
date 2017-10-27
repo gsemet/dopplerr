@@ -168,6 +168,7 @@ frontend-clean:
 githook:style readme version
 
 push: githook
+	git push origin --all
 	git push origin --tags
 
 # aliases to gracefully handle typos on poor dev's terminal
