@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 class Response(object):
     def __init__(self):
         self.res = {}
-        self.res.update_status("unprocessed")
+        self.update_status("unprocessed")
 
     def failed(self, message):
         log.error(message)
@@ -38,8 +38,8 @@ class Response(object):
     def set(self, key, value):
         self.res[key] = value
 
-    def get(self, key):
-        return self.res.get(key, None)
+    def get(self, key, default=None):
+        return self.res.get(key, default)
 
     def setdefault(self, key, default):
         return self.res.setdefault(key, default)

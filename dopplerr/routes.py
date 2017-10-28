@@ -96,20 +96,26 @@ class Routes(object):
             DopplerrDb().insertEvent("availability notification",
                                      "episode '{}' from series '{}' available".format(
                                          candidate.get("scenename"), candidate.get("series_title")))
-            found = DopplerrDownloader().search_file(candidate['root_dir'], candidate['scenename'])
-            log.debug("All found files: %r", found)
-            if not found:
+            video_files_found = DopplerrDownloader().search_file(candidate['root_dir'],
+                                                                 candidate['scenename'])
+            log.debug("All found files: %r", video_files_found)
+            if not video_files_found:
                 res.update_status("failed", "candidates found but no video file found")
             else:
-                DopplerrDownloader().download_missing_subtitles(res, found)
-            DopplerrDb().insertEvent("subtitles", "subtitles fetched: {}".format(
-                ", ".join([
-                    "{} (lang: {}, source: {})".format(
-                        s.get("filename"),
-                        s.get("language"),
-                        s.get("provider"),
-                    ) for s in res.get('subtitles')
-                ])))
+                DopplerrDownloader().download_missing_subtitles(res, video_files_found)
+            subtitles = res.get('subtitles', [])
+            if not subtitles:
+                DopplerrDb().insertEvent("subtitles", "not subtitles found for: {}"
+                                         .format([Path(f).name for f in video_files_found]))
+            else:
+                DopplerrDb().insertEvent("subtitles", "subtitles fetched: {}".format(
+                    ", ".join([
+                        "{} (lang: {}, source: {})".format(
+                            s.get("filename"),
+                            s.get("language"),
+                            s.get("provider"),
+                        ) for s in subtitles
+                    ])))
 
         return res
 
