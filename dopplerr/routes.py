@@ -82,17 +82,19 @@ class Routes(object):
         logging.debug("Notify sonarr request: %r", content)
         log.debug("Processing request: %r", content)
         res = Response()
-        res.update_status("unprocessed")
         SonarrFilter().filter(content, res)
+        if res.is_unhandled:
+            # event has been filtered out
+            return res
         candidates = res.get("candidates")
         if not candidates:
-            DopplerrDb().insertEvent("notification", "no candidate")
-            log.debug("No candidate found")
-            res.update_status("failed", "no candidates found")
+            DopplerrDb().insertEvent("error", "event handled but no candidate found")
+            log.debug("event handled but no candidate found")
+            res.update_status("failed", "event handled but no candidate found")
             return res
         for candidate in candidates:
-            DopplerrDb().insertEvent("downloaded",
-                                     "episode '{}' from series '{}' downloaded".format(
+            DopplerrDb().insertEvent("availability notification",
+                                     "episode '{}' from series '{}' available".format(
                                          candidate.get("scenename"), candidate.get("series_title")))
             found = DopplerrDownloader().search_file(candidate['root_dir'], candidate['scenename'])
             log.debug("All found files: %r", found)
