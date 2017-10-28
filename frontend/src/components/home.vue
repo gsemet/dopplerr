@@ -28,22 +28,26 @@
     <div slot="left">
       <q-list no-border link inset-separator>
         <q-list-header>Dopplerr</q-list-header>
-        <q-side-link item to="/movies">
+        <q-side-link item to="/home">
+          <q-item-side icon="school" />
+          <q-item-main label="Home" sublabel="Overview" />
+        </q-side-link>
+        <!-- <q-side-link item to="/movies">
           <q-item-side icon="school" />
           <q-item-main label="Movies" sublabel="Sonarr Films and Saga" />
         </q-side-link>
         <q-side-link item to="/series">
           <q-item-side icon="record_voice_over" />
           <q-item-main label="TV Series" sublabel="Radarr Series and Animes" />
-        </q-side-link>
+        </q-side-link> -->
         <q-side-link item to="/events">
           <q-item-side icon="chat" />
           <q-item-main label="Events" sublabel="" />
         </q-side-link>
-        <q-side-link item to="/status">
+        <!-- <q-side-link item to="/status">
           <q-item-side icon="rss feed" />
           <q-item-main label="Status" sublabel="" />
-        </q-side-link>
+        </q-side-link> -->
       </q-list>
     </div>
     <!-- Right Side Panel -->
