@@ -25,11 +25,17 @@ export default new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
 
   routes: [
-    { path: '/', component: load('home') },
-    { path: '/events', component: load('events') },
-    { path: '/movies', component: load('movies') },
-    { path: '/series', component: load('series') },
-    { path: '/status', component: load('status') },
+    {
+      path: '/',
+      component: load('home'),
+      // sub-routes
+      children: [
+        { path: '/events', component: load('events') },
+        { path: '/movies', component: load('movies') },
+        { path: '/series', component: load('series') },
+        { path: '/status', component: load('status') }
+      ]
+    },
 
     // Always leave this last one
     { path: '*', component: load('404') } // Not found

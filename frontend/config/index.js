@@ -47,7 +47,7 @@ module.exports = {
     proxyTable: {
        // proxy all requests starting with /api
        '/api': {
-         target: 'http://192.168.0.1:8086/api',
+         target: 'http://localhost:8086/api',
          changeOrigin: true,
          pathRewrite: {
            '^/api': ''

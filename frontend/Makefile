@@ -17,3 +17,10 @@ release: version
 
 clean:
 	rm -rf node_modules/
+
+style: check
+
+check:
+	npm run lint
+
+lint: check
