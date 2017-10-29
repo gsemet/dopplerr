@@ -1,6 +1,6 @@
 <template>
   <div class="flex-row-docs">
-    <h4>Latest Events</h4>
+    <h4>Recent Events</h4>
     <div class="doc-container">
       <q-data-table
         :data="events.events"
@@ -9,7 +9,15 @@
       >
       </q-data-table>
     </div>
-    <!-- <h4>Recent fetch</h4> -->
+    <h4>Recent Fetched Series Episode</h4>
+    <div class="doc-container">
+      <q-data-table
+        :data="fetched_episodes.events"
+        :columns="recent_episodes_table_cfg.columns"
+        :config="recent_episodes_table_cfg.config"
+      >
+      </q-data-table>
+    </div>
   </div>
 </template>
 
@@ -42,6 +50,7 @@ export default {
   data () {
     return {
       events: [],
+      fetched_episodes: [],
       recent_events_table_cfg: {
         config: {
           rowHeight: '30px',
@@ -68,16 +77,74 @@ export default {
             filter: false
           }
         ]
+      },
+      recent_episodes_table_cfg: {
+        config: {
+          rowHeight: '30px',
+          noHeader: false,
+        },
+        columns: [
+          {
+            label: 'Date',
+            field: 'timestamp',
+            width: '80px',
+            filter: false,
+            sort (a, b) {
+              return (new Date(a)) - (new Date(b))
+            },
+            type: 'string',
+            format (value, row) {
+              return new Date(value).toLocaleString()
+            },
+          },
+          {
+            label: 'Series',
+            field: 'series_title',
+            width: '80px',
+            filter: false
+          },
+          {
+            label: 'Season',
+            field: 'season_number',
+            width: '40px',
+            filter: false
+          },
+          {
+            label: 'Episode',
+            field: 'episode_number',
+            width: '40px',
+            filter: false
+          },
+          {
+            label: 'Title',
+            field: 'episode_title',
+            width: '60px',
+            filter: false
+          },
+          {
+            label: 'Fetched Subtitles',
+            field: 'subtitles_languages',
+            width: '60px',
+            filter: false
+          }
+        ]
       }
     }
   },
 
   methods: {
     // Function to filter units
-    fetchRecentEvents: function () {
-      this.axios.get('/api/v1/events/recent/5', {})
+    fetch: function () {
+      this.axios.get('/api/v1/recent/events/5', {})
         .then(response => {
           this.events = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      this.axios.get('/api/v1/recent/fetched/series/5', {})
+        .then(response => {
+          this.fetched_episodes = response.data
         })
         .catch(error => {
           console.log(error)
@@ -86,7 +153,7 @@ export default {
   },
 
   beforeMount () {
-    this.fetchRecentEvents()
+    this.fetch()
   }
 
 }

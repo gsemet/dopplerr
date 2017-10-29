@@ -55,7 +55,7 @@ export default {
   methods: {
     // Function to filter units
     fetchRecentEvents: function () {
-      this.axios.get('/api/v1/events/recent/100', {})
+      this.axios.get('/api/v1/recent/events/100', {})
         .then(response => {
           this.events = response.data
         })
