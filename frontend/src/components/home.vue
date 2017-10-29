@@ -14,7 +14,7 @@
 
       <q-toolbar-title>
         Dopplerr
-        <div slot="subtitle">version {{$q.version}}</div>
+        <div slot="subtitle">version {{ version }}</div>
       </q-toolbar-title>
     </q-toolbar>
 
@@ -28,7 +28,7 @@
     <div slot="left">
       <q-list no-border link inset-separator>
         <q-list-header>Dopplerr</q-list-header>
-        <q-side-link item to="/home">
+        <q-side-link item to="/">
           <q-item-side icon="school" />
           <q-item-main label="Home" sublabel="Overview" />
         </q-side-link>
@@ -51,11 +51,13 @@
       </q-list>
     </div>
     <!-- Right Side Panel -->
-    <div slot="right">
+    <!-- <div slot="right">
       Right Side of Layout
-    </div>
+    </div> -->
+
     <!-- sub-routes get injected here: -->
     <router-view />
+
     <!-- Footer -->
     <q-toolbar slot="footer">
       <q-toolbar-title>
@@ -99,8 +101,27 @@ export default {
     QTabs,
     QRouteTab
   },
-  data () {},
+  data () {
+    return {
+      version: ''
+    }
+  },
+  methods: {
+    // Function to filter units
+    fetchVersion: function () {
+      this.axios.get('/api/v1/version', {})
+        .then(response => {
+          this.version = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  },
   mounted () {
+  },
+  beforeMount () {
+    this.fetchVersion()
   },
   beforeDestroy () {
   }
