@@ -1,12 +1,10 @@
 <template>
   <div>
+    <h4>Recent Events</h4>
     <q-data-table
       :data="events.events"
       :columns="columns"
     >
-    <!-- :config="config"
-    :columns="columns"
-    @refresh="refresh" -->
   </q-data-table>
   </div>
 </template>
@@ -57,7 +55,7 @@ export default {
   methods: {
     // Function to filter units
     fetchRecentEvents: function () {
-      this.axios.get('/api/v1/events/recent', {})
+      this.axios.get('/api/v1/events/recent/100', {})
         .then(response => {
           this.events = response.data
         })

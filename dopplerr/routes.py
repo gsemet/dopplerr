@@ -65,8 +65,16 @@ class Routes(object):
     def static(self, _request):
         return File(self.frontend_static)
 
-    @app.route("/api/v1/events/recent")
-    def events(self, request):
+    @app.route("/api/v1/events/recent/<num>")
+    def recent_events_num(self, request, num=10):
+        num = int(num)
+        if num > 100:
+            num = 100
+        res = {"events": DopplerrDb().getLastEvents(num)}
+        return jsonify(request, res)
+
+    @app.route("/api/v1/events/recent/")
+    def recent_events_10(self, request):
         res = {"events": DopplerrDb().getLastEvents(10)}
         return jsonify(request, res)
 

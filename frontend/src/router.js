@@ -27,13 +27,14 @@ export default new VueRouter({
   routes: [
     {
       path: '/',
-      component: load('home'),
+      component: load('pages'),
       // sub-routes
       children: [
-        { path: '/events', component: load('events') },
-        { path: '/movies', component: load('movies') },
-        { path: '/series', component: load('series') },
-        { path: '/status', component: load('status') }
+        { path: '/', component: load('pages/home') },
+        { path: '/events', component: load('pages/events') },
+        { path: '/movies', component: load('pages/movies') },
+        { path: '/series', component: load('pages/series') },
+        { path: '/status', component: load('pages/status') }
       ]
     },
 
