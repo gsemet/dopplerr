@@ -82,7 +82,7 @@ class DopplerrDownloader(object):
         except Exception as e:
             log.exception("subliminal raised an exception")
             res.update_status("failed", "subliminal exception")
-            res.set("exception", repr(e))
+            res.exception = repr(e)
             return res
         self.subliminal_download_lock.release()
         subtitles_info = []
@@ -96,6 +96,9 @@ class DopplerrDownloader(object):
                     "filename": get_subtitle_path(vid.name, language=sub.language)
                 })
             save_subtitles(vid, subtitles[vid])
-        res.update_status("succeeded", "download successful")
-        res.set("subtitles", subtitles_info)
+        res.subtitles = subtitles_info
+        if subtitles_info:
+            res.update_status("succeeded", "download successful")
+        else:
+            res.update_status("failed", "no subtitle found")
         return res

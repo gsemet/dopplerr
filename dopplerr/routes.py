@@ -86,7 +86,7 @@ class Routes(object):
         if res.is_unhandled:
             # event has been filtered out
             return res
-        candidates = res.get("candidates")
+        candidates = res.candidates
         if not candidates:
             DopplerrDb().insertEvent("error", "event handled but no candidate found")
             log.debug("event handled but no candidate found")
@@ -114,7 +114,7 @@ class Routes(object):
                 res.update_status("failed", "candidates found but no video file found")
             else:
                 DopplerrDownloader().download_missing_subtitles(res, video_files_found)
-            subtitles = res.get('subtitles', [])
+            subtitles = res.subtitles
             if not subtitles:
                 DopplerrDb().insertEvent("subtitles", "not subtitles found for: {}"
                                          .format([Path(f).name for f in video_files_found]))

@@ -4,7 +4,7 @@ MODULE:=dopplerr
 DOCKER_BUILD?=docker build
 PORT:=8086
 LANGUAGES?=fra,eng
-BASEDIR?=/
+BASEDIR?=dopplerr/tests/vectors/basedir
 MAPPING?=tv=Series
 OPENSUBTITLES_USERNAME?=username
 OPENSUBTITLES_PASSWORD?=password
@@ -58,6 +58,8 @@ yapf:
 
 checks: flake8 pylint
 
+sc: style checks
+
 flake8:
 	pipenv run python setup.py flake8
 
@@ -77,34 +79,43 @@ run-local:
 	@echo "Starting Dopplerr on http://localhost:$(PORT) ..."
 	pipenv run $(MODULE) \
 	           --port $(PORT) \
-			   --verbose \
-			   --logfile "debug.log" \
-			   --mapping $(MAPPING) \
-			   --languages $(LANGUAGES) \
-			   --basedir $(BASEDIR) \
-			   --opensubtitles $(OPENSUBTITLES_USERNAME) $(OPENSUBTITLES_PASSWORD)
+	           --verbose \
+	           --logfile "debug.log" \
+	           --mapping $(MAPPING) \
+	           --languages $(LANGUAGES) \
+	           --basedir $(BASEDIR) \
+	           --opensubtitles $(OPENSUBTITLES_USERNAME) $(OPENSUBTITLES_PASSWORD)
+
+postman-sonarr:
+	pipenv run curl -X POST \
+	                -H "Content-Type: application/json" \
+	                -H "Accept: application/json" \
+	                --data "@dopplerr/tests/vectors/sonarr_on_download2.json" \
+	                http://localhost:$(PORT)/api/v1/notify/sonarr
+
+postman: postman-sonarr
 
 run-local-env:
 	@echo "Starting Dopplerr on http://localhost:$(PORT) using environment variable parameters..."
 	DOPPLERR_PORT=$(PORT) \
-		DOPPLERR_MAPPING="$(MAPPING)" \
-		DOPPLERR_LANGUAGES=$(LANGUAGES) \
-		DOPPLERR_BASEDIR=$(BASEDIR) \
-		DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME) \
-		DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD) \
-		pipenv run $(MODULE) \
-			--verbose \
-			--logfile "debug.log"
+	    DOPPLERR_MAPPING="$(MAPPING)" \
+	    DOPPLERR_LANGUAGES=$(LANGUAGES) \
+	    DOPPLERR_BASEDIR=$(BASEDIR) \
+	    DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME) \
+	    DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD) \
+	    pipenv run $(MODULE) \
+	        --verbose \
+	        --logfile "debug.log"
 
 run-docker: kill-docker
 	docker run -p $(PORT):$(PORT) \
-			   -e "DOPPLERR_LANGUAGES=$(LANGUAGES)" \
-			   -e "DOPPLERR_MAPPING='$(MAPPING)'" \
-			   -e "DOPPLERR_LOGFILE=debug.log" \
-			   -e "DOPPLERR_BASEDIR=$(BASEDIR)" \
-			   -e "DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME)" \
-			   -e "DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD)" \
-			   -t dopplerr:latest
+	           -e "DOPPLERR_LANGUAGES=$(LANGUAGES)" \
+	           -e "DOPPLERR_MAPPING='$(MAPPING)'" \
+	           -e "DOPPLERR_LOGFILE=debug.log" \
+	           -e "DOPPLERR_BASEDIR=$(BASEDIR)" \
+	           -e "DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME)" \
+	           -e "DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD)" \
+	           -t dopplerr:latest
 
 run_frontend:
 	cd frontend ; make run
