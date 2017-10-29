@@ -56,14 +56,18 @@
     </div> -->
 
     <!-- sub-routes get injected here: -->
-    <router-view />
+    <div class="layout-padding row justify-center">
+      <div style="width: 800px; max-width: 90vw;">
+        <router-view />
+      </div>
+    </div>
 
     <!-- Footer -->
-    <q-toolbar slot="footer">
+    <!-- <q-toolbar slot="footer">
       <q-toolbar-title>
         Layout Footer
       </q-toolbar-title>
-    </q-toolbar>
+    </q-toolbar> -->
   </q-layout>
 </template>
 
