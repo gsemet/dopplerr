@@ -73,6 +73,9 @@ def inject_env_variables(argv):
     subscenter = os.environ.get("DOPPLERR_SUBSCENTER_USERNAME")
     if subscenter:
         argv.extend(["--subscenter", subscenter, os.environ.get("DOPPLERR_SUBSCENTER_PASSWORD")])
+    pushover_user = os.environ.get("DOPPLERR_PUSHOVER_USER")
+    if pushover_user:
+        argv.extend(["--pushover", pushover_user, os.environ.get("DOPPLERR_PUSHOVER_TOKEN")])
 
 
 def parse_subliminal_args(args):
@@ -193,6 +196,14 @@ def define_parameters(parser):
         required=False,
         help="subscenter credential (--subscenter USERNAME PASSWORD)",
     )
+    parser.add_argument(
+        "--pushover",
+        action="store",
+        dest="pushover",
+        nargs=2,
+        required=False,
+        help="PushOver credential (--pushover USER TOKEN)",
+    )
 
 
 def setup_status(args):
@@ -222,6 +233,11 @@ def setup_status(args):
     DopplerrStatus().languages = args.languages
     DopplerrStatus().frontenddir = str(Path(args.frontenddir).absolute())
     DopplerrStatus().subliminal_provider_configs = parse_subliminal_args(args)
+    if args.pushover:
+        DopplerrStatus().pushover_user = args.pushover.pop(0)
+    if args.pushover:
+        DopplerrStatus().pushover_token = args.pushover.pop(0)
+    DopplerrStatus().pushover_registered_notifications = ["fetched"]
 
     log.debug("Starting listening on port %s", DopplerrStatus().port)
     assert DopplerrStatus().port, "port should be defined"
@@ -241,6 +257,7 @@ def setup_status(args):
         log.debug("Path Mapping: %r", DopplerrStatus().path_mapping)
     else:
         log.debug("No path mapping defined")
+    log.debug("Pushover username: %s", DopplerrStatus().pushover_user)
 
 
 def main():

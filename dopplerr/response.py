@@ -35,6 +35,10 @@ class Response(object):
         elif "message" in self.res:
             del self.res['result']["message"]
 
+    @property
+    def successful(self):
+        return self.res.setdefault("result", {}).get("status") == "succeeded"
+
     def toDict(self):
         return self.res
 
@@ -77,3 +81,16 @@ class Response(object):
     @candidates.setter
     def candidates(self, ee):
         self.res.candidates = ee
+
+    @property
+    def sonarr_summary(self):
+        candidate = self.candidates[0]
+        subtitles = self.subtitles
+        return [{
+            "series_title": candidate.get("series_title"),
+            "season_number": candidate.get("season_number"),
+            "episode_number": candidate.get("episode_number"),
+            "quality": candidate.get("quality"),
+            "video_languages": candidate.get("video_languages", "???"),
+            "subtitles_languages": ",".join(s["language"] for s in subtitles),
+        }]

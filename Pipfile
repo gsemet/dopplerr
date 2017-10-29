@@ -35,6 +35,7 @@ pbr = "*"
 colorlog = "*"
 setuptools = "!=36.0.0"
 "pathlib2" = "*"
+treq = "*"
 
 
 [requires]

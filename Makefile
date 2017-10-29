@@ -8,6 +8,8 @@ BASEDIR?=dopplerr/tests/vectors/basedir
 MAPPING?=tv=Series
 OPENSUBTITLES_USERNAME?=username
 OPENSUBTITLES_PASSWORD?=password
+PUSHOVER_USER?=user
+PUSHOVER_TOKEN?=token
 
 all: frontend-all backend-all
 backend-all: dev version style checks frontend-build build dists docker-build test-unit
@@ -84,7 +86,8 @@ run-local:
 	           --mapping $(MAPPING) \
 	           --languages $(LANGUAGES) \
 	           --basedir $(BASEDIR) \
-	           --opensubtitles $(OPENSUBTITLES_USERNAME) $(OPENSUBTITLES_PASSWORD)
+	           --opensubtitles $(OPENSUBTITLES_USERNAME) $(OPENSUBTITLES_PASSWORD) \
+	           --pushover $(PUSHOVER_USER) $(PUSHOVER_TOKEN) \
 
 postman-sonarr:
 	pipenv run curl -X POST \
@@ -103,6 +106,8 @@ run-local-env:
 	    DOPPLERR_BASEDIR=$(BASEDIR) \
 	    DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME) \
 	    DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD) \
+	    DOPPLERR_PUSHOVER_USER=$(PUSHOVER_USER) \
+	    DOPPLERR_PUSHOVER_TOKEN=$(PUSHOVER_TOKEN) \
 	    pipenv run $(MODULE) \
 	        --verbose \
 	        --logfile "debug.log"
@@ -115,6 +120,8 @@ run-docker: kill-docker
 	           -e "DOPPLERR_BASEDIR=$(BASEDIR)" \
 	           -e "DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME)" \
 	           -e "DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD)" \
+	           -e "DOPPLERR_PUSHOVER_USER=$(PUSHOVER_USER)" \
+	           -e "DOPPLERR_PUSHOVER_TOKEN=$(PUSHOVER_TOKEN)" \
 	           -t dopplerr:latest
 
 run_frontend:
