@@ -65,7 +65,7 @@ class Routes(object):
     def static(self, _request):
         return File(self.frontend_static)
 
-    @app.route("/api/v1/events/recents")
+    @app.route("/api/v1/events/recent")
     def events(self, request):
         res = {"events": DopplerrDb().getLastEvents(10)}
         return jsonify(request, res)
@@ -93,9 +93,20 @@ class Routes(object):
             res.update_status("failed", "event handled but no candidate found")
             return res
         for candidate in candidates:
-            DopplerrDb().insertEvent("availability notification",
-                                     "episode '{}' from series '{}' available".format(
-                                         candidate.get("scenename"), candidate.get("series_title")))
+            log.info(
+                "Searching episode '%s' from series '%s'. Filename: %s",
+                candidate.get("episode_title"),
+                candidate.get("series_title"),
+                candidate.get("scenename"),
+            )
+            DopplerrDb().insertEvent("availability notification", "{} - {}x{} - {} [{}] available."
+                                     .format(
+                                         candidate.get("series_title"),
+                                         candidate.get("season_number"),
+                                         candidate.get("episode_number"),
+                                         candidate.get("episode_title"),
+                                         candidate.get("quality"),
+                                     ))
             video_files_found = DopplerrDownloader().search_file(candidate['root_dir'],
                                                                  candidate['scenename'])
             log.debug("All found files: %r", video_files_found)

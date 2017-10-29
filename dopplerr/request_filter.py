@@ -74,12 +74,18 @@ class SonarrFilter(_FilterBase):
             low_episode = self.lowerize_dick_keys(episode)
             basename = low_episode.get("scenename", "")
             episode_title = low_episode.get("title", "")
+            season_number = low_episode.get("seasonnumber", "")
+            episode_number = low_episode.get("episodenumber", "")
+            quality = low_episode.get("quality", "")
             log.debug("Candidate: episode '%s' with base filename '%s'", episode_title, basename)
             res.setdefault("candidates", []).append({
                 "series_title": series_title,
                 "episode_title": episode_title,
                 "root_dir": root_dir,
                 "scenename": basename,
+                "season_number": season_number,
+                "episode_number": episode_number,
+                "quality": quality,
             })
         res.update_status("candidates listed")
         return res
