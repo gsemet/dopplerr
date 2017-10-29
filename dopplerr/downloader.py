@@ -56,7 +56,7 @@ class DopplerrDownloader(object):
         return res
 
     def download_missing_subtitles(self, res, files):
-        log.info("Searching and downloading missing subtitles")
+        log.info("Searching and downloading missing subtitles for: %r", files)
         res.update_status("downloading", "downloading missing subtitles")
         videos = []
         for fil in files:

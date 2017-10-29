@@ -21,6 +21,9 @@ class DopplerrStatus(object):
         self.__languages = []
         self.__sqlite_db_path = None
         self.__subliminal_provider_configs = None
+        self.__pushover_registered_notifications = None
+        self.__pushover_user = None
+        self.__pushover_token = None
 
     @property
     def healthy(self):
@@ -101,3 +104,27 @@ class DopplerrStatus(object):
     @subliminal_provider_configs.setter
     def subliminal_provider_configs(self, provider_configs):
         self.__subliminal_provider_configs = provider_configs
+
+    @property
+    def pushover_registered_notifications(self):
+        return self.__pushover_registered_notifications
+
+    @pushover_registered_notifications.setter
+    def pushover_registered_notifications(self, registered_notif):
+        self.__pushover_registered_notifications = registered_notif
+
+    @property
+    def pushover_user(self):
+        return self.__pushover_user
+
+    @pushover_user.setter
+    def pushover_user(self, user):
+        self.__pushover_user = user
+
+    @property
+    def pushover_token(self):
+        return self.__pushover_token
+
+    @pushover_token.setter
+    def pushover_token(self, token):
+        self.__pushover_token = token
