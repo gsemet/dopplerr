@@ -13,6 +13,7 @@ from pathlib import Path
 from peewee import BooleanField
 from peewee import CharField
 from peewee import DateTimeField
+from peewee import IntegerField
 from peewee import Model
 from peewee import SqliteDatabase
 from peewee import TextField
@@ -29,6 +30,17 @@ class Events(Model):
 class MissingSubtitles(Model):
     path = CharField()
     found = BooleanField()
+
+
+class FetchedSeriesSubtitles(Model):
+    timestamp = DateTimeField(default=datetime.datetime.now)
+    series_title = CharField()
+    season_number = IntegerField()
+    episode_number = IntegerField()
+    episode_title = CharField()
+    quality = CharField()
+    video_languages = CharField()
+    subtitles_languages = CharField()
 
 
 @singleton
@@ -55,16 +67,45 @@ class DopplerrDb(object):
     def createTables(self):
         self.database.create_table(MissingSubtitles, safe=True)
         self.database.create_table(Events, safe=True)
+        self.database.create_table(FetchedSeriesSubtitles, safe=True)
 
     def insertEvent(self, thetype: str, message: str):
         with Using(self.database, [Events], with_transaction=False):
             Events.insert(type=thetype, message=message).execute()
 
-    def getLastEvents(self, limit: int):
+    def getRecentEvents(self, limit: int):
         with Using(self.database, [Events], with_transaction=False):
             events = (Events.select().limit(limit).order_by(Events.timestamp.desc()).execute())
             return [{
                 "timestamp": e.timestamp.strftime('%Y-%m-%dT%H:%M:%S'),
                 "type": e.type,
                 "message": e.message
+            } for e in events]
+
+    def insertFetchedSeriesSubtitles(self, series_title, season_number, episode_number,
+                                     episode_title, quality, video_languages, subtitles_languages):
+        with Using(self.database, [FetchedSeriesSubtitles], with_transaction=True):
+            FetchedSeriesSubtitles.insert(
+                series_title=series_title,
+                season_number=season_number,
+                episode_number=episode_number,
+                episode_title=episode_title,
+                quality=quality,
+                video_languages=video_languages,
+                subtitles_languages=subtitles_languages,
+            ).execute()
+
+    def getLastFetchedSeries(self, limit: int):
+        with Using(self.database, [FetchedSeriesSubtitles], with_transaction=False):
+            events = (FetchedSeriesSubtitles.select().limit(limit).order_by(
+                FetchedSeriesSubtitles.timestamp.desc()).execute())
+            return [{
+                "timestamp": e.timestamp.strftime('%Y-%m-%dT%H:%M:%S'),
+                "series_title": e.series_title,
+                "season_number": e.season_number,
+                "episode_number": e.episode_number,
+                "episode_title": e.episode_title,
+                "quality": e.quality,
+                "video_languages": e.video_languages,
+                "subtitles_languages": e.subtitles_languages,
             } for e in events]

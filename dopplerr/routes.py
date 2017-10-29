@@ -66,17 +66,25 @@ class Routes(object):
     def static(self, _request):
         return File(self.frontend_static)
 
-    @app.route("/api/v1/events/recent/<num>")
+    @app.route("/api/v1/recent/events/<num>")
     def recent_events_num(self, request, num=10):
         num = int(num)
         if num > 100:
             num = 100
-        res = {"events": DopplerrDb().getLastEvents(num)}
+        res = {"events": DopplerrDb().getRecentEvents(num)}
         return jsonify(request, res)
 
-    @app.route("/api/v1/events/recent/")
+    @app.route("/api/v1/recent/events/")
     def recent_events_10(self, request):
-        res = {"events": DopplerrDb().getLastEvents(10)}
+        res = {"events": DopplerrDb().getRecentEvents(10)}
+        return jsonify(request, res)
+
+    @app.route("/api/v1/recent/fetched/series/<num>")
+    def recent_fetched_series_num(self, request, num=10):
+        num = int(num)
+        if num > 100:
+            num = 100
+        res = {"events": DopplerrDb().getLastFetchedSeries(num)}
         return jsonify(request, res)
 
     @app.route("/api/v1/notify/sonarr", methods=['POST'])
@@ -100,6 +108,15 @@ class Routes(object):
                          video_languages=s['video_languages'],
                          subtitles_languages=s['subtitles_languages'],
                      )))
+                DopplerrDb().insertFetchedSeriesSubtitles(
+                    series_title=s['series_title'],
+                    season_number=s['season_number'],
+                    episode_number=s['episode_number'],
+                    episode_title=s['episode_number'],
+                    quality=s['quality'],
+                    video_languages=s['video_languages'],
+                    subtitles_languages=s['subtitles_languages'],
+                )
         return jsonify(request, res.toDict())
 
     @deferredAsThread
