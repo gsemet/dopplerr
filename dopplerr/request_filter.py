@@ -46,8 +46,8 @@ class SonarrFilter(_FilterBase):
     def process_download(self, request, res):
         log.debug("Processing Sonarr's 'on downloaded' event")
         res.update_status("processing")
-        res.set("request_type", "sonarr")
-        res.set("request_event", "on download")
+        res.request_type = "sonarr"
+        res.request_event = "on download"
         low_request = self.lowerize_dick_keys(request)
         low_series = self.lowerize_dick_keys(low_request.get("series", {}))
         root_dir = low_series.get("path")
@@ -78,7 +78,7 @@ class SonarrFilter(_FilterBase):
             episode_number = low_episode.get("episodenumber", "")
             quality = low_episode.get("quality", "")
             log.debug("Candidate: episode '%s' with base filename '%s'", episode_title, basename)
-            res.setdefault("candidates", []).append({
+            res.candidates.append({
                 "series_title": series_title,
                 "episode_title": episode_title,
                 "root_dir": root_dir,

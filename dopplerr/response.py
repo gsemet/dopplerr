@@ -20,29 +20,60 @@ class Response(object):
         self.res["message"] = message.lower()
 
     def unhandled(self, message):
-        log.information("Filtered out event: %s", message)
+        log.info("Filtered out event: %s", message)
         self.res["status"] = "unhandled"
         self.res["message"] = message.lower()
 
     @property
     def is_unhandled(self):
-        return self.get("status") == "unhandled"
+        return self.res.get("result", {}).get("status") == "unhandled"
 
     def update_status(self, status, message=None):
-        self.res["status"] = status
+        self.res.setdefault("result", {})['status'] = status
         if message is not None:
-            self.res["message"] = message
+            self.res['result']["message"] = message
         elif "message" in self.res:
-            del self.res["message"]
-
-    def set(self, key, value):
-        self.res[key] = value
-
-    def get(self, key, default=None):
-        return self.res.get(key, default)
-
-    def setdefault(self, key, default):
-        return self.res.setdefault(key, default)
+            del self.res['result']["message"]
 
     def toDict(self):
         return self.res
+
+    @property
+    def request_type(self):
+        return self.res.get("request", {}).get("type", None)
+
+    @request_type.setter
+    def request_type(self, tt):
+        self.res.setdefault("request", {})["type"] = tt
+
+    @property
+    def request_event(self):
+        return self.res.get("request", {}).get("event", None)
+
+    @request_event.setter
+    def request_event(self, ee):
+        self.res.setdefault("request", {})["event"] = ee
+
+    @property
+    def exception(self):
+        return self.res.get("result", {}).get("exception", None)
+
+    @exception.setter
+    def exception(self, ee):
+        self.res.setdefault("result", {})["exception"] = ee
+
+    @property
+    def subtitles(self):
+        return self.res.get("result", {}).get("subtitles", None)
+
+    @subtitles.setter
+    def subtitles(self, ee):
+        self.res.setdefault("result", {})["subtitles"] = ee
+
+    @property
+    def candidates(self):
+        return self.res.setdefault("candidates", [])
+
+    @candidates.setter
+    def candidates(self, ee):
+        self.res.candidates = ee
