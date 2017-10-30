@@ -42,18 +42,15 @@ Use my docker image:
         -e PGID=<GID> \
         -v <path/to/animes>:/animes \
         -v <path/to/movies>:/movies \
-        -v <path/to/tvseries>:/tv \
+        -v <path/to/series>:/tv \
         -e DOPPLERR_LANGUAGES="fra,eng" \
         stibbons31/dopplerr
 
 Mount your media directories in ``/``. Typically, ``/animes`` and
-``/tv`` are from Sonarr, and ``/movies`` from Radarr. A ``/media``
-directory also exists in the docker image, so you can mount them all in
-``/media`` and set the following environment variable:
-``DOPPLERR_BASEDIR=/media``.
+``/tv`` are from Sonarr, and ``/movies`` from Radarr.
 
 It is a good practice to run Sonarr and Radarr in their own container,
-so they also "see" their media in path such as ``/series``, ``/tv``,
+so they also "see" their media in path such as ``/tv``, ``/movies``,
 ``/animes``. Mount these volume with the same name in the ``dopplerr``
 container. ``DOPPLERR_MAPPING`` allows developers to run dopplerr
 directly from their PC and allow a different naming conventions (for
@@ -75,7 +72,7 @@ Example of starting command line arguments:
 -  ``-p 8086:8086`` - the port webinterface
 -  ``-v /path/to/anime:/anime`` - location of Anime library on disk
 -  ``-v /path/to/movies:/movies`` - location of Movies library on disk
--  ``-v /path/to/tv:/tv`` - location of TV library on disk
+-  ``-v /path/to/series:/tv`` - location of TV library on disk
 -  ``-e PGID=1000`` - for GroupID. See below for explanation
 -  ``-e PUID=100`` - for UserID. See below for explanation
 -  ``-e DOPPLERR_LANGUAGES=fra,eng`` - set wanted subtitles languages
@@ -171,7 +168,7 @@ Check out the source code
 
 ::
 
-    git clone 
+    git clone
 
 Install requirement system-level dependencies with (or adapt
 accordingly):
