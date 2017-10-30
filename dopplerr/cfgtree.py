@@ -69,7 +69,7 @@ def getNodeByPath(mapping, xpath, default=None, ignoreErrors=False, handleListSe
     return mapping
 
 
-def setNodeByPath(mapping, xpath, value, extend=False):
+def setNodeByPath(mapping, xpath, value, extend=False, setter_attr=None):
     '''Set the node pointed to by xpath from mapping.
 
     Args:
@@ -78,6 +78,8 @@ def setNodeByPath(mapping, xpath, value, extend=False):
         value: value to set.
         extend: if True, create the nested structure if it doesn't exist,
             otherwise, raise an exception.
+        setter_attr: use a special setter method attribute in mapping, instead of replacing
+                     the node by the new value (note: do not use a property setter attribute)
 
     Example:
 
@@ -94,7 +96,12 @@ def setNodeByPath(mapping, xpath, value, extend=False):
                                "anything.".format(xpath, segment))
             mapping[segment] = {}
         mapping = mapping[segment]
-    mapping[attrname] = value
+    if setter_attr:
+        # setter attribute defined, calling this setter
+        setter = getattr(mapping[attrname], setter_attr)
+        setter(value)
+    else:
+        mapping[attrname] = value
 
 
 def deleteNodeByPath(mapping, xpath, ignoreErrors=False):

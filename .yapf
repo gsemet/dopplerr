@@ -11,5 +11,5 @@ split_penalty_after_opening_bracket = 10
 ; spaces_around_power_operator = false
 ; spaces_before_comment = 2
 ; split_before_first_argument = false
-; split_before_logical_operator = false
+split_before_logical_operator = false
 ; split_arguments_when_comma_terminated = true
