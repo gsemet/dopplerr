@@ -80,14 +80,18 @@ readme:
 run-local:
 	@echo "Starting Dopplerr on http://localhost:$(PORT) ..."
 	pipenv run $(MODULE) \
-	           --port $(PORT) \
-	           --verbose \
-	           --logfile "debug.log" \
-	           --mapping $(MAPPING) \
-	           --languages $(LANGUAGES) \
-	           --basedir $(BASEDIR) \
-	           --opensubtitles $(OPENSUBTITLES_USERNAME) $(OPENSUBTITLES_PASSWORD) \
-	           --pushover $(PUSHOVER_USER) $(PUSHOVER_TOKEN) \
+	           -p $(PORT) \
+	           -v \
+	           -l "debug.log" \
+	           -m $(MAPPING) \
+	           -b $(BASEDIR) \
+	           --subliminal-languages $(LANGUAGES) \
+	           --subliminal-opensubtitles-enabled \
+	           --subliminal-opensubtitles-user $(OPENSUBTITLES_USERNAME) \
+	           --subliminal-opensubtitles-password $(OPENSUBTITLES_PASSWORD) \
+	           --notifications-pushover-enabled \
+	           --notifications-pushover-user $(PUSHOVER_USER) \
+	           --notifications-pushover-token $(PUSHOVER_TOKEN) \
 
 postman-sonarr:
 	pipenv run curl -X POST \
@@ -100,28 +104,32 @@ postman: postman-sonarr
 
 run-local-env:
 	@echo "Starting Dopplerr on http://localhost:$(PORT) using environment variable parameters..."
-	DOPPLERR_PORT=$(PORT) \
-	    DOPPLERR_MAPPING="$(MAPPING)" \
-	    DOPPLERR_LANGUAGES=$(LANGUAGES) \
-	    DOPPLERR_BASEDIR=$(BASEDIR) \
-	    DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME) \
-	    DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD) \
-	    DOPPLERR_PUSHOVER_USER=$(PUSHOVER_USER) \
-	    DOPPLERR_PUSHOVER_TOKEN=$(PUSHOVER_TOKEN) \
+	DOPPLERR_GENERAL_PORT=$(PORT) \
+	    DOPPLERR_GENERAL_MAPPING="$(MAPPING)" \
+	    DOPPLERR_GENERAL_BASEDIR=$(BASEDIR) \
+	    DOPPLERR_SUBLIMINAL_LANGUAGES=$(LANGUAGES) \
+	    DOPPLERR_SUBLIMINAL_OPENSUBTITLES_ENABLED=$(OPENSUBTITLES_USERNAME) \
+	    DOPPLERR_SUBLIMINAL_OPENSUBTITLES_USER=$(OPENSUBTITLES_USERNAME) \
+	    DOPPLERR_SUBLIMINAL_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD) \
+	    DOPPLERR_NOTIFICATIONS_PUSHOVER_ENABLED=$(PUSHOVER_USER) \
+	    DOPPLERR_NOTIFICATIONS_PUSHOVER_USER=$(PUSHOVER_USER) \
+	    DOPPLERR_NOTIFICATIONS_PUSHOVER_TOKEN=$(PUSHOVER_TOKEN) \
 	    pipenv run $(MODULE) \
 	        --verbose \
 	        --logfile "debug.log"
 
 run-docker: kill-docker
 	docker run -p $(PORT):$(PORT) \
-	           -e "DOPPLERR_LANGUAGES=$(LANGUAGES)" \
-	           -e "DOPPLERR_MAPPING='$(MAPPING)'" \
-	           -e "DOPPLERR_LOGFILE=debug.log" \
-	           -e "DOPPLERR_BASEDIR=$(BASEDIR)" \
-	           -e "DOPPLERR_OPENSUBTITLES_USERNAME=$(OPENSUBTITLES_USERNAME)" \
-	           -e "DOPPLERR_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD)" \
-	           -e "DOPPLERR_PUSHOVER_USER=$(PUSHOVER_USER)" \
-	           -e "DOPPLERR_PUSHOVER_TOKEN=$(PUSHOVER_TOKEN)" \
+	           -e "DOPPLERR_GENERAL_MAPPING='$(MAPPING)'" \
+	           -e "DOPPLERR_GENERAL_LOGFILE=debug.log" \
+	           -e "DOPPLERR_GENERAL_BASEDIR=$(BASEDIR)" \
+	           -e "DOPPLERR_SUBLIMINAL_LANGUAGES=$(LANGUAGES)" \
+	           -e "DOPPLERR_SUBLIMINAL_OPENSUBTITLES_ENABLED=1" \
+	           -e "DOPPLERR_SUBLIMINAL_OPENSUBTITLES_USER=$(OPENSUBTITLES_USERNAME)" \
+	           -e "DOPPLERR_SUBLIMINAL_OPENSUBTITLES_PASSWORD=$(OPENSUBTITLES_PASSWORD)" \
+	           -e "DOPPLERR_NOTIFICATIONS_PUSHOVER_ENABLED=1" \
+	           -e "DOPPLERR_NOTIFICATIONS_PUSHOVER_USER=$(PUSHOVER_USER)" \
+	           -e "DOPPLERR_NOTIFICATIONS_PUSHOVER_TOKEN=$(PUSHOVER_TOKEN)" \
 	           -t dopplerr:latest
 
 run_frontend:
@@ -207,6 +215,8 @@ pypi: pypi-publish
 run: run-local
 styles: style
 test: test-unit
+unittest: test-unit
+unittests: test-unit
 upgrade: update
 wheel: wheels
 dev-frontend: frontend-dev

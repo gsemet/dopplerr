@@ -10,7 +10,7 @@ import treq
 
 from twisted.internet.defer import inlineCallbacks
 
-from dopplerr.status import DopplerrStatus
+from dopplerr.cfg import DopplerrConfig
 
 log = logging.getLogger(__name__)
 
@@ -56,11 +56,12 @@ class NotificationPushOver(NotificationBase):
 @inlineCallbacks
 def emit_registered_notifications(notification_type, title, message):
     log.debug("Emiting notification: [%s] %s - %s", notification_type, title, message)
-    if DopplerrStatus().pushover_user and DopplerrStatus().pushover_token:
-        log.debug("Emiting pushover with user %s", DopplerrStatus().pushover_user)
+    if DopplerrConfig().get_cfg_value("notifications.pushover.enabled"):
+        log.debug("Emiting pushover with user %s",
+                  DopplerrConfig().get_cfg_value("notifications.pushover.user"))
         po = NotificationPushOver(
-            DopplerrStatus().pushover_token,
-            DopplerrStatus().pushover_user,
-            DopplerrStatus().pushover_registered_notifications,
+            DopplerrConfig().get_cfg_value("notifications.pushover.token"),
+            DopplerrConfig().get_cfg_value("notifications.pushover.user"),
+            DopplerrConfig().get_cfg_value("notifications.pushover.registered_notifications"),
         )
         yield po.emit(notification_type, title, message)

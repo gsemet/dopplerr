@@ -17,6 +17,7 @@ from twisted.internet.defer import inlineCallbacks
 from twisted.web.static import File
 
 import dopplerr
+from dopplerr.cfg import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
 from dopplerr.notifications import emit_registered_notifications
@@ -35,18 +36,20 @@ class Routes(object):
     __frontend_root = None
 
     def listen(self):
-        self.app.run(host='0.0.0.0', port=int(DopplerrStatus().port))
+        DopplerrStatus().healthy = True
+        self.app.run(host='0.0.0.0', port=int(DopplerrConfig().get_cfg_value("general.port")))
 
     @property
     def frontend_static(self):
         if self.__frontend_static is None:
-            self.__frontend_static = str(Path(DopplerrStatus().frontenddir) / "static")
+            self.__frontend_static = str(
+                Path(DopplerrConfig().get_cfg_value("general.frontenddir")) / "static")
         return self.__frontend_static
 
     @property
     def frontend_root(self):
         if self.__frontend_root is None:
-            self.__frontend_root = str(Path(DopplerrStatus().frontenddir))
+            self.__frontend_root = str(Path(DopplerrConfig().get_cfg_value("general.frontenddir")))
         return self.__frontend_root
 
     # Double-index method kung-foo
@@ -181,8 +184,8 @@ class Routes(object):
     def health(self, request):
         res_health = {
             "healthy": DopplerrStatus().healthy,
-            "languages": DopplerrStatus().languages,
-            "mapping": DopplerrStatus().path_mapping,
+            "languages": DopplerrConfig().get_cfg_value("subliminal.languages"),
+            "mapping": DopplerrConfig().get_cfg_value("general.mapping"),
             "version": dopplerr.version,
         }
         return jsonify(request, res_health)

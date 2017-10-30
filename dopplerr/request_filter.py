@@ -6,19 +6,19 @@ from __future__ import unicode_literals
 
 import logging
 
-from dopplerr.status import DopplerrStatus
+from dopplerr.cfg import DopplerrConfig
 
 log = logging.getLogger(__name__)
 
 
 class _FilterBase(object):
     def appy_path_mapping(self, folder):
-        if not DopplerrStatus().path_mapping:
+        if not DopplerrConfig().get_cfg_value("general.mapping"):
             return folder
         if folder.startswith("/"):
             absolute = True
             folder = folder[1:]
-        for mapping in DopplerrStatus().path_mapping:
+        for mapping in DopplerrConfig().get_cfg_value("general.mapping"):
             log.debug("Mapping: %s", mapping)
             k, _, v = mapping.partition("=")
             log.debug("Applying mapping %s => %s", k, v)
@@ -56,7 +56,8 @@ class SonarrFilter(_FilterBase):
             return res.failed("Empty Series Path")
         root_dir = self.appy_path_mapping(root_dir)
         log.debug("Root folder: %s", root_dir)
-        log.debug("Reconstructing full media path with basedir '%s'", DopplerrStatus().basedir)
+        log.debug("Reconstructing full media path with basedir '%s'",
+                  DopplerrConfig().get_cfg_value("general.basedir"))
 
         def concat_path(a, b):
             if not a.endswith('/'):
@@ -66,7 +67,7 @@ class SonarrFilter(_FilterBase):
             a += b
             return a
 
-        root_dir = concat_path(DopplerrStatus().basedir, root_dir)
+        root_dir = concat_path(DopplerrConfig().get_cfg_value("general.basedir"), root_dir)
         basename = root_dir
         log.info("Searching episodes for serie '%s' in '%s'", series_title, root_dir)
         res.update_status("listing candidates")
