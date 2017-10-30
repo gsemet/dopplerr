@@ -10,12 +10,11 @@
 
 colorlog
 flask
-glob2
 klein
-pathlib2
 pbr
 peewee
 setuptools!=36.0.0
 subliminal
+treq
 txrwlock>=1.1.2
-txwebbackendbase>=0.1.7
+txwebbackendbase>=0.2.1
