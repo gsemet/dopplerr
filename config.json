@@ -1,0 +1,51 @@
+{
+    "general": {
+        "appdir": "/Users/gaetan/Projects/dopplerr",
+        "basedir": "dopplerr/tests/vectors/basedir",
+        "configdir": "/Users/gaetan/Projects/dopplerr",
+        "frontenddir": "/Users/gaetan/Projects/dopplerr/frontend/dist",
+        "logfile": "debug.log",
+        "mapping": [
+            "tv=Series"
+        ],
+        "no_color": false,
+        "port": "8086",
+        "verbose": true
+    },
+    "notifications": {
+        "pushover": {
+            "enabled": true,
+            "registered_notifications": [
+                "fetched"
+            ],
+            "token": "token",
+            "user": "user"
+        }
+    },
+    "subliminal": {
+        "addic7ed": {
+            "enabled": false,
+            "password": "",
+            "user": ""
+        },
+        "languages": [
+            "fra",
+            "eng"
+        ],
+        "legendastv": {
+            "enabled": false,
+            "password": "",
+            "user": ""
+        },
+        "opensubtitles": {
+            "enabled": true,
+            "password": "password",
+            "user": "username"
+        },
+        "subscenter": {
+            "enabled": false,
+            "password": "",
+            "user": ""
+        }
+    }
+}
