@@ -13,6 +13,7 @@ from pathlib import Path
 from babelfish import Language
 from txwebbackendbase.logging import setupLogger
 
+from dopplerr import dopplerr_version
 from dopplerr.cfg import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
@@ -42,7 +43,7 @@ def list_of_languages(langList):
 
 def main():
     setupLogger(level=logging.DEBUG, no_color=True)
-    log.debug("Initializing Dopplerr...")
+    log.debug("Initializing Dopplerr version %s...", dopplerr_version)
 
     DopplerrConfig().find_configuration_values()
 
