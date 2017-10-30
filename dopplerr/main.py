@@ -42,7 +42,11 @@ def list_of_languages(langList):
 
 
 def main():
-    setupLogger(level=logging.DEBUG, no_color=True)
+    if "-v" in sys.argv or "--verbose" in sys.argv:
+        default_level = logging.DEBUG
+    else:
+        default_level = logging.INFO
+    setupLogger(level=default_level, no_color=True)
     log.debug("Initializing Dopplerr version %s...", dopplerr_version)
 
     DopplerrConfig().find_configuration_values()
@@ -52,6 +56,10 @@ def main():
                if DopplerrConfig().get_cfg_value("general.verbose") else logging.WARNING),
         no_color=DopplerrConfig().get_cfg_value("general.no_color"),
         logfile=DopplerrConfig().get_cfg_value("general.logfile"))
+    log.info("Reset logging format to %s", "verbose"
+             if DopplerrConfig().get_cfg_value("general.verbose") else "not verbose")
+
+    log.debug("Applying configuration")
     DopplerrStatus().refresh_from_cfg()
 
     log.info("Initializing Subtitle DopplerrDownloader Service")
