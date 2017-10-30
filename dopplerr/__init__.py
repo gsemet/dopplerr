@@ -6,10 +6,12 @@ from __future__ import unicode_literals
 
 import pbr.version
 
-__version__ = pbr.version.VersionInfo('dopplerr').version_string()
+__version__ = pbr.version.VersionInfo('dopplerr').release_string()
 version = __version__
+dopplerr_version = __version__
 
 __all__ = [
-    'version',
     '__version__',
+    'dopplerr_version',
+    'version',
 ]
