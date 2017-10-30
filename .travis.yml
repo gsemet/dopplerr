@@ -16,6 +16,8 @@ install:
 
 script:
   - make backend-checks
+  - make frontend-lint
+  - make frontend-build
   - make release
   - make test-unit
   - make test-coverage
