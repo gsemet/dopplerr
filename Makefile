@@ -47,7 +47,7 @@ install-local:
 install-system:
 	pipenv install --system --skip-lock
 
-style: isort autopep8 yapf
+style: readme requirements isort autopep8 yapf
 
 isort:
 	pipenv run isort -y
@@ -58,9 +58,9 @@ autopep8:
 yapf:
 	pipenv run yapf --style .yapf --recursive -i $(MODULE)
 
-checks: flake8 pylint
+checks: readme requirements flake8 pylint
 
-sc: style checks
+sc: readme requirements style checks
 
 flake8:
 	pipenv run python setup.py flake8

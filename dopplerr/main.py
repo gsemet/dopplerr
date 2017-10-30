@@ -41,8 +41,8 @@ def list_of_languages(langList):
 
 
 def main():
-    FORMAT = "%(asctime)-15s %(levelname)-8s %(message)s"
-    logging.basicConfig(format=FORMAT, level=logging.DEBUG)
+    setupLogger(level=logging.DEBUG, no_color=True)
+    log.debug("Initializing Dopplerr...")
 
     DopplerrConfig().find_configuration_values()
 
