@@ -18,6 +18,7 @@ from subliminal.subtitle import get_subtitle_path
 from txwebbackendbase.singleton import singleton
 from txwebbackendbase.utils import recursive_iglob
 
+from dopplerr.cfg import DopplerrConfig
 from dopplerr.status import DopplerrStatus
 
 log = logging.getLogger(__name__)
@@ -76,8 +77,9 @@ class DopplerrDownloader(object):
         try:
             provider_configs = DopplerrStatus().subliminal_provider_configs
             subtitles = download_best_subtitles(
-                videos, {Language(l)
-                         for l in DopplerrStatus().languages},
+                videos,
+                {Language(l)
+                 for l in DopplerrConfig().get_cfg_value("subliminal.languages")},
                 provider_configs=provider_configs)
         except Exception as e:
             log.exception("subliminal raised an exception")
