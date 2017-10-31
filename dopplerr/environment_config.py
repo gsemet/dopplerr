@@ -23,7 +23,7 @@ _undefined = object()
 
 class _CfgBase(object):
 
-    _DEFAULT = None
+    default = None
     name = None
     xpath = None
     arg_type = None
@@ -36,9 +36,7 @@ class _CfgBase(object):
         self.help_str = h
         self.required = r
         self.forced_long_param = l
-        if d == _undefined:
-            self.default = self._DEFAULT
-        else:
+        if d != _undefined:
             self.default = d
         self.value = self.default
 
@@ -107,7 +105,7 @@ class _CfgBase(object):
 
 
 class StringCfg(_CfgBase):
-    _DEFAULT = ""
+    default = ""
 
     def read_environ_var(self):
         return str(self._environ_var_value)
@@ -119,7 +117,7 @@ class ListOfStringCfg(_CfgBase):
     """
 
     def __init__(self, *args, **kwargs):
-        self._DEFAULT = []
+        self.default = []
         super(ListOfStringCfg, self).__init__(*args, **kwargs)
 
     def read_environ_var(self):
@@ -139,7 +137,7 @@ class ListOfStringCfg(_CfgBase):
 
 
 class IntCfg(_CfgBase):
-    _DEFAULT = 0
+    default = 0
 
     def read_environ_var(self):
         return int(self._environ_var_value)
@@ -165,16 +163,16 @@ class PasswordCfg(StringCfg):
 
 
 class DirNameCfg(StringCfg):
-    _DEFAULT = None
+    default = None
 
 
 class ConfigFileCfg(StringCfg):
-    _DEFAULT = None
+    default = None
     ignore_in_cfg = True
 
 
 class BoolCfg(_CfgBase):
-    _DEFAULT = False
+    default = False
 
     def read_environ_var(self):
         e = os.environ.get(self.environ_var_name)
