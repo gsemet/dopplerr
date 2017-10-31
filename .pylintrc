@@ -351,7 +351,7 @@ variable-rgx=(([a-z_])|([a-z][a-z0-9_]{1,30})|(_[a-z0-9_]*))$
 [DESIGN]
 
 # Maximum number of arguments for function / method
-max-args=9
+max-args=14
 
 # Maximum number of attributes for a class (see R0902).
 max-attributes=35
@@ -363,7 +363,7 @@ max-bool-expr=5
 max-branches=12
 
 # Maximum number of locals for function / method body
-max-locals=15
+max-locals=17
 
 # Maximum number of parents for a class (see R0901).
 max-parents=7

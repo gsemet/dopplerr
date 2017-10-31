@@ -115,6 +115,7 @@ class Routes(object):
                     season_number=st['season_number'],
                     episode_number=st['episode_number'],
                     subtitles_languages=st['subtitles_languages'],
+                    dirty=False,
                 )
         return jsonify(request, res.to_dict())
 
@@ -140,14 +141,13 @@ class Routes(object):
                 candidate.get("series_title"),
                 candidate.get("scenename"),
             )
-            DopplerrDb().insert_event("availability", "Available: {} - {}x{} - {} [{}]."
-                                      .format(
-                                          candidate.get("series_title"),
-                                          candidate.get("season_number"),
-                                          candidate.get("episode_number"),
-                                          candidate.get("episode_title"),
-                                          candidate.get("quality"),
-                                      ))
+            DopplerrDb().insert_event("availability", "Available: {} - {}x{} - {} [{}].".format(
+                candidate.get("series_title"),
+                candidate.get("season_number"),
+                candidate.get("episode_number"),
+                candidate.get("episode_title"),
+                candidate.get("quality"),
+            ))
             video_files_found = DopplerrDownloader().search_file(candidate['root_dir'],
                                                                  candidate['scenename'])
             log.debug("All found files: %r", video_files_found)

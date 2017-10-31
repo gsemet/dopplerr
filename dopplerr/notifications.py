@@ -11,7 +11,6 @@ import treq
 from twisted.internet.defer import inlineCallbacks
 
 from dopplerr.cfg import DopplerrConfig
-from dopplerr.db import DopplerrDb
 
 log = logging.getLogger(__name__)
 
@@ -130,7 +129,7 @@ class SubtitleFetchedNotification(_NotificationBase):
                     episode_title=self.episode_number,
                     quality=self.quality,
                     video_languages=self.video_languages,
-                    subtitles_languages=self.subtitles_languages,
+                    subtitles_languages=",".join(self.subtitles_languages),
                 ))
 
 

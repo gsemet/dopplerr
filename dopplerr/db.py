@@ -9,18 +9,20 @@ import datetime
 import threading
 from pathlib import Path
 
-from peewee import ForeignKeyField
 from peewee import BooleanField
 from peewee import CharField
-from peewee import DateTimeField, PrimaryKeyField
+from peewee import DateTimeField
+from peewee import ForeignKeyField
 from peewee import IntegerField
 from peewee import Model
+from peewee import PrimaryKeyField
 from peewee import SqliteDatabase
 from peewee import TextField
 from peewee import Using
 from txwebbackendbase.singleton import singleton
 
 
+# pylint: disable=invalid-name
 class Events(Model):
     timestamp = DateTimeField(default=datetime.datetime.now)
     type = CharField()
@@ -45,6 +47,9 @@ class SeriesSubtitles(Model):
     added_timestamp = DateTimeField(default=datetime.datetime.now)
     series_media = ForeignKeyField(SeriesMedias, related_name='subtitles')
     language = CharField()
+
+
+# pylint: enable=invalid-name
 
 
 @singleton
@@ -100,26 +105,31 @@ class DopplerrDb(object):
         with Using(self.database, [SeriesMedias], with_transaction=True):
             media, _ = SeriesMedias.get_or_create(
                 tv_db_id=tv_db_id, season_number=season_number, episode_number=episode_number)
-            media.update(
-                series_title=series_title,
-                episode_title=episode_title,
-                quality=quality,
-                video_languages=video_languages,
-                dirty=dirty,
-                media_filename=media_filename,
-            ).execute()
+            media.series_title = series_title
+            media.episode_title = episode_title
+            media.quality = quality
+            media.video_languages = video_languages
+            media.dirty = dirty
+            media.media_filename = media_filename
+            media.save()
 
-    def update_fetched_series_subtitles(self, tv_db_id, season_number, episode_number,
-                                        subtitles_languages):
+    def update_fetched_series_subtitles(self,
+                                        tv_db_id,
+                                        season_number,
+                                        episode_number,
+                                        subtitles_languages,
+                                        dirty=True):
         with Using(self.database, [SeriesMedias, SeriesSubtitles], with_transaction=True):
             media = (SeriesMedias.select().where(SeriesMedias.tv_db_id == tv_db_id,
                                                  SeriesMedias.season_number == season_number,
                                                  SeriesMedias.episode_number == episode_number))
             for lang in subtitles_languages:
-                SeriesSubtitles.create(
+                SeriesSubtitles.get_or_create(
                     series_media=media,
                     language=lang,
                 )
+            for m in media:
+                m.update(dirty=dirty).execute()
 
     def get_last_fetched_series(self, limit: int):
         with Using(self.database, [SeriesMedias, SeriesSubtitles], with_transaction=False):

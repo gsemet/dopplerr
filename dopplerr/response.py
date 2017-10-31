@@ -89,8 +89,10 @@ class Response(object):
         return [{
             "series_title": candidate.get("series_title"),
             "season_number": candidate.get("season_number"),
+            "tv_db_id": candidate.get("tv_db_id"),
             "episode_number": candidate.get("episode_number"),
+            "episode_title": candidate.get("episode_title"),
             "quality": candidate.get("quality"),
             "video_languages": candidate.get("video_languages", "???"),
-            "subtitles_languages": ",".join(s["language"] for s in subtitles),
+            "subtitles_languages": [s["language"] for s in subtitles],
         }]
