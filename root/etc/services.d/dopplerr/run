@@ -10,6 +10,7 @@ exec \
         --general-no-color \
         --general-verbose \
         --general-basedir / \
+        --general-logfile /config/dopplerr.log \
         --general-port 8086 \
         --general-appdir /app \
         --general-configdir /config \
