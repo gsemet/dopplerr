@@ -16,7 +16,7 @@ from dopplerr.environment_config import ConfigFileCfg
 from dopplerr.environment_config import DirNameCfg
 from dopplerr.environment_config import EnvironmentConfig
 from dopplerr.environment_config import IntCfg
-from dopplerr.environment_config import JsonFileConfigEntryPoint
+from dopplerr.environment_config import JsonFileConfigStorage
 from dopplerr.environment_config import ListOfStringCfg
 from dopplerr.environment_config import MultiChoiceCfg
 from dopplerr.environment_config import PasswordCfg
@@ -40,20 +40,20 @@ def _find_frontend_data():
     return None
 
 
-class DopplerrJsonConfigFile(JsonFileConfigEntryPoint):
-    _CONFIG_ENTRYPOINT_ENVIRON_VAR_NAME = "DOPPLERR_COMMON_CONFIG_FILE"
-    _CONFIG_ENTRYPOINT_LONG_PARAM_NAME = "--configfile"
-    _CONFIG_ENTRYPOINT_SHORT_PARAM_NAME = "-g"
-    _CONFIG_ENTRYPOINY_DEFAULT_FILENAME = "config.json"
+class DopplerrJsonConfigFile(JsonFileConfigStorage):
+    json_configstorage_environ_var_name = "DOPPLERR_COMMON_CONFIG_FILE"
+    json_configstorage_long_param_name = "--configfile"
+    json_configstorage_short_param_name = "-g"
+    json_configstorage_default_filename = "config.json"
 
 
 @singleton
 class DopplerrConfig(EnvironmentConfig):
 
-    _ENVIRON_VAR_PREFIX = "DOPPLERR_"
-    _CONFIGURATION_ENTRY_POINT = DopplerrJsonConfigFile()
+    environ_var_prefix = "DOPPLERR_"
+    config_storage = DopplerrJsonConfigFile()
 
-    _CFG = {
+    cfgtree = {
         "configfile": ConfigFileCfg(l="--configfile", h="Config directory"),
         "general": {
             "basedir":

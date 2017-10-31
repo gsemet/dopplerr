@@ -6,9 +6,9 @@ from __future__ import unicode_literals
 
 from txrwlock.txtestcase import TxTestCase
 
-from dopplerr.cfgtree import delete_node_by_xpath
-from dopplerr.cfgtree import get_node_by_xpath
-from dopplerr.cfgtree import set_node_by_xpath
+from dopplerr.dictxpath import delete_node_by_xpath
+from dopplerr.dictxpath import get_node_by_xpath
+from dopplerr.dictxpath import set_node_by_xpath
 
 
 class TreeTests(TxTestCase):
