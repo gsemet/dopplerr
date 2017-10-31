@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+"""
+Configuration Tree management
+"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -11,8 +14,8 @@ import os
 import sys
 from pathlib import PosixPath
 
-from dopplerr.cfgtree import get_node_by_xpath
-from dopplerr.cfgtree import set_node_by_xpath
+from dopplerr.dictxpath import get_node_by_xpath
+from dopplerr.dictxpath import set_node_by_xpath
 
 log = logging.getLogger(__name__)
 _undefined = object()
@@ -200,9 +203,9 @@ class MultiChoiceCfg(ListOfStringCfg):
 
 
 class EnvironmentConfig(object):
-    _CFG = None
-    _ENVIRON_VAR_PREFIX = None
-    _CONFIGURATION_ENTRY_POINT = None
+    cfgtree = None
+    environ_var_prefix = None
+    config_storage = None
 
     def __init__(self):
         self._inject_names()
@@ -213,12 +216,12 @@ class EnvironmentConfig(object):
 
     def _inject_names(self, root=None, xpath=None):
         """
-        Inject configuration item name defined in the _CFG dict inside each _Cfg
+        Inject configuration item name defined in the cfgtree dict inside each _Cfg
         """
         if root is None:
-            if self._CFG is None:
+            if self.cfgtree is None:
                 return
-            root = self._CFG
+            root = self.cfgtree
         # pylint: disable=no-member
         for name, item in root.items():
             if isinstance(item, dict):
@@ -226,7 +229,7 @@ class EnvironmentConfig(object):
             else:
                 item.name = name
                 item.xpath = self.mkxpath(xpath, name)
-                item.environ_var_prefix = self._ENVIRON_VAR_PREFIX
+                item.environ_var_prefix = self.environ_var_prefix
                 if item.ignore_in_cfg:
                     # log.debug("Create cfg node '%s': ignored (handled later)", item.xpath)
                     continue
@@ -236,32 +239,32 @@ class EnvironmentConfig(object):
 
     def set_cfg_value(self, xpath, value):
         """
-        Set a value in _CFG
+        Set a value in cfgtree
         """
-        set_node_by_xpath(self._CFG, xpath, value, extend=True, setter_attr="set_value")
+        set_node_by_xpath(self.cfgtree, xpath, value, extend=True, setter_attr="set_value")
 
     def get_cfg_value(self, xpath, default=None):
         """
-        Get a value from _CFG
+        Get a value from cfgtree
         """
-        return get_node_by_xpath(self._CFG, xpath, default=default).value
+        return get_node_by_xpath(self.cfgtree, xpath, default=default).value
 
     def find_configuration_values(self):
         self._load_configuration()
-        self._load_environment_variables("", self._CFG)
+        self._load_environment_variables("", self.cfgtree)
         self._load_cmd_line_arg()
         self._save_configuration()
 
     def _load_configuration(self):
         log.debug("Looking for configuration")
-        self._CONFIGURATION_ENTRY_POINT.find_entry_point()
-        bare_cfg = self._CONFIGURATION_ENTRY_POINT.get_bare_config_dict()
+        self.config_storage.find_config_storage()
+        bare_cfg = self.config_storage.get_bare_config_dict()
         self._load_cfg_dict(bare_cfg)
 
     def _save_configuration(self):
         log.debug("Saving configuration")
         bare_cfg = self._dict(safe=False)
-        self._CONFIGURATION_ENTRY_POINT.save_bare_config_dict(bare_cfg)
+        self.config_storage.save_bare_config_dict(bare_cfg)
 
     def _load_cfg_dict(self, cfg, xpath=None):
         for k, v in cfg.items():
@@ -309,7 +312,7 @@ class EnvironmentConfig(object):
 
     def _find_cfg_for_cmd_line_name(self, cmd_line_name, root=None):
         if root is None:
-            root = self._CFG
+            root = self.cfgtree
         for v in root.values():
             if isinstance(v, dict):
                 f = self._find_cfg_for_cmd_line_name(cmd_line_name, root=v)
@@ -321,10 +324,10 @@ class EnvironmentConfig(object):
 
     def _inject_cfg_in_parser(self, parser, xpath=None, root=None):
         """
-        Configure the argument parser according to _CFG
+        Configure the argument parser according to cfgtree
         """
         if root is None:
-            root = self._CFG
+            root = self.cfgtree
         # pylint: disable=no-member
         for name, item in root.items():
             if isinstance(item, dict):
@@ -354,7 +357,7 @@ class EnvironmentConfig(object):
         Return the configuration as a dictionnary
         """
         if root is None:
-            root = self._CFG
+            root = self.cfgtree
         d = {}
         # pylint: disable=no-member
         for name, item in root.items():
@@ -374,8 +377,8 @@ class EnvironmentConfig(object):
         return json.dumps(self._dict(safe=safe), sort_keys=True, indent=4, separators=(',', ': '))
 
 
-class _ConfigEntryPointBase(object):
-    def find_entry_point(self):
+class _ConfigStorageBase(object):
+    def find_config_storage(self):
         raise NotImplementedError
 
     def get_bare_config_dict(self):
@@ -385,26 +388,26 @@ class _ConfigEntryPointBase(object):
         raise NotImplementedError
 
 
-class JsonFileConfigEntryPoint(_ConfigEntryPointBase):
-    _CONFIG_ENTRYPOINY_DEFAULT_FILENAME = None
-    _CONFIG_ENTRYPOINT_ENVIRON_VAR_NAME = None
-    _CONFIG_ENTRYPOINT_SHORT_PARAM_NAME = None
-    _CONFIG_ENTRYPOINT_LONG_PARAM_NAME = None
+class JsonFileConfigStorage(_ConfigStorageBase):
+    json_configstorage_default_filename = None
+    json_configstorage_environ_var_name = None
+    json_configstorage_short_param_name = None
+    json_configstorage_long_param_name = None
 
-    _resolved_config_file = None
-    _bare_config_dict = None
+    __resolved_config_file = None
+    __bare_config_dict = None
 
-    def find_entry_point(self):
-        configfile = self._CONFIG_ENTRYPOINY_DEFAULT_FILENAME
-        if self._CONFIG_ENTRYPOINT_ENVIRON_VAR_NAME in os.environ:
-            configfile = os.environ[self._CONFIG_ENTRYPOINT_ENVIRON_VAR_NAME]
-            log.debug("%s defined: %s", self._CONFIG_ENTRYPOINT_ENVIRON_VAR_NAME, configfile)
+    def find_config_storage(self):
+        configfile = self.json_configstorage_default_filename
+        if self.json_configstorage_environ_var_name in os.environ:
+            configfile = os.environ[self.json_configstorage_environ_var_name]
+            log.debug("%s defined: %s", self.json_configstorage_environ_var_name, configfile)
         for i in range(len(sys.argv)):
             good = []
-            if self._CONFIG_ENTRYPOINT_SHORT_PARAM_NAME:
-                good.append(self._CONFIG_ENTRYPOINT_SHORT_PARAM_NAME)
-            if self._CONFIG_ENTRYPOINT_LONG_PARAM_NAME:
-                good.append(self._CONFIG_ENTRYPOINT_LONG_PARAM_NAME)
+            if self.json_configstorage_short_param_name:
+                good.append(self.json_configstorage_short_param_name)
+            if self.json_configstorage_long_param_name:
+                good.append(self.json_configstorage_long_param_name)
             if sys.argv[i] in good:
                 if i == len(sys.argv):
                     raise Exception("No value given to {}".format(" or ".join(good)))
@@ -413,21 +416,21 @@ class JsonFileConfigEntryPoint(_ConfigEntryPointBase):
                 break
         config_file_path = PosixPath(configfile)
         log.info("Configuration file set to: %s", configfile)
-        self._resolved_config_file = config_file_path.resolve().as_posix()
+        self.__resolved_config_file = config_file_path.resolve().as_posix()
         self._load_bare_config()
 
     def _load_bare_config(self):
-        log.debug("(Re)loading configuration file: %s", self._resolved_config_file)
-        config_file_path = PosixPath(self._resolved_config_file)
+        log.debug("(Re)loading configuration file: %s", self.__resolved_config_file)
+        config_file_path = PosixPath(self.__resolved_config_file)
         if config_file_path.exists():
             with config_file_path.open() as f:
-                self._bare_config_dict = json.load(f)
+                self.__bare_config_dict = json.load(f)
         else:
-            self._bare_config_dict = {}
+            self.__bare_config_dict = {}
 
     def save_bare_config_dict(self, bare_cfg):
-        with PosixPath(self._resolved_config_file).open('w') as f:
+        with PosixPath(self.__resolved_config_file).open('w') as f:
             f.write(json.dumps(bare_cfg, sort_keys=True, indent=4, separators=(',', ': ')))
 
     def get_bare_config_dict(self):
-        return self._bare_config_dict
+        return self.__bare_config_dict
