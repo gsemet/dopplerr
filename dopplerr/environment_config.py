@@ -47,7 +47,7 @@ class _CfgBase(object):
 
     @property
     def environ_var_name(self):
-        return self.environ_var_prefix + self.name.upper()
+        return self.environ_var_prefix + self.cmd_line_name.upper()
 
     def get_cmd_line_params(self):
         a = []
@@ -277,13 +277,15 @@ class EnvironmentConfig(object):
         for name, item in root.items():
             if isinstance(item, dict):
                 self._load_environment_variables(self.mkxpath(xpath, name), item)
-            elif item.environ_var_name in os.environ:
-                if item.ignore_in_cfg:
-                    log.debug("Ignoring environment variable %s", item.environ_var_name)
-                val = item.read_environ_var()
-                log.debug("Found environment variable '%s': %s (conf: %s)", item.environ_var_name,
-                          val, item.xpath)
-                item.value = val
+            else:
+                print("item.environ_var_name:", item.environ_var_name)
+                if item.environ_var_name in os.environ:
+                    if item.ignore_in_cfg:
+                        log.debug("Ignoring environment variable %s", item.environ_var_name)
+                    val = item.read_environ_var()
+                    log.debug("Found environment variable '%s': %s (conf: %s)", item.environ_var_name,
+                              val, item.xpath)
+                    item.value = val
 
     def _load_cmd_line_arg(self):
         """

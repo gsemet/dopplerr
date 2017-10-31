@@ -105,6 +105,7 @@ postman: postman-sonarr
 run-local-env:
 	@echo "Starting Dopplerr on http://localhost:$(PORT) using environment variable parameters..."
 	DOPPLERR_GENERAL_PORT=$(PORT) \
+	    DOPPLERR_GENERAL_VERBOSE=1 \
 	    DOPPLERR_GENERAL_MAPPING="$(MAPPING)" \
 	    DOPPLERR_GENERAL_BASEDIR=$(BASEDIR) \
 	    DOPPLERR_SUBLIMINAL_LANGUAGES=$(LANGUAGES) \
@@ -115,11 +116,11 @@ run-local-env:
 	    DOPPLERR_NOTIFICATIONS_PUSHOVER_USER=$(PUSHOVER_USER) \
 	    DOPPLERR_NOTIFICATIONS_PUSHOVER_TOKEN=$(PUSHOVER_TOKEN) \
 	    pipenv run $(MODULE) \
-	        --verbose \
-	        --logfile "debug.log"
+	        --general-verbose
 
 run-docker: kill-docker
 	docker run -p $(PORT):$(PORT) \
+	           -e "DOPPLERR_GENERAL_VERBOSE=1" \
 	           -e "DOPPLERR_GENERAL_MAPPING='$(MAPPING)'" \
 	           -e "DOPPLERR_GENERAL_LOGFILE=debug.log" \
 	           -e "DOPPLERR_GENERAL_BASEDIR=$(BASEDIR)" \
