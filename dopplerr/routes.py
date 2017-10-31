@@ -103,6 +103,7 @@ class Routes(object):
                     SubtitleFetchedNotification(
                         series_title=st['series_title'],
                         season_number=st['season_number'],
+                        tv_db_id=st['tv_db_id'],
                         episode_number=st['episode_number'],
                         episode_title=st['episode_title'],
                         quality=st['quality'],
@@ -139,7 +140,7 @@ class Routes(object):
                 candidate.get("series_title"),
                 candidate.get("scenename"),
             )
-            DopplerrDb().insert_event("availability notification", "{} - {}x{} - {} [{}] available."
+            DopplerrDb().insert_event("availability", "Available: {} - {}x{} - {} [{}]."
                                       .format(
                                           candidate.get("series_title"),
                                           candidate.get("season_number"),
@@ -153,8 +154,8 @@ class Routes(object):
             if not video_files_found:
                 res.update_status("failed", "candidates found but no video file found")
                 DopplerrDb().insert_event("subtitles",
-                                          "not video file found for sonarr notification")
-                return
+                                          "No video file found for sonarr notification")
+                return res
 
             DopplerrDb().update_series_media(
                 series_title=candidate.get("series_title"),
@@ -180,7 +181,6 @@ class Routes(object):
                             s.get("provider"),
                         ) for s in subtitles
                     ])))
-
         return res
 
     @app.route("/api/v1/notify", methods=['GET'])
