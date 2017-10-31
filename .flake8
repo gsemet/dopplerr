@@ -3,4 +3,4 @@
 ignore = E226,E302,E41,F811,E741
 max-line-length = 100
 exclude = env
-max-complexity = 25
+max-complexity = 8

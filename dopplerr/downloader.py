@@ -56,9 +56,7 @@ class DopplerrDownloader(object):
         #   https://gist.github.com/alexsavio/9299716
         return res
 
-    def download_missing_subtitles(self, res, files):
-        log.info("Searching and downloading missing subtitles for: %r", files)
-        res.update_status("downloading", "downloading missing subtitles")
+    def _video_files(self, files):
         videos = []
         for fil in files:
             _, ext = os.path.splitext(fil)
@@ -66,6 +64,12 @@ class DopplerrDownloader(object):
                 log.debug("Ignoring %s because of extension: %s", fil, ext)
                 continue
             videos.append(Video.fromname(fil))
+        return videos
+
+    def download_missing_subtitles(self, res, files):
+        log.info("Searching and downloading missing subtitles for: %r", files)
+        res.update_status("downloading", "downloading missing subtitles")
+        videos = self._video_files(files)
         log.info("Video files: %r", videos)
         if not videos:
             log.debug("No subtitle to download")
