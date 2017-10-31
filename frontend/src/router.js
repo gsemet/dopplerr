@@ -27,18 +27,23 @@ export default new VueRouter({
   routes: [
     {
       path: '/',
+      redirect: '/home',
+    },
+    {
+      path: '/home',
       component: load('pages'),
       // sub-routes
       children: [
-        { path: '/', component: load('pages/home') },
+        { path: '/home', component: load('pages/home') },
         { path: '/events', component: load('pages/events') },
         { path: '/movies', component: load('pages/movies') },
         { path: '/series', component: load('pages/series') },
-        { path: '/status', component: load('pages/status') }
+        { path: '/status', component: load('pages/status') },
+        { path: '*', component: load('404') }, // Not found
       ]
     },
 
     // Always leave this last one
-    { path: '*', component: load('404') } // Not found
+    { path: '*', component: load('404') }, // Not found
   ]
 })
