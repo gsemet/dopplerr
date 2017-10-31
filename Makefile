@@ -38,6 +38,9 @@ frontend-build:
 frontend-run:
 	cd frontend ; make run
 
+frontend-lint:
+	cd frontend ; make lint
+
 version:
 	cd frontend ; make release
 

@@ -283,8 +283,8 @@ class EnvironmentConfig(object):
                     if item.ignore_in_cfg:
                         log.debug("Ignoring environment variable %s", item.environ_var_name)
                     val = item.read_environ_var()
-                    log.debug("Found environment variable '%s': %s (conf: %s)", item.environ_var_name,
-                              val, item.xpath)
+                    log.debug("Found environment variable '%s': %s (conf: %s)",
+                              item.environ_var_name, val, item.xpath)
                     item.value = val
 
     def _load_cmd_line_arg(self):
