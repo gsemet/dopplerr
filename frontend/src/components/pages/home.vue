@@ -3,7 +3,7 @@
     <h4>Recent Events</h4>
     <div class="doc-container">
       <q-data-table
-        :data="events.events"
+        :data="events"
         :columns="recent_events_table_cfg.columns"
         :config="recent_events_table_cfg.config"
       >
@@ -12,7 +12,7 @@
     <h4>Recent Fetched Series Episode</h4>
     <div class="doc-container">
       <q-data-table
-        :data="fetched_episodes.events"
+        :data="fetched_episodes"
         :columns="recent_episodes_table_cfg.columns"
         :config="recent_episodes_table_cfg.config"
       >
@@ -86,7 +86,7 @@ export default {
         columns: [
           {
             label: 'Date',
-            field: 'timestamp',
+            field: 'added_timestamp',
             width: '80px',
             filter: false,
             sort (a, b) {
@@ -137,14 +137,14 @@ export default {
     fetch: function () {
       this.axios.get('/api/v1/recent/events/5', {})
         .then(response => {
-          this.events = response.data
+          this.events = response.data.events
         })
         .catch(error => {
           console.log(error)
         })
       this.axios.get('/api/v1/recent/fetched/series/5', {})
         .then(response => {
-          this.fetched_episodes = response.data
+          this.fetched_episodes = response.data.events
         })
         .catch(error => {
           console.log(error)

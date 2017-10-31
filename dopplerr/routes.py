@@ -109,6 +109,12 @@ class Routes(object):
                         video_languages=st['video_languages'],
                         subtitles_languages=st['subtitles_languages'],
                     ))
+                DopplerrDb().update_fetched_series_subtitles(
+                    tv_db_id=st['tv_db_id'],
+                    season_number=st['season_number'],
+                    episode_number=st['episode_number'],
+                    subtitles_languages=st['subtitles_languages'],
+                )
         return jsonify(request, res.to_dict())
 
     @deferredAsThread
@@ -146,12 +152,25 @@ class Routes(object):
             log.debug("All found files: %r", video_files_found)
             if not video_files_found:
                 res.update_status("failed", "candidates found but no video file found")
-            else:
-                DopplerrDownloader().download_missing_subtitles(res, video_files_found)
+                DopplerrDb().insert_event("subtitles",
+                                          "not video file found for sonarr notification")
+                return
+
+            DopplerrDb().update_series_media(
+                series_title=candidate.get("series_title"),
+                tv_db_id=candidate.get("tv_db_id"),
+                season_number=candidate.get("season_number"),
+                episode_number=candidate.get("episode_number"),
+                episode_title=candidate.get("episode_title"),
+                quality=candidate.get("quality"),
+                video_languages=None,
+                media_filename=video_files_found[0],
+                dirty=True)
+            DopplerrDownloader().download_missing_subtitles(res, video_files_found)
             subtitles = res.subtitles
             if not subtitles:
-                DopplerrDb().insert_event("subtitles", "not subtitles found for: {}"
-                                          .format([Path(f).name for f in video_files_found]))
+                DopplerrDb().insert_event("subtitles", "no subtitle found for: {}".format(
+                    ", ".join([Path(f).name for f in video_files_found])))
             else:
                 DopplerrDb().insert_event("subtitles", "subtitles fetched: {}".format(
                     ", ".join([
@@ -189,4 +208,9 @@ class Routes(object):
         content = dejsonify(request)
         logging.debug("Fullscan request: %r", content)
         res = yield DopplerrDownloader().process_fullscan(content)
+        return jsonify(request, res)
+
+    @app.route("/api/v1/medias/series/")
+    def medias_series(self, request):
+        res = {"medias": DopplerrDb().get_medias_series()}
         return jsonify(request, res)

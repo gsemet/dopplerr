@@ -2,10 +2,10 @@
   <div>
     <h4>Recent Events</h4>
     <q-data-table
-      :data="events.events"
+      :data="events"
       :columns="columns"
     >
-  </q-data-table>
+    </q-data-table>
   </div>
 </template>
 
@@ -57,7 +57,7 @@ export default {
     fetchRecentEvents: function () {
       this.axios.get('/api/v1/recent/events/100', {})
         .then(response => {
-          this.events = response.data
+          this.events = response.data.events
         })
         .catch(error => {
           console.log(error)

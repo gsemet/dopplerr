@@ -24,3 +24,4 @@ check:
 	npm run lint
 
 lint: check
+dist: build

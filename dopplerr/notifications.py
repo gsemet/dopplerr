@@ -58,10 +58,49 @@ class _NotificationBase(object):
     pass
 
 
+class SeriesMediaRefreshedNotification(_NotificationBase):
+    notification_type = "refresh"
+    notification_title = "Episode Information Refreshed"
+    series_title = None
+    tv_db_id = None
+    season_number = None
+    episode_number = None
+    episode_title = None
+    quality = None
+    video_languages = None
+    dirty = None
+    media_filename = None
+
+    def __init__(self, series_title, tv_db_id, season_number, episode_number, episode_title,
+                 quality, video_languages, dirty, media_filename):
+        self.series_title = series_title
+        self.tv_db_id = tv_db_id
+        self.season_number = season_number
+        self.episode_number = episode_number
+        self.episode_title = episode_title
+        self.quality = quality
+        self.video_languages = video_languages
+        self.dirty = dirty
+        self.media_filename = media_filename
+
+    @property
+    def one_liner(self):
+        return ("{series_title} - {season_number}x{episode_number} - "
+                "{episode_title} [{quality}] - Lang: {video_languages}".format(
+                    series_title=self.series_title,
+                    season_number=self.season_number,
+                    episode_number=self.episode_number,
+                    episode_title=self.episode_number,
+                    quality=self.quality,
+                    video_languages=self.video_languages,
+                ))
+
+
 class SubtitleFetchedNotification(_NotificationBase):
     notification_type = "fetched"
     notification_title = "Episode Subtitles Fetched"
     series_title = None
+    tv_db_id = None
     season_number = None
     episode_number = None
     episode_title = None
@@ -69,9 +108,10 @@ class SubtitleFetchedNotification(_NotificationBase):
     video_languages = None
     subtitles_languages = None
 
-    def __init__(self, series_title, season_number, episode_number, episode_title, quality,
-                 video_languages, subtitles_languages):
+    def __init__(self, series_title, tv_db_id, season_number, episode_number, episode_title,
+                 quality, video_languages, subtitles_languages):
         self.series_title = series_title
+        self.tv_db_id = tv_db_id
         self.season_number = season_number
         self.episode_number = episode_number
         self.episode_title = episode_title
@@ -98,15 +138,6 @@ class SubtitleFetchedNotification(_NotificationBase):
 def emit_notifications(notification):
     log.debug("Emiting notification: [%s] %s - %s", notification.notification_type,
               notification.notification_title, notification.one_liner)
-    DopplerrDb().insert_fetched_series_subtitles(
-        series_title=notification.series_title,
-        season_number=notification.season_number,
-        episode_number=notification.episode_number,
-        episode_title=notification.episode_title,
-        quality=notification.quality,
-        video_languages=notification.video_languages,
-        subtitles_languages=notification.subtitles_languages,
-    )
     if DopplerrConfig().get_cfg_value("notifications.pushover.enabled"):
         log.debug("Emiting pushover with user %s",
                   DopplerrConfig().get_cfg_value("notifications.pushover.user"))
