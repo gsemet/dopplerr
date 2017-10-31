@@ -52,6 +52,7 @@ class SonarrFilter(_FilterBase):
         low_series = self.lowerize_dick_keys(low_request.get("series", {}))
         root_dir = low_series.get("path")
         series_title = low_series.get("title")
+        tv_db_id = low_series.get("tvdbid")
         if not root_dir:
             return res.failed("Empty Series Path")
         root_dir = self.appy_path_mapping(root_dir)
@@ -81,6 +82,7 @@ class SonarrFilter(_FilterBase):
             log.debug("Candidate: episode '%s' with base filename '%s'", episode_title, basename)
             res.candidates.append({
                 "series_title": series_title,
+                "tv_db_id": tv_db_id,
                 "episode_title": episode_title,
                 "root_dir": root_dir,
                 "scenename": basename,
