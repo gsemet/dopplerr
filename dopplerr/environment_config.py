@@ -107,7 +107,7 @@ class StringCfg(_CfgBase):
     _DEFAULT = ""
 
     def read_environ_var(self):
-        return str(self.read_environ_var)
+        return str(self._environ_var_value)
 
 
 class ListOfStringCfg(_CfgBase):
