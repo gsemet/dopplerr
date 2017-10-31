@@ -9,7 +9,7 @@
       >
       </q-data-table>
     </div>
-    <h4>Recent Fetched Series Episode</h4>
+    <h4>Recent Fetched Series Subtitles</h4>
     <div class="doc-container">
       <q-data-table
         :data="fetched_episodes"
@@ -106,27 +106,27 @@ export default {
           {
             label: 'Season',
             field: 'season_number',
-            width: '40px',
+            width: '30px',
             filter: false
           },
           {
             label: 'Episode',
             field: 'episode_number',
-            width: '40px',
+            width: '30px',
             filter: false
           },
           {
             label: 'Title',
             field: 'episode_title',
-            width: '60px',
+            width: '40px',
             filter: false
           },
           {
-            label: 'Fetched Subtitles',
-            field: 'subtitles_languages',
-            width: '60px',
-            filter: false
-          }
+            label: 'Subtitles',
+            field: 'subtitle_language',
+            width: '40px',
+            filter: false,
+          },
         ]
       }
     }

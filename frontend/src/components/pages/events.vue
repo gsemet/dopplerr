@@ -39,7 +39,7 @@ export default {
         {
           label: 'Type',
           field: 'type',
-          width: '80px',
+          width: '50px',
           filter: true
         },
         {

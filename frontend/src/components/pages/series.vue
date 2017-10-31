@@ -40,31 +40,44 @@ export default {
           label: 'Series',
           field: 'series_title',
           width: '80px',
-          filter: false
+          filter: true
         },
         {
           label: 'Season',
           field: 'season_number',
           width: '40px',
-          filter: false
+          filter: true
         },
         {
           label: 'Episode',
           field: 'episode_number',
-          width: '40px',
-          filter: false
+          width: '30px',
+          filter: true
         },
         {
           label: 'Title',
           field: 'episode_title',
-          width: '60px',
-          filter: false
+          width: '50px',
+          filter: true
         },
         {
-          label: 'Fetched Subtitles',
-          field: 'subtitles_languages',
-          width: '60px',
-          filter: false
+          label: 'Subtitles',
+          field: 'subtitle_languages',
+          width: '40px',
+          filter: true,
+          type: 'string',
+          format (value, row) {
+            if (value) {
+              return value.join(', ')
+            }
+          },
+        },
+        {
+          label: 'Dirty',
+          field: 'dirty',
+          width: '30px',
+          filter: false,
+          type: 'int',
         }
       ]
     }
