@@ -97,26 +97,27 @@ class Routes(object):
         content = dejsonify(request)
         res = yield self._process_notify_sonarr(content)
         log.debug("Successful: %r", res.successful)
-        if res.successful:
-            for st in res.sonarr_summary:
-                yield emit_notifications(
-                    SubtitleFetchedNotification(
-                        series_title=st['series_title'],
-                        season_number=st['season_number'],
-                        tv_db_id=st['tv_db_id'],
-                        episode_number=st['episode_number'],
-                        episode_title=st['episode_title'],
-                        quality=st['quality'],
-                        video_languages=st['video_languages'],
-                        subtitles_languages=st['subtitles_languages'],
-                    ))
-                DopplerrDb().update_fetched_series_subtitles(
-                    tv_db_id=st['tv_db_id'],
+        if not res.successful:
+            return res
+        for st in res.sonarr_summary:
+            yield emit_notifications(
+                SubtitleFetchedNotification(
+                    series_title=st['series_title'],
                     season_number=st['season_number'],
+                    tv_db_id=st['tv_db_id'],
                     episode_number=st['episode_number'],
+                    episode_title=st['episode_title'],
+                    quality=st['quality'],
+                    video_languages=st['video_languages'],
                     subtitles_languages=st['subtitles_languages'],
-                    dirty=False,
-                )
+                ))
+            DopplerrDb().update_fetched_series_subtitles(
+                tv_db_id=st['tv_db_id'],
+                season_number=st['season_number'],
+                episode_number=st['episode_number'],
+                subtitles_languages=st['subtitles_languages'],
+                dirty=False,
+            )
         return jsonify(request, res.to_dict())
 
     @deferredAsThread

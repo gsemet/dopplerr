@@ -16,13 +16,13 @@ class Response(object):
 
     def failed(self, message):
         log.error(message)
-        self.res["status"] = "failed"
-        self.res["message"] = message.lower()
+        self.res.setdefault("result", {})["status"] = "failed"
+        self.res.setdefault("result", {})["message"] = message.lower()
 
     def unhandled(self, message):
         log.info("Filtered out event: %s", message)
-        self.res["status"] = "unhandled"
-        self.res["message"] = message.lower()
+        self.res.setdefault("result", {})["status"] = "unhandled"
+        self.res.setdefault("result", {})["message"] = message.lower()
 
     @property
     def is_unhandled(self):
