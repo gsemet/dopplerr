@@ -14,7 +14,7 @@ from babelfish import Language
 from txwebbackendbase.logging import setupLogger
 
 from dopplerr import DOPPLERR_VERSION
-from dopplerr.cfg import DopplerrConfig
+from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
 from dopplerr.routes import Routes

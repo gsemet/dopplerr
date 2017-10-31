@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 
 import logging
 
-from dopplerr.cfg import DopplerrConfig
+from dopplerr.config import DopplerrConfig
 
 log = logging.getLogger(__name__)
 
