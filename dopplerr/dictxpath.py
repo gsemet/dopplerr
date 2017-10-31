@@ -6,6 +6,8 @@ from __future__ import unicode_literals
 
 import re
 
+# tells flake8 to ignore complexity check for this file
+# flake8: noqa
 
 def get_node_by_xpath(mapping, xpath, default=None, ignore_errors=False,
                       handle_list_selector=False):
