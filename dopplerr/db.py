@@ -159,5 +159,6 @@ class DopplerrDb(object):
                 "episode_title": med.episode_title,
                 "quality": med.quality,
                 "video_languages": med.video_languages,
-                "subtitle_language": [s.language for s in med.subtitles],
+                "subtitle_languages": [s.language for s in med.subtitles],
+                "dirty": med.dirty,
             } for med in medias]
