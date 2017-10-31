@@ -18,7 +18,7 @@ from subliminal.subtitle import get_subtitle_path
 from txwebbackendbase.singleton import singleton
 from txwebbackendbase.utils import recursive_iglob
 
-from dopplerr.cfg import DopplerrConfig
+from dopplerr.config import DopplerrConfig
 from dopplerr.status import DopplerrStatus
 
 log = logging.getLogger(__name__)

@@ -10,7 +10,7 @@ import treq
 
 from twisted.internet.defer import inlineCallbacks
 
-from dopplerr.cfg import DopplerrConfig
+from dopplerr.config import DopplerrConfig
 
 log = logging.getLogger(__name__)
 

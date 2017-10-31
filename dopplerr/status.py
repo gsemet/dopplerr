@@ -8,7 +8,7 @@ import logging
 
 from txwebbackendbase.singleton import singleton
 
-from dopplerr.cfg import DopplerrConfig
+from dopplerr.config import DopplerrConfig
 
 log = logging.getLogger(__name__)
 
