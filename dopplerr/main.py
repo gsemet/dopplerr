@@ -42,7 +42,7 @@ def list_of_languages(langList):
 
 
 def main():
-    if "-v" in sys.argv or "--verbose" in sys.argv:
+    if "-v" in sys.argv or "--general-verbose" in sys.argv:
         default_level = logging.DEBUG
     else:
         default_level = logging.INFO

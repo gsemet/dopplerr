@@ -16,3 +16,4 @@ ChangeLog
 dist/
 sqlite.db
 Pipfile.lock
+config.json
