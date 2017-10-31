@@ -279,7 +279,6 @@ class EnvironmentConfig(object):
             if isinstance(item, dict):
                 self._load_environment_variables(self.mkxpath(xpath, name), item)
             else:
-                print("item.environ_var_name:", item.environ_var_name)
                 if item.environ_var_name in os.environ:
                     if item.ignore_in_cfg:
                         log.debug("Ignoring environment variable %s", item.environ_var_name)
