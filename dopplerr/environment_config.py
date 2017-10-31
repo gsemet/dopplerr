@@ -11,8 +11,8 @@ import os
 import sys
 from pathlib import PosixPath
 
-from dopplerr.cfgtree import getNodeByPath
-from dopplerr.cfgtree import setNodeByPath
+from dopplerr.cfgtree import get_node_by_xpath
+from dopplerr.cfgtree import set_node_by_xpath
 
 log = logging.getLogger(__name__)
 _undefined = object()
@@ -41,7 +41,7 @@ class _CfgBase(object):
 
     def set_value(self, value):
         """
-        Setter method used in setNodeByPath
+        Setter method used in set_node_by_xpath
         """
         self.value = value
 
@@ -238,13 +238,13 @@ class EnvironmentConfig(object):
         """
         Set a value in _CFG
         """
-        setNodeByPath(self._CFG, xpath, value, extend=True, setter_attr="set_value")
+        set_node_by_xpath(self._CFG, xpath, value, extend=True, setter_attr="set_value")
 
     def get_cfg_value(self, xpath, default=None):
         """
         Get a value from _CFG
         """
-        return getNodeByPath(self._CFG, xpath, default=default).value
+        return get_node_by_xpath(self._CFG, xpath, default=default).value
 
     def find_configuration_values(self):
         self._load_configuration()
