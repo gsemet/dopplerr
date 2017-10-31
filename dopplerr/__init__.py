@@ -7,11 +7,11 @@ from __future__ import unicode_literals
 import pbr.version
 
 __version__ = pbr.version.VersionInfo('dopplerr').release_string()
-version = __version__
-dopplerr_version = __version__
+VERSION = __version__
+DOPPLERR_VERSION = __version__
 
 __all__ = [
     '__version__',
-    'dopplerr_version',
-    'version',
+    'DOPPLERR_VERSION',
+    'VERSION',
 ]

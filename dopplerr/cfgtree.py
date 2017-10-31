@@ -105,7 +105,7 @@ def set_node_by_xpath(mapping, xpath, value, extend=False, setter_attr=None):
         mapping[attrname] = value
 
 
-def deleteNodeByPath(mapping, xpath, ignore_errors=False):
+def delete_node_by_xpath(mapping, xpath, ignore_errors=False):
     '''Delete the node pointed to by xpath from mapping.
 
     Args:
@@ -117,7 +117,7 @@ def deleteNodeByPath(mapping, xpath, ignore_errors=False):
     Example:
 
     >>> tree = {'level1': {'level2': {'level3': 'bottom'}}}
-    >>> deleteNodeByPath(tree, 'level1.level2')
+    >>> delete_node_by_xpath(tree, 'level1.level2')
     >>> tree
     {'level1': {}}
 

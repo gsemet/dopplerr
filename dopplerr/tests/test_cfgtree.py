@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 
 from txrwlock.txtestcase import TxTestCase
 
-from dopplerr.cfgtree import deleteNodeByPath
+from dopplerr.cfgtree import delete_node_by_xpath
 from dopplerr.cfgtree import get_node_by_xpath
 from dopplerr.cfgtree import set_node_by_xpath
 
@@ -92,11 +92,12 @@ class TreeTests(TxTestCase):
     def test_delete_node_by_path(self):
         mapping = {'level1': {'level2': {'level3': 42}}}
         expected = 42
-        actual = deleteNodeByPath(mapping, 'level1.level2.level3')
+        actual = delete_node_by_xpath(mapping, 'level1.level2.level3')
         self.assertEqual(expected, actual)
         self.assertFalse('level3' in mapping['level1']['level2'])
-        self.assertRaises(KeyError, deleteNodeByPath, mapping, 'level1.invalid.level3')
-        self.assertIsNone(deleteNodeByPath(mapping, 'level1.invalid.level3', ignore_errors=True))
+        self.assertRaises(KeyError, delete_node_by_xpath, mapping, 'level1.invalid.level3')
+        self.assertIsNone(
+            delete_node_by_xpath(mapping, 'level1.invalid.level3', ignore_errors=True))
 
     def test_get_node_by_path_with_list_selector(self):
         mapping = {'level1': {'level_2_is_a_list': ['item1', 'item2']}}
@@ -104,7 +105,7 @@ class TreeTests(TxTestCase):
             mapping, 'level1.level_2_is_a_list[1]', handle_list_selector=True)
         self.assertEqual('item2', actual)
 
-    def test_get_node_by_path_with_list_selector_sub_list(self):
+    def test_get_node_w_lst_selctr_sub_list(self):
         mapping = {
             'level1': {
                 'level_2_is_a_list': [
@@ -125,7 +126,7 @@ class TreeTests(TxTestCase):
             mapping, 'level1.level_2_is_a_list[1].item2.k2', handle_list_selector=True)
         self.assertEqual('v2', actual)
 
-    def test_get_node_by_path_with_bas_list_selector_and_default_value(self):
+    def test_get_w_bad_lst_selctr_n_default_val(self):
         mapping = {'level1': {'level_2_is_a_list': ['item1', 'item2']}}
         actual = get_node_by_xpath(
             mapping, 'level1.level_2_is_a_list[1]', handle_list_selector=True, default="N/A")

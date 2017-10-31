@@ -39,7 +39,7 @@ class Response(object):
     def successful(self):
         return self.res.setdefault("result", {}).get("status") == "succeeded"
 
-    def toDict(self):
+    def to_dict(self):
         return self.res
 
     @property
@@ -47,40 +47,40 @@ class Response(object):
         return self.res.get("request", {}).get("type", None)
 
     @request_type.setter
-    def request_type(self, tt):
-        self.res.setdefault("request", {})["type"] = tt
+    def request_type(self, thetype):
+        self.res.setdefault("request", {})["type"] = thetype
 
     @property
     def request_event(self):
         return self.res.get("request", {}).get("event", None)
 
     @request_event.setter
-    def request_event(self, ee):
-        self.res.setdefault("request", {})["event"] = ee
+    def request_event(self, event):
+        self.res.setdefault("request", {})["event"] = event
 
     @property
     def exception(self):
         return self.res.get("result", {}).get("exception", None)
 
     @exception.setter
-    def exception(self, ee):
-        self.res.setdefault("result", {})["exception"] = ee
+    def exception(self, exception):
+        self.res.setdefault("result", {})["exception"] = exception
 
     @property
     def subtitles(self):
         return self.res.get("result", {}).get("subtitles", None)
 
     @subtitles.setter
-    def subtitles(self, ee):
-        self.res.setdefault("result", {})["subtitles"] = ee
+    def subtitles(self, subtitles):
+        self.res.setdefault("result", {})["subtitles"] = subtitles
 
     @property
     def candidates(self):
         return self.res.setdefault("candidates", [])
 
     @candidates.setter
-    def candidates(self, ee):
-        self.res.candidates = ee
+    def candidates(self, candidates):
+        self.res.candidates = candidates
 
     @property
     def sonarr_summary(self):

@@ -13,7 +13,7 @@ from pathlib import Path
 from babelfish import Language
 from txwebbackendbase.logging import setupLogger
 
-from dopplerr import dopplerr_version
+from dopplerr import DOPPLERR_VERSION
 from dopplerr.cfg import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
@@ -23,12 +23,12 @@ from dopplerr.status import DopplerrStatus
 log = logging.getLogger(__name__)
 
 
-def print_list(aList):
-    return ",".join(aList)
+def print_list(alist):
+    return ",".join(alist)
 
 
-def list_of_languages(langList):
-    langs = [s.lower() for s in langList.split(',')]
+def list_of_languages(lang_list):
+    langs = [s.lower() for s in lang_list.split(',')]
     failed = False
     for l in langs:
         try:
@@ -47,7 +47,7 @@ def main():
     else:
         default_level = logging.INFO
     setupLogger(level=default_level, no_color=True)
-    log.debug("Initializing Dopplerr version %s...", dopplerr_version)
+    log.debug("Initializing Dopplerr version %s...", DOPPLERR_VERSION)
 
     DopplerrConfig().find_configuration_values()
 
@@ -69,14 +69,14 @@ def main():
         Path(DopplerrConfig().get_cfg_value("general.configdir")) / "sqlite.db")
     log.debug("SQLite DB: %s", DopplerrStatus().sqlite_db_path.as_posix())
     DopplerrDb().init(DopplerrStatus().sqlite_db_path)
-    DopplerrDb().createTables()
+    DopplerrDb().create_tables()
 
     # change current work dir for subliminal work files
     os.chdir(DopplerrConfig().get_cfg_value("general.configdir"))
 
-    DopplerrDb().insertEvent("start", "dopplerr started")
+    DopplerrDb().insert_event("start", "dopplerr started")
 
     # main event loop (Twisted reactor behind)
     Routes().listen()
 
-    DopplerrDb().insertEvent("stop", "dopplerr stopped")
+    DopplerrDb().insert_event("stop", "dopplerr stopped")

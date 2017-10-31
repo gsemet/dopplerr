@@ -64,16 +64,16 @@ class DopplerrDb(object):
     def init(self, sqlite_db_path: Path):
         self.__sqlite_db_path = sqlite_db_path.as_posix()
 
-    def createTables(self):
+    def create_tables(self):
         self.database.create_table(MissingSubtitles, safe=True)
         self.database.create_table(Events, safe=True)
         self.database.create_table(FetchedSeriesSubtitles, safe=True)
 
-    def insertEvent(self, thetype: str, message: str):
+    def insert_event(self, thetype: str, message: str):
         with Using(self.database, [Events], with_transaction=False):
             Events.insert(type=thetype, message=message).execute()
 
-    def getRecentEvents(self, limit: int):
+    def get_recent_events(self, limit: int):
         with Using(self.database, [Events], with_transaction=False):
             events = (Events.select().limit(limit).order_by(Events.timestamp.desc()).execute())
             return [{
@@ -82,8 +82,9 @@ class DopplerrDb(object):
                 "message": e.message
             } for e in events]
 
-    def insertFetchedSeriesSubtitles(self, series_title, season_number, episode_number,
-                                     episode_title, quality, video_languages, subtitles_languages):
+    def insert_fetched_series_subtitles(self, series_title, season_number, episode_number,
+                                        episode_title, quality, video_languages,
+                                        subtitles_languages):
         with Using(self.database, [FetchedSeriesSubtitles], with_transaction=True):
             FetchedSeriesSubtitles.insert(
                 series_title=series_title,
@@ -95,7 +96,7 @@ class DopplerrDb(object):
                 subtitles_languages=subtitles_languages,
             ).execute()
 
-    def getLastFetchedSeries(self, limit: int):
+    def get_last_fetched_series(self, limit: int):
         with Using(self.database, [FetchedSeriesSubtitles], with_transaction=False):
             events = (FetchedSeriesSubtitles.select().limit(limit).order_by(
                 FetchedSeriesSubtitles.timestamp.desc()).execute())

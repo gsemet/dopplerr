@@ -59,13 +59,13 @@ class SonarrFilter(_FilterBase):
         log.debug("Reconstructing full media path with basedir '%s'",
                   DopplerrConfig().get_cfg_value("general.basedir"))
 
-        def concat_path(a, b):
-            if not a.endswith('/'):
-                a += '/'
-            if b.startswith('/'):
-                b = b[1:]
-            a += b
-            return a
+        def concat_path(str_a, str_b):
+            if not str_a.endswith('/'):
+                str_a += '/'
+            if str_b.startswith('/'):
+                str_b = str_b[1:]
+            str_a += str_b
+            return str_a
 
         root_dir = concat_path(DopplerrConfig().get_cfg_value("general.basedir"), root_dir)
         basename = root_dir

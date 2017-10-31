@@ -16,7 +16,7 @@ from klein import Klein
 from twisted.internet.defer import inlineCallbacks
 from twisted.web.static import File
 
-from dopplerr import dopplerr_version
+from dopplerr import DOPPLERR_VERSION
 from dopplerr.cfg import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
@@ -74,12 +74,12 @@ class Routes(object):
         num = int(num)
         if num > 100:
             num = 100
-        res = {"events": DopplerrDb().getRecentEvents(num)}
+        res = {"events": DopplerrDb().get_recent_events(num)}
         return jsonify(request, res)
 
     @app.route("/api/v1/recent/events/")
     def recent_events_10(self, request):
-        res = {"events": DopplerrDb().getRecentEvents(10)}
+        res = {"events": DopplerrDb().get_recent_events(10)}
         return jsonify(request, res)
 
     @app.route("/api/v1/recent/fetched/series/<num>")
@@ -87,7 +87,7 @@ class Routes(object):
         num = int(num)
         if num > 100:
             num = 100
-        res = {"events": DopplerrDb().getLastFetchedSeries(num)}
+        res = {"events": DopplerrDb().get_last_fetched_series(num)}
         return jsonify(request, res)
 
     @app.route("/api/v1/notify/sonarr", methods=['POST'])
@@ -97,30 +97,30 @@ class Routes(object):
         res = yield self._process_notify_sonarr(content)
         log.debug("Successful: %r", res.successful)
         if res.successful:
-            for s in res.sonarr_summary:
+            for st in res.sonarr_summary:
                 yield emit_registered_notifications(
                     "fetched", "Episode Subtitles Fetched",
                     ("{series_title} - {season_number}x{episode_number} - "
                      "{episode_title} [{quality}] - Lang: {video_languages} - "
                      "Subtitles: {subtitles_languages}".format(
-                         series_title=s['series_title'],
-                         season_number=s['season_number'],
-                         episode_number=s['episode_number'],
-                         episode_title=s['episode_number'],
-                         quality=s['quality'],
-                         video_languages=s['video_languages'],
-                         subtitles_languages=s['subtitles_languages'],
+                         series_title=st['series_title'],
+                         season_number=st['season_number'],
+                         episode_number=st['episode_number'],
+                         episode_title=st['episode_number'],
+                         quality=st['quality'],
+                         video_languages=st['video_languages'],
+                         subtitles_languages=st['subtitles_languages'],
                      )))
-                DopplerrDb().insertFetchedSeriesSubtitles(
-                    series_title=s['series_title'],
-                    season_number=s['season_number'],
-                    episode_number=s['episode_number'],
-                    episode_title=s['episode_number'],
-                    quality=s['quality'],
-                    video_languages=s['video_languages'],
-                    subtitles_languages=s['subtitles_languages'],
+                DopplerrDb().insert_fetched_series_subtitles(
+                    series_title=st['series_title'],
+                    season_number=st['season_number'],
+                    episode_number=st['episode_number'],
+                    episode_title=st['episode_number'],
+                    quality=st['quality'],
+                    video_languages=st['video_languages'],
+                    subtitles_languages=st['subtitles_languages'],
                 )
-        return jsonify(request, res.toDict())
+        return jsonify(request, res.to_dict())
 
     @deferredAsThread
     def _process_notify_sonarr(self, content):
@@ -133,7 +133,7 @@ class Routes(object):
             return res
         candidates = res.candidates
         if not candidates:
-            DopplerrDb().insertEvent("error", "event handled but no candidate found")
+            DopplerrDb().insert_event("error", "event handled but no candidate found")
             log.debug("event handled but no candidate found")
             res.update_status("failed", "event handled but no candidate found")
             return res
@@ -144,14 +144,14 @@ class Routes(object):
                 candidate.get("series_title"),
                 candidate.get("scenename"),
             )
-            DopplerrDb().insertEvent("availability notification", "{} - {}x{} - {} [{}] available."
-                                     .format(
-                                         candidate.get("series_title"),
-                                         candidate.get("season_number"),
-                                         candidate.get("episode_number"),
-                                         candidate.get("episode_title"),
-                                         candidate.get("quality"),
-                                     ))
+            DopplerrDb().insert_event("availability notification", "{} - {}x{} - {} [{}] available."
+                                      .format(
+                                          candidate.get("series_title"),
+                                          candidate.get("season_number"),
+                                          candidate.get("episode_number"),
+                                          candidate.get("episode_title"),
+                                          candidate.get("quality"),
+                                      ))
             video_files_found = DopplerrDownloader().search_file(candidate['root_dir'],
                                                                  candidate['scenename'])
             log.debug("All found files: %r", video_files_found)
@@ -161,10 +161,10 @@ class Routes(object):
                 DopplerrDownloader().download_missing_subtitles(res, video_files_found)
             subtitles = res.subtitles
             if not subtitles:
-                DopplerrDb().insertEvent("subtitles", "not subtitles found for: {}"
-                                         .format([Path(f).name for f in video_files_found]))
+                DopplerrDb().insert_event("subtitles", "not subtitles found for: {}"
+                                          .format([Path(f).name for f in video_files_found]))
             else:
-                DopplerrDb().insertEvent("subtitles", "subtitles fetched: {}".format(
+                DopplerrDb().insert_event("subtitles", "subtitles fetched: {}".format(
                     ", ".join([
                         "{} (lang: {}, source: {})".format(
                             s.get("filename"),
@@ -186,13 +186,13 @@ class Routes(object):
             "healthy": DopplerrStatus().healthy,
             "languages": DopplerrConfig().get_cfg_value("subliminal.languages"),
             "mapping": DopplerrConfig().get_cfg_value("general.mapping"),
-            "version": dopplerr_version,
+            "version": DOPPLERR_VERSION,
         }
         return jsonify(request, res_health)
 
     @app.route("/api/v1/version")
     def version(self, _request):
-        return dopplerr_version
+        return DOPPLERR_VERSION
 
     @app.route("/api/v1/fullscan")
     @inlineCallbacks
