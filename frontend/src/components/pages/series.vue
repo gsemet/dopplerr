@@ -86,7 +86,7 @@ export default {
   methods: {
     // Function to filter units
     fetchSeries: function () {
-      this.axios.get('/api/v1/medias/series', {})
+      this.axios.get('/api/v1/medias/series/', {})
         .then(response => {
           this.medias = response.data.medias
         })
