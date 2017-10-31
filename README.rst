@@ -43,7 +43,7 @@ Use my docker image:
         -v <path/to/animes>:/animes \
         -v <path/to/movies>:/movies \
         -v <path/to/series>:/tv \
-        -e DOPPLERR_LANGUAGES="fra,eng" \
+        -e DOPPLERR_SUBLIMINAL_LANGUAGES="fra,eng" \
         stibbons31/dopplerr
 
 Mount your media directories in ``/``. Typically, ``/animes`` and
@@ -75,15 +75,16 @@ Example of starting command line arguments:
 -  ``-v /path/to/series:/tv`` - location of TV library on disk
 -  ``-e PGID=1000`` - for GroupID. See below for explanation
 -  ``-e PUID=100`` - for UserID. See below for explanation
--  ``-e DOPPLERR_LANGUAGES=fra,eng`` - set wanted subtitles languages
-   (mandatory)
--  ``-e DOPPLERR_VERBOSE=1`` - set verbosity. 1=verbose, 0=silent
-   (optional)
+-  ``-e DOPPLERR_SUBLIMINAL_LANGUAGES=fra,eng`` - set wanted subtitles
+   languages (mandatory)
+-  ``-e DOPPLERR_GENERAL_VERBOSE=1`` - set verbosity. 1=verbose,
+   0=silent (optional)
 
 Developers might also use:
 
--  ``-e DOPPLERR_BASEDIR=/media`` - set media base directory (optional)
-   (needs something like ``-v /path/to/anime:/media/anime`` and so on)
+-  ``-e DOPPLERR_GENERAL_BASEDIR=/media`` - set media base directory
+   (optional) (needs something like ``-v /path/to/anime:/media/anime``
+   and so on)
 
 User / Group Identifiers
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,7 +113,7 @@ Example:
 
 ::
 
-    DOPPLERR_LANGUAGES=fra,eng
+    DOPPLERR_SUBLIMINAL_LANGUAGES=fra,eng
 
 Descriptors are ISO-639-3 names of the language. See the `official
 Babelfish
