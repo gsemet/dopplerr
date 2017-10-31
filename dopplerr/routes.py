@@ -20,7 +20,8 @@ from dopplerr import DOPPLERR_VERSION
 from dopplerr.cfg import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
-from dopplerr.notifications import emit_registered_notifications
+from dopplerr.notifications import SubtitleFetchedNotification
+from dopplerr.notifications import emit_notifications
 from dopplerr.request_filter import SonarrFilter
 from dopplerr.response import Response
 from dopplerr.status import DopplerrStatus
@@ -98,28 +99,16 @@ class Routes(object):
         log.debug("Successful: %r", res.successful)
         if res.successful:
             for st in res.sonarr_summary:
-                yield emit_registered_notifications(
-                    "fetched", "Episode Subtitles Fetched",
-                    ("{series_title} - {season_number}x{episode_number} - "
-                     "{episode_title} [{quality}] - Lang: {video_languages} - "
-                     "Subtitles: {subtitles_languages}".format(
-                         series_title=st['series_title'],
-                         season_number=st['season_number'],
-                         episode_number=st['episode_number'],
-                         episode_title=st['episode_number'],
-                         quality=st['quality'],
-                         video_languages=st['video_languages'],
-                         subtitles_languages=st['subtitles_languages'],
-                     )))
-                DopplerrDb().insert_fetched_series_subtitles(
-                    series_title=st['series_title'],
-                    season_number=st['season_number'],
-                    episode_number=st['episode_number'],
-                    episode_title=st['episode_number'],
-                    quality=st['quality'],
-                    video_languages=st['video_languages'],
-                    subtitles_languages=st['subtitles_languages'],
-                )
+                yield emit_notifications(
+                    SubtitleFetchedNotification(
+                        series_title=st['series_title'],
+                        season_number=st['season_number'],
+                        episode_number=st['episode_number'],
+                        episode_title=st['episode_title'],
+                        quality=st['quality'],
+                        video_languages=st['video_languages'],
+                        subtitles_languages=st['subtitles_languages'],
+                    ))
         return jsonify(request, res.to_dict())
 
     @deferredAsThread
