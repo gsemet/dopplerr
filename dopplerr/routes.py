@@ -125,16 +125,19 @@ class Routes(object):
         logging.debug("Notify sonarr request: %r", content)
         log.debug("Processing request: %r", content)
         res = Response()
+
         SonarrFilter().filter(content, res)
         if res.is_unhandled:
             # event has been filtered out
             return res
+
         candidates = res.candidates
         if not candidates:
             DopplerrDb().insert_event("error", "event handled but no candidate found")
             log.debug("event handled but no candidate found")
             res.update_status("failed", "event handled but no candidate found")
             return res
+
         for candidate in candidates:
             log.info(
                 "Searching episode '%s' from series '%s'. Filename: %s",
@@ -149,6 +152,7 @@ class Routes(object):
                 candidate.get("episode_title"),
                 candidate.get("quality"),
             ))
+
             video_files_found = DopplerrDownloader().search_file(candidate['root_dir'],
                                                                  candidate['scenename'])
             log.debug("All found files: %r", video_files_found)
@@ -157,7 +161,6 @@ class Routes(object):
                 DopplerrDb().insert_event("subtitles",
                                           "No video file found for sonarr notification")
                 return res
-
             DopplerrDb().update_series_media(
                 series_title=candidate.get("series_title"),
                 tv_db_id=candidate.get("tv_db_id"),
@@ -168,20 +171,21 @@ class Routes(object):
                 video_languages=None,
                 media_filename=video_files_found[0],
                 dirty=True)
+
             DopplerrDownloader().download_missing_subtitles(res, video_files_found)
             subtitles = res.subtitles
             if not subtitles:
                 DopplerrDb().insert_event("subtitles", "no subtitle found for: {}".format(
                     ", ".join([Path(f).name for f in video_files_found])))
-            else:
-                DopplerrDb().insert_event("subtitles", "subtitles fetched: {}".format(
-                    ", ".join([
-                        "{} (lang: {}, source: {})".format(
-                            s.get("filename"),
-                            s.get("language"),
-                            s.get("provider"),
-                        ) for s in subtitles
-                    ])))
+                return res
+            DopplerrDb().insert_event("subtitles", "subtitles fetched: {}".format(
+                ", ".join([
+                    "{} (lang: {}, source: {})".format(
+                        s.get("filename"),
+                        s.get("language"),
+                        s.get("provider"),
+                    ) for s in subtitles
+                ])))
         return res
 
     @app.route("/api/v1/notify", methods=['GET'])
