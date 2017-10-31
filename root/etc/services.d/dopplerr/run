@@ -6,10 +6,11 @@ cd /app
 
 exec \
     s6-setuidgid abc dopplerr \
-        --no-color \
-        --verbose \
-        --basedir / \
-        --port 8086 \
-        --appdir /app \
-        --configdir /config \
-        --frontend /frontend
+        --configfile /config/config.json \
+        --general-no-color \
+        --general-verbose \
+        --general-basedir / \
+        --general-port 8086 \
+        --general-appdir /app \
+        --general-configdir /config \
+        --general-frontenddir /frontend
