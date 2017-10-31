@@ -28,7 +28,7 @@
     <div slot="left">
       <q-list no-border link inset-separator>
         <q-list-header>Dopplerr</q-list-header>
-        <q-side-link item to="/">
+        <q-side-link item to="/home">
           <q-item-side icon="school" />
           <q-item-main label="Home" sublabel="Overview" />
         </q-side-link>
