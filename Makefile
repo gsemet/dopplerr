@@ -155,7 +155,7 @@ shell:
 	pipenv shell
 
 test-unit:
-	pipenv run pytest $(CMD)
+	pipenv run pytest $(MODULES)
 
 docker-build:
 	@echo "Testing docker build"
