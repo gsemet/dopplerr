@@ -11,17 +11,17 @@ from pathlib import PosixPath
 import pkg_resources
 from txwebbackendbase.singleton import singleton
 
-from dopplerr.environment_config import BoolCfg
-from dopplerr.environment_config import ConfigFileCfg
-from dopplerr.environment_config import DirNameCfg
-from dopplerr.environment_config import EnvironmentConfig
-from dopplerr.environment_config import IntCfg
-from dopplerr.environment_config import JsonFileConfigStorage
-from dopplerr.environment_config import ListOfStringCfg
-from dopplerr.environment_config import MultiChoiceCfg
-from dopplerr.environment_config import PasswordCfg
-from dopplerr.environment_config import StringCfg
-from dopplerr.environment_config import UserCfg
+from cfgtree.cfgtree import EnvironmentConfig
+from cfgtree.storages import JsonFileConfigStorage
+from cfgtree.types import BoolCfg
+from cfgtree.types import ConfigFileCfg
+from cfgtree.types import DirNameCfg
+from cfgtree.types import IntCfg
+from cfgtree.types import ListOfStringCfg
+from cfgtree.types import MultiChoiceCfg
+from cfgtree.types import PasswordCfg
+from cfgtree.types import StringCfg
+from cfgtree.types import UserCfg
 
 log = logging.getLogger(__name__)
 DEFAULT_PORT = 8086
