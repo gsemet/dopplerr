@@ -17,7 +17,7 @@ from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
-from dopplerr.routes import Routes
+from dopplerr.routes import listen
 from dopplerr.status import DopplerrStatus
 
 log = logging.getLogger(__name__)
@@ -77,6 +77,6 @@ def main():
     DopplerrDb().insert_event("start", "dopplerr started")
 
     # main event loop (Twisted reactor behind)
-    Routes().listen()
+    listen()
 
     DopplerrDb().insert_event("stop", "dopplerr stopped")

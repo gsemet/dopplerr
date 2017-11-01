@@ -4,11 +4,10 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from txrwlock.txtestcase import TxTestCase
-
 from cfgtree.dictxpath import delete_node_by_xpath
 from cfgtree.dictxpath import get_node_by_xpath
 from cfgtree.dictxpath import set_node_by_xpath
+from txrwlock.txtestcase import TxTestCase
 
 
 class TreeTests(TxTestCase):
