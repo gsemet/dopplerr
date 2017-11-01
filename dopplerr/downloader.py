@@ -19,7 +19,7 @@ from txwebbackendbase.singleton import singleton
 from txwebbackendbase.utils import recursive_iglob
 
 from dopplerr.config import DopplerrConfig
-from dopplerr.executors import DopplerrExecutors
+from dopplerr.tasks.executors import DopplerrExecutors
 from dopplerr.status import DopplerrStatus
 
 log = logging.getLogger(__name__)
@@ -81,7 +81,7 @@ class DopplerrDownloader(object):
         log.info("fetching subtitles...")
         try:
             provider_configs = DopplerrStatus().subliminal_provider_configs
-            subtitles = await DopplerrExecutors().run(
+            subtitles = await DopplerrExecutors().subliminal_executors.run(
                 download_best_subtitles,
                 videos,
                 {Language(l)
