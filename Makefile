@@ -26,9 +26,15 @@ bootstrap:
 	@echo "  sudo -E ./bootstrap-system.sh"
 	@echo "  sudo -E ./setup-pip.sh"
 
-dev:
+dev: pipenv-install-dev ln-venv
+
+pipenv-install-dev:
 	@echo "Setting up development environment"
 	pipenv install --dev --three
+
+ln-venv:
+	mkdir -p .venv
+	ln -sf $$(pipenv --venv)/bin .venv/bin
 
 frontend-dev:
 	cd frontend ; make dev
@@ -196,6 +202,7 @@ clean:
 	rm -rf .eggs *.egg-info
 	rm -rf _trial_temp/
 	rm -rf dist/ build/
+	rm -rf .venv/
 	# note: keep sqlite.db
 
 clean-db:
