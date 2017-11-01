@@ -27,10 +27,12 @@ class Executors(object):
     def __init__(self):
         self.executors = concurrent.futures.ThreadPoolExecutor(10)
 
+class SonarrOnDownloadResponse(object):
+    pass
 
 def _process_sonarr_on_download(content):
     logging.debug("Sonarr notification received: %r", content)
-    res = Response()
+    res = SonarrOnDownloadResponse()
 
     SonarrFilter().filter(content, res)
     if res.is_unhandled:
