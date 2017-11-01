@@ -14,8 +14,9 @@ from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
-from dopplerr.plugins.sonarr.task_on_download import task_on_download
+from dopplerr.plugins.sonarr.task import TaskSonarrOnDownload
 from dopplerr.status import DopplerrStatus
+from dopplerr.tasks.task_manager import DopplerrTaskManager
 
 log = logging.getLogger(__name__)
 
@@ -48,7 +49,7 @@ async def recent_fetched_series_num(_request, num=10):
 
 @bp.route("/api/v1/notify/sonarr", methods=['POST'])
 async def notify_sonarr(request):
-    res = await task_on_download(request.json)
+    res = await TaskSonarrOnDownload().run(request.json)
     return json(res)
 
 
@@ -68,6 +69,12 @@ async def health(_request):
         "mapping": DopplerrConfig().get_cfg_value("general.mapping"),
         "version": DOPPLERR_VERSION,
     }
+    return json(res_health)
+
+
+@bp.route("/api/v1/tasks/status")
+async def tasks_status(_request):
+    res_health = DopplerrTaskManager().status()
     return json(res_health)
 
 
