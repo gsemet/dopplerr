@@ -21,6 +21,7 @@ from txwebbackendbase.utils import recursive_iglob
 from dopplerr.config import DopplerrConfig
 from dopplerr.executors import DopplerrExecutors
 from dopplerr.status import DopplerrStatus
+from dopplerr.response import RequestStatus
 
 log = logging.getLogger(__name__)
 
@@ -69,14 +70,14 @@ class DopplerrDownloader(object):
 
     async def download_missing_subtitles(self, res, files):
         log.info("Searching and downloading missing subtitles for: %r", files)
-        res.update_status("downloading", "downloading missing subtitles")
+        res.processing("downloading missing subtitles")
         videos = self._video_files(files)
         log.info("Video files: %r", videos)
         if not videos:
             log.debug("No subtitle to download")
-            res.update_status("failed", "no video file found")
+            res.failed("no video file found")
             return res
-        res.update_status("fetching", "finding best subtitles")
+        res.processing("fetching best subtitles")
         self.subliminal_download_lock.acquire()
         log.info("fetching subtitles...")
         try:
@@ -89,7 +90,7 @@ class DopplerrDownloader(object):
                 provider_configs=provider_configs)
         except Exception as e:
             log.exception("subliminal raised an exception")
-            res.update_status("failed", "subliminal exception")
+            res.failed("subliminal exception")
             res.exception = repr(e)
             return res
         self.subliminal_download_lock.release()
@@ -106,7 +107,7 @@ class DopplerrDownloader(object):
             save_subtitles(vid, subtitles[vid])
         res.subtitles = subtitles_info
         if subtitles_info:
-            res.update_status("succeeded", "download successful")
+            res.successful("download successful")
         else:
-            res.update_status("failed", "no subtitle found")
+            res.failed("no subtitle found")
         return res

@@ -5,30 +5,40 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import logging
+from enum import Enum
 
 log = logging.getLogger(__name__)
+
+
+class RequestStatus(Enum):
+    UNHANDLED = 1
+    PROCESSING = 2
+    SUCCESSFUL = 3
+    FAILED = -1
 
 
 class Response(object):
     def __init__(self):
         self.res = {}
-        self.update_status("unprocessed")
+        self.__update_status(RequestStatus.UNHANDLED)
+
+    def processing(self, message=None):
+        self.__update_status(RequestStatus.PROCESSING, message=message)
 
     def failed(self, message):
         log.error(message)
-        self.res.setdefault("result", {})["status"] = "failed"
-        self.res.setdefault("result", {})["message"] = message.lower()
+        self.__update_status(RequestStatus.FAILED, message=message.lower())
 
     def unhandled(self, message):
         log.info("Filtered out event: %s", message)
-        self.res.setdefault("result", {})["status"] = "unhandled"
+        self.res.setdefault("result", {})["status"] = RequestStatus.UNHANDLED
         self.res.setdefault("result", {})["message"] = message.lower()
 
     @property
     def is_unhandled(self):
-        return self.res.get("result", {}).get("status") == "unhandled"
+        return self.res.get("result", {}).get("status") == RequestStatus.UNHANDLED
 
-    def update_status(self, status, message=None):
+    def __update_status(self, status, message=None):
         self.res.setdefault("result", {})['status'] = status
         if message is not None:
             self.res['result']["message"] = message
@@ -36,8 +46,8 @@ class Response(object):
             del self.res['result']["message"]
 
     @property
-    def successful(self):
-        return self.res.setdefault("result", {}).get("status") == "succeeded"
+    def successful(self, message=None):
+        return self.__update_status(RequestStatus.SUCCESSFUL, message=message)
 
     def to_dict(self):
         return self.res
@@ -66,33 +76,10 @@ class Response(object):
     def exception(self, exception):
         self.res.setdefault("result", {})["exception"] = exception
 
-    @property
-    def subtitles(self):
-        return self.res.get("result", {}).get("subtitles", None)
 
-    @subtitles.setter
-    def subtitles(self, subtitles):
-        self.res.setdefault("result", {})["subtitles"] = subtitles
-
-    @property
-    def candidates(self):
-        return self.res.setdefault("candidates", [])
-
-    @candidates.setter
-    def candidates(self, candidates):
-        self.res.candidates = candidates
-
-    @property
-    def sonarr_episode_infos(self):
-        candidate = self.candidates[0]
-        subtitles = self.subtitles
-        return [{
-            "series_title": candidate.get("series_title"),
-            "season_number": candidate.get("season_number"),
-            "tv_db_id": candidate.get("tv_db_id"),
-            "episode_number": candidate.get("episode_number"),
-            "episode_title": candidate.get("episode_title"),
-            "quality": candidate.get("quality"),
-            "video_languages": candidate.get("video_languages", "???"),
-            "subtitles_languages": [s["language"] for s in subtitles],
-        }]
+class UnhandledResponse(Response):
+    def __init__(self, message, *args, **kwargs):
+        super(UnhandledResponse, self).__init__(*args, **kwargs)
+        self.request_type = "sonarr"
+        self.request_type = "unhandled"
+        self.failed(message)

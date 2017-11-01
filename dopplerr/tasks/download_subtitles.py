@@ -18,7 +18,7 @@ async def download_missing_subtitles(res):
     if not candidates:
         DopplerrDb().insert_event("error", "event handled but no candidate found")
         log.debug("event handled but no candidate found")
-        res.update_status("failed", "event handled but no candidate found")
+        res.failed("event handled but no candidate found")
         return res
 
     for candidate in candidates:
@@ -40,7 +40,7 @@ async def download_missing_subtitles(res):
                                                              candidate['scenename'])
         log.debug("All found files: %r", video_files_found)
         if not video_files_found:
-            res.update_status("failed", "candidates found but no video file found")
+            res.failed("candidates found but no video file found")
             DopplerrDb().insert_event("subtitles", "No video file found for sonarr notification")
             return res
         DopplerrDb().update_series_media(
