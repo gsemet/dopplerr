@@ -19,6 +19,7 @@ from txwebbackendbase.singleton import singleton
 from txwebbackendbase.utils import recursive_iglob
 
 from dopplerr.config import DopplerrConfig
+from dopplerr.executors import DopplerrExecutors
 from dopplerr.status import DopplerrStatus
 
 log = logging.getLogger(__name__)
@@ -66,7 +67,7 @@ class DopplerrDownloader(object):
             videos.append(Video.fromname(fil))
         return videos
 
-    def download_missing_subtitles(self, res, files):
+    async def download_missing_subtitles(self, res, files):
         log.info("Searching and downloading missing subtitles for: %r", files)
         res.update_status("downloading", "downloading missing subtitles")
         videos = self._video_files(files)
@@ -80,7 +81,8 @@ class DopplerrDownloader(object):
         log.info("fetching subtitles...")
         try:
             provider_configs = DopplerrStatus().subliminal_provider_configs
-            subtitles = download_best_subtitles(
+            subtitles = await DopplerrExecutors().run(
+                download_best_subtitles,
                 videos,
                 {Language(l)
                  for l in DopplerrConfig().get_cfg_value("subliminal.languages")},

@@ -7,13 +7,14 @@ from __future__ import unicode_literals
 import logging
 
 from sanic import Blueprint
-from sanic.response import text, json
+from sanic.response import json
+from sanic.response import text
 
 from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
-from dopplerr.tasks.sonarr_on_download import process_sonarr_on_download
+from dopplerr.plugins.sonarr.task_on_download import task_on_download
 from dopplerr.status import DopplerrStatus
 
 log = logging.getLogger(__name__)
@@ -22,7 +23,7 @@ bp = Blueprint('api')
 
 
 @bp.route("/api/v1/recent/events/<num>")
-async def recent_events_num(request, num=10):
+async def recent_events_num(_request, num=10):
     num = int(num)
     if num > 100:
         num = 100
@@ -31,13 +32,13 @@ async def recent_events_num(request, num=10):
 
 
 @bp.route("/api/v1/recent/events/")
-async def recent_events_10(request):
+async def recent_events_10(_request):
     res = {"events": DopplerrDb().get_recent_events(10)}
     return json(res)
 
 
 @bp.route("/api/v1/recent/fetched/series/<num>")
-async def recent_fetched_series_num(request, num=10):
+async def recent_fetched_series_num(_request, num=10):
     num = int(num)
     if num > 100:
         num = 100
@@ -47,7 +48,7 @@ async def recent_fetched_series_num(request, num=10):
 
 @bp.route("/api/v1/notify/sonarr", methods=['POST'])
 async def notify_sonarr(request):
-    res = await process_sonarr_on_download(request.json)
+    res = await task_on_download(request.json)
     return json(res)
 
 
@@ -60,7 +61,7 @@ async def notify_not_allowed(_request):
 
 
 @bp.route("/api/v1/health")
-async def health(request):
+async def health(_request):
     res_health = {
         "healthy": DopplerrStatus().healthy,
         "languages": DopplerrConfig().get_cfg_value("subliminal.languages"),
@@ -84,6 +85,6 @@ async def fullscan(request):
 
 
 @bp.route("/api/v1/medias/series/")
-async def medias_series(request):
+async def medias_series(_request):
     res = {"medias": DopplerrDb().get_medias_series()}
     return json(res)
