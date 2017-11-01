@@ -13,7 +13,7 @@ from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
-from dopplerr.tasks.sonarr import process_notify_sonarr
+from dopplerr.tasks.sonarr_on_download import process_sonarr_on_download
 from dopplerr.status import DopplerrStatus
 
 log = logging.getLogger(__name__)
@@ -45,14 +45,9 @@ async def recent_fetched_series_num(request, num=10):
     return json(res)
 
 
-def blocking():
-    return
-
-
 @bp.route("/api/v1/notify/sonarr", methods=['POST'])
 async def notify_sonarr(request):
-    content = request.json
-    res = await process_notify_sonarr(content)
+    res = await process_sonarr_on_download(request.json)
     return json(res)
 
 
