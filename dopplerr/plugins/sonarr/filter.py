@@ -7,33 +7,35 @@ from __future__ import unicode_literals
 import logging
 
 from dopplerr.config import DopplerrConfig
+from dopplerr.plugins.sonarr.response import SonarrOnDownloadResponse
 from dopplerr.request_filter import _FilterBase
+from dopplerr.response import UnhandledResponse
 
 log = logging.getLogger(__name__)
 
 
 class SonarrFilter(_FilterBase):
-    async def filter(self, request, res):
-        # probably Sonarr
+    async def filter(self, request):
+        # probably request_event
         low_request = self.lowerize_dick_keys(request)
         eventtype = low_request.get("eventtype")
         if eventtype == "Download":
-            await self.process_on_download(request, res)
+            res = await self.process_on_download(request)
             return res
-        return res.unhandled("Ignoring Sonarr event type: {!r}".format(eventtype))
+        return UnhandledResponse("Ignoring Sonarr event type: {!r}".format(eventtype))
 
-    async def process_on_download(self, request, res):
+    async def process_on_download(self, request):
         log.debug("Processing Sonarr's 'on downloaded' event")
-        res.update_status("processing")
-        res.request_type = "sonarr"
-        res.request_event = "on download"
+        res = SonarrOnDownloadResponse()
+        res.processing()
         low_request = self.lowerize_dick_keys(request)
         low_series = self.lowerize_dick_keys(low_request.get("series", {}))
         root_dir = low_series.get("path")
         series_title = low_series.get("title")
         tv_db_id = low_series.get("tvdbid")
         if not root_dir:
-            return res.failed("Empty Series Path")
+            res.failed("Empty Series Path")
+            return res
         root_dir = self.appy_path_mapping(root_dir)
         log.debug("Root folder: %s", root_dir)
         log.debug("Reconstructing full media path with basedir '%s'",
@@ -50,7 +52,7 @@ class SonarrFilter(_FilterBase):
         root_dir = concat_path(DopplerrConfig().get_cfg_value("general.basedir"), root_dir)
         basename = root_dir
         log.info("Searching episodes for serie '%s' in '%s'", series_title, root_dir)
-        res.update_status("listing candidates")
+        res.processing("listing candidates")
         for episode in low_request.get("episodes", []):
             low_episode = self.lowerize_dick_keys(episode)
             basename = low_episode.get("scenename", "")
@@ -69,4 +71,5 @@ class SonarrFilter(_FilterBase):
                 "episode_number": episode_number,
                 "quality": quality,
             })
-        res.update_status("candidates listed")
+        res.processing("candidates listed")
+        return res

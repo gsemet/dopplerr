@@ -12,22 +12,15 @@ from dopplerr.db import DopplerrDb
 from dopplerr.notifications import emit_notifications
 from dopplerr.notifications_types.series_subtitles_fetched import SubtitleFetchedNotification
 from dopplerr.plugins.sonarr.filter import SonarrFilter
-from dopplerr.response import Response
 from dopplerr.tasks.download_subtitles import download_missing_subtitles
 
 log = logging.getLogger(__name__)
 
 
-class SonarrOnDownloadResponse(object):
-    pass
-
-
 async def task_on_download(content):
 
     logging.debug("Sonarr notification received: %r", content)
-    res = Response()
-
-    await SonarrFilter().filter(content, res)
+    res = await SonarrFilter().filter(content)
     if res.is_unhandled:
         # event has been filtered out
         return res
