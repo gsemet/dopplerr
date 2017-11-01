@@ -33,6 +33,8 @@ pipenv-install-dev:
 	pipenv install --dev --three
 
 ln-venv:
+	# this target creates a .venv link to your virtual env binaries
+	# useful for some editors that does not know how to find the venv automatically
 	mkdir -p .venv
 	ln -sf $$(pipenv --venv)/bin .venv/bin
 
