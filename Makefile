@@ -188,13 +188,23 @@ freeze:
 
 clean:
 	pipenv --rm ; true
+	find . -name '__pycache__' -delete
 	find . -name "*.pyc" -exec rm -f {} \;
 	rm -rf cachefile.dbm*
 	rm -f *.log
+	rm -f *.log.*
 	rm -rf .eggs *.egg-info
+	rm -rf _trial_temp/
+	rm -rf dist/ build/
+	# note: keep sqlite.db
+
+clean-db:
+	rm -f sqlite.db
 
 frontend-clean:
 	cd frontend ; make clean
+
+clean-all: frontend-clean clean clean-db
 
 githook:style readme version
 

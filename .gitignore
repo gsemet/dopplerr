@@ -17,3 +17,4 @@ dist/
 sqlite.db
 Pipfile.lock
 config.json
+_trial_temp/
