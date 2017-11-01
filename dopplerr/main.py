@@ -76,7 +76,8 @@ def main():
 
     DopplerrDb().insert_event("start", "dopplerr started")
 
-    # main event loop (Twisted reactor behind)
+    # main event loop (Asyncio behind)
     listen()
 
+    logging.info("Clean stopping")
     DopplerrDb().insert_event("stop", "dopplerr stopped")
