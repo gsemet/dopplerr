@@ -54,7 +54,7 @@ RUN         npm cache clear --force \
                     nodejs-npm
 
 # copy containers's startup files
-COPY        root/ /
+COPY        dockerfs/ /
 RUN         mkdir -p /media
 
 USER        root
