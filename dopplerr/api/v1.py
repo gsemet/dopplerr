@@ -16,7 +16,7 @@ from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
 from dopplerr.plugins.sonarr.task import TaskSonarrOnDownload
 from dopplerr.status import DopplerrStatus
-from dopplerr.tasks.task_manager import DopplerrTaskManager
+from dopplerr.tasks.executors import DopplerrExecutors
 
 log = logging.getLogger(__name__)
 
@@ -74,7 +74,7 @@ async def health(_request):
 
 @bp.route("/api/v1/tasks/status")
 async def tasks_status(_request):
-    res_health = DopplerrTaskManager().status()
+    res_health = DopplerrExecutors().status()
     return json(res_health)
 
 

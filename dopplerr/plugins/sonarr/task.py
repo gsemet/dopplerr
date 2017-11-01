@@ -10,15 +10,15 @@ from dopplerr.db import DopplerrDb
 from dopplerr.notifications import emit_notifications
 from dopplerr.notifications_types.series_subtitles_fetched import SubtitleFetchedNotification
 from dopplerr.plugins.sonarr.filter import SonarrFilter
+from dopplerr.tasks.executors import DopplerrExecutors
 from dopplerr.tasks.download_subtitles import download_missing_subtitles
-from dopplerr.tasks.task_manager import DopplerrTaskManager
 
 log = logging.getLogger(__name__)
 
 
 class DopplerrTask(object):
-    def add_task(self, task):
-        DopplerrTaskManager().add_task(task)
+    def run_in_background(self, task):
+        DopplerrExecutors().run_in_background(task)
 
 
 class TaskSonarrOnDownload(DopplerrTask):
@@ -30,7 +30,7 @@ class TaskSonarrOnDownload(DopplerrTask):
             # event has been filtered out
             return res
 
-        self.add_task(self.task_sonarr_on_download_background(res))
+        self.run_in_background(self.task_sonarr_on_download_background(res))
         return res.to_dict()
 
     async def task_sonarr_on_download_background(self, res):
