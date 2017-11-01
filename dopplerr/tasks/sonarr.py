@@ -14,8 +14,8 @@ from txwebbackendbase.singleton import singleton
 
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
-from dopplerr.notifications import SubtitleFetchedNotification
 from dopplerr.notifications import emit_notifications
+from dopplerr.notifications_types.series_subtitles_fetched import SubtitleFetchedNotification
 from dopplerr.request_filter import SonarrFilter
 from dopplerr.response import Response
 
@@ -25,7 +25,7 @@ log = logging.getLogger(__name__)
 @singleton
 class Executors(object):
     def __init__(self):
-        self._executors = concurrent.futures.ThreadPoolExecutor(10)
+        self.executors = concurrent.futures.ThreadPoolExecutor(10)
 
 
 def _process_notify_sonarr(content):
@@ -97,27 +97,14 @@ def _process_notify_sonarr(content):
 
 async def process_notify_sonarr(content):
     event_loop = asyncio.get_event_loop()
-    res = await event_loop.run_in_executor(Executors()._executors, _process_notify_sonarr, content)
+    res = await event_loop.run_in_executor(Executors().executors, _process_notify_sonarr, content)
     log.debug("Successful: %r", res.successful)
     if not res.successful:
         return json(res.to_dict())
-    for st in res.sonarr_summary:
-        await emit_notifications(
-            SubtitleFetchedNotification(
-                series_title=st['series_title'],
-                season_number=st['season_number'],
-                tv_db_id=st['tv_db_id'],
-                episode_number=st['episode_number'],
-                episode_title=st['episode_title'],
-                quality=st['quality'],
-                video_languages=st['video_languages'],
-                subtitles_languages=st['subtitles_languages'],
-            ))
+    for episode_info in res.sonarr_episode_infos:
+        await emit_notifications(SubtitleFetchedNotification(series_episode_info=episode_info))
         DopplerrDb().update_fetched_series_subtitles(
-            tv_db_id=st['tv_db_id'],
-            season_number=st['season_number'],
-            episode_number=st['episode_number'],
-            subtitles_languages=st['subtitles_languages'],
-            dirty=False,
-        )
+            series_episode_uid=episode_info.series_episode_uid,
+            subtitles_languages=episode_info.subtitles_languages,
+            dirty=False)
     return json(res.to_dict())

@@ -83,7 +83,7 @@ class Response(object):
         self.res.candidates = candidates
 
     @property
-    def sonarr_summary(self):
+    def sonarr_episode_infos(self):
         candidate = self.candidates[0]
         subtitles = self.subtitles
         return [{

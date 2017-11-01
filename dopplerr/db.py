@@ -113,16 +113,12 @@ class DopplerrDb(object):
             media.media_filename = media_filename
             media.save()
 
-    def update_fetched_series_subtitles(self,
-                                        tv_db_id,
-                                        season_number,
-                                        episode_number,
-                                        subtitles_languages,
-                                        dirty=True):
+    def update_fetched_series_subtitles(self, series_episode_uid, subtitles_languages, dirty=True):
         with Using(self.database, [SeriesMedias, SeriesSubtitles], with_transaction=True):
-            media = (SeriesMedias.select().where(SeriesMedias.tv_db_id == tv_db_id,
-                                                 SeriesMedias.season_number == season_number,
-                                                 SeriesMedias.episode_number == episode_number))
+            media = (SeriesMedias.select().where(
+                SeriesMedias.tv_db_id == series_episode_uid.tv_db_id,
+                SeriesMedias.season_number == series_episode_uid.season_number,
+                SeriesMedias.episode_number == series_episode_uid.episode_number))
             for lang in subtitles_languages:
                 SeriesSubtitles.get_or_create(
                     series_media=media,
