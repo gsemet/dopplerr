@@ -33,10 +33,9 @@ pipenv-install-dev:
 	pipenv install --dev --three
 
 ln-venv:
-	# this target creates a .venv link to your virtual env binaries
-	# useful for some editors that does not know how to find the venv automatically
-	mkdir -p .venv
-	ln -sf $$(pipenv --venv)/bin .venv/bin
+	@# this target creates a .venv link to your virtual env binaries
+	@# useful for some editors that does not know how to find the venv automatically
+	@ln -sf $$(pipenv --venv) .venv
 
 frontend-dev:
 	cd frontend ; make dev
@@ -204,7 +203,7 @@ clean:
 	rm -rf .eggs *.egg-info
 	rm -rf _trial_temp/
 	rm -rf dist/ build/
-	rm -rf .venv/
+	rm -rf .venv
 	# note: keep sqlite.db
 
 clean-db:
