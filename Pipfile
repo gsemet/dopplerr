@@ -3,11 +3,14 @@
 verify_ssl = true
 url = "https://pypi.python.org/simple"
 
+
 [requires]
+
 python_version = "3.6"
 
 
 [dev-packages]
+
 pandoc = "*"
 pytest = "*"
 cryptography = "*"
@@ -26,13 +29,11 @@ pipenv-to-requirements = ">=0.1.9"
 
 [packages]
 
-klein = "*"
 txwebbackendbase = ">=0.2.1"
-flask = "*"
 subliminal = { git = "https://github.com/stibbons/subliminal" }
-txrwlock = ">=1.1.2"
 peewee = "*"
 pbr = "*"
 colorlog = "*"
 setuptools = "!=36.0.0"
-treq = "*"
+sanic = "*"
+aiohttp = "*"

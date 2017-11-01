@@ -6,9 +6,7 @@ from __future__ import unicode_literals
 
 import logging
 
-import treq
-
-from twisted.internet.defer import inlineCallbacks
+import aiohttp
 
 from dopplerr.config import DopplerrConfig
 
@@ -35,22 +33,22 @@ class NotificationPushOver(NotificationBase):
         self.user = user
         super(NotificationPushOver, self).__init__(registered_notifications)
 
-    @inlineCallbacks
-    def emit(self, notification_type, title, message):
+    async def emit(self, notification_type, title, message):
         if not self.can_emit_notification_type(notification_type):
             log.debug("notification %s is ignored for pushover")
             return
-        resp = yield treq.request(
-            "POST",
-            self.__api_url,
-            json={
-                "token": self.token,
-                "user": self.user,
-                "message": message,
-                "title": title,
-            })
-        content = yield resp.text()
-        log.debug("PushOver response: %r", content)
+        async with aiohttp.ClientSession() as session:
+            async with session.get(
+                    "POST",
+                    self.__api_url,
+                    json={
+                        "token": self.token,
+                        "user": self.user,
+                        "message": message,
+                        "title": title,
+                    }) as result:
+                response = await result.json()
+                log.debug("PushOver response: %r", response)
 
 
 class _NotificationBase(object):
@@ -133,8 +131,7 @@ class SubtitleFetchedNotification(_NotificationBase):
                 ))
 
 
-@inlineCallbacks
-def emit_notifications(notification):
+async def emit_notifications(notification):
     log.debug("Emiting notification: [%s] %s - %s", notification.notification_type,
               notification.notification_title, notification.one_liner)
     if DopplerrConfig().get_cfg_value("notifications.pushover.enabled"):
@@ -145,5 +142,5 @@ def emit_notifications(notification):
             DopplerrConfig().get_cfg_value("notifications.pushover.user"),
             DopplerrConfig().get_cfg_value("notifications.pushover.registered_notifications"),
         )
-        yield po.emit(notification.notification_type, notification.notification_title,
+        await po.emit(notification.notification_type, notification.notification_title,
                       notification.one_liner)

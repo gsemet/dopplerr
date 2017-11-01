@@ -8,13 +8,11 @@
 # `Pipfile.lock`
 ################################################################################
 
+aiohttp
 colorlog
-flask
-klein
 pbr
 peewee
+sanic
 setuptools!=36.0.0
 subliminal
-treq
-txrwlock>=1.1.2
 txwebbackendbase>=0.2.1
