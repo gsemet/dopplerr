@@ -1,6 +1,7 @@
 .PHONY: build
 
-MODULE:=dopplerr
+CMD:=dopplerr
+MODULES:=dopplerr cfgtree
 DOCKER_BUILD?=docker build
 PORT:=8086
 LANGUAGES?=fra,eng
@@ -56,10 +57,10 @@ isort:
 	pipenv run isort -y
 
 autopep8:
-	pipenv run autopep8 --in-place --recursive setup.py $(MODULE)
+	pipenv run autopep8 --in-place --recursive setup.py $(MODULES)
 
 yapf:
-	pipenv run yapf --style .yapf --recursive -i $(MODULE)
+	pipenv run yapf --style .yapf --recursive -i $(MODULES)
 
 checks: readme requirements flake8 pylint
 
@@ -69,7 +70,7 @@ flake8:
 	pipenv run python setup.py flake8
 
 pylint:
-	pipenv run pylint --rcfile=.pylintrc --output-format=colorized $(MODULE)
+	pipenv run pylint --rcfile=.pylintrc --output-format=colorized $(MODULES)
 
 requirements:
 	pipenv run pipenv_to_requirements
@@ -82,7 +83,7 @@ readme:
 
 run-local:
 	@echo "Starting Dopplerr on http://localhost:$(PORT) ..."
-	pipenv run $(MODULE) \
+	pipenv run $(CMD) \
 	           -p $(PORT) \
 	           -v \
 	           -l "debug.log" \
@@ -118,7 +119,7 @@ run-local-env:
 	    DOPPLERR_NOTIFICATIONS_PUSHOVER_ENABLED=$(PUSHOVER_USER) \
 	    DOPPLERR_NOTIFICATIONS_PUSHOVER_USER=$(PUSHOVER_USER) \
 	    DOPPLERR_NOTIFICATIONS_PUSHOVER_TOKEN=$(PUSHOVER_TOKEN) \
-	    pipenv run $(MODULE) \
+	    pipenv run $(CMD) \
 	        --general-verbose
 
 run-docker: kill-docker
@@ -147,12 +148,12 @@ shell:
 	pipenv shell
 
 test-unit:
-	pipenv run pytest $(MODULE)
+	pipenv run pytest $(CMD)
 
 docker-build:
 	@echo "Testing docker build"
 	@echo "You can change the default 'docker build' command line with the DOCKER_BUILD environment variable"
-	$(DOCKER_BUILD) -t $(MODULE) .
+	$(DOCKER_BUILD) -t $(CMD) .
 
 test-coverage:
 	pipenv run py.test -v --cov ./ --cov-report term-missing
