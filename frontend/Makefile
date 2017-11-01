@@ -17,6 +17,7 @@ release: version
 
 clean:
 	rm -rf node_modules/
+	rm -rf dist/
 
 style: check
 
