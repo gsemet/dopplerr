@@ -21,7 +21,6 @@ from txwebbackendbase.utils import recursive_iglob
 from dopplerr.config import DopplerrConfig
 from dopplerr.executors import DopplerrExecutors
 from dopplerr.status import DopplerrStatus
-from dopplerr.response import RequestStatus
 
 log = logging.getLogger(__name__)
 
