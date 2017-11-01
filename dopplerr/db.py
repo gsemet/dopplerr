@@ -5,10 +5,9 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import datetime
-# import sqlite3
-import threading
 from pathlib import Path
 
+from playhouse.sqliteq import SqliteQueueDatabase
 from peewee import BooleanField
 from peewee import CharField
 from peewee import DateTimeField
@@ -16,7 +15,6 @@ from peewee import ForeignKeyField
 from peewee import IntegerField
 from peewee import Model
 from peewee import PrimaryKeyField
-from peewee import SqliteDatabase
 from peewee import TextField
 from peewee import Using
 from txwebbackendbase.singleton import singleton
@@ -58,12 +56,11 @@ class DopplerrDb(object):
         self.__sqlite_db_path = None
         self.__conn = None
         self.__database = None
-        self.__db_lock = threading.Lock()
 
     @property
     def database(self):
         if not self.__database:
-            self.__database = SqliteDatabase(
+            self.__database = SqliteQueueDatabase(
                 self.__sqlite_db_path, pragmas=(('foreign_keys', 'on'), ))
         return self.__database
 

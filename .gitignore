@@ -19,3 +19,5 @@ Pipfile.lock
 config.json
 _trial_temp/
 .venv
+/sqlite.db-wal
+/sqlite.db-shm
