@@ -28,9 +28,8 @@ class Executors(object):
         self.executors = concurrent.futures.ThreadPoolExecutor(10)
 
 
-def _process_notify_sonarr(content):
-    logging.debug("Notify sonarr request: %r", content)
-    log.debug("Processing request: %r", content)
+def _process_sonarr_on_download(content):
+    logging.debug("Sonarr notification received: %r", content)
     res = Response()
 
     SonarrFilter().filter(content, res)
@@ -95,9 +94,9 @@ def _process_notify_sonarr(content):
     return res
 
 
-async def process_notify_sonarr(content):
+async def process_sonarr_on_download(content):
     event_loop = asyncio.get_event_loop()
-    res = await event_loop.run_in_executor(Executors().executors, _process_notify_sonarr, content)
+    res = await event_loop.run_in_executor(Executors().executors, _process_sonarr_on_download, content)
     log.debug("Successful: %r", res.successful)
     if not res.successful:
         return json(res.to_dict())
