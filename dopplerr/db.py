@@ -7,7 +7,6 @@ from __future__ import unicode_literals
 import datetime
 from pathlib import Path
 
-from playhouse.sqliteq import SqliteQueueDatabase
 from peewee import BooleanField
 from peewee import CharField
 from peewee import DateTimeField
@@ -17,6 +16,7 @@ from peewee import Model
 from peewee import PrimaryKeyField
 from peewee import TextField
 from peewee import Using
+from playhouse.sqliteq import SqliteQueueDatabase
 from txwebbackendbase.singleton import singleton
 
 
@@ -99,7 +99,7 @@ class DopplerrDb(object):
                             video_languages,
                             media_filename,
                             dirty=True):
-        with Using(self.database, [SeriesMedias], with_transaction=True):
+        with Using(self.database, [SeriesMedias], with_transaction=False):
             media, _ = SeriesMedias.get_or_create(
                 tv_db_id=tv_db_id, season_number=season_number, episode_number=episode_number)
             media.series_title = series_title
@@ -111,7 +111,7 @@ class DopplerrDb(object):
             media.save()
 
     def update_fetched_series_subtitles(self, series_episode_uid, subtitles_languages, dirty=True):
-        with Using(self.database, [SeriesMedias, SeriesSubtitles], with_transaction=True):
+        with Using(self.database, [SeriesMedias, SeriesSubtitles], with_transaction=False):
             media = (SeriesMedias.select().where(
                 SeriesMedias.tv_db_id == series_episode_uid.tv_db_id,
                 SeriesMedias.season_number == series_episode_uid.season_number,
@@ -140,7 +140,7 @@ class DopplerrDb(object):
             } for e in events]
 
     def get_medias_series(self):
-        with Using(self.database, [SeriesMedias, SeriesSubtitles], with_transaction=True):
+        with Using(self.database, [SeriesMedias, SeriesSubtitles], with_transaction=False):
             limit = 100
             medias = (SeriesMedias.select().order_by(
                 SeriesMedias.series_title.desc()).limit(limit).execute())
