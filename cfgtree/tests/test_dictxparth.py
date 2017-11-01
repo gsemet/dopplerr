@@ -4,21 +4,23 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from unittest import TestCase
+
 from cfgtree.dictxpath import delete_node_by_xpath
 from cfgtree.dictxpath import get_node_by_xpath
 from cfgtree.dictxpath import set_node_by_xpath
-from txrwlock.txtestcase import TxTestCase
 
 
-class TreeTests(TxTestCase):
+class DictXpathTests(TestCase):
     def test_get_node_by_path(self):
         mapping = {'level1': {'level2': {'level3': 42}}}
         expected = 42
         actual = get_node_by_xpath(mapping, 'level1.level2.level3')
         self.assertEqual(expected, actual)
-        self.assertRaisesWithMessage(
-            KeyError, "Invalid 'level1.unknown' selector: 'unknown' doesn't match anything. "
-            "Available keys: ['level2']", get_node_by_xpath, mapping, 'level1.unknown')
+        self.assertRaisesRegex(
+            KeyError, (r"Invalid 'level1.unknown' selector: 'unknown' doesn't match anything. "
+                       r"Available keys: \['level2'\]"), get_node_by_xpath, mapping,
+            'level1.unknown')
         actual = get_node_by_xpath(
             mapping, 'level1.unknown', default="default value", ignore_errors=True)
         self.assertEqual(actual, "default value")
@@ -130,11 +132,11 @@ class TreeTests(TxTestCase):
         actual = get_node_by_xpath(
             mapping, 'level1.level_2_is_a_list[1]', handle_list_selector=True, default="N/A")
         self.assertEqual('item2', actual)
-        self.assertRaisesWithMessage(
+        self.assertRaisesRegex(
             KeyError,
-            "Invalid \'level1.level_2_is_a_list[99]\' selector: "
-            "item index \'99\' of \'level_2_is_a_list\' is outside of the list boundaries. "
-            "Length is: 2",
+            (r"Invalid \'level1.level_2_is_a_list\[99\]\' selector: "
+             r"item index \'99\' of \'level_2_is_a_list\' is outside of the list boundaries. "
+             r"Length is: 2"),
             get_node_by_xpath,
             mapping,
             'level1.level_2_is_a_list[99]',
