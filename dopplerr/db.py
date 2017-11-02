@@ -122,7 +122,8 @@ class DopplerrDb(object):
                     language=lang,
                 )
             for m in media:
-                m.update(dirty=dirty).execute()
+                m.dirty=dirty
+                m.save()
 
     def get_last_fetched_series(self, limit: int):
         with Using(self.database, [SeriesMedias, SeriesSubtitles], with_transaction=False):
