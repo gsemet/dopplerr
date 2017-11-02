@@ -17,6 +17,7 @@ from peewee import PrimaryKeyField
 from peewee import TextField
 from peewee import Using
 from playhouse.sqliteq import SqliteQueueDatabase
+
 from dopplerr.singleton import singleton
 
 
