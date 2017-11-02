@@ -7,12 +7,12 @@ python: 3.6
 
 install:
   - sudo ./bootstrap-system.sh
-  - sudo ./setup-pip.sh
   - sudo apt-get install -y libffi-dev libssl-dev pandoc nodejs
+  - ./setup-pip.sh
   # for coveralls and removing InsecurePlatformWarning
+  - make backend-dev
   - pipenv run pip install codecov coveralls pytest-cov requests[security]
   - make frontend-dev
-  - make backend-dev
 
 script:
   - make backend-checks
