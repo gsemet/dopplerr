@@ -31,6 +31,8 @@ async def test_executors():
         print(prefix + "long  sync task {}: begin".format(i))
         for _ in range(0, i * 10):
             print(prefix + "long  sync task {}: working".format(i))
+            # note: time.sleep does NOT block current thread, so other "blocking" task
+            # might actually overlap their executions
             time.sleep(0.1)
         print(prefix + "long  sync task {}: end".format(i))
 

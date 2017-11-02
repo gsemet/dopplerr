@@ -94,7 +94,8 @@ readme:
 
 run-local:
 	@echo "Starting Dopplerr on http://localhost:$(PORT) ..."
-	pipenv run $(CMD) \
+	PYTHONASYNCIODEBUG=1 \
+	    pipenv run $(CMD) \
 	           -p $(PORT) \
 	           -v \
 	           -l "debug.log" \
