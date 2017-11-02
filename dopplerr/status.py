@@ -6,9 +6,8 @@ from __future__ import unicode_literals
 
 import logging
 
-from dopplerr.singleton import singleton
-
 from dopplerr.config import DopplerrConfig
+from dopplerr.singleton import singleton
 
 log = logging.getLogger(__name__)
 

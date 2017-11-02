@@ -9,7 +9,7 @@ Usage:
         def __init__(self):
             pass
         ...
-        def aFunction(self):
+        def a_function(self):
             pass
 
 Later in the code:
@@ -17,7 +17,7 @@ Later in the code:
     from module.of.MySingleton import MySingletonClass
     def anyFunction(...):
         ...
-        MySingletonClass().aFunction(...)
+        MySingletonClass().a_function(...)
 
 
 """
@@ -29,7 +29,8 @@ from __future__ import unicode_literals
 import types
 
 
-class __singleton(object):
+# pylint: disable=invalid-name
+class __Singleton(object):
     """
     A non-thread-safe helper class to ease implementing singletons.
     This should be used as a decorator -- not a metaclass -- to the
@@ -79,6 +80,6 @@ class __singleton(object):
         if hasattr(self, "_instance"):
             delattr(self, "_instance")
 
-# pylint: disable=invalid-name
-singleton = __singleton
+
+singleton = __Singleton
 # pylint: enable=invalid-name

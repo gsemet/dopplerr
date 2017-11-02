@@ -16,9 +16,9 @@ from subliminal import region
 from subliminal import save_subtitles
 from subliminal.subtitle import get_subtitle_path
 
-from dopplerr.singleton import singleton
-from dopplerr.recursive_iglob import recursive_iglob
 from dopplerr.config import DopplerrConfig
+from dopplerr.recursive_iglob import recursive_iglob
+from dopplerr.singleton import singleton
 from dopplerr.status import DopplerrStatus
 from dopplerr.tasks.executors import DopplerrExecutors
 

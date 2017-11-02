@@ -31,27 +31,31 @@ class ColorCmd(object):
 
 
 class StdOutLogChunks(object):
-    DATE = "%(asctime)s"
-    LEVEL = "[%(levelname)-8s]"
+    DATE = "%(asctime)19s"
+    LEVEL = "[ %(levelname)-8s ]"
+    NAME = "[ %(name)-25s ]"
     MESSAGE = "%(message)s"
 
 
 class StdOutColorLogChunks(object):
     DATE = StdOutLogChunks.DATE
-    LEVEL = ColorCmd.LOG_COLOR + "%(white)s[%(reset)s%(levelname)-8s%(white)s]%(reset)s"
+    LEVEL = ColorCmd.LOG_COLOR + "%(white)s[ %(reset)s%(levelname)-8s%(white)s ]%(reset)s"
+    NAME = ColorCmd.LOG_COLOR + "%(white)s[ %(reset)s%(name)-25s%(white)s ]%(reset)s"
     MESSAGE = ColorCmd.MSG_COLOR + StdOutLogChunks.MESSAGE + ColorCmd.RESET
 
 
 class StdOutLog(object):
-    color_fmt = "{date} {level} {message}".format(
+    color_fmt = "{date} {name} {level} {message}".format(
         date=StdOutColorLogChunks.DATE,
         level=StdOutColorLogChunks.LEVEL,
         message=StdOutColorLogChunks.MESSAGE,
+        name=StdOutColorLogChunks.NAME,
     )
-    no_color_fmt = "{date} {level} {message}".format(
+    no_color_fmt = "{date} {name} {level} {message}".format(
         date=StdOutLogChunks.DATE,
         level=StdOutLogChunks.LEVEL,
         message=StdOutLogChunks.MESSAGE,
+        name=StdOutLogChunks.NAME,
     )
 
 
@@ -75,7 +79,7 @@ g_file_handler = None
 g_stream_handler = None
 
 
-def setupLogger(
+def setup_logger(
         color=True,
         level=logging.INFO,
         logfile=None,
@@ -93,11 +97,11 @@ def setupLogger(
     Usage:
     ```
     def main():
-        setupLogger()
+        setup_logger()
         ...
         # read command line argument
         verbose = opt/argparse.verbose
-        setupLogger(level=logging.DEBUG is verbose else logging.INFO)
+        setup_logger(level=logging.DEBUG is verbose else logging.INFO)
     ```
     """
     root_logger = logging.getLogger()

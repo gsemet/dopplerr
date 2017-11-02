@@ -9,7 +9,6 @@ import os
 from pathlib import PosixPath
 
 import pkg_resources
-from dopplerr.singleton import singleton
 
 from cfgtree.cfgtree import EnvironmentConfig
 from cfgtree.storages import JsonFileConfigStorage
@@ -22,6 +21,7 @@ from cfgtree.types import MultiChoiceCfg
 from cfgtree.types import PasswordCfg
 from cfgtree.types import StringCfg
 from cfgtree.types import UserCfg
+from dopplerr.singleton import singleton
 
 log = logging.getLogger(__name__)
 DEFAULT_PORT = 8086
