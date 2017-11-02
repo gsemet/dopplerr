@@ -11,14 +11,16 @@ import sys
 from pathlib import Path
 
 from babelfish import Language
-from dopplerr.logging import setup_logger
 
 from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
+from dopplerr.logging_split import setup_logging
 from dopplerr.routes import listen
 from dopplerr.status import DopplerrStatus
+
+# from dopplerr.logging import setup_logger
 
 log = logging.getLogger(__name__)
 
@@ -46,16 +48,20 @@ def main():
         default_level = logging.DEBUG
     else:
         default_level = logging.INFO
-    setup_logger(level=default_level, color=False)
+    debug = default_level is logging.DEBUG
+    setup_logging(debug=debug, module_verbose=debug)
+    # setup_logger(level=default_level, color=False)
     log.debug("Initializing Dopplerr version %s...", DOPPLERR_VERSION)
 
     DopplerrConfig().find_configuration_values()
 
-    setup_logger(
-        level=(logging.DEBUG
-               if DopplerrConfig().get_cfg_value("general.verbose") else logging.WARNING),
-        color=not DopplerrConfig().get_cfg_value("general.no_color"),
-        logfile=DopplerrConfig().get_cfg_value("general.logfile"))
+    # setup_logger(
+    #     level=(logging.DEBUG
+    #            if DopplerrConfig().get_cfg_value("general.verbose") else logging.WARNING),
+    #     color=not DopplerrConfig().get_cfg_value("general.no_color"),
+    #     logfile=DopplerrConfig().get_cfg_value("general.logfile"))
+    debug = DopplerrConfig().get_cfg_value("general.verbose")
+    setup_logging(debug=debug, module_verbose=debug)
     log.info("Reset logging format to %s", "verbose"
              if DopplerrConfig().get_cfg_value("general.verbose") else "not verbose")
 
