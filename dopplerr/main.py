@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 from babelfish import Language
-from txwebbackendbase.logging import setupLogger
+from dopplerr.logging import setupLogger
 
 from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig

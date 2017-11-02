@@ -9,7 +9,7 @@ import concurrent
 import functools
 import logging
 
-from txwebbackendbase.singleton import singleton
+from dopplerr.singleton import singleton
 
 log = logging.getLogger(__name__)
 

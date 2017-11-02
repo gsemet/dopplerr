@@ -15,9 +15,9 @@ from subliminal import download_best_subtitles
 from subliminal import region
 from subliminal import save_subtitles
 from subliminal.subtitle import get_subtitle_path
-from txwebbackendbase.singleton import singleton
-from txwebbackendbase.utils import recursive_iglob
 
+from dopplerr.singleton import singleton
+from dopplerr.recursive_iglob import recursive_iglob
 from dopplerr.config import DopplerrConfig
 from dopplerr.status import DopplerrStatus
 from dopplerr.tasks.executors import DopplerrExecutors

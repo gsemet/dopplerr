@@ -9,7 +9,7 @@ import os
 from pathlib import PosixPath
 
 import pkg_resources
-from txwebbackendbase.singleton import singleton
+from dopplerr.singleton import singleton
 
 from cfgtree.cfgtree import EnvironmentConfig
 from cfgtree.storages import JsonFileConfigStorage
