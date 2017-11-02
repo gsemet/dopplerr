@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 from babelfish import Language
-from dopplerr.logging import setupLogger
+from dopplerr.logging import setup_logger
 
 from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig
@@ -46,12 +46,12 @@ def main():
         default_level = logging.DEBUG
     else:
         default_level = logging.INFO
-    setupLogger(level=default_level, color=False)
+    setup_logger(level=default_level, color=False)
     log.debug("Initializing Dopplerr version %s...", DOPPLERR_VERSION)
 
     DopplerrConfig().find_configuration_values()
 
-    setupLogger(
+    setup_logger(
         level=(logging.DEBUG
                if DopplerrConfig().get_cfg_value("general.verbose") else logging.WARNING),
         color=not DopplerrConfig().get_cfg_value("general.no_color"),

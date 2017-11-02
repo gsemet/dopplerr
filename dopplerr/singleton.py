@@ -29,7 +29,7 @@ from __future__ import unicode_literals
 import types
 
 
-class __Singleton(object):
+class __singleton(object):
     """
     A non-thread-safe helper class to ease implementing singletons.
     This should be used as a decorator -- not a metaclass -- to the
@@ -79,5 +79,6 @@ class __Singleton(object):
         if hasattr(self, "_instance"):
             delattr(self, "_instance")
 
-
-singleton = __Singleton
+# pylint: disable=invalid-name
+singleton = __singleton
+# pylint: enable=invalid-name
