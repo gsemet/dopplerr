@@ -18,6 +18,7 @@ from subprocess import check_output
 log = logging.getLogger(__name__)
 
 # flake8: noqa
+# pylint: disable=too-many-locals,bare-except
 
 
 def setup_logging(split=True,
@@ -46,7 +47,7 @@ def setup_logging(split=True,
         #    pip install colorlog
         from colorlog import ColoredFormatter
     except:
-        ColoredFormatter = None
+        ColoredFormatter = None  # pylint: disable=invalid-name
 
     # this logging config will output debug and info to stdout and warning, error, and critical to
     # stderr, so that buildbot can color them
@@ -56,8 +57,8 @@ def setup_logging(split=True,
     stdout_level = logging.DEBUG
 
     class InfoFilter(logging.Filter):
-        def filter(self, rec):
-            return rec.levelno < stderr_threshold
+        def filter(self, record):
+            return record.levelno < stderr_threshold
 
     class SplitFormatterMixin(object):
         '''
@@ -155,7 +156,7 @@ def setup_logging(split=True,
     align_level_width = 8
     extra_char_width = 3
     if fmt:
-        ColoredFormatter = None
+        ColoredFormatter = None  # pylint: disable=invalid-name
         fmt_nocolor_str = fmt
     else:
         if module_verbose:
@@ -219,7 +220,7 @@ def setup_logging(split=True,
 
     if not is_tty:
         # We are in Buildbot or in a pipe, don't use colorlog!
-        ColoredFormatter = None
+        ColoredFormatter = None  # pylint: disable=invalid-name
     if not ColoredFormatter:
         formatter = SplitFormatter(fmt_nocolor_str, term_width=term_width, split=True)
     else:
