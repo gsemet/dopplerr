@@ -46,7 +46,7 @@ def main():
         default_level = logging.DEBUG
     else:
         default_level = logging.INFO
-    setupLogger(level=default_level, no_color=True)
+    setupLogger(level=default_level, color=False)
     log.debug("Initializing Dopplerr version %s...", DOPPLERR_VERSION)
 
     DopplerrConfig().find_configuration_values()
@@ -54,7 +54,7 @@ def main():
     setupLogger(
         level=(logging.DEBUG
                if DopplerrConfig().get_cfg_value("general.verbose") else logging.WARNING),
-        no_color=DopplerrConfig().get_cfg_value("general.no_color"),
+        color=not DopplerrConfig().get_cfg_value("general.no_color"),
         logfile=DopplerrConfig().get_cfg_value("general.logfile"))
     log.info("Reset logging format to %s", "verbose"
              if DopplerrConfig().get_cfg_value("general.verbose") else "not verbose")
