@@ -29,7 +29,6 @@ pytest-asyncio = "*"
 
 [packages]
 
-txwebbackendbase = ">=0.2.1"
 subliminal = { git = "https://github.com/stibbons/subliminal" }
 peewee = "*"
 pbr = "*"

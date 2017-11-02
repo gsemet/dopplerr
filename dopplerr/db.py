@@ -17,7 +17,7 @@ from peewee import PrimaryKeyField
 from peewee import TextField
 from peewee import Using
 from playhouse.sqliteq import SqliteQueueDatabase
-from txwebbackendbase.singleton import singleton
+from dopplerr.singleton import singleton
 
 
 # pylint: disable=invalid-name

@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 
 import logging
 
-from txwebbackendbase.singleton import singleton
+from dopplerr.singleton import singleton
 
 from dopplerr.config import DopplerrConfig
 

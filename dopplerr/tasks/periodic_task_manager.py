@@ -7,7 +7,7 @@ from __future__ import unicode_literals
 import asyncio
 import logging
 
-from txwebbackendbase.singleton import singleton
+from dopplerr.singleton import singleton
 
 log = logging.getLogger(__name__)
 
