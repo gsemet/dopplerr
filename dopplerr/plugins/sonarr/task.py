@@ -10,8 +10,8 @@ from dopplerr.db import DopplerrDb
 from dopplerr.notifications import emit_notifications
 from dopplerr.notifications_types.series_subtitles_fetched import SubtitleFetchedNotification
 from dopplerr.plugins.sonarr.filter import SonarrFilter
-from dopplerr.tasks.executors import DopplerrExecutors
 from dopplerr.tasks.download_subtitles import download_missing_subtitles
+from dopplerr.tasks.executors import DopplerrExecutors
 
 log = logging.getLogger(__name__)
 

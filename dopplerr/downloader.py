@@ -19,8 +19,8 @@ from txwebbackendbase.singleton import singleton
 from txwebbackendbase.utils import recursive_iglob
 
 from dopplerr.config import DopplerrConfig
-from dopplerr.tasks.executors import DopplerrExecutors
 from dopplerr.status import DopplerrStatus
+from dopplerr.tasks.executors import DopplerrExecutors
 
 log = logging.getLogger(__name__)
 
