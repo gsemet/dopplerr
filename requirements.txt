@@ -9,6 +9,7 @@
 ################################################################################
 
 aiohttp
+apscheduler
 apsw
 colorlog
 pbr
@@ -16,4 +17,3 @@ peewee
 sanic
 setuptools!=36.0.0
 subliminal
-txwebbackendbase>=0.2.1
