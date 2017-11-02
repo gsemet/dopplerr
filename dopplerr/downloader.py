@@ -81,7 +81,7 @@ class DopplerrDownloader(object):
         log.info("fetching subtitles...")
         try:
             provider_configs = DopplerrStatus().subliminal_provider_configs
-            subtitles = await DopplerrExecutors().subliminal_executors.run(
+            subtitles = await DopplerrExecutors().subliminal_executors.run_in_thread(
                 download_best_subtitles,
                 videos,
                 {Language(l)

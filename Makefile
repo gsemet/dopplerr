@@ -159,10 +159,10 @@ shell:
 	pipenv shell
 
 test-unit:
-	pipenv run pytest $(MODULES) -v
+	pipenv run pytest  -v $(MODULES)
 
 test-unit-v:
-	pipenv run pytest $(MODULES) -v -s
+	pipenv run pytest  -v -s $(MODULES)
 
 test-v: test-unit-v
 
