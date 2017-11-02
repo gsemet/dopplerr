@@ -18,9 +18,9 @@ class _ExecutorsBase(object):
     parallel_executors = 1
 
     def __init__(self):
-        self.executors = concurrent.futures.ThreadPoolExecutor(self.parallel_executors)
+        self.executors = concurrent.futures.ThreadPoolExecutor(max_workers=self.parallel_executors)
 
-    async def run(self, func, *args, **kwargs):
+    async def run_in_thread(self, func, *args, **kwargs):
         event_loop = asyncio.get_event_loop()
         res = await event_loop.run_in_executor(self.executors,
                                                functools.partial(func, *args, **kwargs))
