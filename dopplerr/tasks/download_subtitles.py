@@ -11,15 +11,26 @@ from pathlib import Path
 
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
+from dopplerr.singleton import singleton
 from dopplerr.status import DopplerrStatus
 from dopplerr.tasks.base import TaskBase
-from dopplerr.tasks.subliminal import SubliminalTask
+from dopplerr.tasks.subtasks.subliminal import SubliminalTask
 
 log = logging.getLogger(__name__)
 
 
+@singleton
 class DownloadSubtitleTask(TaskBase):
+    active = False
+
     async def run(self, res):
+        self.active = True
+        try:
+            return await self._run(res)
+        finally:
+            self.active = False
+
+    async def _run(self, res):
         candidates = res.candidates
         if not candidates:
             DopplerrDb().insert_event("error", "event handled but no candidate found")

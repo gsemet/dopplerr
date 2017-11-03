@@ -8,6 +8,7 @@ import asyncio
 import logging
 
 from dopplerr.singleton import singleton
+from dopplerr.tasks.download_subtitles import DownloadSubtitleTask
 
 log = logging.getLogger(__name__)
 
@@ -33,4 +34,7 @@ class DopplerrTasksManager(object):
     def status(self):
         return {
             'background_tasks': self.background_tasks,
+            'subtitle_downloader': {
+                'active': DownloadSubtitleTask().active,
+            }
         }

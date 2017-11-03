@@ -16,7 +16,7 @@ from dopplerr.logging import OutputType
 from dopplerr.logging import setup_logging
 from dopplerr.routes import listen
 from dopplerr.status import DopplerrStatus
-from dopplerr.tasks.subliminal import SubliminalTask
+from dopplerr.tasks.subtasks.subliminal import SubliminalTask
 
 log = logging.getLogger(__name__)
 

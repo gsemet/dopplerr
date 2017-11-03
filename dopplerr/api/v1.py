@@ -16,7 +16,7 @@ from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
 from dopplerr.plugins.sonarr.task import TaskSonarrOnDownload
 from dopplerr.status import DopplerrStatus
-from dopplerr.tasks.task_manager import DopplerrTasksManager
+from dopplerr.tasks.manager import DopplerrTasksManager
 
 log = logging.getLogger(__name__)
 
