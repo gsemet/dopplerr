@@ -19,6 +19,7 @@ pyflakes<1.6.0,>=1.5.0'
 pylint
 pytest
 pytest-asyncio
+pytest-catchlog
 pyyaml
 tox
 yapf

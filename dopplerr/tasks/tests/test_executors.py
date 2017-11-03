@@ -9,12 +9,15 @@ import time
 
 import pytest
 
-from dopplerr.tasks.executors import DopplerrExecutors
-from dopplerr.tasks.executors import _ExecutorsBase
+from dopplerr.tasks.base import DopplerrExecutors
+from dopplerr.tasks.base import TaskBase
 
 
-class OnlyOneExecution(_ExecutorsBase):
+class SingleExecutor(TaskBase):
     parallel_executors = 1
+
+    async def execute(self, long_task, *args):
+        return await self._run_in_thread(long_task, *args)
 
 
 @pytest.mark.asyncio
@@ -38,16 +41,16 @@ async def test_executors():
 
     async def long_async_task(i):
         print("long async task {}: begin".format(i))
-        await OnlyOneExecution().run_in_thread(long_sync_task, i)
+        await SingleExecutor().execute(long_sync_task, i)
         print("long async task {}: more work after results from run in thread task".format(i))
         await asyncio.sleep(1)
         print("long async task {}: end".format(i))
 
     print("event loop thread" + " " * 40 + "worker thread")
-    de.run_in_background(long_async_task(1))
-    de.run_in_background(long_async_task(2))
-    de.run_in_background(long_async_task(3))
-    de.run_in_background(long_async_task(4))
+    de.post_task(long_async_task(1))
+    de.post_task(long_async_task(2))
+    de.post_task(long_async_task(3))
+    de.post_task(long_async_task(4))
     print("waiting 5s")
     for _ in range(0, 60):
         print("-- running long async tasks: {} --".format(de.status()['background_tasks']))
