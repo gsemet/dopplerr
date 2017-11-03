@@ -35,6 +35,6 @@ class DopplerrTasksManager(object):
         return {
             'background_tasks': self.background_tasks,
             'subtitle_downloader': {
-                'active': DownloadSubtitleTask().active,
+                'active': 1 if DownloadSubtitleTask().active else 0,
             }
         }

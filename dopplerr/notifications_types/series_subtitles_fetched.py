@@ -18,9 +18,9 @@ class SubtitleFetchedNotification(_SeriesNotificationBase):
 
     @property
     def one_liner(self):
-        return ("{e.series_title} - {e.season_number}x{e.episode_number} - "
-                "{e.episode_title} [{e.quality}] - Lang: {e.video_languages} - "
+        return ("{e[series_title]} - {e[season_number]}x{e[episode_number]} - "
+                "{e[episode_title]} [{e[quality]}] - Lang: {e[video_languages]} - "
                 "Subtitles: {subtitles_languages}".format(
                     e=self.series_episode_info,
-                    subtitles_languages=",".join(self.series_episode_info.subtitles_languages),
+                    subtitles_languages=",".join(self.series_episode_info['subtitles_languages']),
                 ))
