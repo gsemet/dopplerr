@@ -26,6 +26,7 @@ pipenv-to-requirements = ">=0.1.9"
 "e1839a8" = {path = ".", editable = true}
 pytest-asyncio = "*"
 pytest-catchlog = "*"
+"flake8-coding" = "*"
 
 
 [packages]
