@@ -9,8 +9,6 @@ import os
 import sys
 from pathlib import Path
 
-from babelfish import Language
-
 from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
@@ -20,27 +18,7 @@ from dopplerr.logging import setup_logging
 from dopplerr.routes import listen
 from dopplerr.status import DopplerrStatus
 
-# from dopplerr.logging import setup_logger
-
 log = logging.getLogger(__name__)
-
-
-def print_list(alist):
-    return ",".join(alist)
-
-
-def list_of_languages(lang_list):
-    langs = [s.lower() for s in lang_list.split(',')]
-    failed = False
-    for l in langs:
-        try:
-            Language(l)
-        except ValueError:
-            failed = True
-            logging.critical("Invalid language: %r", l)
-    if failed:
-        sys.exit(2)
-    return langs
 
 
 def main():

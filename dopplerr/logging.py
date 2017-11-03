@@ -220,7 +220,6 @@ def setup_logging(outputtype=OutputType.PLAIN,
     elif outputtype == OutputType.JSON:
         raise NotImplementedError()
 
-    print("Logging setup=", debug)
     if debug is True:
         default_level = logging.DEBUG
     elif debug is False:
@@ -235,7 +234,6 @@ def setup_logging(outputtype=OutputType.PLAIN,
         ], "invalid debug (neither True/False neither a logging level)"
         default_level = debug
 
-    print("level is set to", default_level)
     logging.basicConfig(stream=sys.stdout, level=default_level, format=fmt_nocolor_str)
 
     date_fmt_string = None
@@ -315,7 +313,6 @@ def setup_logging(outputtype=OutputType.PLAIN,
     else:
         root.handlers[0].setFormatter(formatter)
 
-    print(root.handlers)
     if logfile:
         log.debug("Also output logs to file: %s", logfile)
         file_fmt = " :: ".join(

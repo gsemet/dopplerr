@@ -97,12 +97,12 @@ run-local:
 	# --debug-config
 	PYTHONASYNCIODEBUG=1 \
 	    pipenv run $(CMD) \
-	           -p $(PORT) \
+	           --output-type dev \
 	           --verbose \
 	           -l "debug.log" \
+	           -p $(PORT) \
 	           -m $(MAPPING) \
 	           -b $(BASEDIR) \
-	           --output-type dev \
 	           --subliminal-languages $(LANGUAGES) \
 	           --subliminal-opensubtitles-enabled \
 	           --subliminal-opensubtitles-user $(OPENSUBTITLES_USERNAME) \
