@@ -4,24 +4,48 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import glob
 import logging
+import os
 from pathlib import Path
 
+from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
-from dopplerr.downloader import DopplerrDownloader
+from dopplerr.status import DopplerrStatus
+from dopplerr.tasks.base import TaskBase
+from dopplerr.tasks.subliminal import SubliminalTask
 
 log = logging.getLogger(__name__)
 
 
-async def download_missing_subtitles(res):
-    candidates = res.candidates
-    if not candidates:
-        DopplerrDb().insert_event("error", "event handled but no candidate found")
-        log.debug("event handled but no candidate found")
-        res.failed("event handled but no candidate found")
+class DownloadSubtitleTask(TaskBase):
+    async def run(self, res):
+        candidates = res.candidates
+        if not candidates:
+            DopplerrDb().insert_event("error", "event handled but no candidate found")
+            log.debug("event handled but no candidate found")
+            res.failed("event handled but no candidate found")
+            return res
+
+        for candidate in candidates:
+            await self._process_candidate(candidate, res)
         return res
 
-    for candidate in candidates:
+    @staticmethod
+    def search_file(root_dir, base_name):
+        # This won't work with python < 3.5
+        found = []
+        base_name = glob.escape(base_name)
+        beforext, _, ext = base_name.rpartition('.')
+        protected_path = os.path.join(root_dir, "**", "*" + beforext + "*" + '.' + ext)
+        protected_path = protected_path
+        log.debug("Searching %r", protected_path)
+        for filename in glob.iglob(protected_path, recursive=True):
+            log.debug("Found: %s", filename)
+            found.append(filename)
+        return found
+
+    async def _process_candidate(self, candidate, res):
         log.info(
             "Searching episode '%s' from series '%s'. Filename: %s",
             candidate.get("episode_title"),
@@ -36,13 +60,35 @@ async def download_missing_subtitles(res):
             candidate.get("quality"),
         ))
 
-        video_files_found = DopplerrDownloader().search_file(candidate['root_dir'],
-                                                             candidate['scenename'])
-        log.debug("All found files: %r", video_files_found)
-        if not video_files_found:
-            res.failed("candidates found but no video file found")
-            DopplerrDb().insert_event("subtitles", "No video file found for sonarr notification")
-            return res
+        candidate_files = self.search_candidate_files(candidate, res)
+        if not candidate_files:
+            return
+
+        self.refresh_db_media(candidate, candidate_files[0])
+
+        videos = self.filter_video_files(candidate_files, res)
+        if not videos:
+            return
+
+        subtitles_info = await self.download_sub(videos, res)
+        res.subtitles = subtitles_info
+        if subtitles_info:
+            res.successful("download successful")
+            DopplerrDb().insert_event("subtitles", "subtitles fetched: {}".format(
+                ", ".join([
+                    "{} (lang: {}, source: {})".format(
+                        s.get("filename"),
+                        s.get("language"),
+                        s.get("provider"),
+                    ) for s in subtitles_info
+                ])))
+        else:
+            DopplerrDb().insert_event("subtitles", "no subtitle found for: {}".format(
+                ", ".join([Path(f).name for f in candidate_files])))
+            res.failed("no subtitle found")
+
+    @staticmethod
+    def refresh_db_media(candidate, media_filename):
         DopplerrDb().update_series_media(
             series_title=candidate.get("series_title"),
             tv_db_id=candidate.get("tv_db_id"),
@@ -51,21 +97,55 @@ async def download_missing_subtitles(res):
             episode_title=candidate.get("episode_title"),
             quality=candidate.get("quality"),
             video_languages=None,
-            media_filename=video_files_found[0],
+            media_filename=media_filename,
             dirty=True)
 
-        await DopplerrDownloader().download_missing_subtitles(res, video_files_found)
-        subtitles = res.subtitles
-        if not subtitles:
-            DopplerrDb().insert_event("subtitles", "no subtitle found for: {}".format(
-                ", ".join([Path(f).name for f in video_files_found])))
+    def search_candidate_files(self, candidate, res):
+        candidate_files = self.search_file(candidate['root_dir'], candidate['scenename'])
+        log.debug("All found files: %r", candidate_files)
+        if not candidate_files:
+            res.failed("candidates found but no video file found")
+            DopplerrDb().insert_event("subtitles", "No video file found for sonarr notification")
+            return []
+        return candidate_files
+
+    @staticmethod
+    def filter_video_files(candidate_files, res):
+        log.info("Searching and downloading missing subtitles for: %r", candidate_files)
+        res.processing("downloading missing subtitles")
+        videos = SubliminalTask.filter_video_files(candidate_files)
+        log.info("Video files: %r", videos)
+        if not videos:
+            log.debug("No subtitle to download")
+            res.failed("no video file found")
+            return
+        return videos
+
+    async def download_sub(self, videos, res):
+        res.processing("fetching best subtitles")
+        log.info("fetching subtitles...")
+        try:
+            subliminal = SubliminalTask()
+            provider_configs = DopplerrStatus().subliminal_provider_configs
+            languages = DopplerrConfig().get_cfg_value("subliminal.languages")
+            subtitles = await subliminal.download_sub(
+                videos, languages, provider_configs=provider_configs)
+        except Exception as e:
+            log.exception("subliminal raised an exception")
+            res.failed("subliminal exception")
+            res.exception = repr(e)
             return res
-        DopplerrDb().insert_event("subtitles", "subtitles fetched: {}".format(
-            ", ".join([
-                "{} (lang: {}, source: {})".format(
-                    s.get("filename"),
-                    s.get("language"),
-                    s.get("provider"),
-                ) for s in subtitles
-            ])))
-    return res
+
+        subtitles_info = []
+        for vid in videos:
+            log.info("Found subtitles for %s:", vid)
+            for sub in subtitles[vid]:
+                log.info("  %s from %s", sub.language, sub.provider_name)
+                subtitles_info.append({
+                    "language": str(sub.language),
+                    "provider": sub.provider_name,
+                    "filename": subliminal.get_subtitle_path(vid.name, language=sub.language)
+                })
+            subliminal.save_subtitles(vid, subtitles[vid])
+
+        return subtitles_info

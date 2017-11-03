@@ -12,11 +12,11 @@ from pathlib import Path
 from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
-from dopplerr.downloader import DopplerrDownloader
 from dopplerr.logging import OutputType
 from dopplerr.logging import setup_logging
 from dopplerr.routes import listen
 from dopplerr.status import DopplerrStatus
+from dopplerr.tasks.subliminal import SubliminalTask
 
 log = logging.getLogger(__name__)
 
@@ -51,7 +51,7 @@ def main():
 
     log.info("Initializing Subtitle DopplerrDownloader Service")
 
-    DopplerrDownloader().initialize_subliminal()
+    SubliminalTask.initialize_db()
     DopplerrStatus().sqlite_db_path = (
         Path(DopplerrConfig().get_cfg_value("general.configdir")) / "sqlite.db")
     log.debug("SQLite DB: %s", DopplerrStatus().sqlite_db_path.as_posix())

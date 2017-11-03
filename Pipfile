@@ -25,6 +25,7 @@ pyflakes = "<1.6.0,>=1.5.0'"
 pipenv-to-requirements = ">=0.1.9"
 "e1839a8" = {path = ".", editable = true}
 pytest-asyncio = "*"
+pytest-catchlog = "*"
 
 
 [packages]
