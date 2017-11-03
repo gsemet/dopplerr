@@ -115,8 +115,9 @@ class DownloadSubtitleTask(TaskBase):
         candidate_files = self.search_file(candidate['root_dir'], candidate['scenename'])
         log.debug("All found files: %r", candidate_files)
         if not candidate_files:
-            res.failed("candidates found but no video file found")
-            DopplerrDb().insert_event("subtitles", "No video file found for sonarr notification")
+            res.failed("candidates defined in request but no video file found on disk")
+            DopplerrDb().insert_event("subtitles", "No video file found on disk "
+                                      "after sonarr notification")
             return []
         return candidate_files
 
@@ -135,6 +136,7 @@ class DownloadSubtitleTask(TaskBase):
     async def download_sub(self, videos, res):
         res.processing("fetching best subtitles")
         log.info("fetching subtitles...")
+        subtitles = []
         try:
             subliminal = SubliminalTask()
             provider_configs = DopplerrStatus().subliminal_provider_configs

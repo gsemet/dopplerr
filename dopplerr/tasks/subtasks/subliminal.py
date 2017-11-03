@@ -50,7 +50,7 @@ class SubliminalTask(TaskBase):
         raise NotImplementedError
 
     async def download_sub(self, videos, languages, provider_configs):
-        await self._run_in_thread(
+        return await self._run_in_thread(
             download_best_subtitles,
             videos, {Language(l)
                      for l in languages},

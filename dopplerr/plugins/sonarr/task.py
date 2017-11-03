@@ -7,6 +7,7 @@ from __future__ import unicode_literals
 import logging
 
 from dopplerr.db import DopplerrDb
+from dopplerr.descriptors.series import SeriesEpisodeUid
 from dopplerr.notifications import emit_notifications
 from dopplerr.notifications_types.series_subtitles_fetched import SubtitleFetchedNotification
 from dopplerr.plugins.sonarr.filter import SonarrFilter
@@ -32,20 +33,24 @@ class TaskSonarrOnDownload(DopplerrTask):
 
         # processing ok, let's post our background task to the task queue
         self.post_task(self.task_sonarr_on_download_background(res))
+        res.successful("Request successfully posted")
         return res.to_dict()
 
     async def task_sonarr_on_download_background(self, res):
         log.debug("Starting task_sonarr_on_download_background")
         res = await DownloadSubtitleTask().run(res)
-        log.debug("Successful: %r", res.successful)
-        if not res.successful:
+        if not res.is_successful:
             return res
 
         for episode_info in res.sonarr_episode_infos:
             await emit_notifications(SubtitleFetchedNotification(series_episode_info=episode_info))
             DopplerrDb().update_fetched_series_subtitles(
-                series_episode_uid=episode_info.series_episode_uid,
-                subtitles_languages=episode_info.subtitles_languages,
+                series_episode_uid=SeriesEpisodeUid(
+                    episode_info['tv_db_id'],
+                    episode_info['season_number'],
+                    episode_info['episode_number'],
+                ),
+                subtitles_languages=episode_info['subtitles_languages'],
                 dirty=False)
         logging.debug("Background task finished with result: %s", res.to_json())
         return res

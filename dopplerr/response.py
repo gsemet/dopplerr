@@ -7,14 +7,16 @@ from __future__ import unicode_literals
 import logging
 from enum import Enum
 
+from dopplerr import json
+
 log = logging.getLogger(__name__)
 
 
 class RequestStatus(Enum):
-    UNHANDLED = 1
-    PROCESSING = 2
-    SUCCESSFUL = 3
-    FAILED = -1
+    UNHANDLED = "unhandled"
+    PROCESSING = "processing"
+    SUCCESSFUL = "successful"
+    FAILED = "failed"
 
 
 class Response(object):
@@ -38,6 +40,10 @@ class Response(object):
     def is_unhandled(self):
         return self.res.get("result", {}).get("status") == RequestStatus.UNHANDLED
 
+    @property
+    def is_failed(self):
+        return self.res.get("result", {}).get("status") == RequestStatus.FAILED
+
     def __update_status(self, status, message=None):
         self.res.setdefault("result", {})['status'] = status
         if message is not None:
@@ -45,12 +51,18 @@ class Response(object):
         elif "message" in self.res:
             del self.res['result']["message"]
 
-    @property
     def successful(self, message=None):
         return self.__update_status(RequestStatus.SUCCESSFUL, message=message)
 
+    @property
+    def is_successful(self):
+        return self.res.get("result", {}).get("status") == RequestStatus.SUCCESSFUL
+
     def to_dict(self):
         return self.res
+
+    def to_json(self):
+        return json.safe_dumps(self.res)
 
     @property
     def request_type(self):
