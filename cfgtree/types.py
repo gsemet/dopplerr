@@ -187,3 +187,16 @@ class MultiChoiceCfg(ListOfStringCfg):
             if item not in self.choices:
                 raise argparse.ArgumentTypeError("{!r} not in available choise: {}".format(
                     item, ", ".join(self.choices)))
+        return items
+
+
+class SingleChoiceCfg(StringCfg):
+    def __init__(self, choices=None, *args, **kwargs):
+        super(SingleChoiceCfg, self).__init__(*args, **kwargs)
+        self.choices = choices
+
+    def arg_type(self, string):
+        if string not in self.choices:
+            raise argparse.ArgumentTypeError("{!r} not in available choise: {}".format(
+                string, ", ".join(self.choices)))
+        return string

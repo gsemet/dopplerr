@@ -17,7 +17,7 @@ from cfgtree.dictxpath import get_node_by_xpath
 from cfgtree.dictxpath import set_node_by_xpath
 
 log = logging.getLogger(__name__)
-_undefined = object()
+_UNDEFINED = object()
 
 
 class EnvironmentConfig(object):
@@ -51,8 +51,8 @@ class EnvironmentConfig(object):
                 if item.ignore_in_cfg:
                     # log.debug("Create cfg node '%s': ignored (handled later)", item.xpath)
                     continue
-                log.debug("Create cfg node: '%s' (name: '%s') with value: %r", item.xpath,
-                          item.name, item.safe_value)
+                log.debug("Create cfg node: '%s' (name: '%s', cmd line: '%s'), default  : %r",
+                          item.xpath, item.name, item.long_param, item.safe_value)
         # pylint: enable=no-member
 
     def set_cfg_value(self, xpath, value):
@@ -80,16 +80,21 @@ class EnvironmentConfig(object):
         self._load_cfg_dict(bare_cfg)
 
     def _save_configuration(self):
-        log.debug("Saving configuration")
+        log.debug("Saving configuration file")
         bare_cfg = self._dict(safe=False)
         self.config_storage.save_bare_config_dict(bare_cfg)
 
     def _load_cfg_dict(self, cfg, xpath=None):
         for k, v in cfg.items():
+            xp = self.mkxpath(xpath, k)
             if isinstance(v, dict):
-                self._load_cfg_dict(v, self.mkxpath(xpath, k))
+                self._load_cfg_dict(v, xp)
             else:
-                self.set_cfg_value(self.mkxpath(xpath, k), v)
+                try:
+                    self.set_cfg_value(xp, v)
+                except KeyError:
+                    log.error("Unable to load value '%s' from configuration file, "
+                              "no matching item in configuration tree (invalid '%s')", k, xp)
 
     def _load_environment_variables(self, xpath, root):
         """
@@ -118,7 +123,7 @@ class EnvironmentConfig(object):
         args = parser.parse_args(args=argv)
         for k, v in vars(args).items():
             cfg = self._find_cfg_for_cmd_line_name(k)
-            if v is _undefined:
+            if v is _UNDEFINED:
                 continue
             cfg.value = v
             if cfg.ignore_in_cfg:
@@ -155,17 +160,21 @@ class EnvironmentConfig(object):
                     "action": item.action,
                     "dest": item.cmd_line_name,
                     "help": item.help_str,
-                    "default": _undefined,
+                    "default": _UNDEFINED,
                 }
-                # log.debug("parser arg %s, dest %s", item.long_param, kwargs['dest'])
                 nargs = item.n_args
+                dbg_infos = ["arg '{}'".format(item.long_param), "dest '{}'".format(kwargs['dest'])]
                 if nargs:
                     kwargs["nargs"] = nargs
+                    dbg_infos.append("nargs '{}'".format(str(nargs)))
                 metavar = item.metavar
                 if metavar:
                     kwargs["metavar"] = metavar
+                    dbg_infos.append("metavar '{}'".format(metavar))
                 if item.arg_type is not None:
                     kwargs["type"] = item.arg_type
+                    dbg_infos.append("type '{}'".format(item.arg_type))
+                log.debug("parser %s", ", ".join(dbg_infos))
                 parser.add_argument(*args, **kwargs)
         # pylint: enable=no-member
 

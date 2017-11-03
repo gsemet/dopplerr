@@ -51,12 +51,12 @@ class JsonFileConfigStorage(_ConfigStorageBase):
                 log.debug("%s defined: %s", " or ".join(good), configfile)
                 break
         config_file_path = PosixPath(configfile)
-        log.info("Configuration file set to: %s", configfile)
+        log.debug("Configuration file set to: %s", configfile)
         self.__resolved_config_file = config_file_path.resolve().as_posix()
         self._load_bare_config()
 
     def _load_bare_config(self):
-        log.debug("(Re)loading configuration file: %s", self.__resolved_config_file)
+        log.debug("Loading configuration file: %s", self.__resolved_config_file)
         config_file_path = PosixPath(self.__resolved_config_file)
         if config_file_path.exists():
             with config_file_path.open() as f:
