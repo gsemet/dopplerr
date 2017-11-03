@@ -130,9 +130,11 @@ following commands:
 
     $ pip install dopplerr
 
-Note: Do NOT install a Python application directly in your system.
-Always use a Virtualenv. Or let it be handled by your distribution's
-maintainer (use ``apt`` / ``yum`` / ...)
+**Note:** NEVER install a Python application directly in your system
+``sudo pip install ...``. You do not want to mess your startup script or
+any system python application. Always use a Virtualenv. To install an
+application system-wide, use your distribution's packet manager (``apt``
+/ ``yum`` / ...) or install it user-wide (``pip install --user``).
 
 Radarr/Sonarr Configuration
 ===========================

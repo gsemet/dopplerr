@@ -16,7 +16,8 @@ from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.downloader import DopplerrDownloader
-from dopplerr.logging_split import setup_logging
+from dopplerr.logging import OutputType
+from dopplerr.logging import setup_logging
 from dopplerr.routes import listen
 from dopplerr.status import DopplerrStatus
 
@@ -44,28 +45,32 @@ def list_of_languages(lang_list):
 
 
 def main():
-    if "-v" in sys.argv or "--general-verbose" in sys.argv:
+    if "--debug-config" in sys.argv:
         default_level = logging.DEBUG
     else:
-        default_level = logging.INFO
+        default_level = logging.ERROR
     debug = default_level is logging.DEBUG
-    setup_logging(debug=debug, module_verbose=debug)
-    # setup_logger(level=default_level, color=False)
+    setup_logging(debug=debug)
     log.debug("Initializing Dopplerr version %s...", DOPPLERR_VERSION)
 
     DopplerrConfig().find_configuration_values()
-
-    # setup_logger(
-    #     level=(logging.DEBUG
-    #            if DopplerrConfig().get_cfg_value("general.verbose") else logging.WARNING),
-    #     color=not DopplerrConfig().get_cfg_value("general.no_color"),
-    #     logfile=DopplerrConfig().get_cfg_value("general.logfile"))
     debug = DopplerrConfig().get_cfg_value("general.verbose")
-    setup_logging(debug=debug, module_verbose=debug)
-    log.info("Reset logging format to %s", "verbose"
-             if DopplerrConfig().get_cfg_value("general.verbose") else "not verbose")
+    output_type = DopplerrConfig().get_cfg_value("general.output_type")
+    if output_type == 'dev':
+        outputtype = OutputType.DEV
+    elif output_type == 'plain':
+        outputtype = OutputType.PLAIN
+    else:
+        raise NotImplementedError("Invalid output type: {!r}".format(output_type))
 
     log.debug("Applying configuration")
+    setup_logging(
+        outputtype=outputtype,
+        debug=debug,
+        logfile=DopplerrConfig().get_cfg_value("general.logfile"))
+    log.info("Logging is set to %s", "verbose"
+             if DopplerrConfig().get_cfg_value("general.verbose") else "not verbose")
+
     DopplerrStatus().refresh_from_cfg()
 
     log.info("Initializing Subtitle DopplerrDownloader Service")

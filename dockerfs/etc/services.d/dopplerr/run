@@ -7,11 +7,11 @@ cd /app
 exec \
     s6-setuidgid abc dopplerr \
         --configfile /config/config.json \
+        --output-type plain \
+        --general-port 8086 \
         --general-no-color \
-        --general-verbose \
         --general-basedir / \
         --general-logfile /config/dopplerr.log \
-        --general-port 8086 \
         --general-appdir /app \
         --general-configdir /config \
         --general-frontenddir /frontend

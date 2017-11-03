@@ -7,13 +7,12 @@ from __future__ import unicode_literals
 import logging
 import os
 import sys
+from enum import Enum
 from functools import partial
 from io import StringIO
+from logging.handlers import RotatingFileHandler
 from subprocess import PIPE
 from subprocess import check_output
-
-# absolute_import ensure "import logging" will not import the logging package from the
-# current module but the system wide package
 
 log = logging.getLogger(__name__)
 
@@ -21,39 +20,73 @@ log = logging.getLogger(__name__)
 # pylint: disable=too-many-locals,bare-except
 
 
-def setup_logging(split=True,
-                  unbuffered=False,
+class OutputType(Enum):
+    PLAIN = 1
+    DEV = 2
+    JSON = 3
+
+
+g_file_handler = None
+g_stream_handler = None
+
+
+def setup_logging(outputtype=OutputType.PLAIN,
                   debug=False,
-                  module_verbose=False,
-                  fmt=None,
-                  force_no_tty=None):
+                  unbuffered=False,
+                  logfile=None,
+                  dev_allow_colors=True,
+                  dev_split=True,
+                  dev_module_verbose=False,
+                  dev_force_fmt=None,
+                  dev_force_no_tty=None):
     '''
-    :param split: preserve log headers for multiline strings, and adapt to the current terminal
-                  witdh if applicable
+    :param outputtype: one of the following:
+                         - OutputType.PLAIN: plain log output (all in stdout)
+                         - OutputType.DEV: developer-friendly, multi-columns, colored output
+                                           (if `colorlog` package is available and
+                                           `dev_allow_colors` set to True)
+                         - OutputType.JSON: output in json format, 1 json-chunk per line
+    :param debug: configure log level. Can take the following values:
+                    - False: logs will be in level logging.INFO
+                    - True: logs will be in level logging.DEBUG
+                    - logging.[DEBUG|INFO|WARNING|ERROR|FATAL]: set log level manually
     :param unbuffered: ask the stdout to avoid buffering to send logs as fast as possible to the
-                       caller script, only when not inside a TTY
-    :param debug: enable debug level
-    :param module_verbose: add module (file, line number) to each log line
-    :param fmt: overwrite the formatter
-    :param force_no_tty: force the usage of the no TTY formatter
+                       caller script.
+                       Only available when not inside a TTY, especially for pipeline of logs.
+                       This also trigger the split of outputs into stdout and stderr:
+                           >=logging.ERROR, logs go to stderr
+                           < logging.ERROR, logs go to stdout
+    :param logfile: enable output of logs to a file
+    The rest of the parameters allow to fine-tune developer-mode
+    :param dev_allow_colors: allow log coloration if `colorlog` is installed
+    :param dev_split: preserve log headers for multiline strings, and adapt to the current terminal
+                  witdh if applicable
+    :param dev_module_verbose: add module (file, line number) to each log line
+    :param dev_force_fmt: overwrite the formatter
+    :param dev_force_no_tty: force the usage of the no TTY formatter
     '''
-    try:
-        # Note: colorlog is not a 'requirement' of slavescripts (and shouldn't!), so it might not be
-        # installed. In this case, normal logging formatter is used. But if available, let's print
-        # plentful of colors!
-        #
-        # To install it, simply do:
-        #
-        #    pip install colorlog
-        from colorlog import ColoredFormatter
-    except:
-        ColoredFormatter = None  # pylint: disable=invalid-name
+    ColoredFormatter = False  # pylint: disable=invalid-name
+    if dev_allow_colors:
+        try:
+            # Note: colorlog is not a 'requirement' of your application (and shouldn't!),
+            # so it might not be installed.
+            # In this case, normal logging formatter is used.
+            # But if available, let's print plentful of colors!
+            #
+            # To install it, simply do:
+            #
+            #    pip install colorlog
+            #
+            from colorlog import ColoredFormatter
+        except:
+            pass
 
     # this logging config will output debug and info to stdout and warning, error, and critical to
-    # stderr, so that buildbot can color them
-    # logs with level > will go to stderr, with level < will go to stdout
+    # stderr, so that consumer can color them if needed
+    # logs with `level > stderr_threshold` will go to `stderr`,
+    # logs with `level < stderr_threshold` will go to `stdout`
     stderr_threshold = logging.WARNING
-    # logs with level < will be hidden
+    # logs with `level < stdout_level` will be hidden
     stdout_level = logging.DEBUG
 
     class InfoFilter(logging.Filter):
@@ -155,39 +188,54 @@ def setup_logging(split=True,
 
     align_level_width = 8
     extra_char_width = 3
-    if fmt:
-        ColoredFormatter = None  # pylint: disable=invalid-name
-        fmt_nocolor_str = fmt
-    else:
-        if module_verbose:
-            fmt_module_nocolor_str = "[%(name)-37.37s] "
-            fmt_module_color_str = ("[%(yellow)s%(name)-37.37s%(reset)s] ")
+    if outputtype == OutputType.PLAIN:
+        fmt_color_str = fmt_nocolor_str = "%(message)s"
+    elif outputtype == OutputType.DEV:
+        if dev_force_fmt:
+            fmt_nocolor_str = dev_force_fmt
         else:
-            fmt_module_nocolor_str = ""
-            fmt_module_color_str = ""
-        fmt_debug_nocolor_str = (
-            '%(asctime)19.19ss ' + fmt_module_nocolor_str + '%(levelname)7s: %(message)s')
-        fmt_debug_color_str = (
-            '%(blue)s%(asctime)19.19s%(reset)s ' + fmt_module_color_str +
-            '%(log_color)s%(levelname)-7s%(reset)s | ' + '%(log_color)s%(message)s%(reset)s')
+            if dev_module_verbose:
+                fmt_module_nocolor_str = "[%(name)-37.37s] "
+                fmt_module_color_str = ("[%(yellow)s%(name)-37.37s%(reset)s] ")
+            else:
+                fmt_module_nocolor_str = ""
+                fmt_module_color_str = ""
+            fmt_debug_nocolor_str = (
+                '%(asctime)19.19ss ' + fmt_module_nocolor_str + '%(levelname)7s: %(message)s')
+            fmt_debug_color_str = (
+                '%(blue)s%(asctime)19.19s%(reset)s ' + fmt_module_color_str +
+                '%(log_color)s%(levelname)-7s%(reset)s | ' + '%(log_color)s%(message)s%(reset)s')
 
-        fmt_simple_nocolor_str = '%(levelname)-7s - ' + fmt_module_nocolor_str + '%(message)s'
-        fmt_simple_color_str = (
-            '%(log_color)s' + fmt_module_color_str + '[%(levelname).1s]%(reset)s %(log_color)s'
-            '%(message)s%(reset)s')
+            fmt_simple_nocolor_str = '%(levelname)-7s - ' + fmt_module_nocolor_str + '%(message)s'
+            fmt_simple_color_str = (
+                '%(log_color)s' + fmt_module_color_str + '[%(levelname).1s]%(reset)s %(log_color)s'
+                '%(message)s%(reset)s')
 
-        if debug:
-            fmt_color_str = fmt_debug_color_str
-            fmt_nocolor_str = fmt_debug_nocolor_str
-        else:
-            fmt_color_str = fmt_simple_color_str
-            fmt_nocolor_str = fmt_simple_nocolor_str
+            if debug is True:
+                fmt_color_str = fmt_debug_color_str
+                fmt_nocolor_str = fmt_debug_nocolor_str
+            else:
+                fmt_color_str = fmt_simple_color_str
+                fmt_nocolor_str = fmt_simple_nocolor_str
+    elif outputtype == OutputType.JSON:
+        raise NotImplementedError()
 
-    if debug:
+    print("Logging setup=", debug)
+    if debug is True:
         default_level = logging.DEBUG
-    else:
+    elif debug is False:
         default_level = logging.INFO
+    else:
+        assert debug in [
+            logging.CRITICAL,
+            logging.ERROR,
+            logging.WARNING,
+            logging.INFO,
+            logging.DEBUG,
+        ], "invalid debug (neither True/False neither a logging level)"
+        default_level = debug
 
+    print("level is set to", default_level)
     logging.basicConfig(stream=sys.stdout, level=default_level, format=fmt_nocolor_str)
 
     date_fmt_string = None
@@ -196,7 +244,7 @@ def setup_logging(split=True,
     # Do *not* replace the formatter in quiet mode since we want to bare output
 
     term_width = -1
-    if split:
+    if dev_split:
         # Try to retrieve the terminal width:
         term_width = -1
         try:
@@ -213,7 +261,7 @@ def setup_logging(split=True,
     # disable terminal spliting for the moment
     term_width = -1
 
-    if force_no_tty:
+    if dev_force_no_tty:
         is_tty = False
     else:
         is_tty = sys.stdout.isatty()
@@ -237,6 +285,9 @@ def setup_logging(split=True,
                 'CRITICAL': 'red,bg_white',
             })
 
+    global g_file_handler
+    global g_stream_handler
+
     if unbuffered and not is_tty:
         root.handlers = []
         # Make stdout unbuffered, so that we get output asap to buildbot log
@@ -258,4 +309,16 @@ def setup_logging(split=True,
         logging.getLogger().setLevel(logging.NOTSET)
     else:
         root.handlers[0].setFormatter(formatter)
-    return root.handlers[0]
+
+    print(root.handlers)
+    if logfile:
+        log.debug("Also output logs to file: %s", logfile)
+        file_fmt = " :: ".join(
+            ["%(asctime)s", "%(levelname)s", "%(pathname)s:%(lineno)s", "%(message)s"])
+        file_formatter = logging.Formatter(file_fmt)
+        file_handler = RotatingFileHandler(str(logfile), 'a', 5 * 1024 * 1024, 1)
+        file_handler.setFormatter(file_formatter)
+        if g_file_handler:
+            root.removeHandler(g_file_handler)
+        root.addHandler(file_handler)
+        g_file_handler = file_handler

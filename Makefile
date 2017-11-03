@@ -93,14 +93,16 @@ readme:
 	pandoc --from=markdown --to=rst --output=README.rst README.md
 
 run-local:
-	@echo "Starting Dopplerr on http://localhost:$(PORT) ..."
+	@echo "Starting dev-log Dopplerr on http://localhost:$(PORT) ..."
+	# --debug-config
 	PYTHONASYNCIODEBUG=1 \
 	    pipenv run $(CMD) \
 	           -p $(PORT) \
-	           -v \
+	           --verbose \
 	           -l "debug.log" \
 	           -m $(MAPPING) \
 	           -b $(BASEDIR) \
+	           --output-type dev \
 	           --subliminal-languages $(LANGUAGES) \
 	           --subliminal-opensubtitles-enabled \
 	           --subliminal-opensubtitles-user $(OPENSUBTITLES_USERNAME) \
@@ -119,9 +121,10 @@ postman-sonarr:
 postman: postman-sonarr
 
 run-local-env:
-	@echo "Starting Dopplerr on http://localhost:$(PORT) using environment variable parameters..."
+	@echo "Starting plain log Dopplerr on http://localhost:$(PORT) "
+	@echo "using environment variable parameters..."
 	DOPPLERR_GENERAL_PORT=$(PORT) \
-	    DOPPLERR_GENERAL_VERBOSE=1 \
+	    DOPPLERR_VERBOSE=1 \
 	    DOPPLERR_GENERAL_MAPPING="$(MAPPING)" \
 	    DOPPLERR_GENERAL_BASEDIR=$(BASEDIR) \
 	    DOPPLERR_SUBLIMINAL_LANGUAGES=$(LANGUAGES) \
@@ -132,11 +135,12 @@ run-local-env:
 	    DOPPLERR_NOTIFICATIONS_PUSHOVER_USER=$(PUSHOVER_USER) \
 	    DOPPLERR_NOTIFICATIONS_PUSHOVER_TOKEN=$(PUSHOVER_TOKEN) \
 	    pipenv run $(CMD) \
-	        --general-verbose
+	        --output-type plain
 
 run-docker: kill-docker
+	@echo "Starting plain-log Dopplerr on http://localhost:$(PORT) "
 	docker run -p $(PORT):$(PORT) \
-	           -e "DOPPLERR_GENERAL_VERBOSE=1" \
+	           -e "DOPPLERR_VERBOSE=1" \
 	           -e "DOPPLERR_GENERAL_MAPPING='$(MAPPING)'" \
 	           -e "DOPPLERR_GENERAL_LOGFILE=debug.log" \
 	           -e "DOPPLERR_GENERAL_BASEDIR=$(BASEDIR)" \

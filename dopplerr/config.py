@@ -19,6 +19,7 @@ from cfgtree.types import IntCfg
 from cfgtree.types import ListOfStringCfg
 from cfgtree.types import MultiChoiceCfg
 from cfgtree.types import PasswordCfg
+from cfgtree.types import SingleChoiceCfg
 from cfgtree.types import StringCfg
 from cfgtree.types import UserCfg
 from dopplerr.singleton import singleton
@@ -55,6 +56,7 @@ class DopplerrConfig(EnvironmentConfig):
 
     cfgtree = {
         "configfile": ConfigFileCfg(l="--configfile", h="Config directory"),
+        "debug_config": BoolCfg(l="--debug-config", h="Show logs before configuration load"),
         "general": {
             "basedir":
                 DirNameCfg(s="-b", d=os.getcwd(), h='Base directory'),
@@ -65,7 +67,13 @@ class DopplerrConfig(EnvironmentConfig):
             "frontenddir":
                 DirNameCfg(s="-f", d=_find_frontend_data(), r=True, h="Frontend directory"),
             "verbose":
-                BoolCfg(s='-v', h='Enable verbose output'),
+                BoolCfg(s='-v', l="--verbose", h='Enable verbose output logs'),
+            "output_type":
+                SingleChoiceCfg(
+                    l="--output-type",
+                    h="Output log type",
+                    choices=["quiet", "plain", "dev"],
+                    d="plain"),
             "logfile":
                 StringCfg(s="-l", h='Output log to file'),
             "mapping":
@@ -112,7 +120,7 @@ class DopplerrConfig(EnvironmentConfig):
                 "token":
                     PasswordCfg(h="pushover password"),
                 "registered_notifications":
-                    MultiChoiceCfg(h="Registerd Notifications", choices=["fetched"], d=["fetched"]),
+                    MultiChoiceCfg(h="Notifications", choices=["fetched"], d=["fetched"]),
             }
         }
     }
