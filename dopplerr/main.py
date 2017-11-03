@@ -5,7 +5,6 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import logging
-import logging.config
 import os
 import sys
 from pathlib import Path
@@ -70,7 +69,6 @@ def main():
         logfile=DopplerrConfig().get_cfg_value("general.logfile"))
     log.info("Logging is set to %s", "verbose"
              if DopplerrConfig().get_cfg_value("general.verbose") else "not verbose")
-
     DopplerrStatus().refresh_from_cfg()
 
     log.info("Initializing Subtitle DopplerrDownloader Service")

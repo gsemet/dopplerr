@@ -243,6 +243,11 @@ def setup_logging(outputtype=OutputType.PLAIN,
     root = logging.getLogger()
     # Do *not* replace the formatter in quiet mode since we want to bare output
 
+    # force log level on root, in case of multiple call of basicConfig, if the first level
+    # was higher than the second, the root log level is not not updated
+    root.setLevel(default_level)
+    assert log.getEffectiveLevel() == default_level, "invalid log level set on root !"
+
     term_width = -1
     if dev_split:
         # Try to retrieve the terminal width:
