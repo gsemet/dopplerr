@@ -6,6 +6,8 @@ from __future__ import unicode_literals
 
 import logging
 
+from babelfish import Language
+
 from dopplerr.config import DopplerrConfig
 from dopplerr.singleton import singleton
 
@@ -42,6 +44,9 @@ class DopplerrStatus(object):
         if any(not x for x in languages):
             raise Exception("Bad languages: {!r}".format(languages))
 
+        if not self._check_languages(languages):
+            raise Exception("Bad language defined")
+
     def _build_subliminal_provider_cfgs(self):
         cfg = DopplerrConfig()
         provider_configs = {}
@@ -60,3 +65,16 @@ class DopplerrStatus(object):
                 log.debug("Using %s username: %s", provider_name,
                           provider_configs[provider_name]['username'])
         return provider_configs
+
+    @staticmethod
+    def _check_languages(languages):
+        failed = False
+        for l in languages:
+            try:
+                Language(l)
+            except ValueError:
+                failed = True
+                logging.critical("Invalid language: %r", l)
+        if failed:
+            return False
+        return True
