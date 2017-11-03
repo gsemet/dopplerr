@@ -4,6 +4,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import glob
 import logging
 import os
 import threading
@@ -17,7 +18,6 @@ from subliminal import save_subtitles
 from subliminal.subtitle import get_subtitle_path
 
 from dopplerr.config import DopplerrConfig
-from dopplerr.recursive_iglob import recursive_iglob
 from dopplerr.singleton import singleton
 from dopplerr.status import DopplerrStatus
 from dopplerr.tasks.executors import DopplerrExecutors
@@ -42,7 +42,7 @@ class DopplerrDownloader(object):
         protected_path = os.path.join(root_dir, "**", "*" + base_name + "*")
         protected_path = protected_path.replace("[", "[[]").replace("]", "[]]")
         log.debug("Searching %r", protected_path)
-        for filename in recursive_iglob(protected_path):
+        for filename in glob.iglob(protected_path, recursive=True):
             log.debug("Found: %s", filename)
             found.append(filename)
         return found
