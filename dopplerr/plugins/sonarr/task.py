@@ -10,15 +10,15 @@ from dopplerr.db import DopplerrDb
 from dopplerr.notifications import emit_notifications
 from dopplerr.notifications_types.series_subtitles_fetched import SubtitleFetchedNotification
 from dopplerr.plugins.sonarr.filter import SonarrFilter
-from dopplerr.tasks.base import DopplerrExecutors
 from dopplerr.tasks.download_subtitles import DownloadSubtitleTask
+from dopplerr.tasks.task_manager import DopplerrTasksManager
 
 log = logging.getLogger(__name__)
 
 
 class DopplerrTask(object):
     def post_task(self, task):
-        DopplerrExecutors().post_task(task)
+        DopplerrTasksManager().post_task(task)
 
 
 class TaskSonarrOnDownload(DopplerrTask):
