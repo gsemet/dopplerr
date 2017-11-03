@@ -9,8 +9,8 @@ import time
 
 import pytest
 
-from dopplerr.tasks.base import DopplerrExecutors
 from dopplerr.tasks.base import TaskBase
+from dopplerr.tasks.task_manager import DopplerrTasksManager
 
 
 class SingleExecutor(TaskBase):
@@ -23,7 +23,7 @@ class SingleExecutor(TaskBase):
 @pytest.mark.asyncio
 async def test_executors():
     print("")
-    de = DopplerrExecutors()
+    de = DopplerrTasksManager()
 
     def mkprefix(i):
         return " " * 15 + " " * 45 * i

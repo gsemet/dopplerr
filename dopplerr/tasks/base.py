@@ -9,8 +9,6 @@ import concurrent
 import functools
 import logging
 
-from dopplerr.singleton import singleton
-
 log = logging.getLogger(__name__)
 
 
@@ -59,27 +57,3 @@ class TaskBase(object):
 
         # Return stdout, stderr, exit code
         return stdout_str, stderr_str, process.returncode
-
-
-@singleton
-class DopplerrExecutors(object):
-    background_tasks = 0
-
-    def post_task(self, task):
-        """
-        TODO: transfor this simple wrapper arround `create_task ` into a real queue management
-        """
-
-        async def wrap_task(task):
-            self.background_tasks += 1
-            res = await task
-            self.background_tasks -= 1
-            return res
-
-        loop = asyncio.get_event_loop()
-        loop.create_task(wrap_task(task))
-
-    def status(self):
-        return {
-            'background_tasks': self.background_tasks,
-        }
