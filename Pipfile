@@ -27,6 +27,7 @@ pipenv-to-requirements = ">=0.1.9"
 pytest-asyncio = "*"
 pytest-catchlog = "*"
 "flake8-coding" = "*"
+"flake8-comprehensions" = "*"
 
 
 [packages]
