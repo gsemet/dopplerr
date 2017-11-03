@@ -10,7 +10,7 @@ import time
 import pytest
 
 from dopplerr.tasks.base import TaskBase
-from dopplerr.tasks.task_manager import DopplerrTasksManager
+from dopplerr.tasks.manager import DopplerrTasksManager
 
 
 class SingleExecutor(TaskBase):

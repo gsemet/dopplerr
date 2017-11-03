@@ -12,7 +12,6 @@ from sanic import Sanic
 from dopplerr.api import v1
 from dopplerr.config import DopplerrConfig
 from dopplerr.status import DopplerrStatus
-from dopplerr.tasks.periodic_task_manager import PeriodicTaskManager
 
 log = logging.getLogger(__name__)
 
@@ -24,5 +23,4 @@ def listen():
     DopplerrStatus().healthy = True
     for fi in Path(DopplerrConfig().get_cfg_value("general.frontenddir")).iterdir():
         app.static('/' + fi.name if fi.name != "index.html" else '/', fi.resolve().as_posix())
-    app.add_task(PeriodicTaskManager().run())
     app.run(host='0.0.0.0', port=int(DopplerrConfig().get_cfg_value("general.port")))

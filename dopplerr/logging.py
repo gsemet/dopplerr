@@ -36,7 +36,7 @@ def setup_logging(outputtype=OutputType.PLAIN,
                   logfile=None,
                   dev_allow_colors=True,
                   dev_split=True,
-                  dev_module_verbose=False,
+                  dev_module_verbose=True,
                   dev_force_fmt=None,
                   dev_force_no_tty=None):
     '''

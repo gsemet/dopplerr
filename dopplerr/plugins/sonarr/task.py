@@ -11,7 +11,7 @@ from dopplerr.notifications import emit_notifications
 from dopplerr.notifications_types.series_subtitles_fetched import SubtitleFetchedNotification
 from dopplerr.plugins.sonarr.filter import SonarrFilter
 from dopplerr.tasks.download_subtitles import DownloadSubtitleTask
-from dopplerr.tasks.task_manager import DopplerrTasksManager
+from dopplerr.tasks.manager import DopplerrTasksManager
 
 log = logging.getLogger(__name__)
 
