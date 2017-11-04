@@ -1,4 +1,6 @@
 # plase here the files and directory you do not want to place in you distribution packages
+# Note: this only impact source distribution package (`sdist`), not the binary packages
+# (`bdist` and `bdist_wheel`). So these files will appear in the wheel
 
 #Unit tests
 recursive-exclude dopplerr/tests *
