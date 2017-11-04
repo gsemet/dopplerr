@@ -28,6 +28,7 @@ pytest-asyncio = "*"
 pytest-catchlog = "*"
 "flake8-coding" = "*"
 "flake8-comprehensions" = "*"
+asynctest = "*"
 
 
 [packages]

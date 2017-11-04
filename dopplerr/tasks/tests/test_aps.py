@@ -16,7 +16,7 @@ def test_apscheduler():
 
     scheduler = AsyncIOScheduler()
     scheduler.add_job(tick, 'interval', seconds=1)
-    scheduler.add_job(leave, 'interval', seconds=4)
+    scheduler.add_job(leave, 'interval', seconds=3)
     scheduler.start()
     print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
 
