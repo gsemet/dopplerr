@@ -1,0 +1,16 @@
+# plase here the files and directory you do not want to place in you distribution packages
+
+#Unit tests
+recursive-exclude dopplerr/tests *
+recursive-exclude dopplerr/tasks/tests *
+recursive-exclude cfgtree/tests *
+
+# Frontend source code
+recursive-exclude frontend/ *
+recursive-include frontend/dist/ *  # force the dist/ folder
+
+# docker filesystem
+recursive-exclude dockerfs/ *
+
+# assets
+recursive-exclude assets *
