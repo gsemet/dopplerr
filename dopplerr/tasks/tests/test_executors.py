@@ -9,15 +9,18 @@ import time
 
 import pytest
 
-from dopplerr.tasks.base import TaskBase
 from dopplerr.tasks.manager import DopplerrTasksManager
+from dopplerr.tasks.threaded import ThreadedTask
 
 
-class SingleExecutor(TaskBase):
-    parallel_executors = 1
+class SingleExecutor(ThreadedTask):
+    worker_threads_num = 1
 
     async def execute(self, long_task, *args):
         return await self._run_in_thread(long_task, *args)
+
+    async def _run(self, res):
+        raise NotImplementedError
 
 
 @pytest.mark.asyncio
