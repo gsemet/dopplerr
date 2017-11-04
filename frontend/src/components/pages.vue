@@ -46,10 +46,10 @@
           <q-item-side icon="chat" />
           <q-item-main label="Events" sublabel="" />
         </q-side-link>
-        <!-- <q-side-link item to="/status">
+        <q-side-link item to="/status">
           <q-item-side icon="rss feed" />
           <q-item-main label="Status" sublabel="" />
-        </q-side-link> -->
+        </q-side-link>
       </q-list>
     </div>
     <!-- Right Side Panel -->
