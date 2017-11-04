@@ -24,5 +24,6 @@ pytest
 pytest-asyncio
 pytest-catchlog
 pyyaml
+sanic-transmute
 tox
 yapf
