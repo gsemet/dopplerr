@@ -31,14 +31,13 @@ class DownloadSubtitleTask(TaskBase):
             self.active = False
 
     async def _run(self, res):
-        candidates = res.candidates
-        if not candidates:
+        if not res.candidates:
             DopplerrDb().insert_event("error", "event handled but no candidate found")
             log.debug("event handled but no candidate found")
             res.failed("event handled but no candidate found")
             return res
 
-        for candidate in candidates:
+        for candidate in res.candidates:
             await self._process_candidate(candidate, res)
         return res
 
@@ -71,11 +70,11 @@ class DownloadSubtitleTask(TaskBase):
             candidate.get("quality"),
         ))
 
-        candidate_files = self.search_candidate_files(candidate, res)
+        candidate_files = self._search_candidate_files(candidate, res)
         if not candidate_files:
             return
 
-        self.refresh_db_media(candidate, candidate_files[0])
+        self._refresh_db_media(candidate, candidate_files[0])
 
         videos = self.filter_video_files(candidate_files, res)
         if not videos:
@@ -99,7 +98,7 @@ class DownloadSubtitleTask(TaskBase):
             res.failed("no subtitle found")
 
     @staticmethod
-    def refresh_db_media(candidate, media_filename):
+    def _refresh_db_media(candidate, media_filename):
         DopplerrDb().update_series_media(
             series_title=candidate.get("series_title"),
             tv_db_id=candidate.get("tv_db_id"),
@@ -111,7 +110,7 @@ class DownloadSubtitleTask(TaskBase):
             media_filename=media_filename,
             dirty=True)
 
-    def search_candidate_files(self, candidate, res):
+    def _search_candidate_files(self, candidate, res):
         candidate_files = self.search_file(candidate['root_dir'], candidate['scenename'])
         log.debug("All found files: %r", candidate_files)
         if not candidate_files:
