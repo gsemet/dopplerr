@@ -30,7 +30,7 @@ dev: pipenv-install-dev ln-venv
 
 pipenv-install-dev:
 	@echo "Setting up development environment"
-	pipenv install --dev --three
+	pipenv install --dev
 
 pipenv-install-system-dev:
 	@echo "Setting up development environment"
@@ -198,6 +198,7 @@ pypi-publish: build
 update:
 	@echo "Updating dependencies..."
 	pipenv update
+	pipenv install --dev
 	@echo "Consider updating 'bootstrap-system.sh' manually"
 
 lock:
@@ -235,17 +236,23 @@ push: githook
 	git push origin --tags
 
 # aliases to gracefully handle typos on poor dev's terminal
-check: checks
-backend-checks: checks
 backend-build: build
+backend-checks: checks
 backend-clean: clean
+backend-dev: dev
+build-backend: build
+build-docker: docker-build
+build-frontend: frontend-build
+check: checks
+dev-backend: dev
+dev-frontend: frontend-dev
 devel: dev
 develop: dev
 dist: dists
 docker-kill: kill-docker
 docker-run: run-docker
 docker: docker-build
-build-docker: docker-build
+frontend-run: run-frontend
 image: docker
 install: install-system
 pypi: pypi-publish
@@ -256,9 +263,3 @@ unittest: test-unit
 unittests: test-unit
 upgrade: update
 wheel: wheels
-dev-frontend: frontend-dev
-build-frontend: frontend-build
-frontend-run: run-frontend
-build-backend: build
-dev-backend: dev
-backend-dev: dev
