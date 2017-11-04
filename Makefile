@@ -253,6 +253,7 @@ docker-kill: kill-docker
 docker-run: run-docker
 docker: docker-build
 frontend-run: run-frontend
+frontend: frontend-all
 image: docker
 install: install-system
 pypi: pypi-publish

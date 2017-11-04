@@ -142,7 +142,7 @@ export default {
         .catch(error => {
           console.log(error)
         })
-      this.axios.get('/api/v1/recent/fetched/series/5', {})
+      this.axios.get('/api/v1/recent/series/5', {})
         .then(response => {
           this.fetched_episodes = response.data.events
         })
