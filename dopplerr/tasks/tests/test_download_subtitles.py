@@ -10,8 +10,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from pathlib import Path
-
-from asynctest import TestCase
+from unittest import TestCase
 
 from dopplerr.tasks.download_subtitles import DownloadSubtitleTask
 
