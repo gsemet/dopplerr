@@ -37,7 +37,6 @@ export default {
       this.axios.get('/api/v1/tasks/status/', {})
         .then(response => {
           this.subtitle_downloader = response.data.subtitle_downloader.active
-          console.log('fetched - ' + this.subtitle_downloader)
         })
         .catch(error => {
           console.log(error)
