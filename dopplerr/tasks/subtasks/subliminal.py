@@ -14,13 +14,16 @@ from subliminal import region
 from subliminal import save_subtitles
 from subliminal.subtitle import get_subtitle_path
 
-from dopplerr.tasks.base import TaskBase
+from dopplerr.tasks.threaded import ThreadedTask
 
 log = logging.getLogger(__name__)
 
 
-class SubliminalTask(TaskBase):
-    parallel_executors = 1
+class SubliminalTask(ThreadedTask):
+    worker_threads_num = 1
+
+    async def _run(self, res):
+        raise NotImplementedError
 
     @staticmethod
     def initialize_db():
