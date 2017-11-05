@@ -6,8 +6,8 @@ import logging
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from dopplerr.singleton import singleton
+from dopplerr.tasks.disk_scanner import DiskScanner
 from dopplerr.tasks.download_subtitles import DownloadSubtitleTask
-from dopplerr.tasks.maintainance import ScanDisk
 
 log = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ class DopplerrTasksManager(object):
     def start(self):
         DownloadSubtitleTask().start()
         self.apscheduler = AsyncIOScheduler()
-        ScanDisk().add_job(self.apscheduler)
+        DiskScanner().add_job(self.apscheduler)
         self.apscheduler.start()
 
     def stop(self):
@@ -49,8 +49,8 @@ class DopplerrTasksManager(object):
                 'active': 1 if DownloadSubtitleTask().active else 0,
             },
             'disc_scanner': {
-                'started': 1 if ScanDisk().started else 0,
-                'interval_sec': ScanDisk().interval,
-                'next_run_time': ScanDisk().next_run_time_iso,
+                'started': 1 if DiskScanner().started else 0,
+                'interval_sec': DiskScanner().interval,
+                'next_run_time': DiskScanner().next_run_time_iso,
             }
         }
