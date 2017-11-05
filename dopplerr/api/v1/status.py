@@ -58,6 +58,13 @@ class Versions(Model):
     python = StringType()
 
 
+class ConfigDir(Model):
+    configdir = StringType()
+    basedir = StringType()
+    appdir = StringType()
+    frontenddir = StringType()
+
+
 bp = Blueprint('other', url_prefix="/api/v1")
 
 
@@ -103,3 +110,16 @@ async def api_versions() -> Versions:
 
 
 add_route(bp, api_versions)
+
+
+@describe(paths="/config/dir")
+async def config_dir() -> ConfigDir:
+    return {
+        "configdir": DopplerrConfig().get_cfg_value("general.configdir"),
+        "basedir": DopplerrConfig().get_cfg_value("general.basedir"),
+        "appdir": DopplerrConfig().get_cfg_value("general.appdir"),
+        "frontenddir": DopplerrConfig().get_cfg_value("general.frontenddir"),
+    }
+
+
+add_route(bp, config_dir)
