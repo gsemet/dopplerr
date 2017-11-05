@@ -2,17 +2,17 @@
 
 import logging
 
-from dopplerr.singleton import singleton
-
 log = logging.getLogger(__name__)
 
 
-class PeriodicMaintainanceTask(object):
+class PeriodicTask(object):
     job_id = NotImplementedError
     job_type = 'interval'
     job_default_kwargs = {'max_instances': 1}
     scheduler = None
     seconds = None
+    minutes = None
+    hours = None
 
     async def run(self):
         raise NotImplementedError
@@ -21,7 +21,11 @@ class PeriodicMaintainanceTask(object):
     def _add_job_kwargs(self):
         kw = self.job_default_kwargs.copy()
         if self.seconds:
-            kw.update({'seconds': self.seconds})
+            kw.update({
+                'seconds': self.seconds,
+                'minutes': self.minutes,
+                'hours': self.hours,
+            })
         return kw
 
     @property
@@ -48,18 +52,14 @@ class PeriodicMaintainanceTask(object):
 
     @property
     def interval(self):
-        return self.seconds
+        # yapf: disable
+        return (
+            (self.seconds if self.seconds else 0) +
+            (self.minutes * 60 if self.minutes else 0) +
+            (self.hours * 60 * 60 if self.hours else 0) +
+            0)
+        # yapf: enable
 
     @property
     def started(self):
         return self.scheduler
-
-
-@singleton
-class ScanDisk(PeriodicMaintainanceTask):
-    job_id = 'scan_disk'
-    seconds = 10
-
-    async def run(self):
-        job = self.job
-        log.debug("next run is scheduler to: %s", job.next_run_time.isoformat())
