@@ -21,3 +21,4 @@ _trial_temp/
 .venv
 /sqlite.db-wal
 /sqlite.db-shm
+junit.xml
