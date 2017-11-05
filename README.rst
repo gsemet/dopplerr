@@ -1,8 +1,8 @@
 Dopplerr Subtitle Downloader
 ============================
 
-|Build Status| |Docker Automated buil| |Pypi package| |PyPI| |Coveralls|
-|codecov| |Maintainability| |MIT licensed|
+|Build Status| |Docker Automated buil| |Pypi package| |PyPI| |Coverage
+Status| |codecov| |Maintainability| |MIT licensed|
 
 Subtitle Download Web Service for Sonarr or Radarr. It uses
 `Subliminal <https://github.com/Diaoul/subliminal>`__ to search
@@ -259,8 +259,8 @@ Note:
    :target: https://pypi.python.org/pypi/dopplerr/
 .. |PyPI| image:: https://img.shields.io/pypi/pyversions/dopplerr.svg
    :target: https://pypi.python.org/pypi/dopplerr/
-.. |Coveralls| image:: https://coveralls.io/repos/github/Stibbons/dopplerr/badge.svg
-   :target: https://coveralls.io/github/Stibbons/dopplerr
+.. |Coverage Status| image:: https://coveralls.io/repos/github/Stibbons/dopplerr/badge.svg?branch=master
+   :target: https://coveralls.io/github/Stibbons/dopplerr?branch=master
 .. |codecov| image:: https://codecov.io/gh/Stibbons/dopplerr/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/Stibbons/dopplerr
 .. |Maintainability| image:: https://api.codeclimate.com/v1/badges/62d3040e8e7f37e637bf/maintainability
