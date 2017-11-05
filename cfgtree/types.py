@@ -23,13 +23,21 @@ class _CfgBase(object):
         self.forced_long_param = l
         if d != _UNDEFINED:
             self.default = d
-        self.value = self.default
+        self._value = self.default
 
     def set_value(self, value):
         """
         Setter method used in set_node_by_xpath
         """
-        self.value = value
+        self._value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        self.set_value(value)
 
     @property
     def environ_var_name(self):
@@ -149,6 +157,9 @@ class PasswordCfg(StringCfg):
 
 class DirNameCfg(StringCfg):
     default = None
+
+    def set_value(self, value):
+        self._value = os.path.abspath(value)
 
 
 class ConfigFileCfg(StringCfg):
