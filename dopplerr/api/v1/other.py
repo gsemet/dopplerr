@@ -28,10 +28,16 @@ class SubtitleDownloader(Model):
     started = IntType()
 
 
+class DiscScanner(Model):
+    interval_sec = IntType()
+    next_run_time = StringType()
+
+
 class TaskStatus(Model):
     downloader = StringType()
     background_tasks = IntType()
     subtitle_downloader = ModelType(SubtitleDownloader)
+    disc_scanner = ModelType(DiscScanner)
 
 
 class Health(Model):
