@@ -17,7 +17,11 @@ log = logging.getLogger(__name__)
 
 @singleton
 class DownloadSubtitleTask(QueuedTask):
-    async def _run(self, res):
+    name = "Download Subtitle Task"
+
+    async def _run(self, task):
+        log.debug("Starting Download subtitle for task")
+        res = task
         if not res.candidates:
             DopplerrDb().insert_event("error", "event handled but no candidate found")
             log.debug("event handled but no candidate found")

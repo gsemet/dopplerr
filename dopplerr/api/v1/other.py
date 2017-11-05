@@ -25,6 +25,7 @@ log = logging.getLogger(__name__)
 
 class SubtitleDownloader(Model):
     active = IntType()
+    started = IntType()
 
 
 class TaskStatus(Model):

@@ -1,32 +1,12 @@
 # coding: utf-8
-"""
-test_dopplerr
---------------
-Tests for `dopplerr` module.
-"""
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
+import unittest
 from pathlib import Path
-from unittest import TestCase
 
 from dopplerr.tasks.download_subtitles import DownloadSubtitleTask
 
 
-class TestDownloader(TestCase):
-    @classmethod
-    def setup_class(cls):
-        pass
-
-    @classmethod
-    def teardown_class(cls):
-        pass
-
-    def test_sonarr_notify(self):
-        pass
-
+class TestGlob(unittest.TestCase):
     def assert_list_size(self, lst, size):
         if len(lst) != size:
             self.fail("list size should be {}, is {} : {}".format(size, len(lst), ", ".join(lst)))

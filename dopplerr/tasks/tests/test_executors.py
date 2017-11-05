@@ -18,7 +18,7 @@ class SingleExecutor(ThreadedTask):
     async def execute(self, long_task, *args):
         return await self._run_in_thread(long_task, *args)
 
-    async def _run(self, res):
+    async def _run(self, task):
         raise NotImplementedError
 
 

@@ -26,27 +26,27 @@ class SubliminalTask(ThreadedTask):
         log.info("Initializing Subliminal cache...")
         region.configure('dogpile.cache.dbm', arguments={'filename': 'cachefile.dbm'})
 
-    async def download_sub_by_subproc(self, videos, languages, provider_configs):
-        subl_cmd = ["subliminal"]
-        print(provider_configs)
-        for provider_name, provider_config in provider_configs.items():
-            subl_cmd.extend([
-                "--{}".format(provider_name),
-                provider_config['username'],
-                provider_config['password'],
-            ])
-        subl_cmd.extend(["download"])
-        for l in languages:
-            subl_cmd.extend(["--language", l])
-        subl_cmd.extend(videos)
-        subl_cmd.extend(["-vvv"])
-        stdout, stderr, code = await self._run_command(*subl_cmd)
-        log.debug(stdout)
-        log.error(stderr)
-        log.error(code)
-        if "Downloaded 0 subtitle" in stdout:
-            log.error("No subtitle downloaded")
-        raise NotImplementedError
+    # async def download_sub_by_subproc(self, videos, languages, provider_configs):
+    #     subl_cmd = ["subliminal"]
+    #     print(provider_configs)
+    #     for provider_name, provider_config in provider_configs.items():
+    #         subl_cmd.extend([
+    #             "--{}".format(provider_name),
+    #             provider_config['username'],
+    #             provider_config['password'],
+    #         ])
+    #     subl_cmd.extend(["download"])
+    #     for l in languages:
+    #         subl_cmd.extend(["--language", l])
+    #     subl_cmd.extend(videos)
+    #     subl_cmd.extend(["-vvv"])
+    #     stdout, stderr, code = await self._run_command(*subl_cmd)
+    #     log.debug(stdout)
+    #     log.error(stderr)
+    #     log.error(code)
+    #     if "Downloaded 0 subtitle" in stdout:
+    #         log.error("No subtitle downloaded")
+    #     raise NotImplementedError
 
     async def download_sub(self, videos, languages, provider_configs):
         return await self._run_in_thread(

@@ -10,14 +10,14 @@ class TaskBase(object):
     worker_threads_num = 1
     active = False
 
-    async def run(self, res):
+    async def run(self, task):
         self.active = True
         try:
-            return await self._run(res)
+            return await self._run(task)
         finally:
             self.active = False
 
-    async def _run(self, res):
+    async def _run(self, task):
         raise NotImplementedError
 
     @staticmethod

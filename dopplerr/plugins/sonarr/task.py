@@ -10,6 +10,8 @@ from dopplerr.plugins.sonarr.filter import SonarrFilter
 from dopplerr.tasks.download_subtitles import DownloadSubtitleTask
 from dopplerr.tasks.manager import DopplerrTasksManager
 
+# import asyncio
+
 log = logging.getLogger(__name__)
 
 
@@ -19,7 +21,8 @@ class DopplerrTask(object):
 
 
 class TaskSonarrOnDownload(DopplerrTask):
-    async def run(self, content):
+    async def run(self, task):
+        content = task
 
         logging.debug("Sonarr notification received: %r", content)
         res = await SonarrFilter().filter(content)
@@ -27,14 +30,17 @@ class TaskSonarrOnDownload(DopplerrTask):
             # event has been filtered out
             return res
 
+        logging.debug("Sonarr notification ok, posting background task")
         # processing ok, let's post our background task to the task queue
         self.post_task(self.task_sonarr_on_download_background(res))
+        # asyncio.ensure_future(self.task_sonarr_on_download_background(res))
         res.successful("Request successfully posted")
         return res.to_dict()
 
     async def task_sonarr_on_download_background(self, res):
         log.debug("Starting task_sonarr_on_download_background")
-        res = await DownloadSubtitleTask().run(res)
+        downloader = DownloadSubtitleTask()
+        res = await downloader.run_and_wait(res)
         if not res.is_successful:
             return res
 
