@@ -164,10 +164,10 @@ shell:
 	pipenv shell
 
 test-unit:
-	pipenv run pytest  -v $(MODULES)
+	pipenv run pytest  --junitxml=junit.xml -v $(MODULES)
 
 test-unit-v:
-	pipenv run pytest  -v -s $(MODULES)
+	pipenv run pytest  --junitxml=junit.xml -v -s $(MODULES)
 
 test-v: test-unit-v
 
