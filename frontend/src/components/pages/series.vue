@@ -21,6 +21,7 @@ export default {
 
   data () {
     return {
+      timer: null,
       medias: [],
       columns: [
         {
@@ -85,7 +86,7 @@ export default {
 
   methods: {
     // Function to filter units
-    fetchSeries: function () {
+    fetch: function () {
       this.axios.get('/api/v1/medias/series/all', {})
         .then(response => {
           this.medias = response.data.medias
@@ -93,11 +94,19 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+
+    cancelAutoUpdate: function () {
+      clearInterval(this.timer)
     }
   },
 
   beforeMount () {
-    this.fetchSeries()
+    this.fetch()
+    this.timer = setInterval(this.fetch, 5000)
+  },
+  beforeDestroy: function () {
+    this.cancelAutoUpdate()
   }
 }
 </script>

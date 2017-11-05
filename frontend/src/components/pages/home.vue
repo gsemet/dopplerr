@@ -49,6 +49,7 @@ export default {
 
   data () {
     return {
+      timer: null,
       events: [],
       fetched_episodes: [],
       recent_events_table_cfg: {
@@ -149,11 +150,19 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+
+    cancelAutoUpdate: function () {
+      clearInterval(this.timer)
     }
   },
 
   beforeMount () {
     this.fetch()
+    this.timer = setInterval(this.fetch, 5000)
+  },
+  beforeDestroy: function () {
+    this.cancelAutoUpdate()
   }
 
 }
