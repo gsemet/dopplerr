@@ -21,11 +21,11 @@ class PeriodicTask(object):
     def _add_job_kwargs(self):
         kw = self.job_default_kwargs.copy()
         if self.seconds:
-            kw.update({
-                'seconds': self.seconds,
-                'minutes': self.minutes,
-                'hours': self.hours,
-            })
+            kw['seconds'] = self.seconds
+        if self.minutes:
+            kw['minutes'] = self.minutes
+        if self.hours:
+            kw['hours'] = self.hours
         return kw
 
     @property
