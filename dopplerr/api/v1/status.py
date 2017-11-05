@@ -65,7 +65,7 @@ class ConfigDir(Model):
     frontenddir = StringType()
 
 
-bp = Blueprint('other', url_prefix="/api/v1")
+bp = Blueprint('status', url_prefix="/api/v1")
 
 
 @describe(paths="/health")
@@ -112,7 +112,7 @@ async def api_versions() -> Versions:
 add_route(bp, api_versions)
 
 
-@describe(paths="/config/dir")
+@describe(paths="/config/general/dir")
 async def config_dir() -> ConfigDir:
     return {
         "configdir": DopplerrConfig().get_cfg_value("general.configdir"),
