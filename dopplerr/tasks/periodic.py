@@ -13,6 +13,7 @@ class PeriodicTask(object):
     seconds = None
     minutes = None
     hours = None
+    _stopped = True
 
     async def run(self):
         raise NotImplementedError
@@ -37,6 +38,7 @@ class PeriodicTask(object):
         self.scheduler = scheduler
         scheduler.add_job(
             self.run, self.job_type, id=self.job_id, replace_existing=True, **self._add_job_kwargs)
+        self._stopped = False
 
     @property
     def next_run_time(self):
@@ -63,3 +65,10 @@ class PeriodicTask(object):
     @property
     def started(self):
         return self.scheduler
+
+    def stop(self):
+        self._stopped = True
+
+    @property
+    def stopped(self):
+        return self._stopped
