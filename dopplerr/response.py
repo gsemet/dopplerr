@@ -55,7 +55,20 @@ class Response(object):
         return self.res.get("result", {}).get("status") == RequestStatus.SUCCESSFUL
 
     def to_dict(self):
-        return self.res
+        """
+        Return json-able dictionary
+        """
+        return self._to_dict(self.res)
+
+    def _to_dict(self, dat):
+        r = {}
+        for k, v in dat.items():
+            if isinstance(v, Enum):
+                v = v.name
+            elif isinstance(v, dict):
+                v = self._to_dict(v)
+            r[k] = v
+        return r
 
     def to_json(self):
         return json.safe_dumps(self.res)

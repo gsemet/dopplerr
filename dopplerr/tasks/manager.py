@@ -19,18 +19,25 @@ class DopplerrTasksManager(object):
         """
 
         async def wrap_task(task):
-            self.background_tasks += 1
-            res = await task
-            self.background_tasks -= 1
-            return res
+            try:
+                self.background_tasks += 1
+                return await task
+            finally:
+                self.background_tasks -= 1
 
-        loop = asyncio.get_event_loop()
-        loop.create_task(wrap_task(task))
+        asyncio.ensure_future(wrap_task(task))
+
+    def start(self):
+        DownloadSubtitleTask().start()
+
+    def stop(self):
+        DownloadSubtitleTask().stop()
 
     def status(self):
         return {
             'background_tasks': self.background_tasks,
             'subtitle_downloader': {
+                'started': 1 if DownloadSubtitleTask().started else 0,
                 'active': 1 if DownloadSubtitleTask().active else 0,
             }
         }
