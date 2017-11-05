@@ -30,6 +30,7 @@ pytest-catchlog = "*"
 "flake8-comprehensions" = "*"
 asynctest = "*"
 sanic-transmute = "*"
+pytest-sugar = "*"
 
 
 [packages]

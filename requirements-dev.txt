@@ -23,6 +23,7 @@ pylint
 pytest
 pytest-asyncio
 pytest-catchlog
+pytest-sugar
 pyyaml
 sanic-transmute
 tox
