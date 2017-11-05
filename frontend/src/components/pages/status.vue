@@ -65,7 +65,7 @@ export default {
 
   methods: {
     // Function to filter units
-    fetchStatus: function () {
+    fetch: function () {
       this.axios.get('/api/v1/tasks/status/', {})
         .then(response => {
           this.subtitle_downloader.active = response.data.subtitle_downloader.active
@@ -83,8 +83,8 @@ export default {
     }
   },
   created: function () {
-    this.fetchStatus()
-    this.timer = setInterval(this.fetchStatus, 1000)
+    this.fetch()
+    this.timer = setInterval(this.fetch, 5000)
   },
   beforeDestroy: function () {
     this.cancelAutoUpdate()

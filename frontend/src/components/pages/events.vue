@@ -21,6 +21,7 @@ export default {
 
   data () {
     return {
+      timer: null,
       events: [],
       columns: [
         {
@@ -54,7 +55,7 @@ export default {
 
   methods: {
     // Function to filter units
-    fetchRecentEvents: function () {
+    fetch: function () {
       this.axios.get('/api/v1/recent/events/100', {})
         .then(response => {
           this.events = response.data.events
@@ -62,11 +63,19 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+
+    cancelAutoUpdate: function () {
+      clearInterval(this.timer)
     }
   },
 
   beforeMount () {
-    this.fetchRecentEvents()
+    this.fetch()
+    this.timer = setInterval(this.fetch, 2000)
+  },
+  beforeDestroy: function () {
+    this.cancelAutoUpdate()
   }
 }
 </script>
