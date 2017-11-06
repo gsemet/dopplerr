@@ -2,6 +2,8 @@
 
 import logging
 
+from dopplerr.config import DopplerrConfig
+
 log = logging.getLogger(__name__)
 
 
@@ -15,6 +17,7 @@ class PeriodicTask(object):
     hours = None
     _stopped = True
     active = False
+    enable_cfg = None
 
     async def run(self):
         try:
@@ -43,6 +46,10 @@ class PeriodicTask(object):
             return self.scheduler.get_job(self.job_id)
 
     def add_job(self, scheduler):
+        if self.enable_cfg is not None and not DopplerrConfig().get_cfg_value(self.enable_cfg):
+            log.info("Do not enable job '%s', it is disabled by configuration '%s'", self.job_id,
+                     self.enable_cfg)
+            return
         self.scheduler = scheduler
         scheduler.add_job(
             self.run, self.job_type, id=self.job_id, replace_existing=True, **self._add_job_kwargs)

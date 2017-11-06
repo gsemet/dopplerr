@@ -94,10 +94,10 @@ readme:
 
 run-local:
 	@echo "Starting dev-log Dopplerr on http://localhost:$(PORT) ..."
-	# --debug-config
 	PYTHONASYNCIODEBUG=1 \
 	    pipenv run $(CMD) \
 	           --output-type dev \
+	           --debug-config \
 	           --verbose \
 	           -l "debug.log" \
 	           -p $(PORT) \
