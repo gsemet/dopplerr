@@ -68,10 +68,9 @@ export default {
     fetch: function () {
       this.axios.get('/api/v1/tasks/status/', {})
         .then(response => {
-          this.subtitle_downloader.active = response.data.subtitle_downloader.active
-          // this.disc_scanner.active = response.data.subtitle_downloader.active
+          this.subtitle_downloader = response.data.subtitle_downloader
+          this.disc_scanner = response.data.disc_scanner
           this.disc_scanner.next_run_time = response.data.disc_scanner.next_run_time.substring(0, 19).replace('T', ' ')
-          this.disc_scanner.interval_sec = response.data.disc_scanner.interval_sec
         })
         .catch(error => {
           console.log(error)
