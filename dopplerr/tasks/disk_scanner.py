@@ -36,6 +36,7 @@ class DiskScanner(PeriodicTask):
     seconds = 10
     minutes = None
     hours = None
+    enable_cfg = 'scanner.enable'
 
     async def _run(self):
         basedir = DopplerrConfig().get_cfg_value('general.basedir')

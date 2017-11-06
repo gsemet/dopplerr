@@ -118,5 +118,8 @@ class DopplerrConfig(EnvironmentConfig):
                 "registered_notifications":
                     MultiChoiceCfg(h="Notifications", choices=["fetched"], d=["fetched"]),
             }
+        },
+        "scanner": {
+            "enable": BoolCfg(h="Enable periodic disc scanner", d=False),
         }
     }
