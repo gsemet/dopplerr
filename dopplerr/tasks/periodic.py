@@ -14,8 +14,16 @@ class PeriodicTask(object):
     minutes = None
     hours = None
     _stopped = True
+    active = False
 
     async def run(self):
+        try:
+            self.active = True
+            return await self._run()
+        finally:
+            self.active = False
+
+    async def _run(self):
         raise NotImplementedError
 
     @property
