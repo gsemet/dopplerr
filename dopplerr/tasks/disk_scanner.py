@@ -10,8 +10,24 @@ from dopplerr.tasks.periodic import PeriodicTask
 
 log = logging.getLogger(__name__)
 
-SPEED_LIMIT = 20
-SPEED_WAIT_SEC = 0.01
+SPEED_LIMIT = 10
+SPEED_WAIT_SEC = 0.1
+VIDEO_FILES_EXT = [
+    'asf',
+    'avc',
+    'avi',
+    'divx',
+    'm4v',
+    'mkv',
+    'mov',
+    'mp4',
+    'mpg',
+    'ogv',
+    'qt',
+    'viv',
+    'vp3',
+    'wmv',
+]
 
 
 @singleton
@@ -21,7 +37,7 @@ class DiskScanner(PeriodicTask):
     minutes = None
     hours = None
 
-    async def run(self):
+    async def _run(self):
         basedir = DopplerrConfig().get_cfg_value('general.basedir')
         log.debug("Scanning %s", basedir)
         await self._scan(basedir)
@@ -37,12 +53,12 @@ class DiskScanner(PeriodicTask):
                     i = 0
                 if self.stopped:
                     return
-                log.debug(entry.name)
                 if not entry.name.startswith('.'):
                     if entry.is_dir(follow_symlinks=False):
                         await self._scan(entry.path)
                     else:
-                        await self._refresh(entry.path)
+                        if entry.name.rpartition('.')[2] in VIDEO_FILES_EXT:
+                            await self._refresh_video(entry.path)
 
-    async def _refresh(self, filepath):
-        log.info("File: %s", filepath)
+    async def _refresh_video(self, filepath):
+        log.info("Video file found: %s", filepath)
