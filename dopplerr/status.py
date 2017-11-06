@@ -2,6 +2,7 @@
 
 import logging
 
+import aiofiles
 from babelfish import Language
 
 from dopplerr.config import DopplerrConfig
@@ -74,3 +75,26 @@ class DopplerrStatus(object):
         if failed:
             return False
         return True
+
+    async def get_logs(self, limit=100):
+        logfile = DopplerrConfig().get_cfg_value("general.logfile")
+        logs = []
+        i = 0
+        async with aiofiles.open(logfile) as f:
+            async for line in f:
+                try:
+                    i += 1
+                    if i > limit:
+                        break
+                    splited_line = line.split("::")
+                    dat = splited_line[0].strip()
+                    level = splited_line[1].strip()
+                    message = splited_line[3].strip()
+                    logs.append({
+                        'timestamp': dat,
+                        'level': level,
+                        'message': message,
+                    })
+                finally:
+                    pass
+        return logs

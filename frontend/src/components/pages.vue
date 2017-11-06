@@ -50,6 +50,10 @@
           <q-item-side icon="rss feed" />
           <q-item-main label="Status" sublabel="" />
         </q-side-link>
+        <q-side-link item to="/logs">
+          <q-item-side icon="rss feed" />
+          <q-item-main label="Logs" sublabel="" />
+        </q-side-link>
       </q-list>
     </div>
     <!-- Right Side Panel -->

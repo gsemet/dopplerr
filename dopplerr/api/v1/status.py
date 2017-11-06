@@ -60,6 +60,14 @@ class Versions(Model):
     python = StringType()
 
 
+class Log(Model):
+    timestamp = StringType()
+    level = StringType()
+    message = StringType()
+
+
+Logs = ListType(ModelType(Log))
+
 bp = Blueprint('status', url_prefix="/api/v1")
 
 
@@ -105,3 +113,11 @@ async def api_versions() -> Versions:
 
 
 add_route(bp, api_versions)
+
+
+@describe(paths="/logs", query_parameters=['limit'])
+async def api_log_100(limit: int = 100) -> Logs:
+    return await DopplerrStatus().get_logs(limit)
+
+
+add_route(bp, api_log_100)
