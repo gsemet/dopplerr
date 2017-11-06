@@ -50,6 +50,7 @@ class DopplerrTasksManager(object):
             },
             'disc_scanner': {
                 'started': 1 if DiskScanner().started else 0,
+                'active': 1 if DiskScanner().active else 0,
                 'interval_sec': DiskScanner().interval,
                 'next_run_time': DiskScanner().next_run_time_iso,
             }
