@@ -1,0 +1,77 @@
+<template>
+  <div>
+    <h4>Recent Logs</h4>
+    <q-data-table
+      :data="logs"
+      :columns="columns"
+    >
+    </q-data-table>
+  </div>
+</template>
+
+<script>
+import {
+  QDataTable
+} from 'quasar'
+
+export default {
+  components: {
+    QDataTable
+  },
+
+  data () {
+    return {
+      timer: null,
+      logs: [],
+      columns: [
+        {
+          label: 'Date',
+          field: 'timestamp',
+          width: '70px',
+          filter: true,
+        },
+        {
+          label: 'Level',
+          field: 'level',
+          width: '30px',
+          filter: true
+        },
+        {
+          label: 'Message',
+          field: 'message',
+          width: '200px',
+          filter: true
+        }
+      ]
+    }
+  },
+
+  methods: {
+    // Function to filter units
+    fetch: function () {
+      this.axios.get('/api/v1/logs?limit=20', {})
+        .then(response => {
+          this.logs = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    cancelAutoUpdate: function () {
+      clearInterval(this.timer)
+    }
+  },
+
+  beforeMount () {
+    this.fetch()
+    this.timer = setInterval(this.fetch, 10000)
+  },
+  beforeDestroy: function () {
+    this.cancelAutoUpdate()
+  }
+}
+</script>
+
+<style>
+</style>

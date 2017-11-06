@@ -39,6 +39,7 @@ export default new VueRouter({
         { path: '/movies', component: load('pages/movies') },
         { path: '/series', component: load('pages/series') },
         { path: '/status', component: load('pages/status') },
+        { path: '/logs', component: load('pages/logs') },
         { path: '*', component: load('404') }, // Not found
       ]
     },
