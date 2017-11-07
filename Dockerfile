@@ -44,8 +44,8 @@ RUN         cd /app/frontend \
         &&  make dev \
         &&  make version \
         &&  make build \
-        &&  mkdir -p /frontend \
-        &&  cp -rf dist/* /frontend/ \
+        &&  mkdir -p /www \
+        &&  cp -rf dist/* /www/ \
         &&  rm -rf /app/frontend
 
 RUN         npm cache clear --force \
@@ -59,6 +59,9 @@ RUN         mkdir -p /media
 
 USER        root
 # clean up
+# dopplerr is installed on the system, /www has the frontend
+RUN         rm -rfv /app
+
 RUN         apk del \
                     python3-dev \
                     make \
