@@ -58,8 +58,6 @@ class DopplerrConfig(EnvironmentConfig):
                 DirNameCfg(s="-b", d=os.getcwd(), h='Base directory'),
             "configdir":
                 DirNameCfg(s="-c", d=os.getcwd(), h="Config directory"),
-            "appdir":
-                DirNameCfg(s="-a", d=os.getcwd(), h="App directory"),
             "frontenddir":
                 DirNameCfg(s="-f", d=_find_frontend_data(), r=True, h="Frontend directory"),
             "verbose":

@@ -16,7 +16,6 @@ log = logging.getLogger(__name__)
 class ConfigDir(Model):
     configdir = StringType()
     basedir = StringType()
-    appdir = StringType()
     frontenddir = StringType()
 
 
@@ -28,7 +27,6 @@ async def config_directories() -> ConfigDir:
     return {
         "configdir": DopplerrConfig().get_cfg_value("general.configdir"),
         "basedir": DopplerrConfig().get_cfg_value("general.basedir"),
-        "appdir": DopplerrConfig().get_cfg_value("general.appdir"),
         "frontenddir": DopplerrConfig().get_cfg_value("general.frontenddir"),
     }
 
