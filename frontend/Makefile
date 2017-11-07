@@ -24,5 +24,8 @@ style: check
 check:
 	npm run lint
 
+update:
+	npm update
+
 lint: check
 dist: build
