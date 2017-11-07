@@ -13,4 +13,4 @@ exec \
         --general-basedir / \
         --general-logfile /config/dopplerr.log \
         --general-configdir /config \
-        --general-frontenddir /frontend
+        --general-frontenddir /www
