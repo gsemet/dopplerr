@@ -12,6 +12,5 @@ exec \
         --general-no-color \
         --general-basedir / \
         --general-logfile /config/dopplerr.log \
-        --general-appdir /app \
         --general-configdir /config \
         --general-frontenddir /frontend
