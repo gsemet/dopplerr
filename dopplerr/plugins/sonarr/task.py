@@ -30,6 +30,16 @@ class TaskSonarrOnDownload(DopplerrTask):
             # event has been filtered out
             return res
 
+        if res.candidates:
+            for candidate in res.candidates:
+                DopplerrDb().insert_event("availability", "Available: {} - {}x{} - {} [{}].".format(
+                    candidate.get("series_title"),
+                    candidate.get("season_number"),
+                    candidate.get("episode_number"),
+                    candidate.get("episode_title"),
+                    candidate.get("quality"),
+                ))
+
         logging.debug("Sonarr notification ok, posting background task")
         # processing ok, let's post our background task to the task queue
         self.post_task(self.task_sonarr_on_download_background(res))
