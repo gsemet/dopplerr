@@ -128,13 +128,33 @@ following commands:
 
 ::
 
-    $ pip install dopplerr
+    $ pip3 install dopplerr
 
-**Note:** NEVER install a Python application directly in your system
-``sudo pip install ...``. You do not want to mess your startup script or
-any system python application. Always use a Virtualenv. To install an
-application system-wide, use your distribution's packet manager (``apt``
-/ ``yum`` / ...) or install it user-wide (``pip install --user``).
+**Note:** One should NEVER install a Python application directly in your
+system using ``sudo pip3 install ...``. You do not want to mess your
+startup scripts or any other python application that came well packaged
+by the maintainers of your distribution.
+
+Always use a Virtualenv. To install an application system-wide, use your
+distribution's packet manager (``apt`` / ``yum`` / ...).
+
+If you do not have this option, install a Python package user-wide
+(``pip3 install --user``).
+
+**Other Note**: while using ``pip``/``pip3`` to install from pre-built
+packages ("distribution packages") from Pypi is the official method,
+please note this project uses ``pipenv`` for development, and uses a
+``Pipfile`` as primary source of dependencies definition.
+``requirements.txt`` file is automatically generated on change so
+installing through ``pip3`` from the GitHub source should work even if
+it not the official installation method:
+
+::
+
+    pip3 install --user git+http://github.com/Stibbons/dopplerr#egg=dopplerr
+
+Be aware with this command you retrieve the latest code, which may be
+broken.
 
 Radarr/Sonarr Configuration
 ===========================
