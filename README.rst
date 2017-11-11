@@ -2,7 +2,7 @@ Dopplerr Subtitle Downloader
 ============================
 
 |Build Status| |Docker Automated buil| |Pypi package| |PyPI| |Coverage
-Status| |codecov| |Maintainability| |MIT licensed| |Discord|
+Status| |Discord| |MIT licensed|
 
 Subtitle Download Web Service for Sonarr or Radarr. It uses
 `Subliminal <https://github.com/Diaoul/subliminal>`__ to search
@@ -261,11 +261,7 @@ Note:
    :target: https://pypi.python.org/pypi/dopplerr/
 .. |Coverage Status| image:: https://coveralls.io/repos/github/Stibbons/dopplerr/badge.svg?branch=master
    :target: https://coveralls.io/github/Stibbons/dopplerr?branch=master
-.. |codecov| image:: https://codecov.io/gh/Stibbons/dopplerr/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/Stibbons/dopplerr
-.. |Maintainability| image:: https://api.codeclimate.com/v1/badges/62d3040e8e7f37e637bf/maintainability
-   :target: https://codeclimate.com/github/Stibbons/dopplerr/maintainability
-.. |MIT licensed| image:: https://img.shields.io/badge/license-MIT-blue.svg
-   :target: ./LICENSE
 .. |Discord| image:: https://img.shields.io/discord/378849537520959510.svg
    :target: https://discordapp.com/channels/378849537520959510/378849838751678465
+.. |MIT licensed| image:: https://img.shields.io/badge/license-MIT-blue.svg
+   :target: ./LICENSE

@@ -4,10 +4,9 @@
 [![Docker Automated buil](https://img.shields.io/docker/build/stibbons31/dopplerr.svg)](https://hub.docker.com/r/stibbons31/dopplerr/builds/)
 [![Pypi package](https://badge.fury.io/py/dopplerr.svg)](https://pypi.python.org/pypi/dopplerr/) [![PyPI](https://img.shields.io/pypi/pyversions/dopplerr.svg)](https://pypi.python.org/pypi/dopplerr/)
 [![Coverage Status](https://coveralls.io/repos/github/Stibbons/dopplerr/badge.svg?branch=master)](https://coveralls.io/github/Stibbons/dopplerr?branch=master)
-[![codecov](https://codecov.io/gh/Stibbons/dopplerr/branch/master/graph/badge.svg)](https://codecov.io/gh/Stibbons/dopplerr)
-[![Maintainability](https://api.codeclimate.com/v1/badges/62d3040e8e7f37e637bf/maintainability)](https://codeclimate.com/github/Stibbons/dopplerr/maintainability)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+<!-- [![codecov](https://codecov.io/gh/Stibbons/dopplerr/branch/master/graph/badge.svg)](https://codecov.io/gh/Stibbons/dopplerr) -->
 [![Discord](https://img.shields.io/discord/378849537520959510.svg)](https://discordapp.com/channels/378849537520959510/378849838751678465)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 Subtitle Download Web Service for Sonarr or Radarr. It uses [Subliminal](https://github.com/Diaoul/subliminal) to search automatically for missing subtitles on download notification.
 
