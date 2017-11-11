@@ -1,0 +1,33 @@
+{
+    "episodes": [
+        {
+            "id": 1234,
+            "episode Number": 25,
+            "seasonNumber": 1,
+            "title": "Finale",
+            "airDate": "2013-03-17",
+            "airDateUtc": "2013-03-17T08:30:00Z",
+            "quality": "SDTV",
+            "qualityVersion": 1,
+            "releaseGroup": "fqm",
+            "sceneName": "The.Series.Name.S01E25.Finale.PDTV.x264-FQM"
+        }
+    ],
+    "episodeFile": {
+        "id": 1847,
+        "relativePath": "Season 1/The Series Name - S01E25 - Finale.mp4",
+        "path": "/Series/.downloaded/The.Series.Name.S01E25.Finale.PDTV.x264-FQM/the.series.name.s01e25.pdtv.x264-fqm.mp4",
+        "quality": "SDTV",
+        "qualityVersion": 1,
+        "releaseGroup": "fqm",
+        "sceneName": "The.Series.Name.S01E25.Finale.PDTV.x264-FQM"
+    },
+    "isUpgrade": false,
+    "eventType": "Download",
+    "series": {
+        "id": 12,
+        "title": "The Series Name",
+        "path": "/Series/The Series Name",
+        "tvdbId": 12345
+    }
+}
