@@ -53,13 +53,6 @@ class DownloadSubtitleTask(QueuedTask):
             candidate.get("series_title"),
             candidate.get("scenename"),
         )
-        DopplerrDb().insert_event("availability", "Available: {} - {}x{} - {} [{}].".format(
-            candidate.get("series_title"),
-            candidate.get("season_number"),
-            candidate.get("episode_number"),
-            candidate.get("episode_title"),
-            candidate.get("quality"),
-        ))
 
         candidate_files = self._search_candidate_files(candidate, res)
         if not candidate_files:
