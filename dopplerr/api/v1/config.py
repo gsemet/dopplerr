@@ -22,7 +22,7 @@ class ConfigDir(Model):
 bp = Blueprint('config', url_prefix="/api/v1")
 
 
-@describe(paths="/config/general/dir")
+@describe(paths="/config/general/dirs")
 async def config_directories() -> ConfigDir:
     return {
         "configdir": DopplerrConfig().get_cfg_value("general.configdir"),
