@@ -10,8 +10,6 @@ from dopplerr.plugins.sonarr.filter import SonarrFilter
 from dopplerr.tasks.download_subtitles import DownloadSubtitleTask
 from dopplerr.tasks.manager import DopplerrTasksManager
 
-# import asyncio
-
 log = logging.getLogger(__name__)
 
 
@@ -24,7 +22,7 @@ class TaskSonarrOnDownload(DopplerrTask):
     async def run(self, task):
         content = task
 
-        logging.debug("Sonarr notification received: %r", content)
+        log.debug("Sonarr notification received: %r", content)
         res = await SonarrFilter().filter(content)
         if res.is_unhandled:
             # event has been filtered out
@@ -40,7 +38,7 @@ class TaskSonarrOnDownload(DopplerrTask):
                     candidate.get("quality"),
                 ))
 
-        logging.debug("Sonarr notification ok, posting background task")
+        log.debug("Sonarr notification ok, posting background task")
         # processing ok, let's post our background task to the task queue
         self.post_task(self.task_sonarr_on_download_background(res))
         # asyncio.ensure_future(self.task_sonarr_on_download_background(res))
@@ -52,6 +50,7 @@ class TaskSonarrOnDownload(DopplerrTask):
         downloader = DownloadSubtitleTask()
         res = await downloader.run_and_wait(res)
         if not res.is_successful:
+            log.debug("not successful, leaving background task")
             return res
 
         for episode_info in res.sonarr_episode_infos:
@@ -64,5 +63,5 @@ class TaskSonarrOnDownload(DopplerrTask):
                 ),
                 subtitles_languages=episode_info['subtitles_languages'],
                 dirty=False)
-        logging.debug("Background task finished with result: %s", res.to_json())
+        log.debug("Background task finished with result: %s", res.to_json())
         return res
