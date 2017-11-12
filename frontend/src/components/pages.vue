@@ -44,15 +44,15 @@
         </q-side-link>
         <q-side-link item to="/events">
           <q-item-side icon="chat" />
-          <q-item-main label="Events" sublabel="" />
+          <q-item-main label="Events" sublabel="Main events" />
         </q-side-link>
         <q-side-link item to="/status">
           <q-item-side icon="rss feed" />
-          <q-item-main label="Status" sublabel="" />
+          <q-item-main label="Status" sublabel="Dopplerr backend status" />
         </q-side-link>
         <q-side-link item to="/logs">
           <q-item-side icon="rss feed" />
-          <q-item-main label="Logs" sublabel="" />
+          <q-item-main label="Logs" sublabel="Debug logs" />
         </q-side-link>
       </q-list>
     </div>
