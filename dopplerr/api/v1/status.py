@@ -18,6 +18,7 @@ from dopplerr import PYTHON_VERSION
 from dopplerr import SANIC_VERSION
 from dopplerr.config import DopplerrConfig
 from dopplerr.status import DopplerrStatus
+from dopplerr.tasks.disk_scanner import DiskScanner
 from dopplerr.tasks.manager import DopplerrTasksManager
 
 log = logging.getLogger(__name__)
@@ -29,7 +30,7 @@ class SubtitleDownloader(Model):
 
 
 class DiscScanner(Model):
-    interval_sec = IntType()
+    interval_hours = IntType()
     next_run_time = StringType()
     active = IntType()
     started = IntType()
@@ -93,6 +94,15 @@ async def tasks_status() -> TaskStatus:
 
 
 add_route(bp, tasks_status)
+
+
+@describe(paths="/tasks/scanner/start", methods=["POST"])
+async def start_scanner() -> TaskStatus:
+    await DiskScanner().force_start()
+    return "OK"
+
+
+add_route(bp, start_scanner)
 
 
 @describe(paths="/version")
