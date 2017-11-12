@@ -5,6 +5,7 @@
 [![Pypi package](https://badge.fury.io/py/dopplerr.svg)](https://pypi.python.org/pypi/dopplerr/) [![PyPI](https://img.shields.io/pypi/pyversions/dopplerr.svg)](https://pypi.python.org/pypi/dopplerr/)
 [![Coverage Status](https://coveralls.io/repos/github/Stibbons/dopplerr/badge.svg?branch=master)](https://coveralls.io/github/Stibbons/dopplerr?branch=master)
 [![Discord](https://img.shields.io/discord/378849537520959510.svg)](https://discordapp.com/channels/378849537520959510/378849838751678465)
+[![Feature Requests](http://feathub.com/Stibbons/dopplerr?format=svg)](http://feathub.com/Stibbons/dopplerr)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 <!-- [![codecov](https://codecov.io/gh/Stibbons/dopplerr/branch/master/graph/badge.svg)](https://codecov.io/gh/Stibbons/dopplerr) -->
 
@@ -18,11 +19,18 @@ Subtitle Download Web Service for Sonarr or Radarr. It uses [Subliminal](https:/
 
 # Limitations
 
-- only Sonarr notification
-- video filename should not have been renamed
-- season folder might exist, or not
+- only Sonarr Download notification
+- video filename should not have been renamed (which helps finding the right subtitle)
 - all series should be on the same root directory
-- exact series title folder (no year, no extra)
+- series folder should be as `Series Name (1900)`
+
+# Support and Feature Requests
+
+Do NOT open issue for feature requests, please vote on
+[FeatHub](http://feathub.com/Stibbons/dopplerr).
+
+For support, please use our
+[Discord](https://discordapp.com/channels/378849537520959510/378849838751678465).
 
 # Usage
 
