@@ -27,12 +27,18 @@ export default {
         {
           label: 'Date',
           field: 'timestamp',
-          width: '70px',
-          filter: true,
+          width: '80px',
+          filter: false,
         },
         {
           label: 'Level',
           field: 'level',
+          width: '30px',
+          filter: true
+        },
+        {
+          label: 'Logger',
+          field: 'logger',
           width: '30px',
           filter: true
         },

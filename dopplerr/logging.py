@@ -311,8 +311,7 @@ def setup_logging(outputtype=OutputType.PLAIN,
 
     if logfile:
         log.debug("Also output logs to file: %s", logfile)
-        file_fmt = " :: ".join(
-            ["%(asctime)s", "%(levelname)s", "%(pathname)s:%(lineno)s", "%(message)s"])
+        file_fmt = " :: ".join(["%(asctime)s", "%(levelname)s", "%(name)s", "%(message)s"])
         file_formatter = logging.Formatter(file_fmt)
         file_handler = RotatingFileHandler(str(logfile), 'a', 5 * 1024 * 1024, 1)
         file_handler.setFormatter(file_formatter)
