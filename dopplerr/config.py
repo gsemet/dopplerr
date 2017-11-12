@@ -119,5 +119,6 @@ class DopplerrConfig(EnvironmentConfig):
         },
         "scanner": {
             "enable": BoolCfg(h="Enable periodic disc scanner", d=False),
+            "interval_hours": IntCfg(h="Refresh interval (in hours)", d=6),
         }
     }

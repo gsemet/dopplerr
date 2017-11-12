@@ -47,15 +47,37 @@
             style="font-size: 22px">info
           </i>
         </span><br>
-        <span>Interval: {{ disc_scanner.interval_sec }}s </span><br>
-        <span>Next run time: {{ disc_scanner.next_run_time }} </span>
+        <span>
+          Interval: {{ disc_scanner.interval_hours }} hour<span
+            v-if="disc_scanner.interval_hours > 0">s</span>
+        </span><br>
+        <span>Next run time: {{ disc_scanner.next_run_time }}</span>
+        <span>
+          <q-btn
+            icon="fa-refresh"
+            flat
+            small
+            :disable="disc_scanner.active"
+            @click="force_disc_scanner_start()"
+          >Refresh</q-btn>
+
+        </span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {
+  QBtn,
+  QIcon
+} from 'quasar'
+
 export default {
+  components: {
+    QBtn,
+    QIcon
+  },
   data () {
     return {
       timer: null,
@@ -66,7 +88,7 @@ export default {
         active: 0,
         started: 0,
         next_run_time: null,
-        interval_sec: 0,
+        interval_hours: 0,
       },
     }
   },
@@ -87,6 +109,11 @@ export default {
 
     cancelAutoUpdate: function () {
       clearInterval(this.timer)
+    },
+
+    force_disc_scanner_start: function () {
+      this.disc_scanner.active = 1
+      this.axios.post('/api/v1/tasks/scanner/start')
     }
   },
   created: function () {

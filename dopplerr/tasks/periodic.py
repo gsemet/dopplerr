@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import asyncio
 import logging
 
 from dopplerr.config import DopplerrConfig
@@ -18,9 +19,22 @@ class PeriodicTask(object):
     _stopped = True
     active = False
     enable_cfg = None
+    forced = False
+    force_start_required = False
+
+    def __init__(self):
+        self.init()
+
+    def init(self):
+        pass
 
     async def run(self):
         try:
+            if self.force_start_required:
+                self.forced = True
+            elif self.forced:
+                log.debug("Forced execution already started, skip this periodic schedule")
+                return
             self.active = True
             return await self._run()
         finally:
@@ -87,3 +101,8 @@ class PeriodicTask(object):
     @property
     def stopped(self):
         return self._stopped
+
+    async def force_start(self):
+        log.debug("Force start job: %s", self.job_id)
+        self.force_start_required = True
+        asyncio.ensure_future(self.run())

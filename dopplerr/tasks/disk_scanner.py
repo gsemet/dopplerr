@@ -33,10 +33,13 @@ VIDEO_FILES_EXT = [
 @singleton
 class DiskScanner(PeriodicTask):
     job_id = 'scan_disk'
-    seconds = 10
-    minutes = None
+    seconds = 0
+    minutes = 0
     hours = None
     enable_cfg = 'scanner.enable'
+
+    def init(self):
+        self.hours = DopplerrConfig().get_cfg_value('scanner.interval_hours')
 
     async def _run(self):
         basedir = DopplerrConfig().get_cfg_value('general.basedir')
@@ -63,3 +66,7 @@ class DiskScanner(PeriodicTask):
 
     async def _refresh_video(self, filepath):
         log.info("Video file found: %s", filepath)
+
+    @property
+    def interval_hours(self):
+        return self.hours
