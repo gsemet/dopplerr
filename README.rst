@@ -2,7 +2,7 @@ Dopplerr Subtitle Downloader
 ============================
 
 |Build Status| |Docker Automated buil| |Pypi package| |PyPI| |Coverage
-Status| |Discord| |MIT licensed|
+Status| |Discord| |Feature Requests| |MIT licensed|
 
 Subtitle Download Web Service for Sonarr or Radarr. It uses
 `Subliminal <https://github.com/Diaoul/subliminal>`__ to search
@@ -17,11 +17,20 @@ automatically for missing subtitles on download notification.
 Limitations
 ===========
 
--  only Sonarr notification
--  video filename should not have been renamed
--  season folder might exist, or not
+-  only Sonarr Download notification
+-  video filename should not have been renamed (which helps finding the
+   right subtitle)
 -  all series should be on the same root directory
--  exact series title folder (no year, no extra)
+-  series folder should be as ``Series Name (1900)``
+
+Support and Feature Requests
+============================
+
+Do NOT open issue for feature requests, please vote on
+`FeatHub <http://feathub.com/Stibbons/dopplerr>`__.
+
+For support, please use our
+`Discord <https://discordapp.com/channels/378849537520959510/378849838751678465>`__.
 
 Usage
 =====
@@ -283,5 +292,7 @@ Note:
    :target: https://coveralls.io/github/Stibbons/dopplerr?branch=master
 .. |Discord| image:: https://img.shields.io/discord/378849537520959510.svg
    :target: https://discordapp.com/channels/378849537520959510/378849838751678465
+.. |Feature Requests| image:: http://feathub.com/Stibbons/dopplerr?format=svg
+   :target: http://feathub.com/Stibbons/dopplerr
 .. |MIT licensed| image:: https://img.shields.io/badge/license-MIT-blue.svg
    :target: ./LICENSE
