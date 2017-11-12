@@ -46,7 +46,11 @@ export default {
           label: 'Message',
           field: 'message',
           width: '200px',
-          filter: true
+          filter: true,
+          type: 'string',
+          format (value, row) {
+            return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          }
         }
       ]
     }
