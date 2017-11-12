@@ -1,5 +1,6 @@
 # coding: utf-8
-
+#
+import io
 import logging
 
 import aiofiles
@@ -77,11 +78,16 @@ class DopplerrStatus(object):
         return True
 
     async def get_logs(self, limit=100):
+        """
+        Get `limit` lines of logs in reverse order from the end of the file
+        """
         logfile = DopplerrConfig().get_cfg_value("general.logfile")
+        if not logfile:
+            return
         logs = []
         i = 0
-        async with aiofiles.open(logfile) as f:
-            async for line in f:
+        async with aiofiles.open(logfile) as fp:
+            async for line in self._reverse_read_lines(fp):
                 try:
                     i += 1
                     if i > limit:
@@ -98,3 +104,42 @@ class DopplerrStatus(object):
                 finally:
                     pass
         return logs
+
+    @staticmethod
+    async def _reverse_read_lines(fp, buf_size=8192):  # pylint: disable=invalid-name
+        """
+        Async generator that returns the lines of a file in reverse order
+        ref: https://stackoverflow.com/a/23646049/8776239
+        and: https://stackoverflow.com/questions/2301789/read-a-file-in-reverse-order-using-python
+        """
+        segment = None  # holds possible incomplete segment at the beginning of the buffer
+        offset = 0
+        await fp.seek(0, io.SEEK_END)
+        file_size = remaining_size = await fp.tell()
+        while remaining_size > 0:
+            offset = min(file_size, offset + buf_size)
+            await fp.seek(file_size - offset)
+            buffer = await fp.read(min(remaining_size, buf_size))
+            remaining_size -= buf_size
+            lines = buffer.splitlines(True)
+            # the first line of the buffer is probably not a complete line so
+            # we'll save it and append it to the last line of the next buffer
+            # we read
+            if segment is not None:
+                # if the previous chunk starts right from the beginning of line
+                # do not concat the segment to the last line of new chunk
+                # instead, yield the segment first
+                if buffer[-1] == '\n':
+                    # print 'buffer ends with newline'
+                    yield segment
+                else:
+                    lines[-1] += segment
+                    # print 'enlarged last line to >{}<, len {}'.format(lines[-1], len(lines))
+            segment = lines[0]
+            for index in range(len(lines) - 1, 0, -1):
+                l = lines[index]
+                if l:
+                    yield l
+        # Don't yield None if the file was empty
+        if segment is not None:
+            yield segment
