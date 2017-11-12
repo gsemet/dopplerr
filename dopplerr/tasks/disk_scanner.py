@@ -43,10 +43,15 @@ class DiskScanner(PeriodicTask):
 
     async def _run(self):
         basedir = DopplerrConfig().get_cfg_value('general.basedir')
-        log.debug("Scanning %s", basedir)
-        await self._scan(basedir)
+        mapping = DopplerrConfig().get_cfg_value('general.mapping')
+        media_dirs = []
+        for mapp in mapping:
+            _src, _, dst = mapp.partition('=')
+            media_dirs.append(dst)
+        log.debug("Scanning %s with media directories: %r", basedir, media_dirs)
+        await self._scan(basedir, media_dirs=media_dirs)
 
-    async def _scan(self, root):
+    async def _scan(self, root, media_dirs=None):
         i = 0
         with os.scandir(root) as it:
             for entry in it:
@@ -57,9 +62,12 @@ class DiskScanner(PeriodicTask):
                     i = 0
                 if self.stopped:
                     return
-                if not entry.name.startswith('.'):
+                if media_dirs:
+                    if entry.name in media_dirs:
+                        await self._scan(entry.path, media_dirs=None)
+                elif not entry.name.startswith('.'):
                     if entry.is_dir(follow_symlinks=False):
-                        await self._scan(entry.path)
+                        await self._scan(entry.path, media_dirs=None)
                     else:
                         if entry.name.rpartition('.')[2] in VIDEO_FILES_EXT:
                             await self._refresh_video(entry.path)

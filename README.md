@@ -49,6 +49,7 @@ Use my docker image:
         -v <path/to/movies>:/movies \
         -v <path/to/series>:/tv \
         -e DOPPLERR_SUBLIMINAL_LANGUAGES="fra,eng" \
+        -e DOPPLERR_MAPPING="tv=tv,movies=movies,animes=animes" \
         stibbons31/dopplerr
 
 Mount your media directories in `/`. Typically, `/animes` and `/tv` are from Sonarr, and
@@ -56,9 +57,15 @@ Mount your media directories in `/`. Typically, `/animes` and `/tv` are from Son
 
 It is a good practice to run Sonarr and Radarr in their own container, so they also "see" their
 media in path such as `/tv`, `/movies`, `/animes`. Mount these volume with the same name in the
-`dopplerr` container. `DOPPLERR_MAPPING` allows developers to run dopplerr directly from their
-PC and allow a different naming conventions (for instance, `/path/to/Movies` is where the
-movies are stored, but in all containers see it mounted as `/movies`).
+`dopplerr` container.
+
+`DOPPLERR_MAPPING` is used to list all interesting folders in media base directory
+(which is `/` by default if `DOPPLERR_GENERAL_BASEDIR` is not set), so please define it even if
+all directory mappings are trivial: `tv=tv,movies=movies,animes=animes`.
+
+`DOPPLERR_MAPPING` can allows developers to run dopplerr directly from their PC and allow a
+different naming conventions (for instance, `/path/to/Movies` is where the movies are stored, but in
+all containers (Radarr, Dopplerr) they are mounted as `/movies`).
 
 ### Parameters
 
