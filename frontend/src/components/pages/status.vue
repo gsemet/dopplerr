@@ -23,26 +23,33 @@
     </div>
     <div>
       <h4>Disc Scanner</h4>
-      <span
-        v-if="disc_scanner.active === 1"
+      <div
+        v-if="disc_scanner.started === 0"
       >
-        Active
-        <i
-          class="material-icons text-negative"
-          style="font-size: 22px">info
-        </i>
-      </span>
-      <span
-        v-else-if ="disc_scanner.active === 0"
-      >
-        Inactive
-        <i
-          class="material-icons text-positive"
-          style="font-size: 22px">info
-        </i>
-      </span><br>
-      <span>Interval: {{ disc_scanner.interval_sec }}s </span><br>
-      <span>Next run time: {{ disc_scanner.next_run_time }} </span>
+        Not Started
+      </div>
+      <div v-else>
+        <span
+          v-if="disc_scanner.active === 1"
+        >
+          Active
+          <i
+            class="material-icons text-negative"
+            style="font-size: 22px">info
+          </i>
+        </span>
+        <span
+          v-else-if ="disc_scanner.active === 0"
+        >
+          Inactive
+          <i
+            class="material-icons text-positive"
+            style="font-size: 22px">info
+          </i>
+        </span><br>
+        <span>Interval: {{ disc_scanner.interval_sec }}s </span><br>
+        <span>Next run time: {{ disc_scanner.next_run_time }} </span>
+      </div>
     </div>
   </div>
 </template>
@@ -57,6 +64,7 @@ export default {
       },
       disc_scanner: {
         active: 0,
+        started: 0,
         next_run_time: null,
         interval_sec: 0,
       },
