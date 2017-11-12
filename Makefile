@@ -92,6 +92,16 @@ readme:
     # Only for Pypi, which does not render MarkDown Readme
 	pandoc --from=markdown --to=rst --output=README.rst README.md
 
+
+run-local-from-conf:
+	@echo "Starting dev-log Dopplerr on http://localhost:$(PORT) from config.json ..."
+	PYTHONASYNCIODEBUG=1 \
+	    pipenv run $(CMD) \
+	           --output-type dev \
+	           --debug-config \
+	           --verbose \
+	           -l "debug.log"
+
 run-local:
 	@echo "Starting dev-log Dopplerr on http://localhost:$(PORT) ..."
 	PYTHONASYNCIODEBUG=1 \
@@ -105,7 +115,6 @@ run-local:
 	           -b $(BASEDIR) \
 	           --subliminal-languages $(LANGUAGES) \
 	           --subliminal-opensubtitles-enabled \
-	           --subliminal-opensubtitles-user $(OPENSUBTITLES_USERNAME) \
 	           --subliminal-opensubtitles-password $(OPENSUBTITLES_PASSWORD) \
 	           --notifications-pushover-enabled \
 	           --notifications-pushover-user $(PUSHOVER_USER) \
@@ -152,6 +161,8 @@ run-docker: kill-docker
 	           -e "DOPPLERR_NOTIFICATIONS_PUSHOVER_USER=$(PUSHOVER_USER)" \
 	           -e "DOPPLERR_NOTIFICATIONS_PUSHOVER_TOKEN=$(PUSHOVER_TOKEN)" \
 	           -t dopplerr:latest
+
+run: run-local-from-conf
 
 run_frontend:
 	cd frontend ; make run
@@ -259,7 +270,6 @@ frontend: frontend-all
 image: docker
 install: install-system
 pypi: pypi-publish
-run: run-local
 styles: style
 test: test-unit
 unittest: test-unit
