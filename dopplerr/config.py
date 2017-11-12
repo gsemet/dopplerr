@@ -76,7 +76,9 @@ class DopplerrConfig(EnvironmentConfig):
                     h=("Map root folder of tv/anime/movie to another name.\n"
                        "Ex: series are mounted on a docker image as /tv but \n"
                        "on the other system it is under /video/Series. In this \n"
-                       "case use '--basedir /video --mapping tv=Series,movies=Movies'")),
+                       "case use '--basedir /video --mapping tv=Series,movies=Movies'\n"
+                       "Please enter trivial mapping as well:\n"
+                       "   '--mapping tv=tv,movies=movies'")),
             "port":
                 IntCfg(s='-p', d=DEFAULT_PORT, h='The port to listen on'),
             "no_color":
