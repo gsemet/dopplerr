@@ -64,6 +64,7 @@ class Log(Model):
     timestamp = StringType()
     level = StringType()
     message = StringType()
+    logger = StringType()
 
 
 Logs = ListType(ModelType(Log))

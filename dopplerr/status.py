@@ -95,10 +95,12 @@ class DopplerrStatus(object):
                     splited_line = line.split("::")
                     dat = splited_line[0].strip()
                     level = splited_line[1].strip()
+                    logger = splited_line[2].strip()
                     message = splited_line[3].strip()
                     logs.append({
                         'timestamp': dat,
                         'level': level,
+                        'logger': logger,
                         'message': message,
                     })
                 finally:
