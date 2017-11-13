@@ -10,7 +10,7 @@ from dopplerr.db import DopplerrDb
 from dopplerr.singleton import singleton
 from dopplerr.status import DopplerrStatus
 from dopplerr.tasks.queued import QueuedTask
-from dopplerr.tasks.subtasks.subliminal import SubliminalTask
+from dopplerr.tasks.subtasks.subliminal import SubliminalSubDownloader
 
 log = logging.getLogger(__name__)
 
@@ -108,7 +108,7 @@ class DownloadSubtitleTask(QueuedTask):
     def filter_video_files(candidate_files, res):
         log.info("Searching and downloading missing subtitles for: %r", candidate_files)
         res.processing("downloading missing subtitles")
-        videos = SubliminalTask.filter_video_files(candidate_files)
+        videos = SubliminalSubDownloader.filter_video_files(candidate_files)
         log.info("Video files: %r", videos)
         if not videos:
             log.debug("No subtitle to download")
@@ -121,7 +121,7 @@ class DownloadSubtitleTask(QueuedTask):
         log.info("fetching subtitles...")
         subtitles = []
         try:
-            subliminal = SubliminalTask()
+            subliminal = SubliminalSubDownloader()
             provider_configs = DopplerrStatus().subliminal_provider_configs
             languages = DopplerrConfig().get_cfg_value("subliminal.languages")
             subtitles = await subliminal.download_sub(

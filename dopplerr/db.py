@@ -6,6 +6,7 @@ from pathlib import Path
 from peewee import BooleanField
 from peewee import CharField
 from peewee import DateTimeField
+from peewee import DoesNotExist
 from peewee import ForeignKeyField
 from peewee import IntegerField
 from peewee import Model
@@ -26,11 +27,11 @@ class Events(Model):
 
 class SeriesMedias(Model):
     id = PrimaryKeyField()
-    added_timestamp = DateTimeField(default=datetime.datetime.now)
-    series_title = CharField(null=True)
     tv_db_id = IntegerField(null=False)
     season_number = IntegerField(null=False)
     episode_number = IntegerField(null=False)
+    added_timestamp = DateTimeField(default=datetime.datetime.now)
+    series_title = CharField(null=True)
     episode_title = CharField(null=True)
     quality = CharField(null=True)
     video_languages = CharField(null=True)
@@ -97,8 +98,11 @@ class DopplerrDb(object):
                             media_filename,
                             dirty=True):
         with Using(self.database, [SeriesMedias], with_transaction=False):
-            media, _ = SeriesMedias.get_or_create(
-                tv_db_id=tv_db_id, season_number=season_number, episode_number=episode_number)
+            media, _ = self._get_or_create(
+                SeriesMedias,
+                tv_db_id=tv_db_id,
+                season_number=season_number,
+                episode_number=episode_number)
             media.series_title = series_title
             media.episode_title = episode_title
             media.quality = quality
@@ -106,6 +110,15 @@ class DopplerrDb(object):
             media.dirty = dirty
             media.media_filename = media_filename
             media.save()
+
+    @staticmethod
+    def _get_or_create(model, **kwargs):
+        try:
+            it = model.get(**kwargs)
+            return it, False
+        except DoesNotExist:
+            it = model.create(**kwargs)
+            return it, True
 
     def update_fetched_series_subtitles(self, series_episode_uid, subtitles_languages, dirty=True):
         with Using(self.database, [SeriesMedias, SeriesSubtitles], with_transaction=False):

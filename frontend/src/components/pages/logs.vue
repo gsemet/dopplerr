@@ -75,7 +75,7 @@ export default {
 
   beforeMount () {
     this.fetch()
-    this.timer = setInterval(this.fetch, 10000)
+    this.timer = setInterval(this.fetch, 3000)
   },
   beforeDestroy: function () {
     this.cancelAutoUpdate()
