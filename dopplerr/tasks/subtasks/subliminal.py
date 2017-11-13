@@ -2,20 +2,28 @@
 
 import logging
 import os
+from datetime import timedelta
 
 from babelfish import Language
+from subliminal import Episode
+from subliminal import Movie
 from subliminal import Video
 from subliminal import download_best_subtitles
+from subliminal import refine
+from subliminal import refiner_manager
 from subliminal import region
 from subliminal import save_subtitles
+from subliminal.cli import MutexLock
 from subliminal.subtitle import get_subtitle_path
 
+from dopplerr.descriptors.series import SeriesEpisodeInfo
+from dopplerr.descriptors.series import SeriesEpisodeUid
 from dopplerr.tasks.threaded import ThreadedTask
 
 log = logging.getLogger(__name__)
 
 
-class SubliminalTask(ThreadedTask):
+class SubliminalSubDownloader(ThreadedTask):
     worker_threads_num = 1
 
     async def _run(self, res):
@@ -24,7 +32,13 @@ class SubliminalTask(ThreadedTask):
     @staticmethod
     def initialize_db():
         log.info("Initializing Subliminal cache...")
-        region.configure('dogpile.cache.dbm', arguments={'filename': 'cachefile.dbm'})
+        region.configure(
+            'dogpile.cache.dbm',
+            expiration_time=timedelta(days=30),
+            arguments={
+                'filename': 'cachefile.dbm',
+                'lock_factory': MutexLock
+            })
 
     # async def download_sub_by_subproc(self, videos, languages, provider_configs):
     #     subl_cmd = ["subliminal"]
@@ -73,3 +87,38 @@ class SubliminalTask(ThreadedTask):
     @staticmethod
     def save_subtitles(video, subtitle_info):
         return save_subtitles(video, subtitle_info)
+
+
+class RefineVideoFileTask(ThreadedTask):
+    async def refine_file(self, video_file):
+        return await self._run_in_thread(self._refine_file, video_file)
+
+    @staticmethod
+    def _refine_file(video_file):
+        log.debug("Refining file %s", video_file)
+        video = Video.fromname(video_file)
+        refiner = sorted(refiner_manager.names())
+        refine(video, episode_refiners=refiner, movie_refiners=refiner)
+        log.debug("refine result: %r", video)
+        if isinstance(video, Episode):
+            log.debug("series: %s", video.series)
+            log.debug("season: %s", video.season)
+            log.debug("episode: %s", video.episode)
+            log.debug("title: %s", video.title)
+            log.debug("series_tvdb_id: %s", video.series_tvdb_id)
+            return SeriesEpisodeInfo(
+                series_episode_uid=SeriesEpisodeUid(
+                    tv_db_id=video.series_tvdb_id,
+                    season_number=video.season,
+                    episode_number=video.episode,
+                ),
+                series_title=video.series,
+                episode_title=video.title,
+                quality=None,
+                video_languages=None,
+                subtitles_languages=None,
+                media_filename=video_file,
+                dirty=True,
+            )
+        elif isinstance(video, Movie):
+            log.debug("movie: %s", video.title)

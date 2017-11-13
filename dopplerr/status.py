@@ -92,7 +92,11 @@ class DopplerrStatus(object):
                     i += 1
                     if i > limit:
                         break
+                    if not line:
+                        continue
                     splited_line = line.split("::")
+                    if len(splited_line) < 4:
+                        continue
                     dat = splited_line[0].strip()
                     level = splited_line[1].strip()
                     logger = splited_line[2].strip()

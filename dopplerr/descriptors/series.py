@@ -9,6 +9,7 @@ SeriesEpisodeUid = namedtuple('SeriesEpisodeUid', ['tv_db_id', 'season_number', 
 
 SeriesEpisodeInfo = namedtuple('SeriesEpisodeInfo', [
     'series_episode_uid',
+    'series_title',
     'episode_title',
     'quality',
     'video_languages',

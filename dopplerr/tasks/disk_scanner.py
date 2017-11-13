@@ -5,8 +5,11 @@ import logging
 import os
 
 from dopplerr.config import DopplerrConfig
+from dopplerr.db import DopplerrDb
+from dopplerr.descriptors.series import SeriesEpisodeInfo
 from dopplerr.singleton import singleton
 from dopplerr.tasks.periodic import PeriodicTask
+from dopplerr.tasks.subtasks.subliminal import RefineVideoFileTask
 
 log = logging.getLogger(__name__)
 
@@ -60,7 +63,7 @@ class DiskScanner(PeriodicTask):
                     # this allows the event loop to update
                     await asyncio.sleep(SPEED_WAIT_SEC)
                     i = 0
-                if self.stopped:
+                if self.stopped or self.interrupted:
                     return
                 if media_dirs:
                     if entry.name in media_dirs:
@@ -68,12 +71,32 @@ class DiskScanner(PeriodicTask):
                 elif not entry.name.startswith('.'):
                     if entry.is_dir(follow_symlinks=False):
                         await self._scan(entry.path, media_dirs=None)
-                    else:
-                        if entry.name.rpartition('.')[2] in VIDEO_FILES_EXT:
-                            await self._refresh_video(entry.path)
+                    elif entry.name.rpartition('.')[2] in VIDEO_FILES_EXT:
+                        await self._refresh_video(entry.path)
 
     async def _refresh_video(self, filepath):
         log.info("Video file found: %s", filepath)
+        refined = await RefineVideoFileTask().refine_file(filepath)
+        if isinstance(refined, SeriesEpisodeInfo):
+            DopplerrDb().update_series_media(
+                series_title=refined.series_title,
+                tv_db_id=refined.series_episode_uid.tv_db_id,
+                season_number=refined.series_episode_uid.season_number,
+                episode_number=refined.series_episode_uid.episode_number,
+                episode_title=refined.episode_title,
+                quality=refined.quality,
+                video_languages=refined.video_languages,
+                media_filename=refined.media_filename,
+                dirty=refined.dirty,
+            )
+            DopplerrDb().insert_event("availability", "Available: {} - {}x{} - {}.".format(
+                refined.series_title,
+                refined.series_episode_uid.season_number,
+                refined.series_episode_uid.episode_number,
+                refined.episode_title,
+            ))
+        else:
+            raise NotImplementedError()
 
     @property
     def interval_hours(self):
