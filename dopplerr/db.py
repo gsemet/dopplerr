@@ -27,16 +27,16 @@ class Events(Model):
 
 class SeriesMedias(Model):
     id = PrimaryKeyField()
-    tv_db_id = IntegerField(null=False)
-    season_number = IntegerField(null=False)
-    episode_number = IntegerField(null=False)
+    tv_db_id = IntegerField(null=True)
+    season_number = IntegerField(null=True)
+    episode_number = IntegerField(null=True)
     added_timestamp = DateTimeField(default=datetime.datetime.now)
     series_title = CharField(null=True)
     episode_title = CharField(null=True)
     quality = CharField(null=True)
     video_languages = CharField(null=True)
     dirty = BooleanField(default=True)
-    media_filename = TextField(null=True)
+    media_filename = TextField(null=False, index=True)
 
 
 class SeriesSubtitles(Model):
@@ -97,12 +97,14 @@ class DopplerrDb(object):
                             video_languages,
                             media_filename,
                             dirty=True):
+        assert media_filename, "media_filename cannot be None"
         with Using(self.database, [SeriesMedias], with_transaction=False):
             media, _ = self._get_or_create(
                 SeriesMedias,
                 tv_db_id=tv_db_id,
                 season_number=season_number,
-                episode_number=episode_number)
+                episode_number=episode_number,
+                media_filename=media_filename)
             media.series_title = series_title
             media.episode_title = episode_title
             media.quality = quality
@@ -166,3 +168,9 @@ class DopplerrDb(object):
                 "subtitle_languages": sorted(s.language for s in med.subtitles),
                 "dirty": med.dirty,
             } for med in medias]
+
+    def media_exists(self, media_filename):
+        with Using(self.database, [SeriesMedias], with_transaction=False):
+            medias = (SeriesMedias.select(SeriesMedias.media_filename)
+                      .where(SeriesMedias.media_filename == media_filename)).execute()
+            return bool(medias)
