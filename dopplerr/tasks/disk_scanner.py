@@ -75,7 +75,10 @@ class DiskScanner(PeriodicTask):
                         await self._refresh_video(entry.path)
 
     async def _refresh_video(self, filepath):
-        log.info("Video file found: %s", filepath)
+        if DopplerrDb().media_exists(filepath):
+            log.info("Already existing video file found: %s", filepath)
+            return
+        log.info("Unknown Video file found: %s", filepath)
         refined = await RefineVideoFileTask().refine_file(filepath)
         if isinstance(refined, SeriesEpisodeInfo):
             DopplerrDb().update_series_media(
