@@ -85,7 +85,7 @@ pylint:
 	pipenv run pylint --rcfile=.pylintrc --output-format=colorized $(MODULES)
 
 mypy:
-	pipenv run mypy --config-file .mypy.ini dopplerr
+	pipenv run mypy --config-file .mypy.ini dopplerr cfgtree
 
 requirements:
 	pipenv run pipenv_to_requirements
