@@ -30,6 +30,8 @@ pytest-catchlog = "*"
 asynctest = "*"
 pytest-sugar = "*"
 "e1839a8" = {path = ".", editable = true}
+pyannotate = "*"
+mypy = "*"
 
 
 [packages]
