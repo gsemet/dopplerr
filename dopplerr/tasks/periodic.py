@@ -9,16 +9,16 @@ log = logging.getLogger(__name__)
 
 
 class PeriodicTask(object):
-    job_id = NotImplementedError
+    job_id: str = None
     job_type = 'interval'
     job_default_kwargs = {'max_instances': 1}
     scheduler = None
-    seconds = None
-    minutes = None
-    hours = None
+    seconds: int = None
+    minutes: int = None
+    hours: int = None
     active = False
     _interrupted = False
-    enable_cfg = None
+    enable_cfg: str = None
     forced = False
     force_start_required = False
 

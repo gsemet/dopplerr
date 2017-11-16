@@ -70,6 +70,7 @@ class TestTaskQueue(asynctest.TestCase):
         ], task.event_sequence)
 
     async def test_run_with_additional_work(self):
+
         async def job_with_task_and_additional_work(task, task_id):
             task.add_event("Job %s: asking to execute the sequential task", task_id)
             res = await task.run_and_wait(task_id)

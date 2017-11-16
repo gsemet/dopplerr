@@ -15,15 +15,16 @@ import sys
 
 from cfgtree.dictxpath import get_node_by_xpath
 from cfgtree.dictxpath import set_node_by_xpath
+from cfgtree.storages import _ConfigStorageBase
 
 log = logging.getLogger(__name__)
 _UNDEFINED = object()
 
 
 class EnvironmentConfig(object):
-    cfgtree = None
-    environ_var_prefix = None
-    config_storage = None
+    cfgtree: dict = None
+    environ_var_prefix: str = None
+    config_storage: _ConfigStorageBase = None
 
     def __init__(self):
         self._inject_names()

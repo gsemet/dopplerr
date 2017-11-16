@@ -2,13 +2,14 @@
 
 import argparse
 import os
+from typing import Any
 
 _UNDEFINED = object()
 
 
 class _CfgBase(object):
 
-    default = None
+    default: Any = None
     name = None
     xpath = None
     arg_type = None
