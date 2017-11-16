@@ -29,7 +29,7 @@ pytest-catchlog = "*"
 "flake8-comprehensions" = "*"
 asynctest = "*"
 pytest-sugar = "*"
-"e1839a8" = {path = ".", editable = true}
+"dopplerr" = {path = ".", editable = true}
 pyannotate = "*"
 mypy = "*"
 
