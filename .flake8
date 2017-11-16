@@ -1,6 +1,13 @@
 
 [flake8]
-ignore = E226,E302,E41,F811,E741
+ignore =
+    E226,
+    E302,
+    E41,
+    F811,
+    E741,
+    E704,  # multi statement on one line
+
 max-line-length = 100
 exclude = env
 max-complexity = 9

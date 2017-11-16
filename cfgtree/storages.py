@@ -21,10 +21,10 @@ class _ConfigStorageBase(object):
 
 
 class JsonFileConfigStorage(_ConfigStorageBase):
-    json_configstorage_default_filename = None
-    json_configstorage_environ_var_name = None
-    json_configstorage_short_param_name = None
-    json_configstorage_long_param_name = None
+    json_configstorage_default_filename: str = None
+    json_configstorage_environ_var_name: str = None
+    json_configstorage_short_param_name: str = None
+    json_configstorage_long_param_name: str = None
 
     __resolved_config_file = None
     __bare_config_dict = None

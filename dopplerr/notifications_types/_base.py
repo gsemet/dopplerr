@@ -10,8 +10,8 @@ class _NotificationTypeBase(object):
 
 
 class _SeriesNotificationBase(_NotificationTypeBase):
-    notification_type = NotImplementedError
-    notification_title = NotImplementedError
+    notification_type: str = None
+    notification_title: str = None
     series_episode_info = None
 
     def __init__(self, series_episode_info):

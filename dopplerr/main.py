@@ -18,8 +18,8 @@ from dopplerr.tasks.subtasks.subliminal import SubliminalSubDownloader
 
 log = logging.getLogger(__name__)
 
-
 DUMP_PYANNOTATE = os.environ.get("DOPPLERR_DUMP_PYANNOTATE", False)
+
 
 def main():
     if DUMP_PYANNOTATE:
