@@ -40,6 +40,7 @@ ln-venv:
 	@# this target creates a .venv link to your virtual env binaries
 	@# useful for some editors that does not know how to find the venv automatically
 	@ln -sf $$(pipenv --venv) .venv
+	@cd .venv/lib && ln -sf python$$(pipenv run python --version | cut -f2 -d' '|cut -c1-3) python
 
 frontend-dev:
 	cd frontend ; make dev
