@@ -1,8 +1,10 @@
 # coding: utf-8
 
+# Standard Libraries
 import asyncio
 import logging
 
+# Dopplerr
 from dopplerr.config import DopplerrConfig
 
 log = logging.getLogger(__name__)

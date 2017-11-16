@@ -1,10 +1,13 @@
 # coding: utf-8
 
+# Standard Libraries
 import asyncio
 import logging
 
+# Third Party Libraries
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
+# Dopplerr
 from dopplerr.singleton import singleton
 from dopplerr.tasks.disk_scanner import DiskScanner
 from dopplerr.tasks.download_subtitles import DownloadSubtitleTask

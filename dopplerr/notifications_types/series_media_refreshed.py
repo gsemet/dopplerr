@@ -1,7 +1,9 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 
+# Dopplerr
 from dopplerr.notifications_types._base import _SeriesNotificationBase
 
 log = logging.getLogger(__name__)

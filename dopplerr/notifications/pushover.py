@@ -1,9 +1,12 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 
+# Third Party Libraries
 import aiohttp
 
+# Dopplerr
 from dopplerr.notifications._base import _NotificationBase
 
 log = logging.getLogger(__name__)

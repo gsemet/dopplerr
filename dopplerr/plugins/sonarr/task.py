@@ -1,7 +1,9 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 
+# Dopplerr
 from dopplerr.db import DopplerrDb
 from dopplerr.descriptors.series import SeriesEpisodeUid
 from dopplerr.notifications import emit_notifications

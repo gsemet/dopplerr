@@ -1,11 +1,14 @@
 # coding: utf-8
-#
+
+# Standard Libraries
 import io
 import logging
 
+# Third Party Libraries
 import aiofiles
 from babelfish import Language
 
+# Dopplerr
 from dopplerr.config import DopplerrConfig
 from dopplerr.singleton import singleton
 

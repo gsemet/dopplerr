@@ -1,12 +1,15 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 
+# Third Party Libraries
 from sanic import Blueprint
 from sanic_transmute import add_route
 from sanic_transmute import describe
 from schematics.models import Model
 
+# Dopplerr
 from dopplerr.downloader import DopplerrDownloader
 
 log = logging.getLogger(__name__)

@@ -1,7 +1,9 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 
+# Dopplerr
 from dopplerr.config import DopplerrConfig
 from dopplerr.plugins.sonarr.response import SonarrOnDownloadResponse
 from dopplerr.request_filter import _FilterBase
