@@ -22,3 +22,5 @@ _trial_temp/
 /sqlite.db-wal
 /sqlite.db-shm
 junit.xml
+/type_info.json
+.mypy_cache

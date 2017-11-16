@@ -5,6 +5,8 @@ import os
 import sys
 from pathlib import Path
 
+from pyannotate_runtime import collect_types
+
 from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
@@ -17,7 +19,13 @@ from dopplerr.tasks.subtasks.subliminal import SubliminalSubDownloader
 log = logging.getLogger(__name__)
 
 
+DUMP_PYANNOTATE = os.environ.get("DOPPLERR_DUMP_PYANNOTATE", False)
+
 def main():
+    if DUMP_PYANNOTATE:
+        collect_types.init_types_collection()
+        collect_types.resume()
+
     if "--debug-config" in sys.argv:
         default_level = logging.DEBUG
     else:
@@ -64,3 +72,8 @@ def main():
 
     logging.info("Clean stopping")
     DopplerrDb().insert_event("stop", "dopplerr stopped")
+
+    if DUMP_PYANNOTATE:
+        log.info("dumping type_info")
+        collect_types.pause()
+        collect_types.dump_stats('type_info.json')
