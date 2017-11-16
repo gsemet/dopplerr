@@ -1,12 +1,15 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 
+# Third Party Libraries
 from sanic import Blueprint
 from sanic_transmute import APIException
 from sanic_transmute import add_route
 from sanic_transmute import describe
 
+# Dopplerr
 from dopplerr.plugins.sonarr.task import TaskSonarrOnDownload
 
 log = logging.getLogger(__name__)

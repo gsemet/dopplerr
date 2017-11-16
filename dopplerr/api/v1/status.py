@@ -1,7 +1,9 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 
+# Third Party Libraries
 from sanic import Blueprint
 from sanic_transmute import add_route
 from sanic_transmute import describe
@@ -12,6 +14,7 @@ from schematics.types import ListType
 from schematics.types import ModelType
 from schematics.types import StringType
 
+# Dopplerr
 from dopplerr import APSSCHEDULER_VERSION
 from dopplerr import DOPPLERR_VERSION
 from dopplerr import PYTHON_VERSION

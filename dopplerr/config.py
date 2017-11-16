@@ -1,11 +1,12 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 import os
 from pathlib import PosixPath
 
+# Third Party Libraries
 import pkg_resources
-
 from cfgtree.cfgtree import EnvironmentConfig
 from cfgtree.storages import JsonFileConfigStorage
 from cfgtree.types import BoolCfg
@@ -18,6 +19,8 @@ from cfgtree.types import PasswordCfg
 from cfgtree.types import SingleChoiceCfg
 from cfgtree.types import StringCfg
 from cfgtree.types import UserCfg
+
+# Dopplerr
 from dopplerr.singleton import singleton
 
 log = logging.getLogger(__name__)

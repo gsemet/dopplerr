@@ -1,8 +1,10 @@
 # coding: utf-8
 
+# Standard Libraries
 import datetime
 from pathlib import Path
 
+# Third Party Libraries
 from peewee import BooleanField
 from peewee import CharField
 from peewee import DateTimeField
@@ -15,6 +17,7 @@ from peewee import TextField
 from peewee import Using
 from playhouse.sqliteq import SqliteQueueDatabase
 
+# Dopplerr
 from dopplerr.singleton import singleton
 
 

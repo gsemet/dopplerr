@@ -1,12 +1,15 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 import os
 import sys
 from pathlib import Path
 
+# Third Party Libraries
 from pyannotate_runtime import collect_types
 
+# Dopplerr
 from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb

@@ -1,7 +1,9 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 
+# Dopplerr
 from dopplerr.response import Response
 
 log = logging.getLogger(__name__)

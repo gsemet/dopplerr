@@ -1,9 +1,11 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 import os
 from datetime import timedelta
 
+# Third Party Libraries
 from babelfish import Language
 from subliminal import Episode
 from subliminal import Movie
@@ -16,6 +18,7 @@ from subliminal import save_subtitles
 from subliminal.cli import MutexLock
 from subliminal.subtitle import get_subtitle_path
 
+# Dopplerr
 from dopplerr.descriptors.series import SeriesEpisodeInfo
 from dopplerr.descriptors.series import SeriesEpisodeUid
 from dopplerr.tasks.threaded import ThreadedTask

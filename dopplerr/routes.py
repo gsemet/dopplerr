@@ -1,11 +1,14 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 from pathlib import Path
 
+# Third Party Libraries
 from sanic import Sanic
 from sanic_transmute import add_swagger
 
+# Dopplerr
 from dopplerr.api.v1 import add_api_blueprints
 from dopplerr.config import DopplerrConfig
 from dopplerr.status import DopplerrStatus

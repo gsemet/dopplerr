@@ -1,8 +1,10 @@
 # coding: utf-8
 
+# Standard Libraries
 import logging
 from enum import Enum
 
+# Dopplerr
 from dopplerr import json
 
 log = logging.getLogger(__name__)

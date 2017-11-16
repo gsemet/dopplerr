@@ -1,10 +1,12 @@
 # coding: utf-8
 
+# Standard Libraries
 import glob
 import logging
 import os
 from pathlib import Path
 
+# Dopplerr
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
 from dopplerr.singleton import singleton
