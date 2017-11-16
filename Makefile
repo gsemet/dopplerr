@@ -74,7 +74,7 @@ autopep8:
 yapf:
 	pipenv run yapf --style .yapf --recursive -i $(MODULES)
 
-checks: readme requirements flake8 pylint
+checks: readme requirements flake8 pylint mypy
 
 sc: readme requirements style checks
 
@@ -83,6 +83,9 @@ flake8:
 
 pylint:
 	pipenv run pylint --rcfile=.pylintrc --output-format=colorized $(MODULES)
+
+mypy:
+	pipenv run mypy --config-file .mypy.ini dopplerr
 
 requirements:
 	pipenv run pipenv_to_requirements
@@ -248,6 +251,11 @@ githook:style readme version
 push: githook
 	git push origin --all
 	git push origin --tags
+
+pyannotate:
+	# do not use for the moment, only python2 annotation are generated.
+	# Follow: https://github.com/dropbox/pyannotate/issues/4
+	pipenv run pyannotate -w dopplerr
 
 # aliases to gracefully handle typos on poor dev's terminal
 backend-build: build
