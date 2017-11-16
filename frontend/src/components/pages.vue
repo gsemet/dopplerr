@@ -1,10 +1,13 @@
 <template>
   <q-layout
     ref="layout"
-    view="lHh Lpr fff"
+    view="hHh Lpr lFf"
     :left-class="{'bg-grey-2': true}"
   >
-    <q-toolbar slot="header">
+    <q-toolbar
+      slot="header"
+      color="primary"
+    >
       <q-btn
         flat
         @click="$refs.layout.toggleLeft()"
@@ -14,34 +17,68 @@
 
       <q-toolbar-title>
         Dopplerr
-        <div slot="subtitle">version {{ version }}</div>
+        <!-- <div slot="subtitle">version {{ version }}</div> -->
       </q-toolbar-title>
+
     </q-toolbar>
 
     <!-- Navigation -->
-    <!-- <q-tabs slot="navigation">
-      <q-route-tab slot="title" icon="view_quilt" to="/status" replace hide="icon" label="Status" />
-      <q-route-tab slot="title" icon="view_day" to="/events" replace hide="icon" label="Events" />
-    </q-tabs> -->
+    <q-tabs
+      slot="navigation"
+      color="primary"
+      >
+      <!-- align="center" -->
+        <!-- slot="navigation" -->
+      <q-route-tab
+        icon="home"
+        to="/home"
+        replace
+        slot="title"
+        label="Home"
+      />
+      <!-- hide="label" -->
+      <q-route-tab
+        icon="message"
+        to="/series"
+        replace
+        slot="title"
+        label="Series"
+      />
+      <!-- hide="label" -->
+      <!-- <q-route-tab
+        icon="movies"
+        to="/movies"
+        replace
+        slot="title"
+        label="Home"
+        hide="label"
+      /> -->
+    </q-tabs>
 
     <!-- Left Side Panel -->
-    <div slot="left">
-      <q-list no-border link inset-separator>
-        <q-list-header>Dopplerr</q-list-header>
-        <q-side-link item to="/home">
+    <div
+      slot="left"
+    >
+      <q-list
+        no-border
+        link
+        inset-separator
+      >
+        <q-list-header>Advanced Options</q-list-header>
+        <!-- <q-side-link item to="/home">
           <q-item-side icon="school" />
           <q-item-main label="Home" sublabel="Overview" />
-        </q-side-link>
+        </q-side-link> -->
         <!--
         <q-side-link item to="/movies">
           <q-item-side icon="school" />
           <q-item-main label="Movies" sublabel="Sonarr Films and Saga" />
         </q-side-link>
         -->
-        <q-side-link item to="/series">
+        <!-- <q-side-link item to="/series">
           <q-item-side icon="record_voice_over" />
           <q-item-main label="TV Series" sublabel="Series and Animes" />
-        </q-side-link>
+        </q-side-link> -->
         <q-side-link item to="/events">
           <q-item-side icon="chat" />
           <q-item-main label="Events" sublabel="Main events" />
@@ -91,6 +128,7 @@ import {
   QItemMain,
   QSideLink,
   QTabs,
+  QTab,
   QRouteTab
 } from 'quasar'
 
@@ -109,6 +147,7 @@ export default {
     QItemMain,
     QSideLink,
     QTabs,
+    QTab,
     QRouteTab
   },
   data () {
@@ -129,6 +168,7 @@ export default {
     }
   },
   mounted () {
+    this.$refs.layout.hideLeft();
   },
   beforeMount () {
     this.fetchVersion()
