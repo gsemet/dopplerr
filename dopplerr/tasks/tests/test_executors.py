@@ -36,13 +36,13 @@ class TestApscheduler(TestCase):
         def long_sync_task(i):
             # all tasks should run inside the SAME thread
             prefix = mkprefix(1)
-            log.info(prefix + "long  sync task %s: begin", i)
+            log.info("%s long  sync task %s: begin", prefix, i)
             for _ in range(0, i * 10):
-                log.info(prefix + "long  sync task %s: working", i)
+                log.info("%s long  sync task %s: working", prefix, i)
                 # note: time.sleep does NOT block current thread, so other "blocking" task
                 # might actually overlap their executions
                 time.sleep(0.1)
-            log.info(prefix + "long  sync task %s: end", i)
+            log.info("%s long  sync task %s: end", prefix, i)
 
         async def long_async_task(i):
             log.info("long async task %s: begin", i)
@@ -51,7 +51,7 @@ class TestApscheduler(TestCase):
             await asyncio.sleep(1)
             log.info("long async task %s: end", i)
 
-        log.info("event loop thread" + " " * 40 + "worker thread")
+        log.info("event loop thread %s worker thread", " " * 40)
         de.post_task(long_async_task(1))
         de.post_task(long_async_task(2))
         de.post_task(long_async_task(3))

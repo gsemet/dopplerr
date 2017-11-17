@@ -9,3 +9,5 @@ max-line-length = 100
 exclude = env
 max-complexity = 9
 accept-encodings = utf-8
+enable-extensions=
+    G,

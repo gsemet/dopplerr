@@ -15,12 +15,12 @@ cryptography
 flake8
 flake8-coding
 flake8-comprehensions
+flake8-logging-format
 isort
 mypy
 pandoc
 pipenv-to-requirements>=0.1.9
 pyannotate
-pyflakes<1.6.0,>=1.5.0'
 pylint
 pytest
 pytest-asyncio

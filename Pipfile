@@ -20,7 +20,6 @@ isort = "*"
 pylint = "*"
 "autopep8" = "*"
 pyyaml = "*"
-pyflakes = "<1.6.0,>=1.5.0'"
 "flake8" = "*"
 pipenv-to-requirements = ">=0.1.9"
 pytest-asyncio = "*"
@@ -29,9 +28,10 @@ pytest-catchlog = "*"
 "flake8-comprehensions" = "*"
 asynctest = "*"
 pytest-sugar = "*"
-"dopplerr" = {path = ".", editable = true}
+dopplerr = {path = ".", editable = true}
 pyannotate = "*"
 mypy = "*"
+"flake8-logging-format" = "*"
 
 
 [packages]

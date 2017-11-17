@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2ab2c82f821ea39e28ad99bb473b226d09acc7bb217790e3b90db49af5ac7a98"
+            "sha256": "949e2e113991b0d3cd75aacd463f5791abbbccb7afcaf71af83da5bd68cc1c96"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -102,6 +102,11 @@
                 "sha256:f7c0efd9d960b43929027aa2b5a6c80d8ebec3e8d87cdec8b92696bf57428284"
             ],
             "version": "==3.1.0"
+        },
+        "dopplerr": {
+            "editable": true,
+            "git": "https://Stibbons@github.com/Stibbons/dopplerr.git",
+            "ref": "75661b59f68da659c3cb60083232706d6a06fb10"
         },
         "httptools": {
             "hashes": [
@@ -430,6 +435,12 @@
             ],
             "version": "==1.4.1"
         },
+        "flake8-logging-format": {
+            "hashes": [
+                "sha256:6ef2273a22b2b7ae088ab6bf7dfdc12e91688472aa965ab29af80d0d26787a36"
+            ],
+            "version": "==0.3.0"
+        },
         "idna": {
             "hashes": [
                 "sha256:8c7309c718f94b3a625cb648ace320157ad16ff131ae0af362c9f21b80ef6ec4",
@@ -586,10 +597,10 @@
         },
         "pyflakes": {
             "hashes": [
-                "sha256:cc5eadfb38041f8366128786b4ca12700ed05bbf1403d808e89d57d67a3875a7",
-                "sha256:aa0d4dff45c0cc2214ba158d29280f8fa1129f3e87858ef825930845146337f4"
+                "sha256:08bd6a50edf8cffa9fa09a463063c425ecaaf10d1eb0335a7e8b1401aef89e6f",
+                "sha256:8d616a382f243dbf19b54743f280b80198be0bca3a5396f1d2e1fca6223e8805"
             ],
-            "version": "==1.5.0"
+            "version": "==1.6.0"
         },
         "pylint": {
             "hashes": [
@@ -706,6 +717,7 @@
                 "sha256:39d88b533b422825d644087a21e78c45cf5af0ef7a99a1fc9fbb7b481e5c85b0",
                 "sha256:02f8102c2436bb03b3ee6dede1919d1dac8a427541652e5ec95171ec8adbc93a"
             ],
+            "markers": "python_version != '3.2'",
             "version": "==15.1.0"
         },
         "virtualenv-clone": {
