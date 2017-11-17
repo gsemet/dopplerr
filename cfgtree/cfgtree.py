@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-Configuration Tree management
+Configuration Tree management.
 """
 from __future__ import absolute_import
 from __future__ import division
@@ -39,7 +39,7 @@ class EnvironmentConfig(object):
 
     def _inject_names(self, root=None, xpath=None):
         """
-        Inject configuration item name defined in the cfgtree dict inside each _Cfg
+        Inject configuration item name defined in the cfgtree dict inside each `_Cfg`.
         """
         if root is None:
             if self.cfgtree is None:
@@ -62,13 +62,13 @@ class EnvironmentConfig(object):
 
     def set_cfg_value(self, xpath, value):
         """
-        Set a value in cfgtree
+        Set a value in cfgtree.
         """
         set_node_by_xpath(self.cfgtree, xpath, value, extend=True, setter_attr="set_value")
 
     def get_cfg_value(self, xpath, default=None):
         """
-        Get a value from cfgtree
+        Get a value from cfgtree.
         """
         return get_node_by_xpath(self.cfgtree, xpath, default=default).value
 
@@ -103,7 +103,7 @@ class EnvironmentConfig(object):
 
     def _load_environment_variables(self, xpath, root):
         """
-        Inject value from environment variable
+        Inject value from environment variable.
         """
         for name, item in root.items():
             if isinstance(item, dict):
@@ -119,7 +119,7 @@ class EnvironmentConfig(object):
 
     def _load_cmd_line_arg(self):
         """
-        Inject parameters provider by the user in the command line
+        Inject parameters provider by the user in the command line.
         """
         argv = sys.argv[1:]
 
@@ -151,7 +151,7 @@ class EnvironmentConfig(object):
 
     def _inject_cfg_in_parser(self, parser, xpath=None, root=None):
         """
-        Configure the argument parser according to cfgtree
+        Configure the argument parser according to cfgtree.
         """
         if root is None:
             root = self.cfgtree
@@ -185,7 +185,7 @@ class EnvironmentConfig(object):
 
     def _dict(self, root=None, safe=False):
         """
-        Return the configuration as a dictionnary
+        Return the configuration as a dictionnary.
         """
         if root is None:
             root = self.cfgtree

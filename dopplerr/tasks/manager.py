@@ -22,7 +22,7 @@ class DopplerrTasksManager(object):
 
     def post_task(self, task):
         """
-        TODO: transfor this simple wrapper arround `ensure_future ` into a real queue management
+        TODO: transfor this simple wrapper arround `ensure_future ` into a real queue management.
         """
 
         async def wrap_task(task):

@@ -15,6 +15,7 @@ cryptography
 flake8
 flake8-coding
 flake8-comprehensions
+flake8-docstrings
 flake8-logging-format
 isort
 mypy
