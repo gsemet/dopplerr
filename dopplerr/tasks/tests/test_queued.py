@@ -3,6 +3,8 @@
 # Standard Libraries
 import asyncio
 import logging
+from typing import Any
+from typing import List
 
 # Third Party Libraries
 import asynctest
@@ -14,18 +16,18 @@ log = logging.getLogger(__name__)
 
 
 class MyTask(QueuedTask):
-    name = "MyTask"
+    name: str = "MyTask"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super(MyTask, self).__init__()
-        self.input_processed = []
-        self.event_sequence = []
+        self.input_processed: List[Any] = []
+        self.event_sequence: List[Any] = []
 
-    def add_event(self, event, *args):
+    def add_event(self, event: str, *args) -> None:
         log.info(event, *args)
         self.event_sequence.append(event % args)
 
-    async def _run(self, task):
+    async def _run(self, task) -> str:
         self.add_event("Task %s: work started", task)
         await asyncio.sleep(0.2)
         self.input_processed.append(task)
@@ -34,9 +36,9 @@ class MyTask(QueuedTask):
 
 
 class TestTaskQueue(asynctest.TestCase):
-    maxDiff = None
+    maxDiff: int = None
 
-    async def test_fire_and_forget(self):
+    async def test_fire_and_forget(self) -> None:
         task = MyTask()
         task.start()
         await task.fire_and_forget("#1")
@@ -72,9 +74,9 @@ class TestTaskQueue(asynctest.TestCase):
             'Task maybe unprocessed task: work finished',
         ], task.event_sequence)
 
-    async def test_run_with_additional_work(self):
+    async def test_run_with_additional_work(self) -> None:
 
-        async def job_with_task_and_additional_work(task, task_id):
+        async def job_with_task_and_additional_work(task: MyTask, task_id: str) -> None:
             task.add_event("Job %s: asking to execute the sequential task", task_id)
             res = await task.run_and_wait(task_id)
             task.add_event("Job %s: result received '%s'", task_id, res)
