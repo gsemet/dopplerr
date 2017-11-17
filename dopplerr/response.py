@@ -58,7 +58,7 @@ class Response(object):
 
     def to_dict(self):
         """
-        Return json-able dictionary
+        Return json-able dictionary.
         """
         return self._to_dict(self.res)
 

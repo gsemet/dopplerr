@@ -18,7 +18,7 @@ log = logging.getLogger(__name__)
 @singleton
 class DopplerrStatus(object):
     """
-    Contains current status of the application and derived values from DopplerrConfig
+    Contain current status of the application and derived values from `DopplerrConfig`.
     """
 
     def __init__(self):
@@ -28,7 +28,7 @@ class DopplerrStatus(object):
 
     def refresh_from_cfg(self):
         """
-        Refresh derived values from cfg
+        Refresh derived values from cfg.
         """
         cfg = DopplerrConfig()
         if not cfg.get_cfg_value("general.port"):
@@ -82,7 +82,7 @@ class DopplerrStatus(object):
 
     async def get_logs(self, limit=100):
         """
-        Get `limit` lines of logs in reverse order from the end of the file
+        Get `limit` lines of logs in reverse order from the end of the file.
         """
         logfile = DopplerrConfig().get_cfg_value("general.logfile")
         if not logfile:
@@ -117,7 +117,8 @@ class DopplerrStatus(object):
     @staticmethod
     async def _reverse_read_lines(fp, buf_size=8192):  # pylint: disable=invalid-name
         """
-        Async generator that returns the lines of a file in reverse order
+        Async generator that returns the lines of a file in reverse order.
+
         ref: https://stackoverflow.com/a/23646049/8776239
         and: https://stackoverflow.com/questions/2301789/read-a-file-in-reverse-order-using-python
         """

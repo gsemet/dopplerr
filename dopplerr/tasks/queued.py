@@ -14,7 +14,9 @@ log = logging.getLogger(__name__)
 
 class QueuedTask(TaskBase):
     """
-    Task that should be queued, ie, where two similar cannot be executed at the same time,
+    Task that should be queued.
+
+    Ie, where two similar cannot be executed at the same time,
     but to an underlying shared resource.
 
     Usage:

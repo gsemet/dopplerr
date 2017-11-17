@@ -32,6 +32,7 @@ dopplerr = {path = ".", editable = true}
 pyannotate = "*"
 mypy = "*"
 "flake8-logging-format" = "*"
+"flake8-docstrings" = "*"
 
 
 [packages]

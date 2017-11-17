@@ -24,7 +24,7 @@ class TaskBase(object):
     @staticmethod
     async def _run_command(*args):
         """
-        Asynchronous run command in subprocess
+        Asynchronous run command in subprocess.
 
         :param *args: command to execute
         :return: tuple (stdout, stderr, exit code)

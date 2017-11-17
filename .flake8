@@ -4,6 +4,8 @@ ignore =
     E741,  # ambiguous variable name
     E704,  # multi statement on one line
     F401,  # bad handling of typing
+    D1,
+    D2,
 
 max-line-length = 100
 exclude = env

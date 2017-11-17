@@ -29,7 +29,7 @@ class _CfgBase(object):
 
     def set_value(self, value):
         """
-        Setter method used in set_node_by_xpath
+        Setter method used in `set_node_by_xpath`.
         """
         self._value = value
 
@@ -83,14 +83,14 @@ class _CfgBase(object):
     @property
     def safe_value(self):
         """
-        string that can be outputed to logs
+        Return value as a string without compromizing information.
         """
         return self.value
 
     @property
     def cfgfile_value(self):
         """
-        value as it should be saved in config file
+        Return value to save in config file.
         """
         return self.value if self.value is not None else ""
 
@@ -108,7 +108,7 @@ class StringCfg(_CfgBase):
 
 class ListOfStringCfg(_CfgBase):
     """
-    Comma separated list of string (1 argument)
+    Comma separated list of string (1 argument).
     """
 
     def __init__(self, *args, **kwargs):
@@ -122,7 +122,7 @@ class ListOfStringCfg(_CfgBase):
     @property
     def cfgfile_value(self):
         """
-        value as it should be saved in config file
+        Return value to save in config file.
         """
         return ",".join(self.value)
 
@@ -152,7 +152,7 @@ class PasswordCfg(StringCfg):
     @property
     def safe_value(self):
         """
-        Hide password in logs
+        Hide password in logs.
         """
         return "*" * len(self.value)
 
