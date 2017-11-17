@@ -3,8 +3,6 @@
 # Standard Libraries
 import asyncio
 import logging
-from typing import Any
-from typing import Awaitable
 
 # Dopplerr
 from dopplerr.tasks.base import TaskBase
@@ -30,10 +28,10 @@ class QueuedTask(TaskBase):
                 ...
 
     """
-    _queue: asyncio.Queue[Awaitable[Any]] = None
-    _result: asyncio.Queue[Awaitable[Any]] = None
+    _queue: asyncio.Queue = None
+    _result: asyncio.Queue = None
     _started: bool = False
-    _consumer: asyncio.Future[int] = None
+    _consumer: asyncio.Future = None
     name: str = "Unnamed queue"
     FIRE_AND_FORGET = 0
     WAIT_FOR_RESULT = 1
