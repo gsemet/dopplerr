@@ -20,40 +20,39 @@
         <!-- <div slot="subtitle">version {{ version }}</div> -->
       </q-toolbar-title>
 
+      <!-- Navigation -->
+      <q-tabs
+        slot="navigation"
+        color="primary"
+        >
+        <!-- align="center" -->
+          <!-- slot="navigation" -->
+        <q-route-tab
+          icon="home"
+          to="/home"
+          replace
+          slot="title"
+          label="Home"
+        />
+        <!-- hide="label" -->
+        <q-route-tab
+          icon="message"
+          to="/series"
+          replace
+          slot="title"
+          label="Series"
+        />
+        <!-- hide="label" -->
+        <!-- <q-route-tab
+          icon="movies"
+          to="/movies"
+          replace
+          slot="title"
+          label="Home"
+          hide="label"
+        /> -->
+      </q-tabs>
     </q-toolbar>
-
-    <!-- Navigation -->
-    <q-tabs
-      slot="navigation"
-      color="primary"
-      >
-      <!-- align="center" -->
-        <!-- slot="navigation" -->
-      <q-route-tab
-        icon="home"
-        to="/home"
-        replace
-        slot="title"
-        label="Home"
-      />
-      <!-- hide="label" -->
-      <q-route-tab
-        icon="message"
-        to="/series"
-        replace
-        slot="title"
-        label="Series"
-      />
-      <!-- hide="label" -->
-      <!-- <q-route-tab
-        icon="movies"
-        to="/movies"
-        replace
-        slot="title"
-        label="Home"
-        hide="label"
-      /> -->
-    </q-tabs>
 
     <!-- Left Side Panel -->
     <div
