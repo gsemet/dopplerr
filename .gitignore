@@ -3,7 +3,6 @@ __pycache__
 .eggs/
 *.egg-info/
 *.log
-*.lock
 *.log.*
 *.pyc
 /.coverage
@@ -15,7 +14,6 @@ cachefile.dbm
 ChangeLog
 dist/
 sqlite.db
-Pipfile.lock
 config.json
 _trial_temp/
 .venv
