@@ -212,7 +212,9 @@ pypi-publish: build
 	@echo "Publishing to Pypy"
 	pipenv run python setup.py upload -r pypi
 
-update:
+update: pipenv-update dev
+
+pipenv-update:
 	@echo "Updating dependencies..."
 	pipenv update
 	pipenv install --dev

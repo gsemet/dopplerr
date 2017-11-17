@@ -1,11 +1,7 @@
 
 [flake8]
 ignore =
-    E226,
-    E302,
-    E41,
-    F811,
-    E741,
+    E741,  # ambiguous variable name
     E704,  # multi statement on one line
     F401,  # bad handling of typing
 
