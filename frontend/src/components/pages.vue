@@ -15,11 +15,6 @@
         <q-icon name="menu" />
       </q-btn>
 
-      <q-toolbar-title>
-        Dopplerr
-        <!-- <div slot="subtitle">version {{ version }}</div> -->
-      </q-toolbar-title>
-
       <!-- Navigation -->
       <q-tabs
         slot="navigation"
@@ -52,6 +47,12 @@
           hide="label"
         /> -->
       </q-tabs>
+
+      <q-toolbar-title align="right">
+        Dopplerr
+        <div slot="subtitle">version {{ version }}</div>
+      </q-toolbar-title>
+
     </q-toolbar>
 
     <!-- Left Side Panel -->
