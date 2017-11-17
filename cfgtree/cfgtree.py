@@ -13,6 +13,8 @@ import json
 import logging
 import os
 import sys
+from typing import Any
+from typing import Dict
 
 # Third Party Libraries
 from cfgtree.dictxpath import get_node_by_xpath
@@ -24,7 +26,7 @@ _UNDEFINED = object()
 
 
 class EnvironmentConfig(object):
-    cfgtree: dict = None
+    cfgtree: Dict[str, Any] = None
     environ_var_prefix: str = None
     config_storage: _ConfigStorageBase = None
 
