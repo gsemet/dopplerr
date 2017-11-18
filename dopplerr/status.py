@@ -17,6 +17,7 @@ log = logging.getLogger(__name__)
 
 @singleton
 class DopplerrStatus(object):
+
     """
     Contain current status of the application and derived values from `DopplerrConfig`.
     """

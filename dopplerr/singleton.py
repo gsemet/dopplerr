@@ -33,6 +33,7 @@ import types
 
 
 class __Singleton(object):
+
     """
     A non-thread-safe helper class to ease implementing singletons.
 

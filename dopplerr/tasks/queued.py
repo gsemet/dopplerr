@@ -11,6 +11,7 @@ log = logging.getLogger(__name__)
 
 
 class QueuedTask(TaskBase):
+
     """
     Task that should be queued.
 
