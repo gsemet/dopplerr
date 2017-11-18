@@ -21,7 +21,7 @@ class SonarrFilter(_FilterBase):
         if eventtype == "Download":
             res = await self.process_on_download(request)
             return res
-        return UnhandledResponse("sonarr, ""Ignoring Sonarr event type: {!r}".format(eventtype))
+        return UnhandledResponse("sonarr", "Ignoring Sonarr event type: {!r}".format(eventtype))
 
     async def process_on_download(self, request):
         log.debug("Processing Sonarr's 'on downloaded' event")
