@@ -51,6 +51,13 @@ def main():
         ("sanic", logging.INFO),
         ("cfgtree", logging.DEBUG),
         ("apscheduler", logging.INFO),
+        # Subliminal loggers
+        ("subliminal", logging.INFO),
+        ("rebulk", logging.ERROR),
+        ("rebulk.processors", logging.INFO),
+        ("subliminal.providers", logging.ERROR),
+        ("urllib3", logging.ERROR),
+        ("dogpile", logging.ERROR),
     ]
     setup_logging(
         outputtype=outputtype,
