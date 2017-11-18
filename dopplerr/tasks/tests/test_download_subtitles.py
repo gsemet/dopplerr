@@ -31,3 +31,6 @@ class TestGlob(unittest.TestCase):
         found = sorted(found)
         self.assertIn("vectors/a_subfolder/complex[name].mkv", found[0])
         self.assertIn("vectors/complex[name][withanothersuffix].mkv", found[1])
+
+    # Todo:
+    # glob test of "The.Series.Name.S07E06.720p.BluRay.DD5.1.x264-EbP-Obfuscated"
