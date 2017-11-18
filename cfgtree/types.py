@@ -112,6 +112,7 @@ class StringCfg(_CfgBase):
 
 
 class ListOfStringCfg(_CfgBase):
+
     """
     Comma separated list of string (1 argument).
     """

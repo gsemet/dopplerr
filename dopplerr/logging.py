@@ -97,6 +97,7 @@ def setup_logging(outputtype=OutputType.PLAIN,
             return record.levelno < stderr_threshold
 
     class SplitFormatterMixin(object):
+
         '''
         Magic Formatter that gracefully handle multiline logs, ie it split the multiline string
         and add each log independently.
