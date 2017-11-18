@@ -70,14 +70,14 @@ class DownloadSubtitleTask(QueuedTask):
         res.subtitles = subtitles_info
         if subtitles_info:
             res.successful("download successful")
-            DopplerrDb().insert_event("subtitles", "subtitles fetched: {}".format(
-                ", ".join([
-                    "{} (lang: {}, source: {})".format(
-                        s.get("filename"),
-                        s.get("language"),
-                        s.get("provider"),
-                    ) for s in subtitles_info
-                ])))
+            DopplerrDb().insert_event("subtitles",
+                                      "subtitles fetched: {}".format(", ".join([
+                                          "{} (lang: {}, source: {})".format(
+                                              s.get("filename"),
+                                              s.get("language"),
+                                              s.get("provider"),
+                                          ) for s in subtitles_info
+                                      ])))
         else:
             DopplerrDb().insert_event("subtitles", "no subtitle found for: {}".format(
                 ", ".join([Path(f).name for f in candidate_files])))
