@@ -2,7 +2,6 @@
   <q-layout
     ref="layout"
     view="hHh Lpr lFf"
-    :left-class="{'bg-grey-2': true}"
   >
     <q-toolbar
       slot="header"
@@ -100,7 +99,7 @@
 
     <!-- sub-routes get injected here: -->
     <div class="layout-padding row justify-center">
-      <div style="width: 800px; max-width: 90vw;">
+      <div>
         <router-view />
       </div>
     </div>
