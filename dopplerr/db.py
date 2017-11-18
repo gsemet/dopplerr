@@ -133,7 +133,8 @@ class DopplerrDb(object):
                 SeriesMedias.season_number == series_episode_uid.season_number,
                 SeriesMedias.episode_number == series_episode_uid.episode_number))
             for lang in subtitles_languages:
-                SeriesSubtitles.get_or_create(
+                self._get_or_create(
+                    SeriesSubtitles,
                     series_media=media,
                     language=lang,
                 )
