@@ -39,8 +39,8 @@ class DownloadSubtitleTask(QueuedTask):
         # This won't work with python < 3.5
         found = []
         base_name = glob.escape(base_name)
-        beforext, _, ext = base_name.rpartition('.')
-        protected_path = os.path.join(root_dir, "**", "*" + beforext + "*" + '.' + ext)
+        beforext, _, _ext = base_name.rpartition('.')
+        protected_path = os.path.join(root_dir, "**", "*" + beforext + "*")
         protected_path = protected_path
         log.debug("Searching %r", protected_path)
         for filename in glob.iglob(protected_path, recursive=True):
