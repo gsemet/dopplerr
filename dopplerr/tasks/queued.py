@@ -29,6 +29,7 @@ class QueuedTask(TaskBase):
                 ...
 
     """
+
     _queue: asyncio.Queue = None
     _result: asyncio.Queue = None
     _started: bool = False
