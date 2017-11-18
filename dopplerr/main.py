@@ -20,12 +20,19 @@ log = logging.getLogger(__name__)
 
 
 def main():
+    outputtype = OutputType.PLAIN
     if "--debug-config" in sys.argv:
         default_level = logging.DEBUG
     else:
         default_level = logging.ERROR
+    for i in range(len(sys.argv)):
+        if sys.argv[i] == "--output-type":
+            if i < len(sys.argv) and sys.argv[i + 1] == "dev":
+                outputtype = OutputType.DEV
+                break
+
     debug = default_level is logging.DEBUG
-    setup_logging(debug=debug)
+    setup_logging(debug=debug, outputtype=outputtype)
     log.debug("Initializing Dopplerr version %s...", DOPPLERR_VERSION)
 
     DopplerrConfig().find_configuration_values()
@@ -39,10 +46,15 @@ def main():
         raise NotImplementedError("Invalid output type: {!r}".format(output_type))
 
     log.debug("Applying configuration")
+    custom_log_levels = [
+        ("peewee", logging.ERROR),
+        ("sanic", logging.INFO),
+    ]
     setup_logging(
         outputtype=outputtype,
         debug=debug,
-        logfile=DopplerrConfig().get_cfg_value("general.logfile"))
+        logfile=DopplerrConfig().get_cfg_value("general.logfile"),
+        custom_log_levels=custom_log_levels)
     log.info("Logging is set to %s", "verbose"
              if DopplerrConfig().get_cfg_value("general.verbose") else "not verbose")
     DopplerrStatus().refresh_from_cfg()

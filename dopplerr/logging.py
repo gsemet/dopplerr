@@ -35,32 +35,37 @@ def setup_logging(outputtype=OutputType.PLAIN,
                   dev_split=True,
                   dev_module_verbose=True,
                   dev_force_fmt=None,
-                  dev_force_no_tty=None):
+                  dev_force_no_tty=None,
+                  custom_log_levels=None):
     '''
-    :param outputtype: one of the following:
-                         - OutputType.PLAIN: plain log output (all in stdout)
-                         - OutputType.DEV: developer-friendly, multi-columns, colored output
-                                           (if `colorlog` package is available and
-                                           `dev_allow_colors` set to True)
-                         - OutputType.JSON: output in json format, 1 json-chunk per line
-    :param debug: configure log level. Can take the following values:
-                    - False: logs will be in level logging.INFO
-                    - True: logs will be in level logging.DEBUG
-                    - logging.[DEBUG|INFO|WARNING|ERROR|FATAL]: set log level manually
-    :param unbuffered: ask the stdout to avoid buffering to send logs as fast as possible to the
-                       caller script.
-                       Only available when not inside a TTY, especially for pipeline of logs.
-                       This also trigger the split of outputs into stdout and stderr:
-                           >=logging.ERROR, logs go to stderr
-                           < logging.ERROR, logs go to stdout
-    :param logfile: enable output of logs to a file
-    The rest of the parameters allow to fine-tune developer-mode
-    :param dev_allow_colors: allow log coloration if `colorlog` is installed
-    :param dev_split: preserve log headers for multiline strings, and adapt to the current terminal
-                  witdh if applicable
+    :param outputtype:        one of the following:
+                                - OutputType.PLAIN: plain log output (all in stdout)
+                                - OutputType.DEV: developer-friendly, multi-columns, colored output
+                                                  (if `colorlog` package is available and
+                                                  `dev_allow_colors` set to True)
+                                - OutputType.JSON: output in json format, 1 json-chunk per line
+    :param debug:             configure log level. Can take the following values:
+                                - False: logs will be in level logging.INFO
+                                - True: logs will be in level logging.DEBUG
+                                - logging.[DEBUG|INFO|WARNING|ERROR|FATAL]: set log level manually
+    :param unbuffered:        ask the stdout to avoid buffering to send logs as fast as possible to
+                              the caller script.
+                              Only available when not inside a TTY, especially for pipeline of logs.
+                              This also trigger the split of outputs into stdout and stderr:
+                                  >=logging.ERROR, logs go to stderr
+                                  < logging.ERROR, logs go to stdout
+    :param logfile:           enable output of logs to a file
+    :param custom_log_levels  list of tuple (logger_name, loglevel) to change loglevel on diferent
+                              loggers.
+
+    The rest of the parameters allow to fine-tune developer-mode:
+
+    :param dev_allow_colors:   allow log coloration if `colorlog` is installed
+    :param dev_split:          preserve log headers for multiline strings, and adapt to the current
+                               terminals witdh if applicable
     :param dev_module_verbose: add module (file, line number) to each log line
-    :param dev_force_fmt: overwrite the formatter
-    :param dev_force_no_tty: force the usage of the no TTY formatter
+    :param dev_force_fmt:      overwrite the formatter
+    :param dev_force_no_tty:   force the usage of the no TTY formatter
     '''
     ColoredFormatter = False  # pylint: disable=invalid-name
     if dev_allow_colors:
@@ -232,6 +237,10 @@ def setup_logging(outputtype=OutputType.PLAIN,
         default_level = debug
 
     logging.basicConfig(stream=sys.stdout, level=default_level, format=fmt_nocolor_str)
+    if custom_log_levels:
+        for logger_name, loglevel in custom_log_levels:
+            logger = logging.getLogger(logger_name)
+            logger.setLevel(loglevel)
 
     date_fmt_string = None
     # Replace the default formatter because it is buggy
