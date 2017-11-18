@@ -92,6 +92,7 @@ def setup_logging(outputtype=OutputType.PLAIN,
     stdout_level = logging.DEBUG
 
     class InfoFilter(logging.Filter):
+
         def filter(self, record):
             return record.levelno < stderr_threshold
 
@@ -169,6 +170,7 @@ def setup_logging(outputtype=OutputType.PLAIN,
             return s
 
     class SplitFormatter(SplitFormatterMixin, logging.Formatter):
+
         def __init__(self, fmt=None, datefmt=None, term_width=-1, split=True):
             super(SplitFormatter, self).__init__(fmt, datefmt)
             self.term_width = term_width
@@ -180,6 +182,7 @@ def setup_logging(outputtype=OutputType.PLAIN,
     if ColoredFormatter:
 
         class SplitColorFormatter(SplitFormatterMixin, ColoredFormatter):
+
             def __init__(self, fmt=None, datefmt=None, term_width=-1, split=True, log_colors=None):
                 super(SplitColorFormatter, self).__init__(fmt, datefmt, log_colors=log_colors)
                 self.term_width = term_width

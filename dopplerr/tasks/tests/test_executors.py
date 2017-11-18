@@ -26,6 +26,7 @@ class SingleExecutor(ThreadedTask):
 
 
 class TestApscheduler(TestCase):
+
     async def test_executors(self):
         log.info("")
         de = DopplerrTasksManager()

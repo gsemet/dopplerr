@@ -53,6 +53,7 @@ class SeriesSubtitles(Model):
 
 @singleton
 class DopplerrDb(object):
+
     def __init__(self):
         self.__sqlite_db_path = None
         self.__conn = None

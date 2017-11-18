@@ -10,6 +10,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 
 def test_apscheduler():
+
     def tick():
         print('Tick! The time is: %s' % datetime.now())
 

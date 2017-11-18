@@ -16,11 +16,13 @@ log = logging.getLogger(__name__)
 
 
 class DopplerrTask(object):
+
     def post_task(self, task):
         DopplerrTasksManager().post_task(task)
 
 
 class TaskSonarrOnDownload(DopplerrTask):
+
     async def run(self, task):
         content = task
 

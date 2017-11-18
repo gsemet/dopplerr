@@ -15,6 +15,7 @@ def _pretty_kw():
 
 
 class _EnumEncoder(JSONEncoder):
+
     def default(self, obj):  # pylint: disable=arguments-differ,method-hidden
         if isinstance(obj, Enum):
             return obj.name
