@@ -53,11 +53,14 @@ def main():
         ("apscheduler", logging.INFO),
         # Subliminal loggers
         ("subliminal", logging.INFO),
+        ("subliminal.score", logging.ERROR),
+        ("subliminal.subtitle", logging.ERROR),
         ("rebulk", logging.ERROR),
         ("rebulk.processors", logging.INFO),
         ("subliminal.providers", logging.ERROR),
         ("urllib3", logging.ERROR),
         ("dogpile", logging.ERROR),
+        ("chardet", logging.ERROR),
     ]
     setup_logging(
         outputtype=outputtype,
