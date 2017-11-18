@@ -17,11 +17,12 @@ from typing import Any
 from typing import Dict
 
 # Third Party Libraries
+from cfgtree import LOGGER_NAME
 from cfgtree.dictxpath import get_node_by_xpath
 from cfgtree.dictxpath import set_node_by_xpath
 from cfgtree.storages import _ConfigStorageBase
 
-log = logging.getLogger(__name__)
+log = logging.getLogger(LOGGER_NAME)
 _UNDEFINED = object()
 
 
