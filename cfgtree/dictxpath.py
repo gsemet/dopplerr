@@ -1,7 +1,13 @@
 # coding: utf-8
 
 # Standard Libraries
+import logging
 import re
+
+# Third Party Libraries
+from cfgtree import LOGGER_NAME
+
+log = logging.getLogger(LOGGER_NAME)
 
 # tells flake8 to ignore complexity check for this file
 # flake8: noqa

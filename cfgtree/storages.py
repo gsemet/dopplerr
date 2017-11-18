@@ -7,7 +7,10 @@ import os
 import sys
 from pathlib import PosixPath
 
-log = logging.getLogger(__name__)
+# Third Party Libraries
+from cfgtree import LOGGER_NAME
+
+log = logging.getLogger(LOGGER_NAME)
 
 
 class _ConfigStorageBase(object):
