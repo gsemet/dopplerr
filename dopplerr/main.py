@@ -49,6 +49,8 @@ def main():
     custom_log_levels = [
         ("peewee", logging.ERROR),
         ("sanic", logging.INFO),
+        ("cfgtree", logging.DEBUG),
+        ("apscheduler", logging.INFO),
     ]
     setup_logging(
         outputtype=outputtype,
