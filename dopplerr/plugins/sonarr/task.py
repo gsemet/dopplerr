@@ -23,14 +23,14 @@ class DopplerrTask(object):
 
 class TaskSonarrOnDownload(DopplerrTask):
 
-    async def run(self, task):
+    async def run(self, task) -> dict:
         content = task
 
         log.debug("Sonarr notification received: %r", content)
         res = await SonarrFilter().filter(content)
         if res.is_unhandled:
             # event has been filtered out
-            return res
+            return res.to_dict()
 
         if res.candidates:
             for candidate in res.candidates:

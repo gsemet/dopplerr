@@ -103,8 +103,7 @@ class Response(object):
 
 class UnhandledResponse(Response):
 
-    def __init__(self, message, *args, **kwargs):
+    def __init__(self, request_type, message, *args, **kwargs):
         super(UnhandledResponse, self).__init__(*args, **kwargs)
-        self.request_type = "sonarr"
-        self.request_type = "unhandled"
-        self.failed(message)
+        self.request_type = request_type
+        self.unhandled(message)
