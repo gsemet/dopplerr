@@ -14,6 +14,7 @@ log = logging.getLogger(LOGGER_NAME)
 
 
 class _ConfigStorageBase(object):
+
     def find_config_storage(self):
         raise NotImplementedError
 

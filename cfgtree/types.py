@@ -144,12 +144,14 @@ class IntCfg(_CfgBase):
 
 
 class UserCfg(StringCfg):
+
     @property
     def user(self):
         return self.value
 
 
 class PasswordCfg(StringCfg):
+
     @property
     def password(self):
         return self.value
@@ -191,6 +193,7 @@ class BoolCfg(_CfgBase):
 
 
 class MultiChoiceCfg(ListOfStringCfg):
+
     def __init__(self, choices=None, *args, **kwargs):
         super(MultiChoiceCfg, self).__init__(*args, **kwargs)
         self.choices = choices
@@ -205,6 +208,7 @@ class MultiChoiceCfg(ListOfStringCfg):
 
 
 class SingleChoiceCfg(StringCfg):
+
     def __init__(self, choices=None, *args, **kwargs):
         super(SingleChoiceCfg, self).__init__(*args, **kwargs)
         self.choices = choices

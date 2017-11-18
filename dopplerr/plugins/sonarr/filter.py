@@ -13,6 +13,7 @@ log = logging.getLogger(__name__)
 
 
 class SonarrFilter(_FilterBase):
+
     async def filter(self, request):
         # probably request_event
         low_request = self.lowerize_dick_keys(request)

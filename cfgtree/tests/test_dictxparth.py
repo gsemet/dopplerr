@@ -10,6 +10,7 @@ from cfgtree.dictxpath import set_node_by_xpath
 
 
 class DictXpathTests(TestCase):
+
     def test_get_node_by_path(self):
         mapping = {'level1': {'level2': {'level3': 42}}}
         expected = 42

@@ -10,6 +10,7 @@ log = logging.getLogger(__name__)
 
 
 class _FilterBase(object):
+
     def appy_path_mapping(self, folder):
         if not DopplerrConfig().get_cfg_value("general.mapping"):
             return folder

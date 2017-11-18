@@ -93,6 +93,7 @@ class SubliminalSubDownloader(ThreadedTask):
 
 
 class RefineVideoFileTask(ThreadedTask):
+
     async def refine_file(self, video_file):
         return await self._run_in_thread(self._refine_file, video_file)
 

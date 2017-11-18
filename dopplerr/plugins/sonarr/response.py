@@ -10,6 +10,7 @@ log = logging.getLogger(__name__)
 
 
 class SonarrOnDownloadResponse(Response):
+
     def __init__(self, *args, **kwargs):
         super(SonarrOnDownloadResponse, self).__init__(*args, **kwargs)
         self.request_type = "sonarr"

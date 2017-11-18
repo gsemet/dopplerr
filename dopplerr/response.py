@@ -18,6 +18,7 @@ class RequestStatus(Enum):
 
 
 class Response(object):
+
     def __init__(self):
         self.res = {}
         self.__update_status(RequestStatus.UNHANDLED)
@@ -101,6 +102,7 @@ class Response(object):
 
 
 class UnhandledResponse(Response):
+
     def __init__(self, message, *args, **kwargs):
         super(UnhandledResponse, self).__init__(*args, **kwargs)
         self.request_type = "sonarr"

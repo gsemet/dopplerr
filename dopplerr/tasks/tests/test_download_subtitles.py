@@ -9,6 +9,7 @@ from dopplerr.tasks.download_subtitles import DownloadSubtitleTask
 
 
 class TestGlob(unittest.TestCase):
+
     def assert_list_size(self, lst, size):
         if len(lst) != size:
             self.fail("list size should be {}, is {} : {}".format(size, len(lst), ", ".join(lst)))
