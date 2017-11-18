@@ -79,7 +79,7 @@ checks: readme requirements flake8 pylint mypy
 sc: readme requirements style checks
 
 flake8:
-	pipenv run python setup.py flake8
+	pipenv run flake8 --enable-extra-whitelist $(MODULES)
 
 pylint:
 	pipenv run pylint --rcfile=.pylintrc --output-format=colorized $(MODULES)
