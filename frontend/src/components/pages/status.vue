@@ -1,94 +1,116 @@
 <template>
   <div class="content layout-padding">
-    <h4>Subtitle Download</h4>
-    <span
-      v-if="subtitle_downloader.active === 1"
-    >
-      State: Active
-      <i
-        class="material-icons text-negative"
-        style="font-size: 22px">info
-      </i>
-    </span>
-    <span
-      v-else-if ="subtitle_downloader.active === 0"
-    >
-      State: Inactive
-      <i
-        class="material-icons text-positive"
-        style="font-size: 22px">info
-      </i>
-    </span>
-    <h4>Disc Scanner</h4>
-    <table class="q-table">
-      <tbody>
-        <tr v-if="disc_scanner.started === 0">
-          <td><strong>State</strong></td>
-          <td>Not enabled</td>
-          <td></td>
-        </tr>
-        <tr v-if="disc_scanner.started === 1">
-          <td><strong>State</strong></td>
-          <td>
-            <span
-              v-if="disc_scanner.active === 1"
-            >
-              Active
-              <i
-                class="material-icons text-negative"
-                style="font-size: 22px">info
-              </i>
-            </span>
-            <span
-              v-else
-            >
-              Inactive
-              <i
-                class="material-icons text-positive"
-                style="font-size: 22px">info
-              </i>
-            </span>
-          </td>
-          <td></td>
-        </tr>
-        <tr v-if="disc_scanner.started === 1">
-          <td><strong>Interval</strong></td>
-          <td>
-            <span>{{ disc_scanner.interval_hours }} hour</span><span
-              v-if="disc_scanner.interval_hours > 0">s</span>
-          </td>
-          <td></td>
-        </tr>
-        <tr v-if="disc_scanner.started === 1">
-          <td><strong>Next run time</strong></td>
-          <td>{{ disc_scanner.next_run_time }}</td>
-          <td>
-            <q-btn
-                icon="fa-refresh"
-                flat
-                small
-                :disable="disc_scanner.active == 1"
-                @click="force_disc_scanner_start()"
-              >
-              Refresh
-            </q-btn>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="row">
+      <q-card class="col">
+        <q-card-title>Subtitle Download</q-card-title>
+        <q-card-main>
+          <span
+            v-if="subtitle_downloader.active === 1"
+          >
+            State: Active
+            <i
+              class="material-icons text-negative"
+              style="font-size: 22px">info
+            </i>
+          </span>
+          <span
+            v-else-if ="subtitle_downloader.active === 0"
+          >
+            State: Inactive
+            <i
+              class="material-icons text-positive"
+              style="font-size: 22px">info
+            </i>
+          </span>
+        </q-card-main>
+      </q-card>
+    </div>
+    <div class="row">
+      <q-card class="col">
+        <q-card-title>Disc Scanner</q-card-title>
+        <q-card-main>
+          <table class="q-table">
+            <tbody>
+              <tr v-if="disc_scanner.started === 0">
+                <td><strong>State</strong></td>
+                <td>Not enabled</td>
+                <td></td>
+              </tr>
+              <tr v-if="disc_scanner.started === 1">
+                <td><strong>State</strong></td>
+                <td>
+                  <span
+                    v-if="disc_scanner.active === 1"
+                  >
+                    Active
+                    <i
+                      class="material-icons text-negative"
+                      style="font-size: 22px">info
+                    </i>
+                  </span>
+                  <span
+                    v-else
+                  >
+                    Inactive
+                    <i
+                      class="material-icons text-positive"
+                      style="font-size: 22px">info
+                    </i>
+                  </span>
+                </td>
+                <td></td>
+              </tr>
+              <tr v-if="disc_scanner.started === 1">
+                <td><strong>Interval</strong></td>
+                <td>
+                  <span>{{ disc_scanner.interval_hours }} hour</span><span
+                    v-if="disc_scanner.interval_hours > 0">s</span>
+                </td>
+                <td></td>
+              </tr>
+              <tr v-if="disc_scanner.started === 1">
+                <td><strong>Next run time</strong></td>
+                <td>{{ disc_scanner.next_run_time }}</td>
+                <td>
+                  <q-btn
+                      icon="fa-refresh"
+                      flat
+                      small
+                      :disable="disc_scanner.active == 1"
+                      @click="force_disc_scanner_start()"
+                    >
+                    Refresh
+                  </q-btn>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </q-card-main>
+      </q-card>
+    </div>
   </div>
 </template>
 
 <script>
 import {
   QBtn,
-  QIcon
+  QIcon,
+  QCard,
+  QCardMain,
+  QCardMedia,
+  QCardSeparator,
+  QCardTitle,
 } from 'quasar'
 
 export default {
   components: {
     QBtn,
-    QIcon
+    QIcon,
+    QCard,
+    QCardMain,
+    QCardMedia,
+    QCardSeparator,
+    QCardTitle,
   },
   data () {
     return {
