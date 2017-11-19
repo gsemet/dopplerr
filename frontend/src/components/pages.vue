@@ -6,6 +6,7 @@
     <q-toolbar
       slot="header"
       color="primary"
+      glossy
     >
       <q-btn
         flat
@@ -18,6 +19,7 @@
       <q-tabs
         slot="navigation"
         color="primary"
+        glossy
         >
         <q-route-tab
           icon="home"
