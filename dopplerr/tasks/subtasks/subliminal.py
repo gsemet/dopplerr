@@ -100,7 +100,11 @@ class RefineVideoFileTask(ThreadedTask):
     @staticmethod
     def _refine_file(video_file):
         log.debug("Refining file %s", video_file)
-        video = Video.fromname(video_file)
+        try:
+            video = Video.fromname(video_file)
+        except ValueError:
+            log.error("Cannot guess video file type from: %s", video_file)
+            return
         refiner = sorted(refiner_manager.names())
         refine(video, episode_refiners=refiner, movie_refiners=refiner)
         log.debug("refine result: %r", video)
