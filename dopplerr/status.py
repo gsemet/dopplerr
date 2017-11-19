@@ -9,6 +9,7 @@ import aiofiles
 from babelfish import Language
 
 # Dopplerr
+from dopplerr import DOPPLERR_VERSION
 from dopplerr.config import DopplerrConfig
 from dopplerr.singleton import singleton
 
@@ -26,6 +27,7 @@ class DopplerrStatus(object):
         self.healthy = False
         self.sqlite_db_path = None
         self.subliminal_provider_configs = None
+        self.previous_version = None
 
     def refresh_from_cfg(self):
         """
@@ -48,6 +50,20 @@ class DopplerrStatus(object):
 
         if not self._check_languages(languages):
             raise Exception("Bad language defined")
+
+        if self.previous_version is None:
+            self.previous_version = cfg.get_cfg_value("general.version")
+            cfg.set_cfg_value("general.version", DOPPLERR_VERSION)
+
+    @property
+    def has_minor_version_changed(self):
+        if not self.previous_version:
+            return True
+        major1, _, minor_patch1 = self.previous_version.partition('.')
+        major2, _, minor_patch2 = DOPPLERR_VERSION.partition('.')
+        minor1, _, _patch1 = minor_patch1.partition('.')
+        minor2, _, _patch2 = minor_patch2.partition('.')
+        return major1 != major2 or minor1 != minor2
 
     def _build_subliminal_provider_cfgs(self):
         cfg = DopplerrConfig()

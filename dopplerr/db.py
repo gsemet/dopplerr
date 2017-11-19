@@ -70,8 +70,10 @@ class DopplerrDb(object):
     def conn(self):
         return self.database.get_conn()
 
-    def init(self, sqlite_db_path: Path):
+    def init(self, sqlite_db_path: Path, reset_db=False):
         self.__sqlite_db_path = sqlite_db_path.as_posix()
+        if reset_db:
+            sqlite_db_path.unlink()
 
     def create_tables(self):
         self.database.create_table(Events, safe=True)
