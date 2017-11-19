@@ -7,7 +7,6 @@
 [![Discord](https://img.shields.io/discord/378849537520959510.svg)](https://discordapp.com/channels/378849537520959510/378849838751678465)
 [![Feature Requests](http://feathub.com/Stibbons/dopplerr?format=svg)](http://feathub.com/Stibbons/dopplerr)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-<!-- [![codecov](https://codecov.io/gh/Stibbons/dopplerr/branch/master/graph/badge.svg)](https://codecov.io/gh/Stibbons/dopplerr) -->
 
 Subtitle Download Web Service for Sonarr or Radarr. It uses [Subliminal](https://github.com/Diaoul/subliminal) to search automatically for missing subtitles on download notification.
 
