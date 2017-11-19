@@ -105,13 +105,19 @@ class RefineVideoFileTask(ThreadedTask):
             video = Video.fromname(video_file)
         except ValueError:
             log.error("Cannot guess video file type from: %s", video_file)
-            return
+            return []
         refiner = sorted(refiner_manager.names())
         refine(video, episode_refiners=refiner, movie_refiners=refiner)
         log.debug("refine result: %r", video)
         if isinstance(video, Episode):
             log.debug("series: %s", video.series)
             log.debug("season: %s", video.season)
+            if not video.season:
+                log.error("No season defined !")
+                return []
+            if isinstance(video.season, list):
+                video.season = video.season[0]
+                log.error("Multi season found, only using first one: %s", video.season)
             log.debug("episode: %s", video.episode)
             log.debug("title: %s", video.title)
             log.debug("series_tvdb_id: %s", video.series_tvdb_id)
@@ -120,20 +126,22 @@ class RefineVideoFileTask(ThreadedTask):
             if not isinstance(video.episode, list):
                 video.episode = [video.episode]
             for video_episode in video.episode:
-                r.append(SeriesEpisodeInfo(
-                    series_episode_uid=SeriesEpisodeUid(
-                        tv_db_id=video.series_tvdb_id,
-                        season_number=video.season,
-                        episode_number=video_episode,
-                    ),
-                    series_title=video.series,
-                    episode_title=video.title,
-                    quality=None,
-                    video_languages=None,
-                    subtitles_languages=None,
-                    media_filename=video_file,
-                    dirty=True,
-                ))
+                r.append(
+                    SeriesEpisodeInfo(
+                        series_episode_uid=SeriesEpisodeUid(
+                            tv_db_id=video.series_tvdb_id,
+                            season_number=video.season,
+                            episode_number=video_episode,
+                        ),
+                        series_title=video.series,
+                        episode_title=video.title,
+                        quality=None,
+                        video_languages=None,
+                        subtitles_languages=None,
+                        media_filename=video_file,
+                        dirty=True,
+                    ))
             return r
         elif isinstance(video, Movie):
             log.debug("movie: %s", video.title)
+        return []
