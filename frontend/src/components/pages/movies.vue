@@ -1,6 +1,6 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <div class="layout-padding">
+  <div class="content layout-padding">
     <!-- your content -->
   </div>
 </template>

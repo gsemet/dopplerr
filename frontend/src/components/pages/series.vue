@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content layout-padding">
     <h4>Series</h4>
     <q-data-table
       :data="medias"
