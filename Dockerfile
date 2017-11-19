@@ -3,7 +3,6 @@ MAINTAINER  gaetan@xeberon.net
 
 # set environment variables
 ENV         PYTHONIOENCODING="UTF-8"
-ARG         DEBIAN_FRONTEND="noninteractive"
 
 RUN         apk add --no-cache --update \
                     curl \
@@ -13,6 +12,7 @@ RUN         apk add --no-cache --update \
                     make \
                     musl-dev \
                     nodejs \
+                    python2 \
                     python3-dev
 
 # Install frontend high level dependencies
@@ -26,7 +26,7 @@ RUN         mkdir -p /app
 WORKDIR     /app
 
 # Keep dependencies on its own Docker FS Layer
-# To avoid dependencies reinstall at each code change
+# To avoid reinstall of all dependencies each time code changes
 COPY        Pipfile* setup-pip.sh /app/
 RUN         ./setup-pip.sh \
         &&  pipenv install --system --skip-lock
@@ -41,7 +41,7 @@ RUN         cd /app \
 COPY        frontend /app/frontend/
 
 RUN         cd /app/frontend \
-        &&  make dev-from-scratch \
+        &&  make dev \
         &&  make version \
         &&  make build \
         &&  mkdir -p /www \
