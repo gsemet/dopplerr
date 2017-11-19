@@ -4,6 +4,7 @@
     <q-data-table
       :data="logs"
       :columns="columns"
+      :config="config"
     >
     </q-data-table>
   </div>
@@ -23,6 +24,12 @@ export default {
     return {
       timer: null,
       logs: [],
+      config: {
+        pagination: {
+          rowsPerPage: 30,
+          options: [30, 100, 200, 500]
+        }
+      },
       columns: [
         {
           label: 'Date',
@@ -59,7 +66,7 @@ export default {
   methods: {
     // Function to filter units
     fetch: function () {
-      this.axios.get('/api/v1/logs?limit=20', {})
+      this.axios.get('/api/v1/logs?limit=100', {})
         .then(response => {
           this.logs = response.data
         })
