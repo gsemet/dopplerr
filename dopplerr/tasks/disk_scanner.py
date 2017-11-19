@@ -67,7 +67,7 @@ class DiskScanner(PeriodicTask):
             return
         log.info("Unknown Video file found: %s", filepath)
         refined = await RefineVideoFileTask().refine_file(filepath)
-        if isinstance(refined, SeriesEpisodeInfo):
+        if refined and isinstance(refined, SeriesEpisodeInfo):
             DopplerrDb().update_series_media(
                 series_title=refined.series_title,
                 tv_db_id=refined.series_episode_uid.tv_db_id,
@@ -86,7 +86,8 @@ class DiskScanner(PeriodicTask):
                 refined.episode_title,
             ))
         else:
-            raise NotImplementedError()
+            log.error("Cannot refresh: %s", filepath)
+            return
 
     @property
     def interval_hours(self):
