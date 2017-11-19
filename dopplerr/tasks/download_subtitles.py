@@ -9,6 +9,7 @@ from pathlib import Path
 # Dopplerr
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
+from dopplerr.descriptors.media_types import VIDEO_FILES_EXT
 from dopplerr.singleton import singleton
 from dopplerr.status import DopplerrStatus
 from dopplerr.tasks.queued import QueuedTask
@@ -39,8 +40,11 @@ class DownloadSubtitleTask(QueuedTask):
         # This won't work with python < 3.5
         found = []
         base_name = glob.escape(base_name)
-        beforext, _, _ext = base_name.rpartition('.')
-        protected_path = os.path.join(root_dir, "**", "*" + beforext + "*")
+        beforext, _, ext = base_name.rpartition('.')
+        if ext.lower() in VIDEO_FILES_EXT:
+            protected_path = os.path.join(root_dir, "**", "*" + beforext + "*" + ext)
+        else:
+            protected_path = os.path.join(root_dir, "**", "*" + beforext + "*")
         protected_path = protected_path
         log.debug("Searching %r", protected_path)
         for filename in glob.iglob(protected_path, recursive=True):

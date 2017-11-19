@@ -8,6 +8,7 @@ import os
 # Dopplerr
 from dopplerr.config import DopplerrConfig
 from dopplerr.db import DopplerrDb
+from dopplerr.descriptors.media_types import VIDEO_FILES_EXT
 from dopplerr.descriptors.series import SeriesEpisodeInfo
 from dopplerr.singleton import singleton
 from dopplerr.tasks.periodic import PeriodicTask
@@ -17,22 +18,6 @@ log = logging.getLogger(__name__)
 
 SPEED_LIMIT = 10
 SPEED_WAIT_SEC = 0.1
-VIDEO_FILES_EXT = [
-    'asf',
-    'avc',
-    'avi',
-    'divx',
-    'm4v',
-    'mkv',
-    'mov',
-    'mp4',
-    'mpg',
-    'ogv',
-    'qt',
-    'viv',
-    'vp3',
-    'wmv',
-]
 
 
 @singleton
