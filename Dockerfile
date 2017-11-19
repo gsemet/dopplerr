@@ -26,10 +26,10 @@ RUN         mkdir -p /app
 WORKDIR     /app
 
 # Keep dependencies on its own Docker FS Layer
-# To avoid dependencies reinstall at each code change
+# To avoid reinstall of all dependencies each time code changes
 COPY        Pipfile* setup-pip.sh /app/
 RUN         ./setup-pip.sh \
-        &&  pipenv install --system --skip-lock
+        &&  pipenv install --system
 
 # installing main Python module so that PBR finds the version
 # used in later 'make version' targets
@@ -41,7 +41,7 @@ RUN         cd /app \
 COPY        frontend /app/frontend/
 
 RUN         cd /app/frontend \
-        &&  make dev-from-scratch \
+        &&  make dev \
         &&  make version \
         &&  make build \
         &&  mkdir -p /www \
