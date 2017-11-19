@@ -1,11 +1,15 @@
 <template>
-  <div>
+  <div class="content layout-padding">
     <h4>Recent Logs</h4>
     <q-data-table
       :data="logs"
       :columns="columns"
       :config="config"
     >
+      <!-- Custom renderer for "message" column -->
+      <template slot="col-message" slot-scope="cell">
+        <span class="light-paragraph wrap-message">{{cell.data}}</span>
+      </template>
     </q-data-table>
   </div>
 </template>
@@ -25,17 +29,22 @@ export default {
       timer: null,
       logs: [],
       config: {
+        columnPicker: true,
         pagination: {
-          rowsPerPage: 30,
-          options: [30, 100, 200, 500]
-        }
+          rowsPerPage: 50,
+          options: [50, 100, 200, 500]
+        },
       },
       columns: [
         {
           label: 'Date',
           field: 'timestamp',
-          width: '80px',
+          width: '50px',
           filter: false,
+          type: 'string',
+          format (value, row) {
+            return value.slice(0, 19)
+          },
         },
         {
           label: 'Level',
@@ -46,7 +55,7 @@ export default {
         {
           label: 'Logger',
           field: 'logger',
-          width: '30px',
+          width: '50px',
           filter: true
         },
         {
@@ -91,4 +100,7 @@ export default {
 </script>
 
 <style>
+.wrap-message {
+  white-space: normal;
+}
 </style>

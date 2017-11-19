@@ -1,68 +1,64 @@
 <template>
-  <div>
-    <div>
-      <h4>Subtitle Download</h4>
+  <div class="content layout-padding">
+    <h4>Subtitle Download</h4>
+    <span
+      v-if="subtitle_downloader.active === 1"
+    >
+      State: Active
+      <i
+        class="material-icons text-negative"
+        style="font-size: 22px">info
+      </i>
+    </span>
+    <span
+      v-else-if ="subtitle_downloader.active === 0"
+    >
+      State: Inactive
+      <i
+        class="material-icons text-positive"
+        style="font-size: 22px">info
+      </i>
+    </span>
+    <h4>Disc Scanner</h4>
+    <div
+      v-if="disc_scanner.started === 0"
+    >
+      Not enabled
+    </div>
+    <div v-else>
       <span
-        v-if="subtitle_downloader.active === 1"
+        v-if="disc_scanner.active === 1"
       >
-        Active
+        State: Active
         <i
           class="material-icons text-negative"
           style="font-size: 22px">info
         </i>
       </span>
       <span
-        v-else-if ="subtitle_downloader.active === 0"
+        v-else-if ="disc_scanner.active === 0"
       >
-        Inactive
+        State: Inactive
         <i
           class="material-icons text-positive"
           style="font-size: 22px">info
         </i>
-      </span>
-    </div>
-    <div>
-      <h4>Disc Scanner</h4>
-      <div
-        v-if="disc_scanner.started === 0"
-      >
-        Not enabled
-      </div>
-      <div v-else>
-        <span
-          v-if="disc_scanner.active === 1"
-        >
-          Active
-          <i
-            class="material-icons text-negative"
-            style="font-size: 22px">info
-          </i>
-        </span>
-        <span
-          v-else-if ="disc_scanner.active === 0"
-        >
-          Inactive
-          <i
-            class="material-icons text-positive"
-            style="font-size: 22px">info
-          </i>
-        </span><br>
-        <span>
-          Interval: {{ disc_scanner.interval_hours }} hour<span
-            v-if="disc_scanner.interval_hours > 0">s</span>
-        </span><br>
-        <span>Next run time: {{ disc_scanner.next_run_time }}</span>
-        <span>
-          <q-btn
-            icon="fa-refresh"
-            flat
-            small
-            :disable="disc_scanner.active"
-            @click="force_disc_scanner_start()"
-          >Refresh</q-btn>
+      </span><br>
+      <span>
+        Interval: {{ disc_scanner.interval_hours }} hour<span
+          v-if="disc_scanner.interval_hours > 0">s</span>
+      </span><br>
+      <span>Next run time: {{ disc_scanner.next_run_time }}</span>
+      <span>
+        <q-btn
+          icon="fa-refresh"
+          flat
+          small
+          :disable="disc_scanner.active"
+          @click="force_disc_scanner_start()"
+        >Refresh</q-btn>
 
-        </span>
-      </div>
+      </span>
     </div>
   </div>
 </template>
