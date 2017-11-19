@@ -27,7 +27,7 @@
           label="Home"
         />
         <q-route-tab
-          icon="message"
+          icon="live tv"
           to="/series"
           replace
           slot="title"

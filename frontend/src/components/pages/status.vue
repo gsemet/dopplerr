@@ -67,7 +67,7 @@
                 icon="fa-refresh"
                 flat
                 small
-                :disable="disc_scanner.active"
+                :disable="disc_scanner.active == 1"
                 @click="force_disc_scanner_start()"
               >
               Refresh

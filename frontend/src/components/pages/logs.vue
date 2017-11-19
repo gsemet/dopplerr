@@ -1,6 +1,7 @@
 <template>
   <div class="content layout-padding">
     <h4>Recent Logs</h4>
+    <p>Auto-refresh rate: {{ auto_refresh_interval_sec }} seconds</p>
     <q-data-table
       :data="logs"
       :columns="columns"
@@ -28,11 +29,12 @@ export default {
     return {
       timer: null,
       logs: [],
+      auto_refresh_interval_sec: 3,
       config: {
         columnPicker: true,
         pagination: {
           rowsPerPage: 50,
-          options: [50, 100, 200, 500]
+          options: [5, 10, 50, 100, 200, 500]
         },
       },
       columns: [
@@ -91,7 +93,7 @@ export default {
 
   beforeMount () {
     this.fetch()
-    this.timer = setInterval(this.fetch, 3000)
+    this.timer = setInterval(this.fetch, this.auto_refresh_interval_sec * 1000)
   },
   beforeDestroy: function () {
     this.cancelAutoUpdate()
