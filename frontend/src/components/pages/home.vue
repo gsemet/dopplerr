@@ -1,22 +1,50 @@
 <template>
-  <div class="flex-row-docs">
-    <h4>Recent Events</h4>
-    <div class="doc-container">
-      <q-data-table
-        :data="events"
-        :columns="recent_events_table_cfg.columns"
-        :config="recent_events_table_cfg.config"
+  <div>
+    <div
+      class="q-parallax"
+      style="height: 200px;"
+    >
+      <div
+        class="q-parallax-image absolute-full"
       >
-      </q-data-table>
+        <img
+          src="/statics/hubblecast43f-thin.png"
+          class="ready"
+          style="transform: translate3d(-50%, 0px, 0px);"
+         >
+      </div>
+      <div
+        class="q-parallax-text absolute-full column flex-center"
+      >
+        <h1>Dopplerr</h1>
+        <p>Subtitle Synchronizer</p>
+      </div>
     </div>
-    <h4>Recent Fetched Series Subtitles</h4>
-    <div class="doc-container">
-      <q-data-table
-        :data="fetched_episodes"
-        :columns="recent_episodes_table_cfg.columns"
-        :config="recent_episodes_table_cfg.config"
-      >
-      </q-data-table>
+    <div class="content layout-padding">
+      <div class="row">
+        <q-card class="col">
+          <q-card-title>Recent Events</q-card-title>
+          <q-card-main>
+            <q-data-table
+              :data="events"
+              :columns="recent_events_table_cfg.columns"
+              :config="recent_events_table_cfg.config"
+            >
+            </q-data-table>
+          </q-card-main>
+        </q-card>
+        <q-card class="col">
+          <q-card-title>Recent Fetched Series Subtitles</q-card-title>
+          <q-card-main>
+            <q-data-table
+              :data="fetched_episodes"
+              :columns="recent_episodes_table_cfg.columns"
+              :config="recent_episodes_table_cfg.config"
+            >
+            </q-data-table>
+          </q-card-main>
+        </q-card>
+      </div>
     </div>
   </div>
 </template>
@@ -56,6 +84,10 @@ export default {
         config: {
           rowHeight: '30px',
           noHeader: true,
+          pagination: {
+            rowsPerPage: 5,
+            options: [5, 10, 20, 50]
+          }
         },
         columns: [
           {
@@ -83,6 +115,10 @@ export default {
         config: {
           rowHeight: '30px',
           noHeader: false,
+          pagination: {
+            rowsPerPage: 5,
+            options: [5, 10, 20, 50]
+          }
         },
         columns: [
           {
@@ -136,14 +172,14 @@ export default {
   methods: {
     // Function to filter units
     fetch: function () {
-      this.axios.get('/api/v1/recent/events/5', {})
+      this.axios.get('/api/v1/recent/events/50', {})
         .then(response => {
           this.events = response.data.events
         })
         .catch(error => {
           console.log(error)
         })
-      this.axios.get('/api/v1/recent/series/5', {})
+      this.axios.get('/api/v1/recent/series/50', {})
         .then(response => {
           this.fetched_episodes = response.data.events
         })

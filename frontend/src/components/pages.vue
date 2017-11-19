@@ -72,12 +72,16 @@
           <q-item-main label="Events" sublabel="Main events" />
         </q-side-link>
         <q-side-link item to="/status">
-          <q-item-side icon="rss feed" />
+          <q-item-side icon="fa-heartbeat" />
           <q-item-main label="Status" sublabel="Dopplerr backend status" />
         </q-side-link>
         <q-side-link item to="/logs">
-          <q-item-side icon="rss feed" />
+          <q-item-side icon="fa-list" />
           <q-item-main label="Logs" sublabel="Debug logs" />
+        </q-side-link>
+        <q-side-link item to="/about">
+          <q-item-side icon="fa-info-circle" />
+          <q-item-main label="About Dopplerr"/>
         </q-side-link>
       </q-list>
     </div>
@@ -87,7 +91,7 @@
     </div> -->
 
     <!-- sub-routes get injected here: -->
-    <div class="layout-padding row justify-center">
+    <div class="layout-page justify-center">
       <div>
         <router-view />
       </div>
