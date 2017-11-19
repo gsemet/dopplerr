@@ -21,6 +21,8 @@ class _CfgBase(object):
     arg_type = None
     environ_var_prefix = None
     ignore_in_cfg = False
+    ignore_in_args = False
+    ignore_in_envvars = False
 
     def __init__(self, l=None, s=None, h=None, r=False, d=_UNDEFINED):
         # Note: self.name should come later by EnvironmentConfig._inject_names()
@@ -142,6 +144,29 @@ class IntCfg(_CfgBase):
 
     def read_environ_var(self):
         return int(self._environ_var_value)
+
+
+class HardcodedCfg(_CfgBase):
+
+    """
+    Placeholder only used to store application value.
+
+    It does not present an environment variable nor a command line argument
+    """
+
+    default = None
+    ignore_in_args = True
+    ignore_in_envvars = True
+
+    def get_cmd_line_params(self):
+        return []
+
+    def read_environ_var(self):
+        return None
+
+    @property
+    def long_param(self):
+        return None
 
 
 class UserCfg(StringCfg):

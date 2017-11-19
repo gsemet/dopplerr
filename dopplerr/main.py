@@ -36,6 +36,8 @@ def main():
     log.debug("Initializing Dopplerr version %s...", DOPPLERR_VERSION)
 
     DopplerrConfig().find_configuration_values()
+    log.debug("Current configuration: %s", DopplerrConfig().json(safe=True))
+
     debug = DopplerrConfig().get_cfg_value("general.verbose")
     output_type = DopplerrConfig().get_cfg_value("general.output_type")
     if output_type == 'dev':
@@ -71,14 +73,24 @@ def main():
     log.info("Logging is set to %s", "verbose"
              if DopplerrConfig().get_cfg_value("general.verbose") else "not verbose")
     DopplerrStatus().refresh_from_cfg()
+    # Backup configuration, now refresh_from_cfg has updated the version
+    DopplerrConfig().save_configuration()
 
     log.info("Initializing Subtitle DopplerrDownloader Service")
 
     SubliminalSubDownloader.initialize_db()
     DopplerrStatus().sqlite_db_path = (
         Path(DopplerrConfig().get_cfg_value("general.configdir")) / "sqlite.db")
+    reset_db = False
+    if DopplerrStatus().has_minor_version_changed:
+        log.warning("Major version change, dropping all databases")
+        reset_db = True
+    else:
+        log.info("Previous version was %s, now: %s",
+                 DopplerrStatus().previous_version,
+                 DopplerrConfig().get_cfg_value("general.version"))
     log.debug("SQLite DB: %s", DopplerrStatus().sqlite_db_path.as_posix())
-    DopplerrDb().init(DopplerrStatus().sqlite_db_path)
+    DopplerrDb().init(DopplerrStatus().sqlite_db_path, reset_db=reset_db)
     DopplerrDb().create_tables()
 
     # change current work dir for subliminal work files

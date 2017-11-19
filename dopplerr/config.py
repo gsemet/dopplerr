@@ -12,6 +12,7 @@ from cfgtree.storages import JsonFileConfigStorage
 from cfgtree.types import BoolCfg
 from cfgtree.types import ConfigFileCfg
 from cfgtree.types import DirNameCfg
+from cfgtree.types import HardcodedCfg
 from cfgtree.types import IntCfg
 from cfgtree.types import ListOfStringCfg
 from cfgtree.types import MultiChoiceCfg
@@ -86,6 +87,8 @@ class DopplerrConfig(EnvironmentConfig):
                 IntCfg(s='-p', d=DEFAULT_PORT, h='The port to listen on'),
             "no_color":
                 BoolCfg(h="Disable color in logs"),
+            "version":
+                HardcodedCfg(),
         },
         "subliminal": {
             "languages": ListOfStringCfg(),

@@ -77,7 +77,6 @@ class EnvironmentConfig(object):
         self._load_configuration()
         self._load_environment_variables("", self.cfgtree)
         self._load_cmd_line_arg()
-        self._save_configuration()
 
     def _load_configuration(self):
         log.debug("Looking for configuration")
@@ -85,7 +84,7 @@ class EnvironmentConfig(object):
         bare_cfg = self.config_storage.get_bare_config_dict()
         self._load_cfg_dict(bare_cfg)
 
-    def _save_configuration(self):
+    def save_configuration(self):
         log.debug("Saving configuration file")
         bare_cfg = self._dict(safe=False)
         self.config_storage.save_bare_config_dict(bare_cfg)
@@ -132,11 +131,10 @@ class EnvironmentConfig(object):
             if v is _UNDEFINED:
                 continue
             cfg.value = v
-            if cfg.ignore_in_cfg:
+            if cfg.ignore_in_cfg or cfg.ignore_in_args:
                 log.debug("Ignoring command line parameter %s", cfg.long_param)
             log.debug("Found command line parameter '%s': %s (conf: %s)", cfg.long_param,
                       cfg.safe_value, cfg.xpath)
-        log.debug("Current configuration: %s", self._json(safe=True))
 
     def _find_cfg_for_cmd_line_name(self, cmd_line_name, root=None):
         if root is None:
@@ -161,6 +159,8 @@ class EnvironmentConfig(object):
             if isinstance(item, dict):
                 self._inject_cfg_in_parser(parser, xpath=self.mkxpath(xpath, name), root=item)
             else:
+                if item.ignore_in_args:
+                    continue
                 args = item.get_cmd_line_params()
                 kwargs = {
                     "action": item.action,
@@ -205,5 +205,5 @@ class EnvironmentConfig(object):
         # pylint: enable=no-member
         return d
 
-    def _json(self, safe=False):
+    def json(self, safe=False):
         return json.dumps(self._dict(safe=safe), sort_keys=True, indent=4, separators=(',', ': '))
