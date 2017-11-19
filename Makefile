@@ -26,11 +26,14 @@ bootstrap:
 	@echo "  sudo -E ./bootstrap-system.sh"
 	@echo "  sudo -E ./setup-pip.sh"
 
-dev: pipenv-install-dev ln-venv
+dev: pipenv-install-dev pip-install-e ln-venv
+dev-from-scratch: pipenv-install-dev
 
 pipenv-install-dev:
 	@echo "Setting up development environment"
 	pipenv install --dev
+
+pip-install-e:
 	@echo "Manual pip install -e . because Pipenv+PBR does not behaves perfectly together"
 	pipenv run pip install -e .
 
@@ -265,7 +268,7 @@ pyannotate:
 backend-build: build
 backend-checks: checks
 backend-clean: clean
-backend-dev: dev
+backend-dev: dev-from-scratch
 build-backend: build
 build-docker: docker-build
 build-frontend: frontend-build

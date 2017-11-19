@@ -41,7 +41,7 @@ RUN         cd /app \
 COPY        frontend /app/frontend/
 
 RUN         cd /app/frontend \
-        &&  make dev \
+        &&  make dev-from-scratch \
         &&  make version \
         &&  make build \
         &&  mkdir -p /www \
