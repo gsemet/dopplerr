@@ -19,8 +19,6 @@
         slot="navigation"
         color="primary"
         >
-        <!-- align="center" -->
-          <!-- slot="navigation" -->
         <q-route-tab
           icon="home"
           to="/home"
@@ -28,7 +26,6 @@
           slot="title"
           label="Home"
         />
-        <!-- hide="label" -->
         <q-route-tab
           icon="message"
           to="/series"
@@ -36,25 +33,17 @@
           slot="title"
           label="Series"
         />
-        <!-- hide="label" -->
-        <!-- <q-route-tab
-          icon="movies"
-          to="/movies"
-          replace
-          slot="title"
-          label="Home"
-          hide="label"
-        /> -->
       </q-tabs>
 
       <q-toolbar-title align="right">
         Dopplerr
-        <div slot="subtitle">version {{ version }}</div>
+        <div slot="subtitle">{{ version }}</div>
       </q-toolbar-title>
 
     </q-toolbar>
 
     <!-- Left Side Panel -->
+
     <div
       slot="left"
     >

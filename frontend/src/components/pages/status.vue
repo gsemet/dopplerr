@@ -26,7 +26,7 @@
       <div
         v-if="disc_scanner.started === 0"
       >
-        Not Started
+        Not enabled
       </div>
       <div v-else>
         <span
