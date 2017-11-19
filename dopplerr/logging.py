@@ -58,6 +58,16 @@ def setup_logging(outputtype=OutputType.PLAIN,
     :param custom_log_levels  list of tuple (logger_name, loglevel) to change loglevel on diferent
                               loggers.
 
+                              Example:
+                                # Hide debug and info levels from the `urllib3` module
+                                setup_logging(
+                                  debug=logging.DEBUG,
+                                  custom_log_levels = [
+                                      ("urllib3", logging.ERROR),
+                                  ]
+                                  ...
+                                )
+
     The rest of the parameters allow to fine-tune developer-mode:
 
     :param dev_allow_colors:   allow log coloration if `colorlog` is installed

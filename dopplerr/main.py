@@ -52,15 +52,16 @@ def main():
         ("cfgtree", logging.DEBUG),
         ("apscheduler", logging.INFO),
         # Subliminal loggers
-        ("subliminal", logging.INFO),
+        ("chardet", logging.ERROR),
+        ("dogpile", logging.ERROR),
+        ("enzyme", logging.ERROR),
+        ("rebulk.processors", logging.INFO),
+        ("rebulk", logging.ERROR),
+        ("subliminal.providers", logging.ERROR),
         ("subliminal.score", logging.ERROR),
         ("subliminal.subtitle", logging.ERROR),
-        ("rebulk", logging.ERROR),
-        ("rebulk.processors", logging.INFO),
-        ("subliminal.providers", logging.ERROR),
+        ("subliminal", logging.INFO),
         ("urllib3", logging.ERROR),
-        ("dogpile", logging.ERROR),
-        ("chardet", logging.ERROR),
     ]
     setup_logging(
         outputtype=outputtype,
