@@ -85,12 +85,13 @@ class DiskScanner(PeriodicTask):
                     media_filename=refined.media_filename,
                     dirty=refined.dirty,
                 )
-                DopplerrDb().insert_event("availability", "Available: {} - {}x{} - {}.".format(
-                    refined.series_title,
-                    refined.series_episode_uid.season_number,
-                    refined.series_episode_uid.episode_number,
-                    refined.episode_title,
-                ))
+                DopplerrDb().insert_event("media update",
+                                          "Available TV episode: {} - {}x{} - {}.".format(
+                                              refined.series_title,
+                                              refined.series_episode_uid.season_number,
+                                              refined.series_episode_uid.episode_number,
+                                              refined.episode_title,
+                                          ))
             else:
                 log.error("Unsupported refined video type: %r", refined)
                 return
