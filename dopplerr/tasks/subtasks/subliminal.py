@@ -4,6 +4,7 @@
 import logging
 import os
 from datetime import timedelta
+from typing import List
 
 # Third Party Libraries
 from babelfish import Language
@@ -98,7 +99,7 @@ class RefineVideoFileTask(ThreadedTask):
         return await self._run_in_thread(self._refine_file, video_file)
 
     @staticmethod
-    def _refine_file(video_file):
+    def _refine_file(video_file) -> List[SeriesEpisodeInfo]:
         log.debug("Refining file %s", video_file)
         try:
             video = Video.fromname(video_file)
@@ -114,19 +115,25 @@ class RefineVideoFileTask(ThreadedTask):
             log.debug("episode: %s", video.episode)
             log.debug("title: %s", video.title)
             log.debug("series_tvdb_id: %s", video.series_tvdb_id)
-            return SeriesEpisodeInfo(
-                series_episode_uid=SeriesEpisodeUid(
-                    tv_db_id=video.series_tvdb_id,
-                    season_number=video.season,
-                    episode_number=video.episode,
-                ),
-                series_title=video.series,
-                episode_title=video.title,
-                quality=None,
-                video_languages=None,
-                subtitles_languages=None,
-                media_filename=video_file,
-                dirty=True,
-            )
+            r = []
+            # Support for double episode
+            if not isinstance(video.episode, list):
+                video.episode = [video.episode]
+            for video_episode in video.episode:
+                r.append(SeriesEpisodeInfo(
+                    series_episode_uid=SeriesEpisodeUid(
+                        tv_db_id=video.series_tvdb_id,
+                        season_number=video.season,
+                        episode_number=video_episode,
+                    ),
+                    series_title=video.series,
+                    episode_title=video.title,
+                    quality=None,
+                    video_languages=None,
+                    subtitles_languages=None,
+                    media_filename=video_file,
+                    dirty=True,
+                ))
+            return r
         elif isinstance(video, Movie):
             log.debug("movie: %s", video.title)
