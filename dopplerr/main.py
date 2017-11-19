@@ -92,6 +92,9 @@ def main():
     log.debug("SQLite DB: %s", DopplerrStatus().sqlite_db_path.as_posix())
     DopplerrDb().init(DopplerrStatus().sqlite_db_path, reset_db=reset_db)
     DopplerrDb().create_tables()
+    if reset_db:
+        DopplerrDb().insert_event("db reset",
+                                  "Doppler major or minor version upgrade caused a DB reset ")
 
     # change current work dir for subliminal work files
     os.chdir(DopplerrConfig().get_cfg_value("general.configdir"))
