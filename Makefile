@@ -31,6 +31,8 @@ dev: pipenv-install-dev ln-venv
 pipenv-install-dev:
 	@echo "Setting up development environment"
 	pipenv install --dev
+	@echo "Manual pip install -e . because Pipenv+PBR does not behaves perfectly together"
+	pipenv run pip install -e .
 
 pipenv-install-system-dev:
 	@echo "Setting up development environment"
