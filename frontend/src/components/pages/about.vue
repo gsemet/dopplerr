@@ -1,7 +1,7 @@
 <template>
   <div class="content layout-padding">
     <div class="row">
-      <q-card class="col">
+      <q-card class="col-md">
         <q-card-title>About Dopplerr</q-card-title>
         <q-card-main>
           <table class="q-table">
@@ -30,7 +30,7 @@
           </table>
         </q-card-main>
       </q-card>
-      <q-card class="col">
+      <q-card class="col-md">
         <q-card-title>More information</q-card-title>
         <q-card-main>
           <table class="q-table">

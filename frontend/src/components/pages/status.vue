@@ -1,7 +1,7 @@
 <template>
   <div class="content layout-padding">
     <div class="row">
-      <q-card class="col">
+      <q-card class="col-md">
         <q-card-title>Subtitle Download</q-card-title>
         <q-card-main>
           <span
@@ -24,9 +24,7 @@
           </span>
         </q-card-main>
       </q-card>
-    </div>
-    <div class="row">
-      <q-card class="col">
+      <q-card class="col-md">
         <q-card-title>Disc Scanner</q-card-title>
         <q-card-main>
           <table class="q-table">
