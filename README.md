@@ -44,6 +44,8 @@ Use my docker image:
         -p 8086:8086 \
         -e PUID=<UID> \
         -e PGID=<GID> \
+        -e TZ=<timezone> \
+        -v /etc/localtime:/etc/localtime:ro \
         -v <path/to/animes>:/animes \
         -v <path/to/movies>:/movies \
         -v <path/to/series>:/tv \
@@ -78,6 +80,8 @@ Example of starting command line arguments:
 -   `-v /path/to/series:/tv` - location of TV library on disk
 -   `-e PGID=1000` - for GroupID. See below for explanation
 -   `-e PUID=100` - for UserID. See below for explanation
+-   `-v /etc/localtime` - for timezone information - see Localtime for important information
+-   `-e TZ`- for timezone information, Europe/London - see Localtime for important information
 -   `-e DOPPLERR_SUBLIMINAL_LANGUAGES=fra,eng` - set wanted subtitles languages (mandatory)
 -   `-e DOPPLERR_GENERAL_VERBOSE=1` - set verbosity. 1=verbose, 0=silent (optional)
 
@@ -85,6 +89,16 @@ Developers might also use:
 
 -   `-e DOPPLERR_GENERAL_BASEDIR=/media` - set media base directory (optional)
     (needs something like `-v /path/to/anime:/media/anime` and so on)
+
+### Localtime
+
+It is important that you either set `-v /etc/localtime:/etc/localtime:ro` or the TZ variable to
+enable scheduled tasks.
+
+Example:
+```
+-e TZ=Europe/Paris
+```
 
 ### User / Group Identifiers
 
