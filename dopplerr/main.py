@@ -47,7 +47,7 @@ def main():
 
     log.debug("Applying configuration")
     custom_log_levels = [
-        ("peewee", logging.ERROR),
+        ("peewee", logging.DEBUG),
         ("sanic", logging.INFO),
         ("cfgtree", logging.DEBUG),
         ("apscheduler", logging.INFO),

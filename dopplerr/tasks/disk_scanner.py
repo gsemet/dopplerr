@@ -66,28 +66,34 @@ class DiskScanner(PeriodicTask):
             log.info("Already existing video file found: %s", filepath)
             return
         log.info("Unknown Video file found: %s", filepath)
-        refined = await RefineVideoFileTask().refine_file(filepath)
-        if refined and isinstance(refined, SeriesEpisodeInfo):
-            DopplerrDb().update_series_media(
-                series_title=refined.series_title,
-                tv_db_id=refined.series_episode_uid.tv_db_id,
-                season_number=refined.series_episode_uid.season_number,
-                episode_number=refined.series_episode_uid.episode_number,
-                episode_title=refined.episode_title,
-                quality=refined.quality,
-                video_languages=refined.video_languages,
-                media_filename=refined.media_filename,
-                dirty=refined.dirty,
-            )
-            DopplerrDb().insert_event("availability", "Available: {} - {}x{} - {}.".format(
-                refined.series_title,
-                refined.series_episode_uid.season_number,
-                refined.series_episode_uid.episode_number,
-                refined.episode_title,
-            ))
-        else:
-            log.error("Cannot refresh: %s", filepath)
+        refined_lst = await RefineVideoFileTask().refine_file(filepath)
+        if not refined_lst:
+            log.error("Cannot refine file: %s", filepath)
             return
+        if not isinstance(refined_lst, list):
+            refined_lst = [refined_lst]
+        for refined in refined_lst:
+            if isinstance(refined, SeriesEpisodeInfo):
+                DopplerrDb().update_series_media(
+                    series_title=refined.series_title,
+                    tv_db_id=refined.series_episode_uid.tv_db_id,
+                    season_number=refined.series_episode_uid.season_number,
+                    episode_number=refined.series_episode_uid.episode_number,
+                    episode_title=refined.episode_title,
+                    quality=refined.quality,
+                    video_languages=refined.video_languages,
+                    media_filename=refined.media_filename,
+                    dirty=refined.dirty,
+                )
+                DopplerrDb().insert_event("availability", "Available: {} - {}x{} - {}.".format(
+                    refined.series_title,
+                    refined.series_episode_uid.season_number,
+                    refined.series_episode_uid.episode_number,
+                    refined.episode_title,
+                ))
+            else:
+                log.error("Unsupported refined video type: %r", refined)
+                return
 
     @property
     def interval_hours(self):
