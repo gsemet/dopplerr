@@ -6,10 +6,9 @@ import logging
 # Third Party Libraries
 from sanic import Blueprint
 from sanic_transmute import APIException
-from sanic_transmute import add_route
-from sanic_transmute import describe
 
 # Dopplerr
+from dopplerr.api.add_route import describe_add_route
 from dopplerr.plugins.sonarr.task import TaskSonarrOnDownload
 
 log = logging.getLogger(__name__)
@@ -17,20 +16,17 @@ log = logging.getLogger(__name__)
 bp = Blueprint('notify', url_prefix="/api/v1")
 
 
-@describe(paths="/notify/sonarr", methods=['POST'])
+@describe_add_route(bp, paths="/notify/sonarr", methods=['POST'])
 async def notify_sonarr(request):
+    """
+    Process a sonarr notification.
+    """
     res = await TaskSonarrOnDownload().run(request.json)
     return res
 
 
-add_route(bp, notify_sonarr)
-
-
-@describe(paths="/notify", methods=['GET'])
+@describe_add_route(bp, paths="/notify", methods=['GET'])
 async def notify_not_allowed():
     return APIException(
         "Method GET not allowed. "
         "Use POST with a JSON body with the right format", code=405)
-
-
-add_route(bp, notify_not_allowed)

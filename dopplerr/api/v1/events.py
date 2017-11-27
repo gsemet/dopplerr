@@ -5,8 +5,6 @@ import logging
 
 # Third Party Libraries
 from sanic import Blueprint
-from sanic_transmute import add_route
-from sanic_transmute import describe
 from schematics.models import Model
 from schematics.types import IntType
 from schematics.types import ListType
@@ -14,6 +12,7 @@ from schematics.types import ModelType
 from schematics.types import StringType
 
 # Dopplerr
+from dopplerr.api.add_route import describe_add_route
 from dopplerr.db import DopplerrDb
 
 log = logging.getLogger(__name__)
@@ -47,7 +46,7 @@ class RecentSeries(Model):
 bp = Blueprint('events', url_prefix="/api/v1/recent")
 
 
-@describe(paths="/events/{num}", methods="GET")
+@describe_add_route(bp, paths="/events/{num}", methods="GET")
 async def recent_events_num(num: int = 10) -> Events:
     num = int(num)
     if num > 100:
@@ -56,25 +55,16 @@ async def recent_events_num(num: int = 10) -> Events:
     return res
 
 
-add_route(bp, recent_events_num)
-
-
-@describe(paths="/events/", methods="GET")
+@describe_add_route(bp, paths="/events/", methods="GET")
 async def recent_events_10() -> Events:
     res = {"events": DopplerrDb().get_recent_events(10)}
     return res
 
 
-add_route(bp, recent_events_10)
-
-
-@describe(paths="/series/{num}", methods="GET")
+@describe_add_route(bp, paths="/series/{num}", methods="GET")
 async def recent_fetched_series_num(num: int = 10) -> RecentSeries:
     num = int(num)
     if num > 100:
         num = 100
     res = {"events": DopplerrDb().get_last_fetched_series(num)}
     return res
-
-
-add_route(bp, recent_fetched_series_num)
