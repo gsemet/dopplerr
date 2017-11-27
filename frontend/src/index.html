@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta
       name="format-detection"
       content="telephone=no"
@@ -15,7 +16,91 @@
       content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width"
     >
     <title>Dopplerr</title>
-    <link rel="icon" href="statics/quasar-logo.png" type="image/x-icon">
+    <link rel="icon" href="<%= htmlWebpackPlugin.files.publicPath %>statics/quasar-logo.png" type="image/x-icon">
+    <!--
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="<%=htmlWebpackPlugin.files.publicPath%>statics/icons/favicon-32x32.png">
+    -->
+    <!--
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/favicon-16x16.png">
+    -->
+    <!-- Add to home screen for Safari on iOS -->
+    <meta
+      name="apple-mobile-web-app-capable"
+      content="yes"
+    >
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black"
+    >
+    <meta
+      name="apple-mobile-web-app-title"
+      content="Dopplerr"
+    >
+    <!--
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="img/favicon/apple-touch-icon-57x57.png"
+    >
+    -->
+    <!--
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="img/favicon/apple-touch-icon-114x114.png"
+    >
+    -->
+    <link
+      rel="apple-touch-icon"
+      href="<%= htmlWebpackPlugin.files.publicPath %>statics/apple-icon-152x152.png"
+    >
+
+    <!-- Generic favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="<%= htmlWebpackPlugin.files.publicPath %>statics/favicon/favicon-16x16.png"
+      sizes="16x16"
+    >
+    <link
+      rel="icon"
+      type="image/png"
+      href="<%= htmlWebpackPlugin.files.publicPath %>statics/favicon/favicon-32x32.png"
+      sizes="32x32"
+    >
+    <!--
+    <link
+      rel="icon"
+      type="image/png"
+      href="<%= htmlWebpackPlugin.files.publicPath %>statics/favicon-96x96.png"
+      sizes="96x96"
+    >
+    -->
+    <!--
+    <link
+      rel="icon"
+      type="image/png"
+      href="<%= htmlWebpackPlugin.files.publicPath %>statics/android-chrome-192x192.png"
+      sizes="192x192"
+    >
+    -->
+    <!-- Add to home screen for Windows -->
+    <meta
+      name="msapplication-TileImage"
+      content="<%= htmlWebpackPlugin.files.publicPath %>statics/ms-icon-144x144.png"
+    >
+    <meta
+      name="msapplication-TileColor"
+      content="primary"
+    >
   </head>
   <body>
     <div id="q-app"></div>
