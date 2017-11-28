@@ -30,6 +30,8 @@ class _FilterBase(object):
 
     @staticmethod
     def lowerize_dick_keys(thedict):
+        if not thedict:
+            return {}
         return {k.lower(): v for k, v in thedict.items()}
 
 

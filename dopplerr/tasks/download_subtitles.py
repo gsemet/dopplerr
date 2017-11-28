@@ -5,6 +5,7 @@ import glob
 import logging
 import os
 from pathlib import Path
+from typing import List
 
 # Dopplerr
 from dopplerr.config import DopplerrConfig
@@ -122,10 +123,10 @@ class DownloadSubtitleTask(QueuedTask):
             return
         return videos
 
-    async def download_sub(self, videos, res):
+    async def download_sub(self, videos, res) -> List:
         res.processing("fetching best subtitles")
         log.info("fetching subtitles...")
-        subtitles = []
+        subtitles: List = []
         try:
             subliminal = SubliminalSubDownloader()
             provider_configs = DopplerrStatus().subliminal_provider_configs
@@ -136,7 +137,7 @@ class DownloadSubtitleTask(QueuedTask):
             log.exception("subliminal raised an exception")
             res.failed("subliminal exception")
             res.exception = repr(e)
-            return res
+            return []
 
         subtitles_info = []
         for vid in videos:

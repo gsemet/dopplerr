@@ -25,6 +25,7 @@ class DopplerrStatus(object):
 
     def __init__(self):
         self.healthy = False
+        self.ready = False
         self.sqlite_db_path = None
         self.subliminal_provider_configs = None
         self.previous_version = None
@@ -54,6 +55,10 @@ class DopplerrStatus(object):
         if self.previous_version is None:
             self.previous_version = cfg.get_cfg_value("general.version")
             cfg.set_cfg_value("general.version", DOPPLERR_VERSION)
+        # self myself as heathly, since my conf if ok
+        # i will not be ready until the loop is started and I can really start processing
+        # events.
+        self.healthy = True
 
     @property
     def has_minor_version_changed(self):

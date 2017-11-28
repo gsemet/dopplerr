@@ -177,7 +177,9 @@ def setup_logging(outputtype=OutputType.PLAIN,
                     # We also use replace for when there are multiple
                     # encodings, e.g. UTF-8 for the filesystem and latin-1
                     # for a script. See issue 13232.
-                    s = s + record.exc_text.decode(sys.getfilesystemencoding(), 'replace')
+                    s = s + \
+                        record.exc_text.decode(
+                            sys.getfilesystemencoding(), 'replace')
             return s
 
     class SplitFormatter(SplitFormatterMixin, logging.Formatter):
@@ -195,7 +197,8 @@ def setup_logging(outputtype=OutputType.PLAIN,
         class SplitColorFormatter(SplitFormatterMixin, ColoredFormatter):
 
             def __init__(self, fmt=None, datefmt=None, term_width=-1, split=True, log_colors=None):
-                super(SplitColorFormatter, self).__init__(fmt, datefmt, log_colors=log_colors)
+                super(SplitColorFormatter, self).__init__(
+                    fmt, datefmt, log_colors=log_colors)
                 self.term_width = term_width
                 self.split = split
 
@@ -222,10 +225,11 @@ def setup_logging(outputtype=OutputType.PLAIN,
                 '%(blue)s%(asctime)19.19s%(reset)s ' + fmt_module_color_str +
                 '%(log_color)s%(levelname)-7s%(reset)s | ' + '%(log_color)s%(message)s%(reset)s')
 
-            fmt_simple_nocolor_str = '%(levelname)-7s - ' + fmt_module_nocolor_str + '%(message)s'
-            fmt_simple_color_str = (
-                '%(log_color)s' + fmt_module_color_str + '[%(levelname).1s]%(reset)s %(log_color)s'
-                '%(message)s%(reset)s')
+            fmt_simple_nocolor_str = '%(levelname)-7s - ' + \
+                fmt_module_nocolor_str + '%(message)s'
+            fmt_simple_color_str = ('%(log_color)s' + fmt_module_color_str +
+                                    '[%(levelname).1s]%(reset)s %(log_color)s'
+                                    '%(message)s%(reset)s')
 
             if debug is True:
                 fmt_color_str = fmt_debug_color_str
@@ -250,7 +254,8 @@ def setup_logging(outputtype=OutputType.PLAIN,
         ], "invalid debug (neither True/False neither a logging level)"
         default_level = debug
 
-    logging.basicConfig(stream=sys.stdout, level=default_level, format=fmt_nocolor_str)
+    logging.basicConfig(stream=sys.stdout,
+                        level=default_level, format=fmt_nocolor_str)
     if custom_log_levels:
         for logger_name, loglevel in custom_log_levels:
             logger = logging.getLogger(logger_name)
@@ -293,7 +298,8 @@ def setup_logging(outputtype=OutputType.PLAIN,
         # We are in Buildbot or in a pipe, don't use colorlog!
         ColoredFormatter = None  # pylint: disable=invalid-name
     if not ColoredFormatter:
-        formatter = SplitFormatter(fmt_nocolor_str, term_width=term_width, split=True)
+        formatter = SplitFormatter(
+            fmt_nocolor_str, term_width=term_width, split=True)
     else:
         formatter = SplitColorFormatter(
             fmt_color_str,
@@ -325,7 +331,8 @@ def setup_logging(outputtype=OutputType.PLAIN,
         h2.setLevel(stderr_threshold)
 
         # Don't print useless info about "New connection" + security warnings
-        logging.getLogger("requests.packages.urllib3.connectionpool").setLevel(logging.ERROR)
+        logging.getLogger(
+            "requests.packages.urllib3.connectionpool").setLevel(logging.ERROR)
 
         logging.getLogger().addHandler(h1)
         logging.getLogger().addHandler(h2)
@@ -335,9 +342,11 @@ def setup_logging(outputtype=OutputType.PLAIN,
 
     if logfile:
         log.debug("Also output logs to file: %s", logfile)
-        file_fmt = " :: ".join(["%(asctime)s", "%(levelname)s", "%(name)s", "%(message)s"])
+        file_fmt = " :: ".join(
+            ["%(asctime)s", "%(levelname)s", "%(name)s", "%(message)s"])
         file_formatter = logging.Formatter(file_fmt)
-        file_handler = RotatingFileHandler(str(logfile), 'a', 5 * 1024 * 1024, 1)
+        file_handler = RotatingFileHandler(
+            str(logfile), 'a', 5 * 1024 * 1024, 1)
         file_handler.setFormatter(file_formatter)
         if g_file_handler:
             root.removeHandler(g_file_handler)
