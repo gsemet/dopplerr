@@ -28,11 +28,12 @@ pytest-catchlog = "*"
 "flake8-comprehensions" = "*"
 asynctest = "*"
 pytest-sugar = "*"
-"dopplerr" = {path = ".", editable = true}
+dopplerr = {path = ".", editable = true}
 pyannotate = "*"
 mypy = "*"
 "flake8-logging-format" = "*"
 "flake8-docstrings" = "*"
+sphinx = "*"
 
 
 [packages]

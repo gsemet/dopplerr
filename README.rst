@@ -12,7 +12,7 @@ automatically for missing subtitles on download notification.
 -  Source: https://github.com/Stibbons/dopplerr
 -  Python 3.
 -  Docker image based on Alpine Linux and S6-Overlay (based on
-   `Linuxserver <https://www.linuxserver.io/>`__'s images)
+   `Linuxserver <https://www.linuxserver.io/>`__\ ’s images)
 
 Limitations
 ===========
@@ -24,7 +24,7 @@ Limitations
 -  series folder should be as ``Series Name (1900)``
 
 Support and Feature Requests
-============================
+----------------------------
 
 Do NOT open issue for feature requests, please vote on
 `FeatHub <http://feathub.com/Stibbons/dopplerr>`__.
@@ -33,16 +33,16 @@ For support, please use our
 `Discord <https://discordapp.com/channels/378849537520959510/378849838751678465>`__.
 
 Usage
-=====
+-----
 
 The best usage is through the docker image.
 
 Installation with Docker
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use my docker image:
 
-::
+.. code:: bash
 
     docker create \
         --name dopplerr \
@@ -62,7 +62,7 @@ Mount your media directories in ``/``. Typically, ``/animes`` and
 ``/tv`` are from Sonarr, and ``/movies`` from Radarr.
 
 It is a good practice to run Sonarr and Radarr in their own container,
-so they also "see" their media in path such as ``/tv``, ``/movies``,
+so they also “see” their media in path such as ``/tv``, ``/movies``,
 ``/animes``. Mount these volume with the same name in the ``dopplerr``
 container.
 
@@ -78,14 +78,14 @@ their PC and allow a different naming conventions (for instance,
 containers (Radarr, Dopplerr) they are mounted as ``/movies``).
 
 Parameters
-~~~~~~~~~~
+^^^^^^^^^^
 
 The parameters are split into two halves, separated by a colon, the left
 hand side representing the host and the right the container side. For
 example with a port -p external:internal - what this shows is the port
 mapping from internal to external of the container. So, ``-p 8080:80``
 would expose port 80 from inside the container to be accessible from the
-host's IP on port 8080 (Ex: ``http://192.168.x.x:8080``).
+host’s IP on port 8080 (Ex: ``http://192.168.x.x:8080``).
 
 Example of starting command line arguments:
 
@@ -111,7 +111,7 @@ Developers might also use:
    and so on)
 
 Localtime
-~~~~~~~~~
+^^^^^^^^^
 
 It is important that you either set
 ``-v /etc/localtime:/etc/localtime:ro`` or the TZ variable to enable
@@ -119,7 +119,7 @@ scheduled tasks.
 
 Example:
 
-::
+.. code:: bash
 
     -e TZ=Europe/Paris
 
@@ -130,25 +130,25 @@ Sometimes when using data volumes (-v flags) permissions issues can
 arise between the host OS and the container. We avoid this issue by
 allowing you to specify the user PUID and group PGID. Ensure the data
 volume directory on the host is owned by the same user you specify and
-it will "just work" (TM).
+it will “just work” (TM).
 
 In this instance PUID=1001 and PGID=1001. To find yours use id user as
 below:
 
-::
+.. code:: bash
 
     $ id <dockeruser>
     uid=1001(dockeruser) gid=1001(dockergroup) groups=1001(dockergroup)
 
 Wanted subtitle languages
-~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Use a comma-separated list of 3-letter language descriptors you want
 Subliminal to try to download them.
 
 Example:
 
-::
+.. code:: bash
 
     DOPPLERR_SUBLIMINAL_LANGUAGES=fra,eng
 
@@ -158,14 +158,14 @@ table <https://github.com/Diaoul/babelfish/blob/f403000dd63092cfaaae80be9f309fd8
 to find your prefered languages.
 
 Pipy Installation
------------------
+~~~~~~~~~~~~~~~~~
 
 Create a dedicated virtual environment and install it properly with the
 following commands:
 
-::
+.. code:: bash
 
-    $ pip3 install dopplerr
+    pip3 install dopplerr
 
 **Note:** One should NEVER install a Python application directly in your
 system using ``sudo pip3 install ...``. You do not want to mess your
@@ -173,20 +173,20 @@ startup scripts or any other python application that came well packaged
 by the maintainers of your distribution.
 
 Always use a Virtualenv. To install an application system-wide, use your
-distribution's packet manager (``apt`` / ``yum`` / ...).
+distribution’s packet manager (``apt`` / ``yum`` / …).
 
 If you do not have this option, install a Python package user-wide
 (``pip3 install --user``).
 
 **Other Note**: while using ``pip``/``pip3`` to install from pre-built
-packages ("distribution packages") from Pypi is the official method,
+packages (“distribution packages”) from Pypi is the official method,
 please note this project uses ``pipenv`` for development, and uses a
 ``Pipfile`` as primary source of dependencies definition.
 ``requirements.txt`` file is automatically generated on change so
 installing through ``pip3`` from the GitHub source should work even if
 it not the official installation method:
 
-::
+.. code:: bash
 
     pip3 install --user git+http://github.com/Stibbons/dopplerr#egg=dopplerr
 
@@ -194,9 +194,9 @@ Be aware with this command you retrieve the latest code, which may be
 broken.
 
 Radarr/Sonarr Configuration
-===========================
+---------------------------
 
-Go in Settings to configure a "Connect" WebHook:
+Go in Settings to configure a “Connect” WebHook:
 
 -  Settings > Connect > add WebHook notification
 -  Select **On Download** and **On Upgrade**
@@ -208,7 +208,7 @@ Go in Settings to configure a "Connect" WebHook:
 -  Method: POST
 
 Two READMEs ?
-=============
+-------------
 
 There is a little trick to know about READMEs:
 
@@ -222,20 +222,20 @@ So, a restructuredText version of the README is created from
 ``make readme``.
 
 Contributing
-============
+------------
 
 Check out the source code
 
-::
+.. code:: bash
 
     git clone
 
 Install requirement system-level dependencies with (or adapt
 accordingly):
 
-::
+.. code:: bash
 
-    $ sudo ./bootstrap-system.sh
+    sudo ./bootstrap-system.sh
 
 System dependencies:
 
@@ -249,48 +249,48 @@ This project uses ``pipenv`` to jump seamlessly into a virtualenv.
 
 Setup your development environment with:
 
-::
+.. code:: bash
 
-    $ make dev
+    make dev
 
 Unit Tests with:
 
-::
+.. code:: bash
 
-    $ make test-unit
+    make test-unit
 
 or run it live with
 
-::
+.. code:: bash
 
-    $ make run-local
+    make run-local
 
 Activate the environment (to start your editor from, for example):
 
-::
+.. code:: bash
 
-    $ make shell
+    make shell
 
 Publishing new version
-======================
+~~~~~~~~~~~~~~~~~~~~~~
 
 Please note that much part is automatized, for example the publication
 to Pypi is done automatically by Travis on successful tag build)
 
 Test building Wheel package with:
 
-::
+.. code:: bash
 
-    $ make release wheels
+    make release wheels
 
 Create a release: create a tag with a Semver syntax.
 
-::
+.. code:: bash
 
-    $ # ensure everything is committed
-    $ git tag 1.2.3
-    $ make release
-    $ git push --tags
+    # ensure everything is committed
+    git tag 1.2.3
+    make release
+    git push --tags
 
 Optionally you can tag code locally and push to GitHub. ``make release``
 is also executed during the Travis build, so if there is any files
