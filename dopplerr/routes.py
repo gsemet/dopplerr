@@ -6,7 +6,8 @@ from pathlib import Path
 
 # Third Party Libraries
 from sanic import Sanic
-from sanic_transmute import add_swagger
+# from sanic_transmute import add_swagger
+from sanic_transmute import add_swagger_api_route, create_swagger_json_handler
 
 # Dopplerr
 from dopplerr.api.v1 import add_api_blueprints
@@ -23,6 +24,15 @@ async def init_in_sanic_loop():
 
 async def deinit_in_sanic_loop():
     DopplerrTasksManager().stop()
+
+
+def add_swagger(app, json_route, html_route, title="default", version="1.0", base_path=None):
+    # TODO: remove when this PR is merged: https://github.com/yunstanford/sanic-transmute/pull/4
+    app.add_route(
+        create_swagger_json_handler(app, title=title, version=version, base_path=base_path),
+        json_route,
+        methods=["GET"])
+    add_swagger_api_route(app, html_route, json_route)
 
 
 def listen():
