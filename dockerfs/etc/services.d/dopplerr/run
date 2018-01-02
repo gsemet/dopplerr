@@ -6,7 +6,7 @@ cd /app
 
 exec \
     s6-setuidgid abc dopplerr \
-        --configfile /config/config.json \
+        --config-file /config/config.json \
         --output-type plain \
         --general-port 8086 \
         --general-no-color \

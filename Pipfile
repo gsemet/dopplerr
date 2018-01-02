@@ -32,19 +32,18 @@ mypy = "*"
 "flake8-logging-format" = "*"
 "flake8-docstrings" = "*"
 sphinx = "*"
+colorlog = "*"
 
 
 [packages]
 
 sanic-transmute = "*"
-subliminal = { git = "https://github.com/stibbons/subliminal", edit = true }
+subliminal = { git = "https://github.com/gsemet/subliminal", edit = true }
 peewee = "*"
 pbr = "*"
-colorlog = "*"
-setuptools = "!=36.0.0"
 sanic = "*"
 aiohttp = "*"
 apsw = "*"
 apscheduler = "*"
 aiofiles = "*"
-cfgtree = "*"
+cfgtree = ">=1.1"

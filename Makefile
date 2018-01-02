@@ -1,7 +1,7 @@
 .PHONY: build
 
 CMD:=dopplerr
-MODULES:=dopplerr cfgtree
+MODULES:=dopplerr
 DOCKER_BUILD?=docker build
 PORT:=8086
 LANGUAGES?=fra,eng
@@ -28,7 +28,7 @@ bootstrap:
 
 update-pip:
 	# Freeze the version of pip and pipenv for setup reproductibility
-	pip3 install -U --user 'pip==9.0.1' 'pipenv==9.0.1' 'setuptools>=36.6.0'
+	pip3 install -U --user 'pip==9.0.1' 'pipenv==9.0.3' 'setuptools>=36.6.0'
 
 dev: update-pip pipenv-install-dev pip-install-e ln-venv
 dev-from-scratch: pipenv-install-dev
@@ -86,6 +86,7 @@ yapf:
 checks: readme requirements flake8 pylint mypy
 
 sc: readme requirements style checks
+sct: readme requirements style checks test
 
 flake8:
 	pipenv run flake8 --enable-extra-whitelist $(MODULES)
@@ -94,10 +95,10 @@ pylint:
 	pipenv run pylint --rcfile=.pylintrc --output-format=colorized $(MODULES)
 
 mypy:
-	pipenv run mypy --config-file .mypy.ini dopplerr cfgtree
+	pipenv run mypy --config-file .mypy.ini dopplerr
 
 requirements:
-	pipenv run pipenv_to_requirements
+	pipenv run pipenv_to_requirements --freeze
 
 build: readme requirements version dists
 

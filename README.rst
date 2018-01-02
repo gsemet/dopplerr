@@ -9,7 +9,7 @@ Subtitle Download Web Service for Sonarr or Radarr. It uses
 automatically for missing subtitles on download notification.
 
 -  Free software: MIT
--  Source: https://github.com/Stibbons/dopplerr
+-  Source: https://github.com/gsemet/dopplerr
 -  Python 3.
 -  Docker image based on Alpine Linux and S6-Overlay (based on
    `Linuxserver <https://www.linuxserver.io/>`__\ ’s images)
@@ -27,7 +27,7 @@ Support and Feature Requests
 ----------------------------
 
 Do NOT open issue for feature requests, please vote on
-`FeatHub <http://feathub.com/Stibbons/dopplerr>`__.
+`FeatHub <http://feathub.com/gsemet/dopplerr>`__.
 
 For support, please use our
 `Discord <https://discordapp.com/channels/378849537520959510/378849838751678465>`__.
@@ -188,7 +188,7 @@ it not the official installation method:
 
 .. code:: bash
 
-    pip3 install --user git+http://github.com/Stibbons/dopplerr#egg=dopplerr
+    pip3 install --user git+http://github.com/gsemet/dopplerr#egg=dopplerr
 
 Be aware with this command you retrieve the latest code, which may be
 broken.
@@ -306,21 +306,21 @@ Same, on Tag, a Docker tag is also automatically created.
 
 Note:
 
-    According to PBR, alpha versions are to be noted ``x.y.z.a1``
+    According to PBR, alpha versions are to be noted ``x.y.z.0a1``
 
-.. |Build Status| image:: https://travis-ci.org/Stibbons/dopplerr.svg?branch=master
-   :target: https://travis-ci.org/Stibbons/dopplerr
+.. |Build Status| image:: https://travis-ci.org/gsemet/dopplerr.svg?branch=master
+   :target: https://travis-ci.org/gsemet/dopplerr
 .. |Docker Automated buil| image:: https://img.shields.io/docker/build/stibbons31/dopplerr.svg
    :target: https://hub.docker.com/r/stibbons31/dopplerr/builds/
 .. |Pypi package| image:: https://badge.fury.io/py/dopplerr.svg
    :target: https://pypi.python.org/pypi/dopplerr/
 .. |PyPI| image:: https://img.shields.io/pypi/pyversions/dopplerr.svg
    :target: https://pypi.python.org/pypi/dopplerr/
-.. |Coverage Status| image:: https://coveralls.io/repos/github/Stibbons/dopplerr/badge.svg?branch=master
-   :target: https://coveralls.io/github/Stibbons/dopplerr?branch=master
+.. |Coverage Status| image:: https://coveralls.io/repos/github/gsemet/dopplerr/badge.svg?branch=master
+   :target: https://coveralls.io/github/gsemet/dopplerr?branch=master
 .. |Discord| image:: https://img.shields.io/discord/378849537520959510.svg
    :target: https://discordapp.com/channels/378849537520959510/378849838751678465
-.. |Feature Requests| image:: http://feathub.com/Stibbons/dopplerr?format=svg
-   :target: http://feathub.com/Stibbons/dopplerr
+.. |Feature Requests| image:: http://feathub.com/gsemet/dopplerr?format=svg
+   :target: http://feathub.com/gsemet/dopplerr
 .. |MIT licensed| image:: https://img.shields.io/badge/license-MIT-blue.svg
    :target: ./LICENSE

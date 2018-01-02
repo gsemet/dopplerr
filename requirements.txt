@@ -2,20 +2,42 @@
 # This requirements files has been automatically generated from `Pipfile` with
 # `pipenv-to-requirements`
 #
-## This has been done to maintain backward compatibility with tools and services
-# that does not support `Pipfile` yet.
-## Do NOT edit it directly, use `pipenv install [-d]` to modify `Pipfile` and
-# `Pipfile.lock`
+#
+# This has been done to maintain backward compatibility with tools and services
+# that do not support `Pipfile` yet.
+#
+# Do NOT edit it directly, use `pipenv install [-d]` to modify `Pipfile` and
+# `Pipfile.lock` and then regenerate `requirements*.txt`.
 ################################################################################
 
-aiofiles
-aiohttp
-apscheduler
-apsw
-colorlog
-pbr
-peewee
-sanic
-sanic-transmute
-setuptools!=36.0.0
+aiofiles==0.3.2
+aiohttp==2.3.9
+anyconfig==0.9.3
+apscheduler==3.5.1
+apsw==3.9.2.post1
+async-timeout==2.0.0
+attrs==17.4.0
+cattrs==0.6.0
+cfgtree==1.1.0
+chardet==3.0.4
+httptools==0.0.10
+idna==2.6
+jsonschema-extractor==0.6
+jsonschema==2.6.0
+multidict==4.1.0
+pbr==3.1.1
+peewee==2.10.2
+pytz==2017.3
+pyyaml==3.12
+sanic-transmute==0.1.2
+sanic==0.7.0
+schematics==2.0.1
+six==1.11.0
 subliminal
+swagger-schema==0.5.1
+transmute-core==1.8.0
+tzlocal==1.5.1
+ujson==1.35
+uvloop==0.9.1
+websockets==4.0.1
+yarl==1.1.0

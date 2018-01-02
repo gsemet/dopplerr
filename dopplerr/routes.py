@@ -7,7 +7,8 @@ from pathlib import Path
 # Third Party Libraries
 from sanic import Sanic
 # from sanic_transmute import add_swagger
-from sanic_transmute import add_swagger_api_route, create_swagger_json_handler
+from sanic_transmute import add_swagger_api_route
+from sanic_transmute import create_swagger_json_handler
 
 # Dopplerr
 from dopplerr.api.v1 import add_api_blueprints
@@ -38,15 +39,21 @@ def add_swagger(app, json_route, html_route, title="default", version="1.0", bas
 def listen():
     app = Sanic(__name__, log_config=None)
     add_api_blueprints(app)
-    add_swagger(app, "/api/v1/swagger.json", "/api/v1/")
+    add_swagger(
+        app,
+        "/api/v1/swagger.json",
+        "/api/v1/",
+        title="Doppler Rest API",
+        version="1.0",
+        base_path=None)
 
-    DopplerrStatus().healthy = True
     for fi in Path(DopplerrConfig().get_cfg_value("general.frontenddir")).iterdir():
         app.static('/' + fi.name if fi.name != "index.html" else '/', fi.resolve().as_posix())
 
     @app.listener('before_server_start')
     async def before_start(_app, _loop):  # pylint: disable=unused-variable
         await init_in_sanic_loop()
+        DopplerrStatus().ready = True
 
     @app.listener('after_server_stop')
     async def after_stop(_app, _loop):  # pylint: disable=unused-variable

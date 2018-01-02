@@ -1,5 +1,5 @@
 FROM        stibbons31/alpine-s6-python3-twisted:py3.6-tx17.9
-MAINTAINER  gaetan@xeberon.net
+LABEL       maintainer=gaetan@xeberon.net
 
 # set environment variables
 ENV         PYTHONIOENCODING="UTF-8"

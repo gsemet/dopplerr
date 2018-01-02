@@ -13,7 +13,6 @@ from subprocess import check_output
 
 log = logging.getLogger(__name__)
 
-# flake8: noqa
 # pylint: disable=too-many-locals,bare-except
 
 
@@ -38,44 +37,56 @@ def setup_logging(outputtype=OutputType.PLAIN,
                   dev_force_no_tty=None,
                   custom_log_levels=None):
     '''
-    :param outputtype:        one of the following:
-                                - OutputType.PLAIN: plain log output (all in stdout)
-                                - OutputType.DEV: developer-friendly, multi-columns, colored output
-                                                  (if `colorlog` package is available and
-                                                  `dev_allow_colors` set to True)
-                                - OutputType.JSON: output in json format, 1 json-chunk per line
-    :param debug:             configure log level. Can take the following values:
-                                - False: logs will be in level logging.INFO
-                                - True: logs will be in level logging.DEBUG
-                                - logging.[DEBUG|INFO|WARNING|ERROR|FATAL]: set log level manually
-    :param unbuffered:        ask the stdout to avoid buffering to send logs as fast as possible to
-                              the caller script.
-                              Only available when not inside a TTY, especially for pipeline of logs.
-                              This also trigger the split of outputs into stdout and stderr:
-                                  >=logging.ERROR, logs go to stderr
-                                  < logging.ERROR, logs go to stdout
-    :param logfile:           enable output of logs to a file
-    :param custom_log_levels  list of tuple (logger_name, loglevel) to change loglevel on diferent
-                              loggers.
+    Configure logging for the current execution.
 
-                              Example:
-                                # Hide debug and info levels from the `urllib3` module
-                                setup_logging(
-                                  debug=logging.DEBUG,
-                                  custom_log_levels = [
-                                      ("urllib3", logging.ERROR),
-                                  ]
-                                  ...
-                                )
+    Arguments:
+        outputtype:
+            one of the following:
+            - OutputType.PLAIN: plain log output (all in stdout)
+            - OutputType.DEV: developer-friendly, multi-columns, colored output (if `colorlog`
+              package is available and `dev_allow_colors` set to True)
+            - OutputType.JSON: output in json format, 1 json-chunk per line
+        debug:
+            configure log level. Can take the following values:
+            - False: logs will be in level logging.INFO
+            - True: logs will be in level logging.DEBUG
+            - logging.[DEBUG|INFO|WARNING|ERROR|FATAL]: set log level manually
+        unbuffered:
+            ask the stdout to avoid buffering to send logs as fast as possible to the caller
+            script.
+            Only available when not inside a TTY, especially for pipeline of logs.
+            This also trigger the split of outputs into stdout and stderr:
+                >=logging.ERROR, logs go to stderr
+                < logging.ERROR, logs go to stdout
+        logfile:
+            enable output of logs to a file
+        custom_log_levels
+            list of tuple (logger_name, loglevel) to change loglevel on diferent loggers.
+
+            Example:
+
+            # Hide debug and info levels from the `urllib3` module
+
+                setup_logging(
+                    debug=logging.DEBUG,
+                    custom_log_levels = [
+                        ("urllib3", logging.ERROR),
+                    ]
+                    ...
+                )
 
     The rest of the parameters allow to fine-tune developer-mode:
-
-    :param dev_allow_colors:   allow log coloration if `colorlog` is installed
-    :param dev_split:          preserve log headers for multiline strings, and adapt to the current
-                               terminals witdh if applicable
-    :param dev_module_verbose: add module (file, line number) to each log line
-    :param dev_force_fmt:      overwrite the formatter
-    :param dev_force_no_tty:   force the usage of the no TTY formatter
+        dev_allow_colors:
+            allow log coloration if `colorlog` is installed
+        dev_split:
+            preserve log headers for multiline strings, and adapt to the current
+            terminals witdh if applicable
+        dev_module_verbose:
+            add module (file, line number) to each log line
+        dev_force_fmt:
+            overwrite the formatter
+        dev_force_no_tty:
+            force the usage of the no TTY formatter
     '''
     ColoredFormatter = False  # pylint: disable=invalid-name
     if dev_allow_colors:
@@ -90,7 +101,7 @@ def setup_logging(outputtype=OutputType.PLAIN,
             #    pip install colorlog
             #
             from colorlog import ColoredFormatter
-        except:
+        except:  # noqa: E722
             pass
 
     # this logging config will output debug and info to stdout and warning, error, and critical to
@@ -109,8 +120,9 @@ def setup_logging(outputtype=OutputType.PLAIN,
     class SplitFormatterMixin(object):
 
         '''
-        Magic Formatter that gracefully handle multiline logs, ie it split the multiline string
-        and add each log independently.
+        Magic Formatter that gracefully handle multiline logs on terminal.
+
+        It splits the multiline string and add each log independently.
 
         This handles two spliting:
 
@@ -177,7 +189,9 @@ def setup_logging(outputtype=OutputType.PLAIN,
                     # We also use replace for when there are multiple
                     # encodings, e.g. UTF-8 for the filesystem and latin-1
                     # for a script. See issue 13232.
-                    s = s + record.exc_text.decode(sys.getfilesystemencoding(), 'replace')
+                    s = s + \
+                        record.exc_text.decode(
+                            sys.getfilesystemencoding(), 'replace')
             return s
 
     class SplitFormatter(SplitFormatterMixin, logging.Formatter):
@@ -222,7 +236,8 @@ def setup_logging(outputtype=OutputType.PLAIN,
                 '%(blue)s%(asctime)19.19s%(reset)s ' + fmt_module_color_str +
                 '%(log_color)s%(levelname)-7s%(reset)s | ' + '%(log_color)s%(message)s%(reset)s')
 
-            fmt_simple_nocolor_str = '%(levelname)-7s - ' + fmt_module_nocolor_str + '%(message)s'
+            fmt_simple_nocolor_str = '%(levelname)-7s - ' + \
+                fmt_module_nocolor_str + '%(message)s'
             fmt_simple_color_str = (
                 '%(log_color)s' + fmt_module_color_str + '[%(levelname).1s]%(reset)s %(log_color)s'
                 '%(message)s%(reset)s')
@@ -278,9 +293,9 @@ def setup_logging(outputtype=OutputType.PLAIN,
             _, columns = data.split()
             if columns > 0:
                 term_width = columns
-        except:
+        except:  # noqa: E722
             pass
-        term_width = (int(term_width) - align_level_width - extra_char_width)
+        term_width = int(term_width) - align_level_width - extra_char_width
     # disable terminal spliting for the moment
     term_width = -1
 

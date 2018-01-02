@@ -1,17 +1,17 @@
 # Dopplerr Subtitle Downloader
 
-[![Build Status](https://travis-ci.org/Stibbons/dopplerr.svg?branch=master)](https://travis-ci.org/Stibbons/dopplerr)
+[![Build Status](https://travis-ci.org/gsemet/dopplerr.svg?branch=master)](https://travis-ci.org/gsemet/dopplerr)
 [![Docker Automated buil](https://img.shields.io/docker/build/stibbons31/dopplerr.svg)](https://hub.docker.com/r/stibbons31/dopplerr/builds/)
 [![Pypi package](https://badge.fury.io/py/dopplerr.svg)](https://pypi.python.org/pypi/dopplerr/) [![PyPI](https://img.shields.io/pypi/pyversions/dopplerr.svg)](https://pypi.python.org/pypi/dopplerr/)
-[![Coverage Status](https://coveralls.io/repos/github/Stibbons/dopplerr/badge.svg?branch=master)](https://coveralls.io/github/Stibbons/dopplerr?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/gsemet/dopplerr/badge.svg?branch=master)](https://coveralls.io/github/gsemet/dopplerr?branch=master)
 [![Discord](https://img.shields.io/discord/378849537520959510.svg)](https://discordapp.com/channels/378849537520959510/378849838751678465)
-[![Feature Requests](http://feathub.com/Stibbons/dopplerr?format=svg)](http://feathub.com/Stibbons/dopplerr)
+[![Feature Requests](http://feathub.com/gsemet/dopplerr?format=svg)](http://feathub.com/gsemet/dopplerr)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 Subtitle Download Web Service for Sonarr or Radarr. It uses [Subliminal](https://github.com/Diaoul/subliminal) to search automatically for missing subtitles on download notification.
 
 - Free software: MIT
-- Source: <https://github.com/Stibbons/dopplerr>
+- Source: <https://github.com/gsemet/dopplerr>
 - Python 3.
 - Docker image based on Alpine Linux and S6-Overlay (based on
   [Linuxserver](https://www.linuxserver.io/)'s images)
@@ -26,7 +26,7 @@ Subtitle Download Web Service for Sonarr or Radarr. It uses [Subliminal](https:/
 ## Support and Feature Requests
 
 Do NOT open issue for feature requests, please vote on
-[FeatHub](http://feathub.com/Stibbons/dopplerr).
+[FeatHub](http://feathub.com/gsemet/dopplerr).
 
 For support, please use our
 [Discord](https://discordapp.com/channels/378849537520959510/378849838751678465).
@@ -151,7 +151,7 @@ automatically generated on change so installing through `pip3` from the GitHub s
 even if it not the official installation method:
 
 ```bash
-pip3 install --user git+http://github.com/Stibbons/dopplerr#egg=dopplerr
+pip3 install --user git+http://github.com/gsemet/dopplerr#egg=dopplerr
 ```
 
 Be aware with this command you retrieve the latest code, which may be broken.
@@ -254,4 +254,4 @@ Same, on Tag, a Docker tag is also automatically created.
 
 Note:
 
-> According to PBR, alpha versions are to be noted `x.y.z.a1`
+> According to PBR, alpha versions are to be noted `x.y.z.0a1`

@@ -41,11 +41,11 @@
               </tr>
               <tr>
                 <td><strong>Sources</strong></td>
-                <td><a href="https://github.com/Stibbons/dopplerr">Dopplerr on GitHub</a></td>
+                <td><a href="https://github.com/gsemet/dopplerr">Dopplerr on GitHub</a></td>
               </tr>
               <tr>
                 <td><strong>Feature Requests</strong></td>
-                <td><a href="http://feathub.com/Stibbons/dopplerr">Vote on FeatHub</a></td>
+                <td><a href="http://feathub.com/gsemet/dopplerr">Vote on FeatHub</a></td>
               </tr>
             </tbody>
           </table>
