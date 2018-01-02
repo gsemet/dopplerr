@@ -12,7 +12,7 @@ OPENSUBTITLES_PASSWORD?=password
 PUSHOVER_USER?=user
 PUSHOVER_TOKEN?=token
 
-all: frontend-all backend-all
+all: update-pip frontend-all backend-all
 backend-all: dev version style checks frontend-build build dists docker-build test-unit
 frontend-all: frontend-dev frontend-build
 all-local: dev style checks dists test-unit
@@ -26,7 +26,11 @@ bootstrap:
 	@echo "  sudo -E ./bootstrap-system.sh"
 	@echo "  sudo -E ./setup-pip.sh"
 
-dev: pipenv-install-dev pip-install-e ln-venv
+update-pip:
+	# Freeze the version of pip and pipenv for setup reproductibility
+	pip3 install -U --user 'pip==9.0.1' 'pipenv==9.0.1' 'setuptools>=36.6.0'
+
+dev: update-pip pipenv-install-dev pip-install-e ln-venv
 dev-from-scratch: pipenv-install-dev
 
 pipenv-install-dev:
@@ -225,9 +229,10 @@ pipenv-update:
 	pipenv install --dev
 	@echo "Consider updating 'bootstrap-system.sh' manually"
 
-lock:
+lock: pipenv-lock dev
+
+pipenv-lock:
 	pipenv lock
-	pipenv install --dev
 
 freeze:
 	pipenv run pip freeze

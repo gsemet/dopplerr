@@ -23,12 +23,10 @@ pyyaml = "*"
 "flake8" = "*"
 pipenv-to-requirements = ">=0.1.9"
 pytest-asyncio = "*"
-pytest-catchlog = "*"
 "flake8-coding" = "*"
 "flake8-comprehensions" = "*"
 asynctest = "*"
 pytest-sugar = "*"
-dopplerr = {path = ".", editable = true}
 pyannotate = "*"
 mypy = "*"
 "flake8-logging-format" = "*"
@@ -39,7 +37,7 @@ sphinx = "*"
 [packages]
 
 sanic-transmute = "*"
-subliminal = { git = "https://github.com/stibbons/subliminal" }
+subliminal = { git = "https://github.com/stibbons/subliminal", edit = true }
 peewee = "*"
 pbr = "*"
 colorlog = "*"
