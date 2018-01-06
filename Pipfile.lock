@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "052953d7d202462c2d7cc1afee6019400ad594bf1f8b4c3d91740d1a9eb2e201"
+            "sha256": "355f930de4fa3aaab6b0ac97e801b2b08d4b474788e40d4cc3cb72253d11d58f"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -116,11 +116,6 @@
                 "sha256:f7c0efd9d960b43929027aa2b5a6c80d8ebec3e8d87cdec8b92696bf57428284"
             ],
             "version": "==3.1.0"
-        },
-        "dopplerr": {
-            "editable": true,
-            "git": "https://Stibbons@github.com/Stibbons/dopplerr.git",
-            "ref": "02c381594a136a52bc59d0e60b52e7b4f8c34a84"
         },
         "httptools": {
             "hashes": [
@@ -625,10 +620,10 @@
         },
         "pipenv-to-requirements": {
             "hashes": [
-                "sha256:dbf10898cd1e5ba197529ba5d6a9a2e54ec15b6eb41fc0046f2c0deead78acfa",
-                "sha256:f7b64388f5616b7870999ff2121a599acfc888b0e5810a09278df2373fa02ca7"
+                "sha256:6160b259124b22c73d5c3e6c8237657887a37cd9d67e31405e2a14b5083d49fe",
+                "sha256:bea77b82df021513fc433f980e2609fbabc813cb60a68fc8077905488a4bb311"
             ],
-            "version": "==0.1.9"
+            "version": "==0.2.0"
         },
         "pluggy": {
             "hashes": [
