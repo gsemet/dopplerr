@@ -37,11 +37,9 @@ sphinx = "*"
 [packages]
 
 sanic-transmute = "*"
-subliminal = { git = "https://github.com/stibbons/subliminal", edit = true }
-peewee = "*"
+subliminal = { git = "https://github.com/gsemet/subliminal", edit = true }
+peewee = "<3"
 pbr = "*"
-colorlog = "*"
-setuptools = "!=36.0.0"
 sanic = "*"
 aiohttp = "*"
 apsw = "*"
