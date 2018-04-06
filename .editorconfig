@@ -11,14 +11,9 @@ indent_size = 4
 tab_width = 4
 charset = utf-8
 trim_trailing_whitespace = true
+max_line_length = 100
 
-[*.rst]
-tab_width = 4
-
-[*.md]
-tab_width = 2
-
-[*.yml]
+[*.{yml,yaml,md,rst}]
 tab_width = 2
 
 [Makefile]

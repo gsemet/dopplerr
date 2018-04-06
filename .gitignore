@@ -23,3 +23,5 @@ config.json
 dist/
 junit.xml
 sqlite.db
+
+Users/gaetan/Projects/cfgtree/docs/_build
